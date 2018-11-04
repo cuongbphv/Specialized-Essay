@@ -19,9 +19,8 @@ export class ProfileComponent {
   elementId: string;
 
   constructor(
-    private tranSlateService:TranslateService, private pieChartService: GooglePieChartService){
-
-  }
+    private tranSlateService: TranslateService,
+    private pieChartService: GooglePieChartService) {}
 
   public ngOnInit() {
     $(document).ready(function(){

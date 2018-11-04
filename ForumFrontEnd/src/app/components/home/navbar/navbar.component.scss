@@ -12,29 +12,29 @@
   border-bottom: 1px solid #888888;
   padding-top: 5px;
   padding-bottom: 5px;
+
+  i {
+    float: none;
+    padding-right: 8px;
+  }
 }
 
-.dropdown-item i{
-  float: none;
-  padding-right: 8px;
-}
-
-.item-icon i{
+.item-icon i {
   font-size: 13px;
   padding-right: 5px;
 }
 
-.navbar-nav li{
+.navbar-nav li {
   margin-left: 10px;
   padding-right: 2px;
   border-right: 1px solid #888888;
 }
 
-.bg-dark{
+.bg-dark {
   background: #2C4762 !important;
 }
 
-.button-login:hover{
+.button-login:hover {
   cursor: pointer;
 }
 
