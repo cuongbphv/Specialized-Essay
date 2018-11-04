@@ -1,3 +1,5 @@
+import {AbstractControl} from '@angular/forms';
+
 export class Util {
 
   convertFileSize(bytes: number, si): string {
@@ -15,6 +17,22 @@ export class Util {
     }
     else {
       return '-';
+    }
+  }
+
+  passwordConfirming(c: AbstractControl): any {
+    if (!c.parent || !c) {
+      return;
+    }
+
+    const pwd = c.parent.get('password');
+    const cpwd = c.parent.get('confirmPassword');
+
+    if (!pwd || !cpwd) {
+      return;
+    }
+    if (pwd.value !== cpwd.value) {
+      return {invalid: true};
     }
   }
 

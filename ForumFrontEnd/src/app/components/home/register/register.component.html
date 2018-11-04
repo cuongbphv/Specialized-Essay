@@ -11,7 +11,7 @@
         </div>
       </div>
       <div class="col-md-8 py-5 border">
-        <h4 class="pb-4">{{translate.data.label.register_form | translate}}</h4>
+        <h4 class="pb-4 text-center">{{translate.data.label.register_form | translate}}</h4>
         <form (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
 
           <div class="form-row">
@@ -38,9 +38,8 @@
             <div class="form-group col-md-6">
 
               <select id="career" name="career" class="form-control"
-                      #career="ngModel" [(ngModel)]="user.career"
+                      #career="ngModel" [(ngModel)]="user.career" [compareWith]="compareObjects"
                       [ngClass]="{ 'is-invalid': f.submitted && career.invalid }">
-                <option selected>{{this.translate.data.label.career | translate}}</option>
                 <option> {{this.translate.data.label.developer | translate}}</option>
                 <option> {{this.translate.data.label.designer | translate}}</option>
                 <option> {{this.translate.data.label.other | translate}}</option>
@@ -51,11 +50,26 @@
           <div class="form-row">
             <div class="form-group col-md-6">
               <input id="password" name="password" placeholder="{{this.translate.data.label.password | translate}}"
-                     class="form-control" type="password">
+                     class="form-control" type="password" #password="ngModel" [(ngModel)]="user.password"
+                     [ngClass]="{ 'is-invalid': f.submitted && password.invalid }" [required]="true">
+
+              <div *ngIf="password.touched">
+                <span class="help-block" *ngIf="password.value === ''">Password is required</span>
+                <span class="help-block" *ngIf="password.value > 0 && password.value.length < 6">
+                  Minlength of password is 6 characters
+                </span>
+              </div>
+
             </div>
             <div class="form-group col-md-6">
               <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
-                     placeholder="{{this.translate.data.label.confirm_password | translate}}">
+                     placeholder="{{this.translate.data.label.confirm_password | translate}}"
+                     #confirmPassword="ngModel" [(ngModel)]="user.confirmPassword"
+                     [ngClass]="{ 'is-invalid': f.submitted && confirmPassword.invalid }" [required]="true">
+
+              <span *ngIf="password.value !== '' && password.value !== confirmPassword.value && confirmPassword.value !== ''">
+                Invalid Password
+              </span>
             </div>
           </div>
 
@@ -72,7 +86,9 @@
 
           <div class="form-row float-right">
             <div class="form-group col-md-12">
-              <button type="submit" class="btn btn-success">{{this.translate.data.button.submit | translate}}</button>
+              <button type="submit" class="btn btn-success" [disabled]="f.invalid">
+                {{this.translate.data.button.submit | translate}}
+              </button>
             </div>
           </div>
         </form>
