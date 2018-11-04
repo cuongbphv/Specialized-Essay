@@ -44,7 +44,16 @@
     "share": "Share",
     "share_des": "Sharing exciting things in programming world.",
     "integrate": "Integration",
-    "integrate_des": "Open with people, take part in the technical 4.0."
+    "integrate_des": "Open with people, take part in the technical 4.0.",
+    "full_name": "Full Name",
+    "email": "Email",
+    "career": "Career...",
+    "developer": "Developer",
+    "designer": "Designer",
+    "other": "Other",
+    "confirm_password": "Confirm Password",
+    "term": "I agree to",
+    "policy": "Terms & Conditions and Privacy Policy Website"
   },
   "button": {
     "submit": "SUBMIT",

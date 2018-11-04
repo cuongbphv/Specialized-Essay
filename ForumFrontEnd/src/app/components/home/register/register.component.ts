@@ -8,9 +8,22 @@ import { TranslateService } from '../../../shared/services/translate.service';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
+
+  user: any = {
+    fullName: '',
+    email: '',
+    username: '',
+    career: '',
+    passwordHash: ''
+  };
+
   constructor(
     public translate: TranslateService
   ) {}
 
   ngOnInit() {}
+
+  onSubmit() {
+
+  }
 }

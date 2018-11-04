@@ -44,7 +44,16 @@
     "share": "Chia sẻ",
     "share_des": "Chia sẻ những điều thú vị trong lĩnh vực lập trình.",
     "integrate": "Hội nhập",
-    "integrate_des": "Mở cửa với tất cả mọi người, tham gia cuộc cách mạng 4.0."
+    "integrate_des": "Mở cửa với tất cả mọi người, tham gia cuộc cách mạng 4.0.",
+    "full_name": "Họ tên",
+    "email": "Email",
+    "career": "Nghề nghiệp...",
+    "developer": "Lập trình viên",
+    "designer": "Thiết kế",
+    "other": "Khác",
+    "confirm_password": "Xác nhận mật khẩu",
+    "term": "Tôi đồng ý với các",
+    "policy": "Điều khoản và Chính sách Website"
   },
   "button": {
     "submit": "XÁC NHẬN",
