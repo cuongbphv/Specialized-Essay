@@ -1,0 +1,54 @@
+{
+  "title": "Diễn đàn chia sẻ kiến thức lập trình tổng hợp",
+  "home": "Trang chủ",
+  "language": {
+    "vi": "Tiếng Việt (vi)",
+    "en": "Tiếng Anh (en)"
+  },
+  "main": {
+    "main_title_1": "Chia sẻ để hiểu bạn hơn, hiểu về người khác hơn và hiểu về <<thế giới của chúng ta>> hơn!",
+    "main_title_2": "NodeJS, Angular, React, VueJS, Spring Boot, DevOps, ... Cho đi mọi thứ bạn sẽ nhận lại mọi thứ!",
+    "join": "Tham gia ngay với",
+    "or": "hoặc",
+    "register": "đăng ký thành viên"
+  },
+  "user": {
+    "login": "Đăng nhập",
+    "logout": "Đăng xuất",
+    "register": "Đăng ký",
+    "profile": "Trang cá nhân",
+    "setting": "Cài đặt"
+  },
+  "post": {
+    "store": "Lưu trữ",
+    "new_post": "Viết bài"
+  },
+  "footer": {
+    "introduction": "Giới thiệu",
+    "about": "Thông tin",
+    "term": "Chính sách & Điều khoản",
+    "policy": "Chính sách",
+    "faq": "FAQ",
+    "subscribe": "Đăng ký",
+    "subscribe_now": "Đăng ký nhận thông báo",
+    "all_right": "Mọi bản quyền thuộc về"
+  },
+  "label": {
+    "registration": "Đăng ký",
+    "content": "Đăng ký để trở thành thành viên Cộng đồng Shared ngay hôm nay!",
+    "register_form": "Phiếu Đăng ký",
+    "username": "Tài khoản",
+    "password": "Mật khẩu",
+    "remember": "Ghi nhớ tài khoản",
+    "login_now": "Đăng nhập ngay",
+    "share": "Chia sẻ",
+    "share_des": "Chia sẻ những điều thú vị trong lĩnh vực lập trình.",
+    "integrate": "Hội nhập",
+    "integrate_des": "Mở cửa với tất cả mọi người, tham gia cuộc cách mạng 4.0."
+  },
+  "button": {
+    "submit": "XÁC NHẬN",
+    "login": "ĐĂNG NHẬP",
+    "register": "ĐĂNG KÝ"
+  }
+}

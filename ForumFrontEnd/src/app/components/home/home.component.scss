@@ -1,0 +1,44 @@
+section{
+  background: #FFF;
+  float: left;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 0;
+}
+
+.main-title{
+  margin-top: 5em;
+}
+
+span{
+  font-size: 20px;
+  margin-right: 20px;
+}
+
+ul{
+  list-style-type: none;
+  text-align: center;
+  font-size: 30px;
+}
+
+ul li {
+  display: inline;
+  margin-right: 20px;
+}
+
+ul li a{
+  color: #2C4762;
+  text-decoration: none;
+}
+
+a:hover{
+  cursor: pointer;
+}
+
+.fa-facebook:hover{
+  color: #4267B2;
+}
+
+.fa-google:hover{
+  color: #FF0000;
+}

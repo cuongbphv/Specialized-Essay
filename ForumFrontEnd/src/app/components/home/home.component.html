@@ -1,0 +1,33 @@
+<div class="container-fluid">
+
+  <!-- tittle -->
+  <div class="main-title text-center">
+    <h3>{{this.translate.data.title | translate}}</h3>
+    <p class="lead">
+      {{translate.data.main.main_title_1 | translate}} <br>{{translate.data.main.main_title_2 | translate}}
+    </p>
+
+    <!-- register link -->
+    <div class="row text-center">
+      <div class="col-xs-12 col-sm-12 col-md-12">
+        <ul class="list-unstyled list-inline social text-center">
+          <span>{{translate.data.main.join | translate}}</span>
+          <li class="list-inline-item"><a href="javascript:"><i class="fa fa-facebook"></i></a>
+          </li>
+          <li class="list-inline-item"><a href="javascript:"><i class="fa fa-google"></i></a></li>
+          <span>{{translate.data.main.or | translate}}
+            <a href="javascript:;;" [routerLink]="['/register']">{{translate.data.main.register | translate}}</a>
+          </span>
+        </ul>
+      </div>
+    </div>
+
+    <!-- introduction forum -->
+    <div class="text-center">
+      <div class="col-xs-12 col-sm-12 col-md-12">
+
+      </div>
+    </div>
+  </div>
+
+</div>

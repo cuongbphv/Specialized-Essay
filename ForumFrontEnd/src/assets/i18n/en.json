@@ -1,0 +1,54 @@
+{
+  "title": "Shared Programming Collection Forum",
+  "home": "Home",
+  "language": {
+    "vi": "Vietnamese (vi)",
+    "en": "English (en)"
+  },
+  "main": {
+    "main_title_1": "Sharing to understand you more, understand others more and understand <<own world>> more!",
+    "main_title_2": "NodeJS, Angular, React, VueJS, Spring Boot, DevOps, ... Give away is to get back!",
+    "join": "Join with us now",
+    "or": "or",
+    "register": "register member"
+  },
+  "user": {
+    "login": "Login",
+    "logout": "Logout",
+    "register": "Register",
+    "profile": "My Profile",
+    "setting": "Settings"
+  },
+  "post": {
+    "store": "Store",
+    "new_post": "New Post"
+  },
+  "footer": {
+    "introduction": "Introduction",
+    "about": "About",
+    "term": "Term & Policy",
+    "policy": "Policy",
+    "faq": "FAQ",
+    "subscribe": "Subscribe",
+    "subscribe_now": "Subscribe Now",
+    "all_right": "All Right Reversed by"
+  },
+  "label": {
+    "registration": "Registration",
+    "content": "Register now to take part in Shared Community",
+    "register_form": "Register Form",
+    "username": "Username",
+    "password": "Password",
+    "remember": "Remember Me",
+    "login_now": "Login Now",
+    "share": "Share",
+    "share_des": "Sharing exciting things in programming world.",
+    "integrate": "Integration",
+    "integrate_des": "Open with people, take part in the technical 4.0."
+  },
+  "button": {
+    "submit": "SUBMIT",
+    "login": "LOGIN",
+    "register": "REGISTER"
+  }
+}

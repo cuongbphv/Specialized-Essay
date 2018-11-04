@@ -1,0 +1,9 @@
+#Backend
+/ProgramingForum/.idea
+/ProgramingForum/target
+/ProgramingForum/ProgramingForum.iml
+
+#Front-end
+/ForumFrontEnd/node_modules
+/ForumFrontEnd/.idea
+/ForumFrontEnd/.vscode
