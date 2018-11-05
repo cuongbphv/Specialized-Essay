@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
-import { TranslateService } from '../../../shared/services/translate.service';
-import { AuthService } from '../../../shared/services/authenticate.service';
+import {TranslateService} from '../../../shared/services/translate.service';
+import {AuthService} from '../../../shared/services/authenticate.service';
 import {FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 
@@ -16,12 +16,20 @@ export class LoginComponent implements OnInit {
     username: '',
     password: ''
   };
+
   constructor(
     public translate: TranslateService,
     private router: Router,
     private authService: AuthService
-  ) {}
-  ngOnInit() {}
+  ) {
+  }
+
+  ngOnInit() {
+  }
+
+  onSubmit(){
+  }
+
   loginByUsername(userForm: NgForm) {
     this.loading = true;
     this.authService.login(this.userLogin.username, this.userLogin.password)
