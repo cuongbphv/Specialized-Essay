@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 import { TranslateService } from '../../../shared/services/translate.service';
 import { AuthBaseService } from '../../../shared/services/authenticate.service';
@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
     username: '',
     password: ''
   };
+
   constructor(
     public translate: TranslateService,
     private router: Router,

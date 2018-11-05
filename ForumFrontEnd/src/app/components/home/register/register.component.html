@@ -12,31 +12,45 @@
       </div>
       <div class="col-md-8 py-5 border">
         <h4 class="pb-4 text-center">{{translate.data.label.register_form | translate}}</h4>
-        <form (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+        <form (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm">
 
           <div class="form-row">
             <div class="form-group col-md-6">
               <input id="fullName" name="fullName" placeholder="{{this.translate.data.label.full_name | translate}}"
-                     class="form-control" type="text" #fullName="ngModel" [(ngModel)]="user.fullName"
-                     [ngClass]="{ 'is-invalid': f.submitted && fullName.invalid }" [required]="true">
+                     class="form-control" type="text" #fullName="ngModel" [(ngModel)]="user.fullName" [required]="true">
+
+              <div *ngIf="fullName.touched">
+                <span class="help-block" *ngIf="fullName.value === ''">Full name is required</span>
+              </div>
+
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-6 cross-validation"
+                 [class.cross-validation-error]="email.touched || email.dirty">
               <input type="email" class="form-control" id="email" name="email"
                      placeholder="{{this.translate.data.label.email | translate}}"
-                     #email="ngModel" [(ngModel)]="user.email"
-                     [ngClass]="{ 'is-invalid': f.submitted && email.invalid }" [required]="true">
+                     #email="ngModel" [(ngModel)]="user.email" [required]="true">
+
+              <div *ngIf="email.touched">
+                <span class="help-block" *ngIf="email.value === ''">Email is required</span>
+              </div>
             </div>
           </div>
 
           <div class="form-row">
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-6 cross-validation"
+                 [class.cross-validation-error]="username.touched || username.dirty">
               <input id="username" name="username" placeholder="{{this.translate.data.label.username | translate}}"
-                     class="form-control" required="required" type="text"
-                     #username="ngModel" [(ngModel)]="user.username"
-                     [ngClass]="{ 'is-invalid': f.submitted && username.invalid }" [required]="true">
+                     class="form-control" required="required" type="text" [minlength]="3"
+                     #username="ngModel" [(ngModel)]="user.username" [required]="true">
+
+              <div *ngIf="username.touched">
+                <span class="help-block" *ngIf="username.value === ''">Username is required</span>
+                <span class="help-block" *ngIf="username.value.length > 0 && username.value.length < 3">
+                  Minlength of username is 3 characters
+                </span>
+              </div>
             </div>
             <div class="form-group col-md-6">
-
               <select id="career" name="career" class="form-control"
                       #career="ngModel" [(ngModel)]="user.career" [compareWith]="compareObjects"
                       [ngClass]="{ 'is-invalid': f.submitted && career.invalid }">
@@ -51,7 +65,7 @@
             <div class="form-group col-md-6">
               <input id="password" name="password" placeholder="{{this.translate.data.label.password | translate}}"
                      class="form-control" type="password" #password="ngModel" [(ngModel)]="user.password"
-                     [ngClass]="{ 'is-invalid': f.submitted && password.invalid }" [required]="true">
+                     [ngClass]="{ 'is-invalid': f.submitted && password.invalid }" [required]="true" [minlength]="6">
 
               <div *ngIf="password.touched">
                 <span class="help-block" *ngIf="password.value === ''">Password is required</span>
@@ -67,9 +81,12 @@
                      #confirmPassword="ngModel" [(ngModel)]="user.confirmPassword"
                      [ngClass]="{ 'is-invalid': f.submitted && confirmPassword.invalid }" [required]="true">
 
-              <span *ngIf="password.value !== '' && password.value !== confirmPassword.value && confirmPassword.value !== ''">
-                Invalid Password
-              </span>
+              <div *ngIf="password.touched">
+                <span class="help-block"
+                      *ngIf="password.value !== '' && password.value !== confirmPassword.value && confirmPassword.value !== ''">
+                    Invalid Password
+                </span>
+              </div>
             </div>
           </div>
 
@@ -78,7 +95,9 @@
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" id="agreePolicy" required>
                 <label class="form-check-label" for="agreePolicy">
-                  <small>{{this.translate.data.label.term | translate}} <a href="/">{{this.translate.data.label.policy | translate}}</a>.</small>
+                  <small>{{this.translate.data.label.term | translate}} <a href="/">{{this.translate.data.label.policy |
+                    translate}}</a>.
+                  </small>
                 </label>
               </div>
             </div>
