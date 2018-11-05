@@ -9,7 +9,7 @@ import {API} from '../constant/api.constant';
 import {Util} from '../util';
 
 @Injectable()
-export class AuthService {
+export class AuthBaseService {
   user: Observable<User>;
   userDetails: User = null;
 

@@ -19,7 +19,7 @@
       <!-- Links -->
 
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item" *ngIf="authService.isLoggedIn()">
+        <li class="nav-item" *ngIf="authBaseService.isLoggedIn()">
           <div class="item-icon">
             <a class="nav-link" href="javascript:;;" [routerLink]="['/products/favourite-products']">
               <i class="fa fa-pencil"></i>
@@ -28,7 +28,7 @@
           </div>
 
         </li>
-        <li class="nav-item" *ngIf="authService.isLoggedIn()">
+        <li class="nav-item" *ngIf="authBaseService.isLoggedIn()">
           <div class="item-icon">
             <a class="nav-link" href="javascript:;;" [routerLink]="['/products/cart-items']">
               <i class="fa fa-archive"></i>
@@ -37,7 +37,7 @@
           </div>
         </li>
 
-        <li class="nav-item active" *ngIf="authService.isLoggedIn()">
+        <li class="nav-item active" *ngIf="authBaseService.isLoggedIn()">
           <a class="nav-link" href="javascript:;;">
             <i class="fa fa-envelope mr-2"></i>
             <span class="sr-only">(current)</span>
@@ -45,12 +45,12 @@
           </a>
         </li>
 
-        <li class="nav-item button-login" *ngIf="!authService.isLoggedIn()">
+        <li class="nav-item button-login" *ngIf="!authBaseService.isLoggedIn()">
           <a class="nav-link" href="javascript:;;" [routerLink]="['/login']">
             <i class="fa fa-sign-in mr-1"></i> {{this.translate.data.user.login | translate}}</a>
         </li>
 
-        <li class="nav-item dropdown" *ngIf="authService.isLoggedIn()">
+        <li class="nav-item dropdown" *ngIf="authBaseService.isLoggedIn()">
           <a class="nav-link dropdown-toggle waves-light" href="#" id="drdAccount" role="button"
              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-user-circle"></i>
@@ -62,7 +62,7 @@
               <i class="fa fa-user mr-1"></i> {{this.translate.data.user.profile | translate}}</a>
             <a class="dropdown-item waves-light" href="javascript:;;" [routerLink]="[ '/index/login' ]">
               <i class="fa fa-cogs mr-1"></i> {{this.translate.data.user.setting | translate}}</a>
-            <a class="dropdown-item waves-light" href="javascript:;;" (click)="authService.logout()">
+            <a class="dropdown-item waves-light" href="javascript:;;" (click)="authBaseService.logout()">
               <i class="fa fa-sign-in mr-1"></i> {{this.translate.data.user.logout | translate}}</a>
           </div>
         </li>

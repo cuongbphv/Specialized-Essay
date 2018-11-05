@@ -11,7 +11,7 @@ import { AdminGuard } from './guard/admin.guard';
 import { ModeratorGuard } from './guard/moderator.guard';
 import { AuthGuard } from './guard/user.guard';
 
-import { AuthService } from './services/authenticate.service';
+import { AuthBaseService } from './services/authenticate.service';
 
 import { Util } from './util';
 import {Session} from './session';
@@ -34,7 +34,7 @@ import {SharedService} from './shared.service';
   ],
   providers: [
     FormBuilder,
-    AuthService,
+    AuthBaseService,
     AdminGuard,
     ModeratorGuard,
     AuthGuard,

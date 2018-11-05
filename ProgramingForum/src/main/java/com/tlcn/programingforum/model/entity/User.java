@@ -38,12 +38,16 @@ public class User {
     private String userId;
     private String userName;
 
+    private String firstName;
+    private String lastName;
+
     @JsonIgnore
     private String passwordHash;
     @JsonIgnore
     private String salt;
 
     private String email;
+    private String phone;
     private String lang;
 
     @CreatedDate

@@ -11,7 +11,35 @@ import { HomeModule } from './components/home/home.module';
 import { AppRoutes } from './app.routing';
 
 import { TranslateService } from './shared/services/translate.service';
+import {
+  SocialLoginModule,
+  AuthServiceConfig,
+  GoogleLoginProvider,
+  FacebookLoginProvider,
+} from "angular-6-social-login";
 
+
+// Configs
+export function getAuthServiceConfigs() {
+
+  const googleLoginOptions: any = {
+    scope: 'profile'
+  };
+
+  let config = new AuthServiceConfig(
+    [
+      {
+        id: FacebookLoginProvider.PROVIDER_ID,
+        provider: new FacebookLoginProvider("377313722811067")
+      },
+      {
+        id: GoogleLoginProvider.PROVIDER_ID,
+        provider: new GoogleLoginProvider("54163204787-ud5qc7pj9p6e8vq7f3alkb0asvcec58h.apps.googleusercontent.com")
+      },
+    ]
+  );
+  return config;
+}
 
 /* to load and set en.json as the default application language */
 export function setupTranslateFactory(service: TranslateService): Function {
@@ -27,6 +55,7 @@ export function setupTranslateFactory(service: TranslateService): Function {
     BrowserAnimationsModule,
     SharedModule,
     HomeModule,
+    SocialLoginModule,
     RouterModule.forRoot(AppRoutes)
   ],
   providers: [
@@ -36,6 +65,10 @@ export function setupTranslateFactory(service: TranslateService): Function {
       useFactory: setupTranslateFactory,
       deps: [TranslateService],
       multi: true
+    },
+    {
+      provide: AuthServiceConfig,
+      useFactory: getAuthServiceConfigs
     }
   ],
   bootstrap: [AppComponent],
