@@ -56,7 +56,7 @@
   },
   "button": {
     "submit": "SUBMIT",
-    "login": "LOGIN",
+    "login": "SIGN IN",
     "register": "REGISTER"
   }
 }

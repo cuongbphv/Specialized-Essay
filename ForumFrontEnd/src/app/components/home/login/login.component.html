@@ -3,74 +3,60 @@
     <div class="row">
       <div class="col-md-8 py-5 bg-color text-white text-center">
         <div class="card-body">
-          <h2 class="py-3">{{translate.data.label.registration | translate}}</h2>
-          <p>{{translate.data.label.content | translate}}</p>
+          <h2>{{translate.data.label.share | translate}}</h2>
+          <p>{{translate.data.label.share_des | translate}}</p>
         </div>
       </div>
-      <div class="col-md-4 py-5 border">
-        <h2 class="py-3">{{translate.data.label.login_now | translate}}</h2>
+      <div class="col-md-4 login-form">
         <form (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm">
+          <h2 class="text-center">Sign in</h2>
+          <div class="col-xs-12 text-center social-btn">
+            <a href="#" class="text-center btn btn-primary btn-block">
+              <i class="fa fa-facebook"></i> Sign in with <b>Facebook</b>
+            </a>
+            <a href="#" class="text-center btn btn-danger btn-block">
+              <i class="fa fa-google"></i> Sign in with <b>Google</b>
+            </a>
+          </div>
+          <div class="or-seperator"><i>or</i></div>
+          <div class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-user"></i></span>
+              <input type="text" class="form-control" name="username" #username="ngModel"
+                     [(ngModel)]="userLogin.username" [required]="true"
+                     placeholder="{{this.translate.data.label.username | translate}}">
+            </div>
 
-          <div class="form-row">
-            <div class="form-group col-md-12">
-              <input id="fullName" name="fullName" placeholder="{{this.translate.data.label.username | translate}}"
-                     class="form-control" type="text" #username="ngModel" [(ngModel)]="userLogin.username" [required]="true">
-
-              <div *ngIf="username.touched">
-                <span class="help-block" *ngIf="username.value === ''">Full name is required</span>
-              </div>
-
+            <div *ngIf="username.touched">
+              <span class="help-block" *ngIf="username.value === ''">Full name is required</span>
             </div>
           </div>
+          <div class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+              <input type="password" class="form-control" name="password" #password="ngModel"
+                     [(ngModel)]="userLogin.password" required="required" [minlength]="6"
+                     placeholder="{{this.translate.data.label.password | translate}}">
+            </div>
 
-          <div class="form-row">
-            <div class="form-group col-md-12">
-              <input id="password" name="password" placeholder="{{this.translate.data.label.password | translate}}"
-                     class="form-control" type="password" #password="ngModel" [(ngModel)]="userLogin.password"
-                     [ngClass]="{ 'is-invalid': f.submitted && password.invalid }" [required]="true">
-
-              <div *ngIf="password.touched">
-                <span class="help-block" *ngIf="password.value === ''">Password is required</span>
-                <span class="help-block" *ngIf="password.value > 0 && password.value.length < 6">
-                  Minlength of password is 6 characters
-                </span>
-              </div>
+            <div *ngIf="password.touched">
+              <span class="help-block" *ngIf="password.value === ''">Password is required</span>
+              <span class="help-block" *ngIf="password.value > 0 && password.value.length < 6">
+              Minlength of password is 6 characters
+              </span>
             </div>
           </div>
-
-
-       
-          <div class="row social-buttons text-center">
-            <div class="col-xs-4 col-sm-2 col-md-4">
-              <a (click)="socialSignIn('facebook');" class="btn btn-facebook">
-                <i class="fa fa-facebook visible-xs"></i>
-                <span class="visible-xs"> Facebook</span>
-              </a>
-            </div>
-            <div class="col-xs-4 col-sm-2 col-md-4">
-              <a (click)="socialSignIn('google');"  class="btn btn-google">
-                <i class="fa fa-google visible-xs"></i>
-                <span class="visible-xs"> Google</span>
-              </a>
-            </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-success btn-block login-btn" [disabled]="f.invalid">
+              {{this.translate.data.button.login | translate}}
+            </button>
+          </div>
+          <div class="clearfix">
+            <label class="pull-left checkbox-inline"><input type="checkbox"> Remember me</label>
+            <a href="#" class="pull-right text-success">Forgot Password?</a>
           </div>
 
-          <div class="form-row">
-            <div class="form-group col-md-6 text-left">
-              <span>Forgot password?</span>
-            </div>
-            <div class="form-group col-md-6 text-right">
-              <span>Register account now</span>
-            </div>
-          </div>
-
-          <div class="form-row float-right">
-            <div class="form-group col-md-6">
-              <button type="submit" class="btn btn-success" [disabled]="f.invalid">
-                {{this.translate.data.button.submit | translate}}
-              </button>
-            </div>
-          </div>
+          <div class="hint-text small">Don't have an account? <a href="#" class="text-success">Register Now!</a></div>
         </form>
 
       </div>
