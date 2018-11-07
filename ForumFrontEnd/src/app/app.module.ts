@@ -16,7 +16,7 @@ import {
   AuthServiceConfig,
   GoogleLoginProvider,
   FacebookLoginProvider,
-} from "angular-6-social-login";
+} from 'angular-6-social-login';
 
 
 // Configs
@@ -26,7 +26,7 @@ export function getAuthServiceConfigs() {
     scope: 'profile'
   };
 
-  let config = new AuthServiceConfig(
+  const config = new AuthServiceConfig(
     [
       {
         id: FacebookLoginProvider.PROVIDER_ID,

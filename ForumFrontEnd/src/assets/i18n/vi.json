@@ -36,11 +36,10 @@
   "label": {
     "registration": "Đăng ký",
     "content": "Đăng ký để trở thành thành viên Cộng đồng Shared ngay hôm nay!",
-    "register_form": "Phiếu Đăng ký",
     "username": "Tài khoản",
     "password": "Mật khẩu",
     "remember": "Ghi nhớ tài khoản",
-    "login_now": "Đăng nhập ngay",
+    "login": "Đăng nhập",
     "share": "Chia sẻ",
     "share_des": "Chia sẻ những điều thú vị trong lĩnh vực lập trình.",
     "integrate": "Hội nhập",
@@ -52,7 +51,14 @@
     "other": "Khác",
     "confirm_password": "Xác nhận mật khẩu",
     "term": "Tôi đồng ý với các",
-    "policy": "Điều khoản và Chính sách Website"
+    "policy": "Điều khoản và Chính sách Website",
+    "sign_in_with": "Đăng nhập với",
+    "or": "hoặc",
+    "no_account": "Bạn không có tài khoản?",
+    "forgot_password": "Quên mật khẩu?"
+  },
+  "validation": {
+
   },
   "button": {
     "submit": "XÁC NHẬN",

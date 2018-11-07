@@ -36,11 +36,10 @@
   "label": {
     "registration": "Registration",
     "content": "Register now to take part in Shared Community",
-    "register_form": "Register Form",
     "username": "Username",
     "password": "Password",
     "remember": "Remember Me",
-    "login_now": "Login Now",
+    "login": "Sign In",
     "share": "Share",
     "share_des": "Sharing exciting things in programming world.",
     "integrate": "Integration",
@@ -52,7 +51,14 @@
     "other": "Other",
     "confirm_password": "Confirm Password",
     "term": "I agree to",
-    "policy": "Terms & Conditions and Privacy Policy Website"
+    "policy": "Terms & Conditions and Privacy Policy Website",
+    "sign_in_with": "Sign in with",
+    "or": "or",
+    "no_account": "Don't have an account?",
+    "forgot_password": "Forgot Password?"
+  },
+  "validation": {
+
   },
   "button": {
     "submit": "SUBMIT",
