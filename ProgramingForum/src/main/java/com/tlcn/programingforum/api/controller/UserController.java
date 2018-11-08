@@ -100,29 +100,6 @@ public class UserController extends AbstractBasedAPI {
         }
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<RestAPIResponse> createUser(
-            HttpServletRequest request,
-            @RequestBody UserRequest userRequest
-    ) throws NoSuchAlgorithmException {
-
-        //check exist user
-        if (userService.findByEmailAndStatus(userRequest.getEmail(), Constant.Status.ACTIVE.getValue()) != null) {
-            throw new ApplicationException(APIStatus.ERR_EMAIL_ALREADY_EXISTS);
-        } else {
-            if (userService.findByUserNameAndStatus(userRequest.getUserName(), Constant.Status.ACTIVE.getValue()) != null) {
-                throw new ApplicationException(APIStatus.ERR_EXIST_USER_NAME);
-            } else {
-                User createdUser = doCreateUser(userRequest);
-                if (createdUser != null) {
-                    return responseUtil.successResponse(createdUser);
-                } else {
-                    throw new ApplicationException(APIStatus.ERR_CREATE_USER);
-                }
-            }
-        }
-    }
-
     @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity<RestAPIResponse> updateUser(
             HttpServletRequest request,
@@ -157,33 +134,6 @@ public class UserController extends AbstractBasedAPI {
             throw new ApplicationException(APIStatus.ERR_USER_NOT_FOUND);
         }
     }
-
-    private User doCreateUser(UserRequest userRequest) throws NoSuchAlgorithmException {
-
-        User user = new User();
-
-        user.setFirstName(userRequest.getFirstName());
-        user.setLastName(userRequest.getLastName());
-        user.setUserName(userRequest.getUserName());
-        user.setEmail(userRequest.getEmail().toLowerCase());
-        user.setPhone(userRequest.getPhone());
-        user.setLang(userRequest.getLang());
-        user.setSetting(userRequest.getSetting());
-        user.setStatus(Constant.Status.ACTIVE.getValue());
-        // process with password
-        String salt = CommonUtil.generateSalt();
-        user.setSalt(salt);
-        user.setRole(Constant.SystemRole.USER.getName());
-        //String passHash = MD5Hash.MD5Encrypt(userRequest.getPassword());
-        user.setPasswordHash(MD5Hash.MD5Encrypt(userRequest.getPasswordHash() + salt));
-
-        if (userService.saveUser(user) != null) {
-            return user;
-        } else {
-            return null;
-        }
-    }
-
 
     private void validateParam(UserRequest userRequest) {
         try {

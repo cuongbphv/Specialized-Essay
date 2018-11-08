@@ -33,45 +33,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
 
-    // (window as any).fbAsyncInit = function() {
-    //   FB.init({
-    //     appId      : '377313722811067',
-    //     cookie     : true,
-    //     xfbml      : true,
-    //     version    : 'v3.2'
-    //   });
-    //
-    //   FB.AppEvents.logPageView();
-    //
-    // };
-    //
-    // (function(d, s, id){
-    //   var js, fjs = d.getElementsByTagName(s)[0];
-    //   if (d.getElementById(id)) {return;}
-    //   js = d.createElement(s); js.id = id;
-    //   js.src = "https://connect.facebook.net/en_US/sdk.js";
-    //   fjs.parentNode.insertBefore(js, fjs);
-    // }(document, 'script', 'facebook-jssdk'));
-
   }
-
-  // submitFBLogin() {
-  //   console.log('submit login to facebook');
-  //   // FB.login();
-  //   FB.login((response) => {
-  //     console.log('submitLogin', response);
-  //     if (response.authResponse) {
-  //       //login success
-  //       //login success code here
-  //       //redirect to home page
-  //
-  //       console.log('Login success');
-  //       console.log(response);
-  //     } else {
-  //       console.log('User login failed');
-  //     }
-  //   });
-  // }
 
 
   public socialSignIn(socialPlatform: string) {

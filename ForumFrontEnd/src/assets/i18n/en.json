@@ -44,7 +44,8 @@
     "share_des": "Sharing exciting things in programming world.",
     "integrate": "Integration",
     "integrate_des": "Open with people, take part in the technical 4.0.",
-    "full_name": "Full Name",
+    "first_name": "First Name",
+    "last_name": "Last Name",
     "email": "Email",
     "developer": "Developer",
     "designer": "Designer",
@@ -58,7 +59,30 @@
     "forgot_password": "Forgot Password?"
   },
   "validation": {
-
+    "first_name": {
+      "required": "First name is required",
+      "pattern": "First name is wrong format (no specified symbols)"
+    },
+    "last_name": {
+      "required": "Last name is required",
+      "pattern": "Last name is wrong format (no specified symbols)"
+    },
+    "email": {
+      "required": "Email is required",
+      "pattern": "Email is wrong format"
+    },
+    "username": {
+      "required": "Username is required",
+      "pattern": "Username is wrong format (no space and specified symbols)",
+      "minlength": "Minlength of username is 3 characters"
+    },
+    "password": {
+      "required": "Password is required",
+      "minlength": "Minlength of password is 6 characters"
+    },
+    "confirm_password": {
+      "invalid": "Invalid Password"
+    }
   },
   "button": {
     "submit": "SUBMIT",

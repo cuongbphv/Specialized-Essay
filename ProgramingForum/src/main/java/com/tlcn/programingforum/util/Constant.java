@@ -19,6 +19,7 @@ public interface Constant {
     public static final String USER_LOGIN_API = "/login";
     public static final String LOGOUT_API = "/logout";
     public static final String AUTH_USER_INFO = "/user";
+    public static final String AUTH_USER_REGISTER = "/register";
     public static final String REFRESH_TOKEN = "/refresh";
     public static final String UPDATE_USER = "/update";
 
