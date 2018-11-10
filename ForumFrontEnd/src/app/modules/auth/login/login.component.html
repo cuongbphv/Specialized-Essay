@@ -1,0 +1,59 @@
+<section class="testimonial py-5" id="login-form">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 py-5 bg-color text-white text-center">
+        <div class="card-body">
+          <h2>{{translate.data.label.share | translate}}</h2>
+          <p>{{translate.data.label.share_des | translate}}</p>
+        </div>
+      </div>
+      <div class="col-md-4 login-form">
+        <form (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm">
+          <h2 class="text-center">{{translate.data.label.login | translate}}</h2>
+          <div class="col-xs-12 text-center social-btn">
+            <button (click)="socialSignIn('facebook');" class="text-center btn btn-primary btn-block wrap">
+              <i class="fa fa-facebook"></i> {{translate.data.label.sign_in_with | translate}} <b>Facebook</b>
+            </button>
+            <button (click)="socialSignIn('google');" class="text-center btn btn-danger btn-block wrap">
+              <i class="fa fa-google"></i> {{translate.data.label.sign_in_with | translate}} <b>Google</b>
+            </button>
+          </div>
+          <div class="or-seperator"><i>{{translate.data.label.or | translate}}</i></div>
+          <div class="form-group col-xs-12">
+            <input type="text" class="form-control" name="username" #username="ngModel"
+                   [(ngModel)]="userLogin.username" [required]="true"
+                   placeholder="{{translate.data.label.username | translate}}">
+
+            <div *ngIf="username.touched">
+              <span class="help-block" *ngIf="username.value === ''">Username is required</span>
+            </div>
+          </div>
+          <div class="form-group col-xs-12">
+            <input type="password" class="form-control" name="password" #password="ngModel"
+                   [(ngModel)]="userLogin.password" required="required" [minlength]="6"
+                   placeholder="{{translate.data.label.password | translate}}">
+
+            <div *ngIf="password.touched">
+              <span class="help-block" *ngIf="password.value === ''">Password is required</span>
+              <span class="help-block" *ngIf="password.value > 0 && password.value.length < 6">
+                Minlength of password is 6 characters
+              </span>
+            </div>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-success btn-block login-btn" [disabled]="f.invalid">
+              {{translate.data.button.login | translate}}
+            </button>
+          </div>
+
+          <div class="hint-text small">{{translate.data.label.no_account | translate}}
+            <a href="javascript;;" [routerLink]="['/register']" class="text-success">{{translate.data.user.register | translate}}</a>
+            <br/>
+            <a href="#" class="pt-1 text-success">{{translate.data.label.forgot_password | translate}}</a>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</section>

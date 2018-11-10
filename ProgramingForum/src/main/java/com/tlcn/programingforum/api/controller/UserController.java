@@ -35,7 +35,7 @@ public class UserController extends AbstractBasedAPI {
     public ResponseEntity<RestAPIResponse> getDetailUserByAdmin(
             HttpServletRequest request,
             @PathVariable("id") String id
-    ) throws NoSuchAlgorithmException {
+    )  {
         AuthUser authUser = getAuthUserFromSession(request);
         validatePermission(authUser, Constant.SystemRole.SYS_ADMIN.getName());
 
@@ -54,8 +54,9 @@ public class UserController extends AbstractBasedAPI {
     @RequestMapping(value = Constant.USER_SETTING, method = RequestMethod.GET)
     public ResponseEntity<RestAPIResponse> getDetailUser(
             HttpServletRequest request
-    ) throws NoSuchAlgorithmException {
+    ) {
         AuthUser authUser = getAuthUserFromSession(request);
+        validatePermission(authUser,Constant.SystemRole.USER.getName());
 
         User user = userService.getActiveUserByUserId(authUser.getId());
         if (user == null) {
@@ -99,41 +100,13 @@ public class UserController extends AbstractBasedAPI {
         }
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<RestAPIResponse> createUserByAdmin(
-            HttpServletRequest request,
-            @RequestBody UserRequest userRequest
-    ) throws NoSuchAlgorithmException {
-
-        //check authenticate
-        AuthUser authUser = getAuthUserFromSession(request);
-        validatePermission(authUser, Constant.SystemRole.SYS_ADMIN.getName());
-        //validate param
-      //  validateParam(userRequest);
-        //check exist user
-        if (userService.findByEmailAndStatus(userRequest.getEmail(), Constant.Status.ACTIVE.getValue()) != null) {
-            throw new ApplicationException(APIStatus.ERR_EMAIL_ALREADY_EXISTS);
-        } else {
-            if (userService.findByUserNameAndStatus(userRequest.getUserName(), Constant.Status.ACTIVE.getValue()) != null) {
-                throw new ApplicationException(APIStatus.ERR_EXIST_USER_NAME);
-            } else {
-                User createdUser = doCreateUser(userRequest);
-                if (createdUser != null) {
-                    return responseUtil.successResponse("OK");
-                } else {
-                    throw new ApplicationException(APIStatus.ERR_CREATE_USER);
-                }
-            }
-        }
-    }
-
     @RequestMapping(method = RequestMethod.PUT)
-    public ResponseEntity<RestAPIResponse> updateUserByAdmin(
+    public ResponseEntity<RestAPIResponse> updateUser(
             HttpServletRequest request,
             @RequestBody UserRequest userRequest
-    ) throws NoSuchAlgorithmException {
-        //check authenticate
-        getAuthUserFromSession(request);
+    ) {
+        AuthUser authUser = getAuthUserFromSession(request);
+        validatePermission(authUser, Constant.SystemRole.USER.getName());
         //validate param
         validateParam(userRequest);
 
@@ -146,8 +119,11 @@ public class UserController extends AbstractBasedAPI {
             } else {
 
                 previousUpdateUser.setUserName(userRequest.getUserName());
+                previousUpdateUser.setPhone(userRequest.getPhone());
                 previousUpdateUser.setLang(userRequest.getLang());
                 previousUpdateUser.setSetting(userRequest.getSetting());
+                previousUpdateUser.setFirstName(userRequest.getFirstName());
+                previousUpdateUser.setLastName(userRequest.getLastName());
 
                 userService.saveUser(previousUpdateUser);
 
@@ -159,21 +135,44 @@ public class UserController extends AbstractBasedAPI {
         }
     }
 
+    @RequestMapping(path = Constant.USER_REGISTER, method = RequestMethod.POST)
+    public ResponseEntity<RestAPIResponse> createUser(
+            HttpServletRequest request,
+            @RequestBody UserRequest userRequest
+    ) throws NoSuchAlgorithmException {
+        //check exist user
+        if (userService.findByEmailAndStatus(userRequest.getEmail(), Constant.Status.ACTIVE.getValue()) != null) {
+            throw new ApplicationException(APIStatus.ERR_EMAIL_ALREADY_EXISTS);
+        } else {
+            if (userService.findByUserNameAndStatus(userRequest.getUserName(), Constant.Status.ACTIVE.getValue()) != null) {
+                throw new ApplicationException(APIStatus.ERR_EXIST_USER_NAME);
+            } else {
+                User createdUser = doCreateUser(userRequest);
+                if (createdUser != null) {
+                    return responseUtil.successResponse(createdUser);
+                } else {
+                    throw new ApplicationException(APIStatus.ERR_CREATE_USER);
+                }
+            }
+        }
+    }
+
     private User doCreateUser(UserRequest userRequest) throws NoSuchAlgorithmException {
 
         User user = new User();
 
+        user.setFirstName(userRequest.getFirstName());
+        user.setLastName(userRequest.getLastName());
         user.setUserName(userRequest.getUserName());
         user.setEmail(userRequest.getEmail().toLowerCase());
+        user.setPhone(userRequest.getPhone());
         user.setLang(userRequest.getLang());
         user.setSetting(userRequest.getSetting());
         user.setStatus(Constant.Status.ACTIVE.getValue());
-        // process with password
         String salt = CommonUtil.generateSalt();
         user.setSalt(salt);
         user.setRole(Constant.SystemRole.USER.getName());
-        String passHash = MD5Hash.MD5Encrypt(userRequest.getPassword());
-        user.setPasswordHash(MD5Hash.MD5Encrypt(passHash + salt));
+        user.setPasswordHash(MD5Hash.MD5Encrypt(userRequest.getPasswordHash() + salt));
 
         if (userService.saveUser(user) != null) {
             return user;
@@ -181,7 +180,6 @@ public class UserController extends AbstractBasedAPI {
             return null;
         }
     }
-
 
     private void validateParam(UserRequest userRequest) {
         try {
@@ -193,8 +191,8 @@ public class UserController extends AbstractBasedAPI {
             throw new ApplicationException(APIStatus.ERR_EMAIL_INVALID);
         }
 
-        if (userRequest.getPassword() != null) { // conditional for update user
-            if (!userRequest.getPassword().equals(userRequest.getConfirmPassword())) {
+        if (userRequest.getPasswordHash() != null) { // conditional for update user
+            if (!userRequest.getPasswordHash().equals(userRequest.getConfirmPassword())) {
                 throw new ApplicationException(APIStatus.ERR_PASSWORD_NOT_MATCH);
             }
         }

@@ -1,0 +1,145 @@
+<section class="testimonial py-5" id="register-form">
+  <div class="container">
+    <div class="row ">
+      <div class="col-md-4 py-5 bg-color text-white text-center">
+        <div class=" ">
+          <div class="card-body">
+            <img src="http://www.ansonika.com/mavia/img/registration_bg.svg" style="width:30%">
+            <h2 class="py-3">{{translate.data.label.registration | translate}}</h2>
+            <p>{{translate.data.label.content | translate}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8 py-5 border">
+        <h4 class="pb-4 text-center">{{translate.data.label.registration | translate}}</h4>
+        <form (ngSubmit)="f.form.valid && userRegister()" #f="ngForm">
+
+          <div class="form-row">
+            <div class="form-group col-md-6 cross-validation"
+                 [class.cross-validation-error]="firstName.touched || firstName.dirty">
+              <input id="firstName" name="firstName" placeholder="{{this.translate.data.label.first_name | translate}}"
+                     class="form-control" type="text" #firstName="ngModel" [(ngModel)]="user.firstName" [required]="true"
+                     [pattern]="namePattern">
+
+              <div *ngIf="firstName.touched">
+                <span class="help-block" *ngIf="firstName.value === ''">
+                  {{this.translate.data.validation.first_name.required | translate}}
+                </span>
+                <span class="help-block" *ngIf="firstName.errors?.pattern">
+                  {{this.translate.data.validation.first_name.pattern | translate}}
+                </span>
+              </div>
+            </div>
+
+            <div class="form-group col-md-6 cross-validation"
+                 [class.cross-validation-error]="lastName.touched || lastName.dirty">
+              <input type="text" class="form-control" id="lastName" name="lastName"
+                     placeholder="{{this.translate.data.label.last_name | translate}}"
+                     #lastName="ngModel" [(ngModel)]="user.lastName" [required]="true" [pattern]="namePattern">
+
+              <div *ngIf="lastName.touched">
+                <span class="help-block" *ngIf="lastName.value === ''">
+                  {{this.translate.data.validation.last_name.required | translate}}
+                </span>
+                <span class="help-block" *ngIf="lastName.errors?.pattern">
+                  {{this.translate.data.validation.last_name.pattern | translate}}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6 cross-validation"
+                 [class.cross-validation-error]="username.touched || username.dirty">
+              <input id="username" name="username" placeholder="{{this.translate.data.label.username | translate}}"
+                     class="form-control" required="required" type="text" [minlength]="3"
+                     #username="ngModel" [(ngModel)]="user.username" [required]="true" [pattern]="usernamePattern">
+
+              <div *ngIf="username.touched">
+                <span class="help-block" *ngIf="username.value === ''">
+                  {{this.translate.data.validation.username.required | translate}}
+                </span>
+                <span class="help-block" *ngIf="username.value.length > 0 && username.value.length < 3">
+                  {{this.translate.data.validation.username.minlength | translate}}
+                </span>
+                <span class="help-block" *ngIf="username.errors?.pattern && username.value.length >= 3">
+                  {{this.translate.data.validation.username.pattern | translate}}
+                </span>
+              </div>
+            </div>
+
+            <div class="form-group col-md-6 cross-validation"
+                 [class.cross-validation-error]="email.touched || email.dirty">
+              <input type="email" class="form-control" id="email" name="email"
+                     placeholder="{{this.translate.data.label.email | translate}}"
+                     #email="ngModel" [(ngModel)]="user.email" [required]="true" [pattern]="emailPattern">
+
+              <div *ngIf="email.touched">
+                <span class="help-block" *ngIf="email.value === ''">
+                  {{this.translate.data.validation.email.required | translate}}
+                </span>
+                <span class="help-block" *ngIf="email.errors?.pattern">
+                  {{this.translate.data.validation.email.pattern | translate}}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6 cross-validation"
+                 [class.cross-validation-error]="password.touched || password.dirty">
+              <input id="password" name="password" placeholder="{{this.translate.data.label.password | translate}}"
+                     class="form-control" type="password" #password="ngModel" [(ngModel)]="user.password"
+                     [required]="true" [minlength]="6">
+
+              <div *ngIf="password.touched">
+                <span class="help-block" *ngIf="password.value.length == 0">
+                  {{this.translate.data.validation.password.required | translate}}
+                </span>
+                <span class="help-block" *ngIf="password.value.length > 0 && password.value.length < 6">
+                  {{this.translate.data.validation.password.minlength | translate}}
+                </span>
+              </div>
+
+            </div>
+            <div class="form-group col-md-6">
+              <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
+                     placeholder="{{this.translate.data.label.confirm_password | translate}}" [minlength]="6"
+                     #confirmPassword="ngModel" [(ngModel)]="user.confirmPassword" [required]="true">
+
+              <div *ngIf="password.touched">
+                <span class="help-block"
+                      *ngIf="password.value !== '' && password.value !== confirmPassword.value && confirmPassword.value !== ''">
+                    {{this.translate.data.validation.confirm_password.invalid | translate}}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="agreePolicy" [required]="true">
+                <label class="form-check-label" for="agreePolicy">
+                  <small>{{this.translate.data.label.term | translate}}
+                    <a href="/">{{this.translate.data.label.policy | translate}}</a>.
+                  </small>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row float-right">
+            <div class="form-group col-md-12">
+              <button type="submit" class="btn btn-success"
+                      [disabled]="f.invalid || (password.value !== confirmPassword.value)">
+                {{this.translate.data.button.submit | translate}}
+              </button>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</section>

@@ -28,9 +28,12 @@ public class UserRequest {
 
     private String userId;
     private String userName;
-    private String password;
+    private String firstName;
+    private String lastName;
+    private String passwordHash;
     private String confirmPassword;
     private String email;
+    private String phone;
     private String lang;
     private String setting;
 }

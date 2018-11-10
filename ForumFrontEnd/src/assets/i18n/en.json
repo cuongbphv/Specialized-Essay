@@ -36,28 +36,57 @@
   "label": {
     "registration": "Registration",
     "content": "Register now to take part in Shared Community",
-    "register_form": "Register Form",
     "username": "Username",
     "password": "Password",
     "remember": "Remember Me",
-    "login_now": "Login Now",
+    "login": "Sign In",
     "share": "Share",
     "share_des": "Sharing exciting things in programming world.",
     "integrate": "Integration",
     "integrate_des": "Open with people, take part in the technical 4.0.",
-    "full_name": "Full Name",
+    "first_name": "First Name",
+    "last_name": "Last Name",
     "email": "Email",
-    "career": "Career...",
     "developer": "Developer",
     "designer": "Designer",
     "other": "Other",
     "confirm_password": "Confirm Password",
     "term": "I agree to",
-    "policy": "Terms & Conditions and Privacy Policy Website"
+    "policy": "Terms & Conditions and Privacy Policy Website",
+    "sign_in_with": "Sign in with",
+    "or": "or",
+    "no_account": "Don't have an account?",
+    "forgot_password": "Forgot Password?"
+  },
+  "validation": {
+    "first_name": {
+      "required": "First name is required",
+      "pattern": "First name is wrong format (no specified symbols)"
+    },
+    "last_name": {
+      "required": "Last name is required",
+      "pattern": "Last name is wrong format (no specified symbols)"
+    },
+    "email": {
+      "required": "Email is required",
+      "pattern": "Email is wrong format"
+    },
+    "username": {
+      "required": "Username is required",
+      "pattern": "Username is wrong format (no space and specified symbols)",
+      "minlength": "Minlength of username is 3 characters"
+    },
+    "password": {
+      "required": "Password is required",
+      "minlength": "Minlength of password is 6 characters"
+    },
+    "confirm_password": {
+      "invalid": "Invalid Password"
+    }
   },
   "button": {
     "submit": "SUBMIT",
-    "login": "LOGIN",
+    "login": "SIGN IN",
     "register": "REGISTER"
   }
 }

@@ -1,17 +1,45 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, NO_ERRORS_SCHEMA, APP_INITIALIZER } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
-
+import { CommonModule } from '@angular/common';
 import { AppComponent } from './app.component';
 
-import { SharedModule } from './shared/shared.module';
-import { HomeModule } from './components/home/home.module';
+import { SharedModule, FooterComponent, HeaderComponent } from './shared';
+import { HomeModule } from './modules/home/home.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { AppRoutingModule } from './app.routing';
+import { CoreModule } from './core';
 
-import { AppRoutes } from './app.routing';
+import { TranslateService } from './core/services';
+import {
+  SocialLoginModule,
+  AuthServiceConfig,
+  GoogleLoginProvider,
+  FacebookLoginProvider,
+} from 'angular-6-social-login';
 
-import { TranslateService } from './shared/services/translate.service';
 
+// Configs
+export function getAuthServiceConfigs() {
+
+  const googleLoginOptions: any = {
+    scope: 'profile'
+  };
+
+  const config = new AuthServiceConfig(
+    [
+      {
+        id: FacebookLoginProvider.PROVIDER_ID,
+        provider: new FacebookLoginProvider("377313722811067")
+      },
+      {
+        id: GoogleLoginProvider.PROVIDER_ID,
+        provider: new GoogleLoginProvider("54163204787-0gq614b39l1pjvqikgtuubtrpgbaha54.apps.googleusercontent.com")
+      },
+    ]
+  );
+  return config;
+}
 
 /* to load and set en.json as the default application language */
 export function setupTranslateFactory(service: TranslateService): Function {
@@ -19,15 +47,21 @@ export function setupTranslateFactory(service: TranslateService): Function {
 }
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
   imports: [
     BrowserModule,
+    CommonModule,
     BrowserAnimationsModule,
     SharedModule,
+    AuthModule,
     HomeModule,
-    RouterModule.forRoot(AppRoutes)
+    CoreModule,
+    SocialLoginModule,
+    AppRoutingModule
+  ],
+  declarations: [
+    AppComponent,
+    FooterComponent,
+    HeaderComponent
   ],
   providers: [
     TranslateService,
@@ -36,9 +70,12 @@ export function setupTranslateFactory(service: TranslateService): Function {
       useFactory: setupTranslateFactory,
       deps: [TranslateService],
       multi: true
+    },
+    {
+      provide: AuthServiceConfig,
+      useFactory: getAuthServiceConfigs
     }
   ],
-  bootstrap: [AppComponent],
-  schemas: [NO_ERRORS_SCHEMA]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
