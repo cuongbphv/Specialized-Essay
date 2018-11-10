@@ -2,6 +2,7 @@ package com.tlcn.programingforum.api.controller;
 
 import com.tlcn.programingforum.api.AbstractBasedAPI;
 import com.tlcn.programingforum.api.model.request.AuthRequestModel;
+import com.tlcn.programingforum.api.model.request.UserRequest;
 import com.tlcn.programingforum.api.response.APIStatus;
 import com.tlcn.programingforum.auth.AuthUser;
 import com.tlcn.programingforum.exception.ApplicationException;
@@ -10,6 +11,7 @@ import com.tlcn.programingforum.model.entity.Session;
 import com.tlcn.programingforum.model.entity.User;
 import com.tlcn.programingforum.service.AuthService;
 import com.tlcn.programingforum.service.UserService;
+import com.tlcn.programingforum.util.CommonUtil;
 import com.tlcn.programingforum.util.Constant;
 import com.tlcn.programingforum.util.MD5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,6 +120,5 @@ public class AuthController extends AbstractBasedAPI {
             throw new ApplicationException(APIStatus.ERR_BAD_PARAMS);
         }
     }
-
 
 }

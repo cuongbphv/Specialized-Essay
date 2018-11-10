@@ -44,7 +44,8 @@
     "share_des": "Chia sẻ những điều thú vị trong lĩnh vực lập trình.",
     "integrate": "Hội nhập",
     "integrate_des": "Mở cửa với tất cả mọi người, tham gia cuộc cách mạng 4.0.",
-    "full_name": "Họ tên",
+    "first_name": "Tên",
+    "last_name": "Họ",
     "email": "Email",
     "developer": "Lập trình viên",
     "designer": "Thiết kế",
@@ -58,7 +59,30 @@
     "forgot_password": "Quên mật khẩu?"
   },
   "validation": {
-
+    "first_name": {
+      "required": "Không để trống tên",
+      "pattern": "Tên sai định dạng (không có ký tự đặc biệt)"
+    },
+    "last_name": {
+      "required": "Không để trống họ",
+      "pattern": "Họ sai định dạng (không có ký tự đặc biệt)"
+    },
+    "email": {
+      "required": "Không để trống email",
+      "pattern": "Email sai định dạng"
+    },
+    "username": {
+      "required": "Không để trống tài khoản",
+      "pattern": "Tài khoản sai định dạng (không khoảng trống và ký tự đặc biệt)",
+      "minlength": "Tài khoản ít nhất 3 ký tự"
+    },
+    "password": {
+      "required": "Không để trống mật khẩu",
+      "minlength": "Mật khẩu ít nhất 6 ký tự"
+    },
+    "confirm_password": {
+      "invalid": "Xác nhận mật khẩu không đúng"
+    }
   },
   "button": {
     "submit": "XÁC NHẬN",

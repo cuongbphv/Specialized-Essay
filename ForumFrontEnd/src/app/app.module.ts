@@ -17,6 +17,7 @@ import {
   GoogleLoginProvider,
   FacebookLoginProvider,
 } from 'angular-6-social-login';
+import {RegisterService} from './components/home/register/register.service';
 
 
 // Configs

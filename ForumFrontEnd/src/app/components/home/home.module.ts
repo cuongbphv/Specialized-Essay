@@ -15,12 +15,15 @@ import { SharedModule } from '../../shared/shared.module';
 import { ProfileComponent} from './profile/profile.component';
 import {PieChartComponent} from './profile/pie-chart/piechart.component';
 import {GooglePieChartService} from '../../shared/services/google-pie-chart.service';
+import {RegisterService} from './register/register.service';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
-    RouterModule.forChild(HomeRoutes)
+    RouterModule.forChild(HomeRoutes),
+    HttpClientModule
   ],
   declarations: [
     HomeComponent,
@@ -33,7 +36,10 @@ import {GooglePieChartService} from '../../shared/services/google-pie-chart.serv
   ],
   schemas: [NO_ERRORS_SCHEMA],
   exports: [NavbarComponent, FooterComponent],
-  providers: [GooglePieChartService]
+  providers: [
+    GooglePieChartService,
+    RegisterService
+  ]
 })
 export class HomeModule {}
 

@@ -30,6 +30,7 @@ public interface Constant {
 
     //User management
     public static final String USER_API = API_PREFIX + "/user";
+    public static final String USER_REGISTER = "/signup";
     public static final String USER_LIST = "/list";
     public static final String USER_SETTING = "/setting";
     public static final String UPDATE_PASS = "/update_password";
