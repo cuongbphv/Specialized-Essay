@@ -1,15 +1,16 @@
 import {AppConfig} from './app-config.constant';
 
 const BaseURL = {
-  AUTH_API: AppConfig.API_PATH + '/auth'
+  AUTH_API: AppConfig.API_PATH + '/auth',
+  USER_API: AppConfig.API_PATH + '/user'
 };
 
 export const API = {
   // Auth API
   USER_LOGIN: BaseURL.AUTH_API + '/login',
-  REGISTER_USER: BaseURL.AUTH_API + '/register',
+  LOGOUT: BaseURL.AUTH_API + '/logout',
   // User API
-  LOGOUT: {path: '/auth/logout'},
-  GET_USER_PROFILE: '/user/profile',
+  REGISTER_USER: BaseURL.AUTH_API + '/signup',
+  GET_USER_PROFILE: BaseURL.AUTH_API + '/profile',
   AUTH_USER_PROFILE: '/auth/user'
 };

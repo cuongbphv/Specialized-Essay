@@ -19,7 +19,6 @@ public interface Constant {
     public static final String USER_LOGIN_API = "/login";
     public static final String LOGOUT_API = "/logout";
     public static final String AUTH_USER_INFO = "/user";
-    public static final String AUTH_USER_REGISTER = "/register";
     public static final String REFRESH_TOKEN = "/refresh";
     public static final String UPDATE_USER = "/update";
 
@@ -31,6 +30,7 @@ public interface Constant {
 
     //User management
     public static final String USER_API = API_PREFIX + "/user";
+    public static final String USER_REGISTER = "/signup";
     public static final String USER_LIST = "/list";
     public static final String USER_SETTING = "/setting";
     public static final String UPDATE_PASS = "/update_password";
