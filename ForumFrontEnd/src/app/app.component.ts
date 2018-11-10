@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { TranslateService } from './shared/services/translate.service';
+import { TranslateService } from './core/services';
 
 @Component({
   selector: 'app-root',
@@ -9,15 +9,6 @@ import { TranslateService } from './shared/services/translate.service';
 })
 export class AppComponent {
 
-  constructor(public translate: TranslateService){
-    console.log(translate.data);
-  }
+  constructor(public translate: TranslateService) {}
 
-  setLang(lang: string) {
-    this.translate.use(lang).then(() => {});
-  }
-
-  public ngOnInit(){
-
-  }
 }

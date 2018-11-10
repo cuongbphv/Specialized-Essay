@@ -1,23 +1,22 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, NO_ERRORS_SCHEMA, APP_INITIALIZER } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
-
+import { CommonModule } from '@angular/common';
 import { AppComponent } from './app.component';
 
-import { SharedModule } from './shared/shared.module';
-import { HomeModule } from './components/home/home.module';
+import { SharedModule, FooterComponent, HeaderComponent } from './shared';
+import { HomeModule } from './modules/home/home.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { AppRoutingModule } from './app.routing';
+import { CoreModule } from './core';
 
-import { AppRoutes } from './app.routing';
-
-import { TranslateService } from './shared/services/translate.service';
+import { TranslateService } from './core/services';
 import {
   SocialLoginModule,
   AuthServiceConfig,
   GoogleLoginProvider,
   FacebookLoginProvider,
 } from 'angular-6-social-login';
-import {RegisterService} from './components/home/register/register.service';
 
 
 // Configs
@@ -48,16 +47,21 @@ export function setupTranslateFactory(service: TranslateService): Function {
 }
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
   imports: [
     BrowserModule,
+    CommonModule,
     BrowserAnimationsModule,
     SharedModule,
+    AuthModule,
     HomeModule,
+    CoreModule,
     SocialLoginModule,
-    RouterModule.forRoot(AppRoutes)
+    AppRoutingModule
+  ],
+  declarations: [
+    AppComponent,
+    FooterComponent,
+    HeaderComponent
   ],
   providers: [
     TranslateService,
@@ -72,7 +76,6 @@ export function setupTranslateFactory(service: TranslateService): Function {
       useFactory: getAuthServiceConfigs
     }
   ],
-  bootstrap: [AppComponent],
-  schemas: [NO_ERRORS_SCHEMA]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
