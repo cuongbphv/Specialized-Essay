@@ -35,6 +35,9 @@ public interface Constant {
     public static final String UPDATE_PASS = "/update_password";
     public static final String USER_UPDATE_PASS = "/user_update_password";
 
+    //Profile management
+    public static final String PROFILE_API = API_PREFIX + "/profile";
+
     // Request Content Type
     public static final String APPLICATION_JSON_CONTENT_TYPE = "application/json";
     public static final String APPLICATION_URL_ENCODED = "application/x-www-form-urlencoded";

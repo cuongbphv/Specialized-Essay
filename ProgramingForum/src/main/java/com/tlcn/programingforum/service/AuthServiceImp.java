@@ -11,13 +11,14 @@ import com.tlcn.programingforum.repository.UserSessionRepository;
 import com.tlcn.programingforum.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
 /**
  * @author Huy Pham
  */
-@Component
+@Service
 public class AuthServiceImp extends AbstractBaseService implements AuthService {
 
     @Autowired

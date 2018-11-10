@@ -11,7 +11,7 @@
         <form (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm">
           <h2 class="text-center">{{translate.data.label.login | translate}}</h2>
           <div class="col-xs-12 text-center social-btn">
-            <button href="#" class="text-center btn btn-primary btn-block wrap">
+            <button (click)="socialSignIn('facebook');" class="text-center btn btn-primary btn-block wrap">
               <i class="fa fa-facebook"></i> {{translate.data.label.sign_in_with | translate}} <b>Facebook</b>
             </button>
             <button (click)="socialSignIn('google');" class="text-center btn btn-danger btn-block wrap">

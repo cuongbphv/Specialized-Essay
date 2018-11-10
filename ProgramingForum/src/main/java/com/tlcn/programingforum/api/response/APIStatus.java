@@ -46,8 +46,10 @@ public enum APIStatus {
     ERR_EXIST_USER_NAME(707, "User Name already exists"),
     ERR_UPDATE_USER(708, "Update User fail"),
     ERR_FOLDER_NOT_FOUND(709, "Folder not found"),
-    ERR_OLD_PASS(717, "Old password incorect");
+    ERR_OLD_PASS(717, "Old password incorect"),
 
+    //Profile
+    ERR_USER_PROFILE_NOT_FOUND(800, "User Profile not found");
 
     private final int code;
     private final String description;
