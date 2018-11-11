@@ -4,6 +4,7 @@ import { FormsModule, FormBuilder } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 
+import { TranslateTextDirective, TranslatePlaceholderDirective } from './directives';
 import { TranslatePipe } from './pipes';
 import { AdminGuard, ModeratorGuard, UserGuard } from '../core/guards';
 import { SessionService, DataService, AuthBaseService } from '../core/services';
@@ -16,12 +17,16 @@ import { SessionService, DataService, AuthBaseService } from '../core/services';
     RouterModule
   ],
   declarations: [
-    TranslatePipe
+    TranslatePipe,
+    TranslateTextDirective,
+    TranslatePlaceholderDirective
   ],
   exports: [
     FormsModule,
     RouterModule,
-    TranslatePipe
+    TranslatePipe,
+    TranslateTextDirective,
+    TranslatePlaceholderDirective
   ],
   providers: [
     FormBuilder,
