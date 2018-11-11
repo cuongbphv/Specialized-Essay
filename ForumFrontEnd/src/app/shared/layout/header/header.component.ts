@@ -17,7 +17,5 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {}
 
-  setLang(lang: string) {
-    this.translate.use(lang).then(() => {});
-  }
+  setLang() {}
 }
