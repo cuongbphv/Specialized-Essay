@@ -12,9 +12,9 @@ public class ProgramingforumApplication extends SpringBootServletInitializer {
         SpringApplication.run(ProgramingforumApplication.class, args);
     }
 
-//    @Override
-//    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-//        return application.sources(ProgramingforumApplication.class);
-//    }
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(ProgramingforumApplication.class);
+    }
 
 }

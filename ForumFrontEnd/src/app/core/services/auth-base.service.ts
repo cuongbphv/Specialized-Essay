@@ -1,17 +1,22 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {Observable, throwError} from 'rxjs';
+import {catchError, map} from 'rxjs/operators';
 import {User} from '../models';
 
-import {API} from '../../shared/constant/api.constant';
+import {API} from '../../shared/constant';
 import {SecurityService} from './security.service';
 import {ApiService} from './api.service';
 import {FacebookLoginProvider, GoogleLoginProvider, AuthService} from 'angular-6-social-login';
+import {HttpParams} from '@angular/common/http';
 
 @Injectable()
 export class AuthBaseService {
   user: Observable<User>;
   userDetails: User = null;
+
+  private formatErrors(error: any) {
+    return  throwError(error.error);
+  }
 
   constructor(
     private security: SecurityService,
@@ -19,16 +24,14 @@ export class AuthBaseService {
     private socialAuthService: AuthService
   ) {}
 
-  register(user: any) {
+  register(user: any): Observable<any> {
     return this.apiService.post(API.REGISTER_USER, {
       firstName: user.firstName,
       lastName: user.lastName,
       userName: user.username,
       email: user.email,
       passwordHash: this.security.MD5Hash(user.password)
-    }).pipe(map(response => {
-      console.log(response.data)
-    }));
+    }).pipe(map(res => res));
   }
 
   isLoggedIn() {
@@ -83,7 +86,7 @@ export class AuthBaseService {
   rememberMe(email, password) {
   }
 
-  socialSignIn(socialPlatform: string) {
+  socialSignIn(socialPlatform: string): Promise<any> {
     let socialPlatformProvider;
     if (socialPlatform === 'facebook') {
       socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
@@ -91,13 +94,15 @@ export class AuthBaseService {
       socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
     }
 
-    this.socialAuthService.signIn(socialPlatformProvider).then(
-      (userData) => {
-        console.log(socialPlatform + ' sign in data : ' , userData);
-        // Now sign-in with userData
-        // ...
-
-      }
-    );
+    return this.socialAuthService.signIn(socialPlatformProvider);
   }
+
+  checkExistedEmail(email: string): Observable<any> {
+
+    let params = new HttpParams().set('email', email);
+
+    return this.apiService.get(API.AUTH_USER_EMAIL, params)
+      .pipe(map(res => res));
+  }
+
 }

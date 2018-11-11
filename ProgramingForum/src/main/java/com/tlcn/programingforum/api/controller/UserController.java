@@ -36,8 +36,6 @@ public class UserController extends AbstractBasedAPI {
             HttpServletRequest request,
             @PathVariable("id") String id
     )  {
-        AuthUser authUser = getAuthUserFromSession(request);
-        validatePermission(authUser, Constant.SystemRole.SYS_ADMIN.getName());
 
         if (id != null && !id.isEmpty()) {
             User user = userService.getActiveUserByUserId(id);

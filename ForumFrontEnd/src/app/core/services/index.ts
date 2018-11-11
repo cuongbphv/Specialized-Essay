@@ -7,3 +7,4 @@ export * from './google-pie-chart.service';
 export * from './security.service';
 export * from './session.service';
 export * from './translate.service';
+export * from './user.service';
