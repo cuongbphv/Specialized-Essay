@@ -121,4 +121,17 @@ public class AuthController extends AbstractBasedAPI {
         }
     }
 
+
+    @RequestMapping(path = Constant.CHECK_EMAIL, method = RequestMethod.GET)
+    public ResponseEntity<RestAPIResponse> checkExistedEmail(
+            @RequestParam("email") String email
+    ) {
+
+        User user = userService.findByEmailAndStatus(email, Constant.Status.ACTIVE.getValue());
+        if (user != null) {
+            return responseUtil.successResponse("Ok");
+        } else {
+            throw new ApplicationException(APIStatus.ERR_USER_NOT_FOUND);
+        }
+    }
 }
