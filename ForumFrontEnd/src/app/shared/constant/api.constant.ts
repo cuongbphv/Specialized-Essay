@@ -1,8 +1,8 @@
 import {AppConfig} from './app-config.constant';
 
 const BaseURL = {
-  AUTH_API: AppConfig.API_PATH + '/auth',
-  USER_API: AppConfig.API_PATH + '/user'
+  AUTH_API: '/auth',
+  USER_API: '/user',
 };
 
 export const API = {
@@ -10,7 +10,11 @@ export const API = {
   USER_LOGIN: BaseURL.AUTH_API + '/login',
   LOGOUT: BaseURL.AUTH_API + '/logout',
   // User API
-  REGISTER_USER: BaseURL.AUTH_API + '/signup',
+  REGISTER_USER: BaseURL.USER_API + '/signup',
   GET_USER_PROFILE: BaseURL.AUTH_API + '/profile',
-  AUTH_USER_PROFILE: '/auth/user'
+  AUTH_USER_PROFILE: '/auth/user',
+  AUTH_USER_EMAIL: '/auth/check',
+
+  GET_USER: BaseURL.USER_API + "/"
+
 };

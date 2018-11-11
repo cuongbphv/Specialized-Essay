@@ -47,7 +47,7 @@
 
         <li class="nav-item button-login" *ngIf="!authBaseService.isLoggedIn()">
           <a class="nav-link" href="javascript:;;" [routerLink]="['/login']">
-            <i class="fa fa-sign-in mr-1"></i> {{translate.data.user.login | translate}}</a>
+            <i class="fa fa-sign-in mr-1"></i> <span textContent="user.login"></span></a>
         </li>
 
         <li class="nav-item dropdown" *ngIf="authBaseService.isLoggedIn()">
@@ -73,10 +73,11 @@
             <i class="fa fa-globe"></i><span class="caret"></span>
           </a>
           <div class="dropdown-menu dropdown dropdown-primary" aria-labelledby="drdLanguage" role="menu">
-            <a class="dropdown-item waves-light" href="javascript:;;" (click)="setLang('en')">
-              <i class="fa fa-flag-o mr-2"></i>{{translate.data.language.en | translate}}</a>
-            <a class="dropdown-item waves-light" href="javascript:;;" (click)="setLang('vi')">
-              <i class="fa fa-flag-o mr-2"></i>{{translate.data.language.vi | translate}}</a>
+            <a id="en-lang" class="dropdown-item waves-light" href="javascript:;;" (click)="setLang('en')"
+               textContent="language.en"><i class="fa fa-flag-o mr-2"></i></a>
+            <a id="vi-lang" class="dropdown-item waves-light" href="javascript:;;" (click)="setLang('vi')"
+               textContent="language.vi">
+              <i class="fa fa-flag-o mr-2"></i></a>
           </div>
         </li>
       </ul>

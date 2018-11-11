@@ -13,7 +13,8 @@ import {
   GooglePieChartService,
   SecurityService,
   SessionService,
-  TranslateService
+  TranslateService,
+  UserService
 } from './services';
 
 
@@ -36,7 +37,8 @@ import {
     SecurityService,
     SessionService,
     TranslateService,
-    CookieService
+    CookieService,
+    UserService
   ],
   declarations: []
 })

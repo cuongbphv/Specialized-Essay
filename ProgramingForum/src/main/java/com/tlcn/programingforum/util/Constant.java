@@ -21,6 +21,7 @@ public interface Constant {
     public static final String AUTH_USER_INFO = "/user";
     public static final String REFRESH_TOKEN = "/refresh";
     public static final String UPDATE_USER = "/update";
+    public static final String CHECK_EMAIL = "/check";
 
     // Admin APIs
     public static final String ADMIN_API = API_PREFIX + "/admin";
