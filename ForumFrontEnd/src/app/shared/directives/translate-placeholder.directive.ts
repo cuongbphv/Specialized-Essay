@@ -26,8 +26,8 @@ export class TranslatePlaceholderDirective implements OnInit {
   }
 
   setTextPlaceHolder() {
-    this.el.nativeElement.placeholder = this.textPlaceHolder.split(".").reduce((prev, current) => {
-      return prev[current]
+    this.el.nativeElement.placeholder = this.textPlaceHolder.split('.').reduce((prev, current) => {
+      return prev[current];
     }, this.translateService.data);
   }
 

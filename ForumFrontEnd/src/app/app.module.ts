@@ -3,6 +3,7 @@ import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { AppComponent } from './app.component';
+import { ToastrModule } from 'ngx-toastr';
 
 import { SharedModule, FooterComponent, HeaderComponent } from './shared';
 import { HomeModule } from './modules/home/home.module';
@@ -56,7 +57,13 @@ export function setupTranslateFactory(service: TranslateService): Function {
     HomeModule,
     CoreModule,
     SocialLoginModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ToastrModule.forRoot({
+      timeOut: 4000,
+      autoDismiss: true,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: false
+    }) // ToastrModule added
   ],
   declarations: [
     AppComponent,

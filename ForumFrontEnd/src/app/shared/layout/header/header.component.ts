@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { TranslateService, AuthBaseService } from '../../../core/services';
+import { ToastrService } from 'ngx-toastr';
 
 declare var $: any;
 
@@ -11,11 +12,14 @@ declare var $: any;
 })
 export class HeaderComponent implements OnInit {
   constructor(
-    public translate: TranslateService,
-    public authBaseService: AuthBaseService
+    public translateService: TranslateService,
+    public authBaseService: AuthBaseService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {}
 
-  setLang() {}
+  setLang() {
+    this.toastr.success('', "Thay đổi ngôn ngữ thành công " + this.translateService.data.language.vi);
+  }
 }

@@ -26,8 +26,8 @@ export class TranslateTextDirective implements OnInit {
   }
 
   setText() {
-    this.el.nativeElement.textContent = this.textContent.split(".").reduce((prev, current) => {
-      return prev[current]
+    this.el.nativeElement.textContent = this.textContent.split('.').reduce((prev, current) => {
+      return prev[current];
     }, this.translateService.data);
   }
 
