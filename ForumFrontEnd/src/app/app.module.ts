@@ -61,7 +61,7 @@ export function setupTranslateFactory(service: TranslateService): Function {
     ToastrModule.forRoot({
       timeOut: 4000,
       autoDismiss: true,
-      positionClass: 'toast-bottom-right',
+      positionClass: 'toast-bottom-left',
       preventDuplicates: false
     }) // ToastrModule added
   ],

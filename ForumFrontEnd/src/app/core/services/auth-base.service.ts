@@ -8,6 +8,8 @@ import {SecurityService} from './security.service';
 import {ApiService} from './api.service';
 import {FacebookLoginProvider, GoogleLoginProvider, AuthService} from 'angular-6-social-login';
 import {HttpParams} from '@angular/common/http';
+import {SessionService} from './session.service';
+import {rootRoute} from '@angular/router/src/router_module';
 
 @Injectable()
 export class AuthBaseService {
@@ -15,14 +17,16 @@ export class AuthBaseService {
   userDetails: User = null;
 
   private formatErrors(error: any) {
-    return  throwError(error.error);
+    return throwError(error.error);
   }
 
   constructor(
     private security: SecurityService,
     private apiService: ApiService,
-    private socialAuthService: AuthService
-  ) {}
+    private socialAuthService: AuthService,
+    private sessionService: SessionService
+  ) {
+  }
 
   register(user: any): Observable<any> {
     return this.apiService.post(API.REGISTER_USER, {
@@ -34,12 +38,11 @@ export class AuthBaseService {
     }).pipe(map(res => res));
   }
 
-  isLoggedIn() {
-    if (this.userDetails === null) {
-      return false;
-    } else {
+  isLoggedIn(){
+    if (this.user !== null) {
       return true;
     }
+    return false;
   }
 
   logout() {
@@ -49,22 +52,30 @@ export class AuthBaseService {
     return this.apiService.post(API.USER_LOGIN, {
       account: username,
       passwordHash: this.security.MD5Hash(password)
-    }).pipe(map(response => {
-        console.log(response.data);
-        // if (token && token.data) {
-          // localStorage.setItem('Access-Token', JSON.stringify(token.data));
-          // this.session.setAccessToken(token.data);
-        // }
-        // return user; // return gloabl user
-      }));
+    }).pipe(map(res => {
+      if (res.status === 200) {
+        // set token for login session
+        this.sessionService.setAccessToken(res.data);
+        console.log(res.data);
+        // get user detail by token
+        this.getLoggedInUser();
+      }
+    }));
   }
 
   getLoggedInUser(): Observable<User> {
+
+    this.apiService.get(API.USER_DETAIL).pipe(map(res => {
+      this.user = res.data;
+      this.userDetails = res.data;
+      console.log(this.userDetails);
+    })).subscribe();
+
     return this.user;
   }
 
   isAdmin(): boolean {
-    const user = this.getLoggedInUser();
+    let user = this.getLoggedInUser();
     user.subscribe(loginUser => {
       if (loginUser != null && loginUser.role === 'admin') {
         return true;
@@ -74,7 +85,7 @@ export class AuthBaseService {
   }
 
   isModerator(): boolean {
-    const user = this.getLoggedInUser();
+    let user = this.getLoggedInUser();
     user.subscribe(loginUser => {
       if (loginUser != null && loginUser.role === 'moderator') {
         return true;

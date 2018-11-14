@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
     this.authBaseService.login(this.userLogin.username, this.userLogin.password)
       .subscribe(
         data => {
-          // this.router.navigate(['/home']);
+          this.router.navigate(['/profile']);
         },
         error => {
           this.loading = false;

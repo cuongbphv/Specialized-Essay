@@ -1,29 +1,24 @@
-<!--Navbar-->
 <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
-
   <div class="container">
     <!-- Navbar brand -->
     <a class="navbar-brand" href="#">Shared</a>
-
     <!-- Collapse button -->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNav" aria-controls="mainNav"
             aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-
     <!-- Collapsible content -->
     <div class="collapse navbar-collapse" id="mainNav">
       <!-- Links -->
       <ul class="navbar-nav mr-auto">
       </ul>
       <!-- Links -->
-
       <ul class="navbar-nav ml-auto">
         <li class="nav-item" *ngIf="authBaseService.isLoggedIn()">
           <div class="item-icon">
-            <a class="nav-link" href="javascript:;;" [routerLink]="['/products/favourite-products']">
+            <a class="nav-link" href="javascript:;;" [routerLink]="['/posts/new']">
               <i class="fa fa-pencil"></i>
-              <span class="mt-2 text-white"> {{translate.data.post.new_post | translate}}</span>
+              <span class="mt-2 text-white" textContent="post.new_post"></span>
             </a>
           </div>
 
@@ -32,7 +27,7 @@
           <div class="item-icon">
             <a class="nav-link" href="javascript:;;" [routerLink]="['/products/cart-items']">
               <i class="fa fa-archive"></i>
-              <span class="mt-2 text-white"> {{translate.data.post.store | translate}}</span>
+              <span class="mt-2 text-white" textContent="post.store"></span>
             </a>
           </div>
         </li>
@@ -41,7 +36,7 @@
           <a class="nav-link" href="javascript:;;">
             <i class="fa fa-envelope mr-2"></i>
             <span class="sr-only">(current)</span>
-            <span> Thông báo</span>
+            <span textContent="user.notify"></span>
           </a>
         </li>
 
@@ -54,28 +49,28 @@
           <a class="nav-link dropdown-toggle waves-light" href="#" id="drdAccount" role="button"
              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-user-circle"></i>
-            <span>  Bùi Cường</span>
+            <span>{{" " + authBaseService.userDetails.firstName + " " + authBaseService.userDetails.lastName}}</span>
             <span class="caret"></span>
           </a>
           <div class="dropdown-menu dropdown dropdown-primary" aria-labelledby="drdAccount" role="menu">
-            <a class="dropdown-item waves-light" href="javascript:;;" [routerLink]="[ '/index/login' ]">
-              <i class="fa fa-user mr-1"></i> {{translate.data.user.profile | translate}}</a>
-            <a class="dropdown-item waves-light" href="javascript:;;" [routerLink]="[ '/index/login' ]">
-              <i class="fa fa-cogs mr-1"></i> {{translate.data.user.setting | translate}}</a>
-            <a class="dropdown-item waves-light" href="javascript:;;" (click)="authBaseService.logout()">
-              <i class="fa fa-sign-in mr-1"></i> {{translate.data.user.logout | translate}}</a>
+            <a class="dropdown-item waves-light" [routerLink]="[ '/profile' ]">
+              <i class="fa fa-user mr-1"></i> <span textContent="user.profile"></span></a>
+            <a class="dropdown-item waves-light" [routerLink]="[ '/setting' ]">
+              <i class="fa fa-cogs mr-1"></i> <span textContent="user.setting"></span></a>
+            <a class="dropdown-item waves-light" (click)="authBaseService.logout()">
+              <i class="fa fa-sign-in mr-1"></i> <span textContent="user.logout"></span></a>
           </div>
         </li>
 
         <li class="nav-item dropdown" style="border-right: none;">
-          <a class="nav-link dropdown-toggle waves-light" href="#" id="drdLanguage" role="button"
+          <a class="nav-link dropdown-toggle waves-light" id="drdLanguage" role="button"
              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-globe"></i><span class="caret"></span>
           </a>
           <div class="dropdown-menu dropdown dropdown-primary" aria-labelledby="drdLanguage" role="menu">
-            <a id="en" class="dropdown-item waves-light" href="javascript:;;" (click)="setLang()"
+            <a id="en" class="dropdown-item waves-light" (click)="setLang('en')"
                textContent="language.en"><i class="fa fa-flag-o mr-2"></i></a>
-            <a id="vi" class="dropdown-item waves-light" href="javascript:;;" (click)="setLang()"
+            <a id="vi" class="dropdown-item waves-light" (click)="setLang('vi')"
                textContent="language.vi">
               <i class="fa fa-flag-o mr-2"></i></a>
           </div>
