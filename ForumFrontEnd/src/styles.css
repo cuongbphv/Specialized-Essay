@@ -10,6 +10,10 @@
   border-left: 5px solid #a94442; /* red */
 }
 
+.bg-image-login {
+  background: url('./assets/img/people-coffee-tea-meeting-min.jpg');
+}
+
 .wrap {
   white-space: pre-wrap;      /* CSS3 */
   white-space: -moz-pre-wrap; /* Firefox */

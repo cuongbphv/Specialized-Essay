@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { TranslateService } from '../../core/services/translate.service';
+import { TranslateService } from '../../core/services';
 
 @Component({
   selector: 'app-index',

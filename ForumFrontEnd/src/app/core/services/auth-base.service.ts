@@ -9,7 +9,6 @@ import {ApiService} from './api.service';
 import {FacebookLoginProvider, GoogleLoginProvider, AuthService} from 'angular-6-social-login';
 import {HttpParams} from '@angular/common/http';
 import {SessionService} from './session.service';
-import {rootRoute} from '@angular/router/src/router_module';
 
 @Injectable()
 export class AuthBaseService {
@@ -39,9 +38,9 @@ export class AuthBaseService {
   }
 
   isLoggedIn(){
-    if (this.user !== null) {
-      return true;
-    }
+    // if (this.user !== null) {
+    //   return true;
+    // }
     return false;
   }
 
