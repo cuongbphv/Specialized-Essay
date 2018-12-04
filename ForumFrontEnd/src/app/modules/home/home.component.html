@@ -7,8 +7,8 @@
         <div class="nav">
           <div class="nav__categories js-dropdown">
             <div class="nav__select">
-              <div class="btn-select" data-dropdown-btn="categories">Chủ đề</div>
-              <nav class="dropdown dropdown--design-01" data-dropdown-list="categories">
+              <div id="btnCategories" class="btn-select" data-dropdown-btn="categories">Chủ đề</div>
+              <nav class="dropdown dropdown--design-01" data-dropdown-list="categories" uib-dropdown>
                 <ul class="dropdown__catalog row">
                   <li class="col-xs-6"><a href="#" class="category"><i class="bg-f9bc64"></i>Hobbies</a></li>
                   <li class="col-xs-6"><a href="#" class="category"><i class="bg-348aa7"></i>Social</a></li>
@@ -22,8 +22,8 @@
               </nav>
             </div>
             <div class="nav__select">
-              <div class="btn-select" data-dropdown-btn="tags">Gắn thẻ</div>
-              <div class="dropdown dropdown--design-01" data-dropdown-list="tags">
+              <div id="btnTags" class="btn-select" data-dropdown-btn="tags">Gắn thẻ</div>
+              <div class="dropdown dropdown--design-01" data-dropdown-list="tags" uib-dropdown>
                 <div class="tags">
                   <a href="#" class="bg-4f80b0">java</a>
                   <a href="#" class="bg-424ee8">javascript</a>
@@ -48,7 +48,7 @@
                 </ul>
               </div>
             </div>
-            <ul>
+            <ul id="post-type">
               <li class="active"><a href="#">Diễn đàn</a></li>
               <li><a href="#">Hội nhóm</a></li>
               <li><a href="#">Xu hướng</a></li>
@@ -201,6 +201,270 @@
               <div class="upvote text-muted">
                 <i class="fa fa-chevron-up"></i>
                 <p>10</p>
+                <i class="fa fa-chevron-down"></i>
+              </div>
+            </div>
+
+
+          </div>
+
+          <div class="post-item">
+
+            <div class="avatar">
+              <img src="https://bootstrapmade.com/wp-content/themefiles/Knight/400.png"
+                   alt="Squadfree – Free Bootstrap template for creative" class="img-responsive">
+            </div>
+
+            <div class="post-left">
+              <div class="post-author">
+                <span class="post-author-name"><b>Nguyễn Mạnh Cường</b></span>
+                <span class="post-time">&nbsp; đăng cách đây 2 giờ trước</span>
+                <!--<span class="text-muted"><i class="fa fa-bookmark float-right"></i></span>-->
+              </div>
+
+              <div class="post-detail">
+                <a href="#">Làm thế nào để xây dựng 1 máy chủ WEB trên VPS Linux ???
+                </a>
+              </div>
+
+              <div class="post-info clearfix">
+                <div class="stats">
+                <span class="stats-item text-muted" data-tippy="" data-original-title="Views"
+                      aria-describedby="tippy-285">
+                <i aria-hidden="true" class="fa fa-eye"></i>&nbsp;44</span>
+                  <span class="stats-item text-muted" data-tippy="" data-original-title="Clips">
+                <i aria-hidden="true" class="fa fa-bookmark"></i>&nbsp;1</span>
+                  <span class="stats-item text-muted" data-tippy="" data-original-title="Comments">
+                <i aria-hidden="true" class="fa fa-comments"></i>&nbsp;1</span>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="post-right">
+              <div class="upvote text-muted">
+                <i class="fa fa-chevron-up"></i>
+                <p>0</p>
+                <i class="fa fa-chevron-down"></i>
+              </div>
+            </div>
+
+
+          </div>
+
+          <div class="post-item">
+
+            <div class="avatar">
+              <img src="https://bootstrapmade.com/wp-content/themefiles/Knight/400.png"
+                   alt="Squadfree – Free Bootstrap template for creative" class="img-responsive">
+            </div>
+
+            <div class="post-left">
+              <div class="post-author">
+                <span class="post-author-name"><b>Nguyễn Mạnh Cường</b></span>
+                <span class="post-time">&nbsp; đăng cách đây 2 giờ trước</span>
+                <!--<span class="text-muted"><i class="fa fa-bookmark float-right"></i></span>-->
+              </div>
+
+              <div class="post-detail">
+                <a href="#">Làm thế nào để xây dựng 1 máy chủ WEB trên VPS Linux ???
+                </a>
+              </div>
+
+              <div class="post-info clearfix">
+                <div class="stats">
+                <span class="stats-item text-muted" data-tippy="" data-original-title="Views"
+                      aria-describedby="tippy-285">
+                <i aria-hidden="true" class="fa fa-eye"></i>&nbsp;44</span>
+                  <span class="stats-item text-muted" data-tippy="" data-original-title="Clips">
+                <i aria-hidden="true" class="fa fa-bookmark"></i>&nbsp;1</span>
+                  <span class="stats-item text-muted" data-tippy="" data-original-title="Comments">
+                <i aria-hidden="true" class="fa fa-comments"></i>&nbsp;1</span>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="post-right">
+              <div class="upvote text-muted">
+                <i class="fa fa-chevron-up"></i>
+                <p>0</p>
+                <i class="fa fa-chevron-down"></i>
+              </div>
+            </div>
+
+
+          </div>
+
+          <div class="post-item">
+
+            <div class="avatar">
+              <img src="https://bootstrapmade.com/wp-content/themefiles/Knight/400.png"
+                   alt="Squadfree – Free Bootstrap template for creative" class="img-responsive">
+            </div>
+
+            <div class="post-left">
+              <div class="post-author">
+                <span class="post-author-name"><b>Nguyễn Mạnh Cường</b></span>
+                <span class="post-time">&nbsp; đăng cách đây 2 giờ trước</span>
+                <!--<span class="text-muted"><i class="fa fa-bookmark float-right"></i></span>-->
+              </div>
+
+              <div class="post-detail">
+                <a href="#">Làm thế nào để xây dựng 1 máy chủ WEB trên VPS Linux ???
+                </a>
+              </div>
+
+              <div class="post-info clearfix">
+                <div class="stats">
+                <span class="stats-item text-muted" data-tippy="" data-original-title="Views"
+                      aria-describedby="tippy-285">
+                <i aria-hidden="true" class="fa fa-eye"></i>&nbsp;44</span>
+                  <span class="stats-item text-muted" data-tippy="" data-original-title="Clips">
+                <i aria-hidden="true" class="fa fa-bookmark"></i>&nbsp;1</span>
+                  <span class="stats-item text-muted" data-tippy="" data-original-title="Comments">
+                <i aria-hidden="true" class="fa fa-comments"></i>&nbsp;1</span>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="post-right">
+              <div class="upvote text-muted">
+                <i class="fa fa-chevron-up"></i>
+                <p>0</p>
+                <i class="fa fa-chevron-down"></i>
+              </div>
+            </div>
+
+
+          </div>
+
+          <div class="post-item">
+
+            <div class="avatar">
+              <img src="https://bootstrapmade.com/wp-content/themefiles/Knight/400.png"
+                   alt="Squadfree – Free Bootstrap template for creative" class="img-responsive">
+            </div>
+
+            <div class="post-left">
+              <div class="post-author">
+                <span class="post-author-name"><b>Nguyễn Mạnh Cường</b></span>
+                <span class="post-time">&nbsp; đăng cách đây 2 giờ trước</span>
+                <!--<span class="text-muted"><i class="fa fa-bookmark float-right"></i></span>-->
+              </div>
+
+              <div class="post-detail">
+                <a href="#">Làm thế nào để xây dựng 1 máy chủ WEB trên VPS Linux ???
+                </a>
+              </div>
+
+              <div class="post-info clearfix">
+                <div class="stats">
+                <span class="stats-item text-muted" data-tippy="" data-original-title="Views"
+                      aria-describedby="tippy-285">
+                <i aria-hidden="true" class="fa fa-eye"></i>&nbsp;44</span>
+                  <span class="stats-item text-muted" data-tippy="" data-original-title="Clips">
+                <i aria-hidden="true" class="fa fa-bookmark"></i>&nbsp;1</span>
+                  <span class="stats-item text-muted" data-tippy="" data-original-title="Comments">
+                <i aria-hidden="true" class="fa fa-comments"></i>&nbsp;1</span>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="post-right">
+              <div class="upvote text-muted">
+                <i class="fa fa-chevron-up"></i>
+                <p>0</p>
+                <i class="fa fa-chevron-down"></i>
+              </div>
+            </div>
+
+
+          </div>
+
+          <div class="post-item">
+
+            <div class="avatar">
+              <img src="https://bootstrapmade.com/wp-content/themefiles/Knight/400.png"
+                   alt="Squadfree – Free Bootstrap template for creative" class="img-responsive">
+            </div>
+
+            <div class="post-left">
+              <div class="post-author">
+                <span class="post-author-name"><b>Nguyễn Mạnh Cường</b></span>
+                <span class="post-time">&nbsp; đăng cách đây 2 giờ trước</span>
+                <!--<span class="text-muted"><i class="fa fa-bookmark float-right"></i></span>-->
+              </div>
+
+              <div class="post-detail">
+                <a href="#">Làm thế nào để xây dựng 1 máy chủ WEB trên VPS Linux ???
+                </a>
+              </div>
+
+              <div class="post-info clearfix">
+                <div class="stats">
+                <span class="stats-item text-muted" data-tippy="" data-original-title="Views"
+                      aria-describedby="tippy-285">
+                <i aria-hidden="true" class="fa fa-eye"></i>&nbsp;44</span>
+                  <span class="stats-item text-muted" data-tippy="" data-original-title="Clips">
+                <i aria-hidden="true" class="fa fa-bookmark"></i>&nbsp;1</span>
+                  <span class="stats-item text-muted" data-tippy="" data-original-title="Comments">
+                <i aria-hidden="true" class="fa fa-comments"></i>&nbsp;1</span>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="post-right">
+              <div class="upvote text-muted">
+                <i class="fa fa-chevron-up"></i>
+                <p>0</p>
+                <i class="fa fa-chevron-down"></i>
+              </div>
+            </div>
+
+
+          </div>
+
+          <div class="post-item">
+
+            <div class="avatar">
+              <img src="https://bootstrapmade.com/wp-content/themefiles/Knight/400.png"
+                   alt="Squadfree – Free Bootstrap template for creative" class="img-responsive">
+            </div>
+
+            <div class="post-left">
+              <div class="post-author">
+                <span class="post-author-name"><b>Nguyễn Mạnh Cường</b></span>
+                <span class="post-time">&nbsp; đăng cách đây 2 giờ trước</span>
+                <!--<span class="text-muted"><i class="fa fa-bookmark float-right"></i></span>-->
+              </div>
+
+              <div class="post-detail">
+                <a href="#">Làm thế nào để xây dựng 1 máy chủ WEB trên VPS Linux ???
+                </a>
+              </div>
+
+              <div class="post-info clearfix">
+                <div class="stats">
+                <span class="stats-item text-muted" data-tippy="" data-original-title="Views"
+                      aria-describedby="tippy-285">
+                <i aria-hidden="true" class="fa fa-eye"></i>&nbsp;44</span>
+                  <span class="stats-item text-muted" data-tippy="" data-original-title="Clips">
+                <i aria-hidden="true" class="fa fa-bookmark"></i>&nbsp;1</span>
+                  <span class="stats-item text-muted" data-tippy="" data-original-title="Comments">
+                <i aria-hidden="true" class="fa fa-comments"></i>&nbsp;1</span>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="post-right">
+              <div class="upvote text-muted">
+                <i class="fa fa-chevron-up"></i>
+                <p>0</p>
                 <i class="fa fa-chevron-down"></i>
               </div>
             </div>

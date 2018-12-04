@@ -5,6 +5,10 @@ const routes: Routes = [
   {
     path: 'profile',
     loadChildren: './modules/profile/profile.module#ProfileModule'
+  },
+  {
+    path: 'post',
+    loadChildren: './modules/post/post.module#PostModule'
   }
 ];
 
