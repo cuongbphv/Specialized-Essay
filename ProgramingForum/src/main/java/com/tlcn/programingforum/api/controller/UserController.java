@@ -2,6 +2,7 @@ package com.tlcn.programingforum.api.controller;
 
 import com.tlcn.programingforum.api.AbstractBasedAPI;
 import com.tlcn.programingforum.api.model.request.UserRequest;
+import com.tlcn.programingforum.api.model.response.UserDetailResponse;
 import com.tlcn.programingforum.api.response.APIStatus;
 import com.tlcn.programingforum.auth.AuthUser;
 import com.tlcn.programingforum.exception.ApplicationException;
@@ -49,7 +50,7 @@ public class UserController extends AbstractBasedAPI {
 
     }
 
-    @RequestMapping(value = Constant.USER_SETTING, method = RequestMethod.GET)
+    @RequestMapping(value = Constant.USER_DETAIL, method = RequestMethod.GET)
     public ResponseEntity<RestAPIResponse> getDetailUser(
             HttpServletRequest request
     ) {
@@ -60,7 +61,21 @@ public class UserController extends AbstractBasedAPI {
         if (user == null) {
             throw new ApplicationException(APIStatus.ERR_USER_NOT_FOUND);
         }
-        return responseUtil.successResponse(user);
+        UserDetailResponse response = new UserDetailResponse();
+
+        response.setUserName(user.getUserName());
+        response.setFirstName(user.getFirstName());
+        response.setLastName(user.getLastName());
+        response.setEmail(user.getEmail());
+        response.setPhone(user.getPhone());
+        if(user.getCreateDate() != null && user.getLastActivity() != null) {
+            response.setCreateDate(user.getCreateDate());
+            response.setLastActivity(user.getLastActivity());
+        }
+        response.setSetting(user.getSetting());
+        response.setRole(user.getRole());
+
+        return responseUtil.successResponse(response);
 
     }
 

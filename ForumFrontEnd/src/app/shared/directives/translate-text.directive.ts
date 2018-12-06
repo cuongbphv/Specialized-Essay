@@ -14,8 +14,10 @@ export class TranslateTextDirective implements OnInit {
 
   @HostListener('document:click', ['$event'])
   onClick($event) {
-    if($event.target.id === 'en-lang' || $event.target.id === 'vi-lang'){
-      this.setText();
+    if($event.target.id === 'en' || $event.target.id === 'vi'){
+      this.translateService.use($event.target.id.toString()).then(() => {
+        this.setText();
+      });
     }
   }
 
@@ -24,8 +26,8 @@ export class TranslateTextDirective implements OnInit {
   }
 
   setText() {
-    this.el.nativeElement.textContent = this.textContent.split(".").reduce((prev, current) => {
-      return prev[current]
+    this.el.nativeElement.textContent = this.textContent.split('.').reduce((prev, current) => {
+      return prev[current];
     }, this.translateService.data);
   }
 

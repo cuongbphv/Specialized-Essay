@@ -11,6 +11,7 @@ export const API = {
   LOGOUT: BaseURL.AUTH_API + '/logout',
   // User API
   REGISTER_USER: BaseURL.USER_API + '/signup',
+  USER_DETAIL: BaseURL.USER_API + '/detail',
   GET_USER_PROFILE: BaseURL.AUTH_API + '/profile',
   AUTH_USER_PROFILE: '/auth/user',
   AUTH_USER_EMAIL: '/auth/check',

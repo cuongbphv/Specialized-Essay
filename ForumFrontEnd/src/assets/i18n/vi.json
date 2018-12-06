@@ -1,5 +1,6 @@
 {
   "title": "Diễn đàn chia sẻ kiến thức lập trình tổng hợp",
+  "logo": "Cộng đồng Shared",
   "home": "Trang chủ",
   "language": {
     "vi": "Tiếng Việt (vi)",
@@ -17,21 +18,25 @@
     "logout": "Đăng xuất",
     "register": "Đăng ký",
     "profile": "Trang cá nhân",
-    "setting": "Cài đặt"
+    "setting": "Cài đặt",
+    "notify": "Thông báo"
   },
   "post": {
     "store": "Lưu trữ",
     "new_post": "Viết bài"
   },
   "footer": {
-    "introduction": "Giới thiệu",
-    "about": "Thông tin",
+    "introduction": "GIỚI THIỆU",
+    "contact": "LIÊN HỆ",
+    "home": "Trang chủ",
     "term": "Chính sách & Điều khoản",
     "policy": "Chính sách",
+    "team": "Nhóm phát triển",
     "faq": "FAQ",
-    "subscribe": "Đăng ký",
-    "subscribe_now": "Đăng ký nhận thông báo",
-    "all_right": "Mọi bản quyền thuộc về"
+    "email": "Email",
+    "github": "Github",
+    "linkedin": "LinkedIn",
+    "all_right": "Mọi bản quyền thuộc về nhóm phát triển © 2018."
   },
   "label": {
     "registration": "Đăng ký",
@@ -55,7 +60,7 @@
     "policy": "Điều khoản và Chính sách Website",
     "sign_in_with": "Đăng nhập với",
     "or": "hoặc",
-    "no_account": "Bạn không có tài khoản?",
+    "no_account": "Bạn chưa có tài khoản?",
     "forgot_password": "Quên mật khẩu?"
   },
   "validation": {

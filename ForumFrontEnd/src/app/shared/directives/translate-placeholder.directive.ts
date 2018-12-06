@@ -14,8 +14,10 @@ export class TranslatePlaceholderDirective implements OnInit {
 
   @HostListener('document:click', ['$event'])
   onClick($event) {
-    if($event.target.id === 'en-lang' || $event.target.id === 'vi-lang'){
-      this.setTextPlaceHolder();
+    if($event.target.id === 'en' || $event.target.id === 'vi'){
+      this.translateService.use($event.target.id.toString()).then(() => {
+        this.setTextPlaceHolder();
+      });
     }
   }
 
@@ -24,8 +26,8 @@ export class TranslatePlaceholderDirective implements OnInit {
   }
 
   setTextPlaceHolder() {
-    this.el.nativeElement.placeholder = this.textPlaceHolder.split(".").reduce((prev, current) => {
-      return prev[current]
+    this.el.nativeElement.placeholder = this.textPlaceHolder.split('.').reduce((prev, current) => {
+      return prev[current];
     }, this.translateService.data);
   }
 

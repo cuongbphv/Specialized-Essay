@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 04, 2018 at 04:32 PM
+-- Generation Time: Nov 21, 2018 at 03:57 PM
 -- Server version: 5.7.21-log
 -- PHP Version: 5.6.35
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `programing_forum_v1`
+-- Database: `programing_forum_v2`
 --
 
 -- --------------------------------------------------------
@@ -37,8 +37,10 @@ CREATE TABLE IF NOT EXISTS `article` (
   `create_date` datetime DEFAULT NULL,
   `type` int(11) DEFAULT NULL,
   `right_answer_id` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `thumbnail` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `is_approved` bit(1) DEFAULT NULL,
   `user_id` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`article_id`,`user_id`),
+  PRIMARY KEY (`article_id`),
   KEY `fk_article_user1_idx` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -87,7 +89,7 @@ CREATE TABLE IF NOT EXISTS `comment` (
   `user_id` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `content` text COLLATE utf8_unicode_ci,
   `parent_id` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`article_id`,`user_id`,`comment_id`),
+  PRIMARY KEY (`comment_id`),
   KEY `fk_article_has_user_user3_idx` (`user_id`),
   KEY `fk_article_has_user_article3_idx` (`article_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -95,17 +97,17 @@ CREATE TABLE IF NOT EXISTS `comment` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `follow`
+-- Table structure for table `comment_interact`
 --
 
-DROP TABLE IF EXISTS `follow`;
-CREATE TABLE IF NOT EXISTS `follow` (
+DROP TABLE IF EXISTS `comment_interact`;
+CREATE TABLE IF NOT EXISTS `comment_interact` (
+  `comment_id` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `user_id` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
-  `follow_user_id` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
-  `create_date` datetime DEFAULT NULL,
-  PRIMARY KEY (`user_id`,`follow_user_id`),
-  KEY `fk_user_has_user_user2_idx` (`follow_user_id`),
-  KEY `fk_user_has_user_user1_idx` (`user_id`)
+  `rating` int(11) DEFAULT NULL,
+  PRIMARY KEY (`comment_id`,`user_id`),
+  KEY `fk_comment_has_user_user1_idx` (`user_id`),
+  KEY `fk_comment_has_user_comment1_idx` (`comment_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -127,6 +129,22 @@ CREATE TABLE IF NOT EXISTS `follow_tag` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `follow_user`
+--
+
+DROP TABLE IF EXISTS `follow_user`;
+CREATE TABLE IF NOT EXISTS `follow_user` (
+  `user_id` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `follow_user_id` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `create_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`user_id`,`follow_user_id`),
+  KEY `fk_user_has_user_user2_idx` (`follow_user_id`),
+  KEY `fk_user_has_user_user1_idx` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `notification`
 --
 
@@ -138,9 +156,24 @@ CREATE TABLE IF NOT EXISTS `notification` (
   `data` text COLLATE utf8_unicode_ci,
   `create_date` datetime DEFAULT NULL,
   `status` int(11) DEFAULT NULL,
-  PRIMARY KEY (`from_user_id`,`to_user_id`),
   KEY `fk_user_has_user_user4_idx` (`to_user_id`),
   KEY `fk_user_has_user_user3_idx` (`from_user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `report_artical`
+--
+
+DROP TABLE IF EXISTS `report_artical`;
+CREATE TABLE IF NOT EXISTS `report_artical` (
+  `article_id` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `user_id` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `reason` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`article_id`,`user_id`),
+  KEY `fk_article_has_user_user2_idx` (`user_id`),
+  KEY `fk_article_has_user_article2_idx` (`article_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -172,7 +205,7 @@ CREATE TABLE IF NOT EXISTS `session` (
   `login_date` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
   `session_data` varchar(1000) COLLATE utf8_unicode_ci DEFAULT NULL,
   `user_id` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`token_id`,`user_id`),
+  PRIMARY KEY (`token_id`),
   KEY `fk_session_user1_idx` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -194,11 +227,11 @@ CREATE TABLE IF NOT EXISTS `tag` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tag_has_article`
+-- Table structure for table `tag_artical`
 --
 
-DROP TABLE IF EXISTS `tag_has_article`;
-CREATE TABLE IF NOT EXISTS `tag_has_article` (
+DROP TABLE IF EXISTS `tag_artical`;
+CREATE TABLE IF NOT EXISTS `tag_artical` (
   `tag_id` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `article_id` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`tag_id`,`article_id`),
@@ -248,8 +281,8 @@ CREATE TABLE IF NOT EXISTS `user_profile` (
   `degree` varchar(3000) COLLATE utf8_unicode_ci DEFAULT NULL,
   `avatar` text COLLATE utf8_unicode_ci,
   `user_id` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`user_profile_id`,`user_id`),
-  KEY `fk_user_profile_user_idx` (`user_id`)
+  PRIMARY KEY (`user_profile_id`),
+  KEY `fk_user_profile_user1_idx` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -277,11 +310,11 @@ ALTER TABLE `comment`
   ADD CONSTRAINT `fk_article_has_user_user3` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Constraints for table `follow`
+-- Constraints for table `comment_interact`
 --
-ALTER TABLE `follow`
-  ADD CONSTRAINT `fk_user_has_user_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_user_has_user_user2` FOREIGN KEY (`follow_user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `comment_interact`
+  ADD CONSTRAINT `fk_comment_has_user_comment1` FOREIGN KEY (`comment_id`) REFERENCES `comment` (`comment_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_comment_has_user_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `follow_tag`
@@ -291,11 +324,25 @@ ALTER TABLE `follow_tag`
   ADD CONSTRAINT `fk_tag_has_user_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
+-- Constraints for table `follow_user`
+--
+ALTER TABLE `follow_user`
+  ADD CONSTRAINT `fk_user_has_user_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_user_has_user_user2` FOREIGN KEY (`follow_user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
 -- Constraints for table `notification`
 --
 ALTER TABLE `notification`
   ADD CONSTRAINT `fk_user_has_user_user3` FOREIGN KEY (`from_user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_user_has_user_user4` FOREIGN KEY (`to_user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `report_artical`
+--
+ALTER TABLE `report_artical`
+  ADD CONSTRAINT `fk_article_has_user_article2` FOREIGN KEY (`article_id`) REFERENCES `article` (`article_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_article_has_user_user2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `reward`
@@ -311,9 +358,9 @@ ALTER TABLE `session`
   ADD CONSTRAINT `fk_session_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Constraints for table `tag_has_article`
+-- Constraints for table `tag_artical`
 --
-ALTER TABLE `tag_has_article`
+ALTER TABLE `tag_artical`
   ADD CONSTRAINT `fk_tag_has_article_article1` FOREIGN KEY (`article_id`) REFERENCES `article` (`article_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_tag_has_article_tag1` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`tag_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
@@ -321,7 +368,7 @@ ALTER TABLE `tag_has_article`
 -- Constraints for table `user_profile`
 --
 ALTER TABLE `user_profile`
-  ADD CONSTRAINT `fk_user_profile_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_user_profile_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

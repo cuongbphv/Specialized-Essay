@@ -1,5 +1,6 @@
 {
   "title": "Shared Programming Collection Forum",
+  "logo": "Shared Community",
   "home": "Home",
   "language": {
     "vi": "Vietnamese (vi)",
@@ -17,21 +18,25 @@
     "logout": "Logout",
     "register": "Register",
     "profile": "My Profile",
-    "setting": "Settings"
+    "setting": "Settings",
+    "notify": "Notification"
   },
   "post": {
     "store": "Store",
     "new_post": "New Post"
   },
   "footer": {
-    "introduction": "Introduction",
-    "about": "About",
+    "introduction": "INTRODUCTION",
+    "contact": "CONTACT",
+    "home": "Home",
     "term": "Term & Policy",
     "policy": "Policy",
+    "team": "Developer Team",
     "faq": "FAQ",
-    "subscribe": "Subscribe",
-    "subscribe_now": "Subscribe Now",
-    "all_right": "All Right Reversed by"
+    "email": "Email",
+    "github": "Github",
+    "linkedin": "LinkedIn",
+    "all_right": "Copyright © 2018. All right reserved."
   },
   "label": {
     "registration": "Registration",
