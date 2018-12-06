@@ -5,22 +5,22 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../shared';
 import { PostRoutingModule } from './post.routing';
 
-import { SimplemdeModule, SIMPLEMDE_CONFIG } from 'ng2-simplemde'
+import { LMarkdownEditorModule } from 'ngx-markdown-editor';
 
 // Components
 import { CreatePostComponent } from './create/create-post.component';
+import { PostDetailComponent } from './detail/post-detail.component';
 
 @NgModule({
   imports: [
     CommonModule,
     PostRoutingModule,
     SharedModule,
-    SimplemdeModule.forRoot({
-      provide: SIMPLEMDE_CONFIG
-    })
+    LMarkdownEditorModule
   ],
   declarations: [
-    CreatePostComponent
+    CreatePostComponent,
+    PostDetailComponent
   ],
   providers: []
 })

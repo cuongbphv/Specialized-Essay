@@ -15,4 +15,8 @@ export class CreatePostComponent {
     public translate: TranslateService
   ) {}
 
+  preRenderFunc(content: string) {
+    return content.replace(/something/g, 'new value'); // must return a string
+  }
+
 }
