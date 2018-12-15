@@ -1,8 +1,24 @@
 <main>
-  <div class="col-xs-12">
-    <input class="form-control" type="text" placeholder="Nhập tiêu đề bài viết">
+
+  <div class="container-fluid">
+    <div class="col-xs-12">
+      <input class="form-control" type="text" textPlaceHolder="post.placeholder_title">
+    </div>
+
+    <!--<div class="input-categories">-->
+      <!--<ul>-->
+        <!--<li>CSS</li>-->
+        <!--<li>PHP</li>-->
+      <!--</ul>-->
+      <!--<input type="text"/>-->
+    <!--</div>-->
+
+    <div id="editor-area">
+      <md-editor name="Content" [preRender]="this.preRenderFunc" [(ngModel)]="content" [height]="'500px'"
+                 [mode]="mode" [options]="options" maxlength="5000"></md-editor>
+    </div>
+
   </div>
-  <md-editor name="Content" [preRender]="this.preRenderFunc" [(ngModel)]="content" [height]="'500px'"
-             [mode]="mode" [options]="options" maxlength="5000"></md-editor>
+
 </main>
 

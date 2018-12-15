@@ -23,7 +23,8 @@
   },
   "post": {
     "store": "Store",
-    "new_post": "New Post"
+    "new_post": "New Post",
+    "placeholder_title": "Please input post's title"
   },
   "footer": {
     "introduction": "INTRODUCTION",
