@@ -61,7 +61,18 @@
     "sign_in_with": "Đăng nhập với",
     "or": "hoặc",
     "no_account": "Bạn chưa có tài khoản?",
-    "forgot_password": "Quên mật khẩu?"
+    "forgot_password": "Quên mật khẩu?",
+    "phone_no": "Số điện thoại",
+    "description": "Mô tả",
+    "get_started": {
+      "step": "Bước",
+      "your_account_info": "Thông tin tài khoản",
+      "your_profile": "Thông tin của bạn",
+      "your_favourite_topic": "Chọn chủ đề yêu thích",
+      "top_author": "Top tác giả",
+      "skip_step": "Bỏ qua bước này",
+      "done": "Hoàn tất"
+    }
   },
   "validation": {
     "first_name": {
@@ -87,11 +98,17 @@
     },
     "confirm_password": {
       "invalid": "Xác nhận mật khẩu không đúng"
+    },
+    "phone_no": {
+      "pattern": "Số điện thoại không hợp lệ"
     }
   },
   "button": {
     "submit": "XÁC NHẬN",
     "login": "ĐĂNG NHẬP",
-    "register": "ĐĂNG KÝ"
+    "register": "ĐĂNG KÝ",
+    "change": "Thay đổi",
+    "follow": "Theo dõi",
+    "done": "Hoàn thành"
   }
 }

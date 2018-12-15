@@ -18,6 +18,7 @@ import {
   GoogleLoginProvider,
   FacebookLoginProvider,
 } from 'angular-6-social-login';
+import {UserModule} from './modules/user/user.module';
 
 
 // Configs
@@ -57,6 +58,7 @@ export function setupTranslateFactory(service: TranslateService): Function {
     HomeModule,
     CoreModule,
     SocialLoginModule,
+    UserModule,
     AppRoutingModule,
     ToastrModule.forRoot({
       timeOut: 4000,

@@ -1,7 +1,10 @@
 
 package com.tlcn.programingforum.util;
 
+import org.springframework.beans.factory.annotation.Value;
+
 public interface Constant {
+
 
 
     /**
@@ -17,6 +20,7 @@ public interface Constant {
     public static final String ADMIN_GRANT_API = "/admin/grant/{code}";
     public static final String AUTH_ADMIN_INFO = "/admin";
     public static final String USER_LOGIN_API = "/login";
+    public static final String SOCIAL_LOGIN_API = "/social_login";
     public static final String LOGOUT_API = "/logout";
     public static final String AUTH_USER_INFO = "/user";
     public static final String REFRESH_TOKEN = "/refresh";
@@ -64,6 +68,11 @@ public interface Constant {
     // Auth expire time
     public static final long DEFAULT_REMEMBER_LOGIN_MILISECONDS = 1296000000; // 15 days
     public static final long DEFAULT_SESSION_TIME_OUT = 1800000; // 30 minutes
+
+    //Social Login
+    public static final String CHECK_FACEBOOK_ACCESS_TOKEN_HEAD = "https://graph.facebook.com/debug_token?access_token=";
+    public static final String CHECK_FACEBOOK_ACCESS_TOKEN_TAIL = "&input_token=";
+    public static final String CHECK_GOOGLE_ACCESS_TOKEN = "https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=";
 
 
     public enum Status{

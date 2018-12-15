@@ -4,6 +4,7 @@ export interface User {
     firstName: string;
     email: string;
     phone: string;
+    lang: string;
     role: string;
     createDate: Date;
     lastActivity: Date;

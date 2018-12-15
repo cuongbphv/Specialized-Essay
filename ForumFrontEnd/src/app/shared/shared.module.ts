@@ -7,7 +7,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { TranslateTextDirective, TranslatePlaceholderDirective } from './directives';
 import { TranslatePipe } from './pipes';
 import { AdminGuard, ModeratorGuard, UserGuard } from '../core/guards';
-import { SessionService, DataService, AuthBaseService } from '../core/services';
+import {SessionService, DataService, AuthBaseService, UserService} from '../core/services';
+import {ShowAuthedDirective} from './directives';
 
 @NgModule({
   imports: [
@@ -19,12 +20,14 @@ import { SessionService, DataService, AuthBaseService } from '../core/services';
   declarations: [
     TranslatePipe,
     TranslateTextDirective,
-    TranslatePlaceholderDirective
+    TranslatePlaceholderDirective,
+    ShowAuthedDirective
   ],
   exports: [
     FormsModule,
     RouterModule,
     TranslatePipe,
+    ShowAuthedDirective,
     TranslateTextDirective,
     TranslatePlaceholderDirective
   ],
@@ -35,7 +38,8 @@ import { SessionService, DataService, AuthBaseService } from '../core/services';
     ModeratorGuard,
     UserGuard,
     SessionService,
-    DataService
+    DataService,
+    UserService
   ]
 })
 

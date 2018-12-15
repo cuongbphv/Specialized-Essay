@@ -4,4 +4,11 @@ export const AppConfig = {
 
   SESSION_COOKIES: 'AccessToken',
 
+  USER_COOKIES: 'User',
+
+  ROLE_ADMIN: 'ADMIN',
+
+  ROLE_MODERATOR: 'MODERATOR',
+
+  ROLE_USER: 'USER',
 };

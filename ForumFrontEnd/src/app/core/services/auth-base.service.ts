@@ -10,6 +10,8 @@ import {FacebookLoginProvider, GoogleLoginProvider, AuthService} from 'angular-6
 import {HttpParams} from '@angular/common/http';
 import {SessionService} from './session.service';
 import {rootRoute} from '@angular/router/src/router_module';
+import {UserService} from './user.service';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class AuthBaseService {
@@ -24,52 +26,71 @@ export class AuthBaseService {
     private security: SecurityService,
     private apiService: ApiService,
     private socialAuthService: AuthService,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private userService: UserService,
+    private router: Router
   ) {
   }
 
   register(user: any): Observable<any> {
+
     return this.apiService.post(API.REGISTER_USER, {
       firstName: user.firstName,
       lastName: user.lastName,
-      userName: user.username,
-      email: user.email,
-      passwordHash: this.security.MD5Hash(user.password)
+      userName: user.userName,
+      email: user.emailAddress,
+      passwordHash: this.security.MD5Hash(user.password),
+      userId: user.userId || null,
+      phone: user.phone || null,
+      lang: user.lang || null,
+      setting: user.setting || null
     }).pipe(map(res => res));
   }
 
   isLoggedIn(){
-    if (this.user !== null) {
-      return true;
-    }
-    return false;
+    return this.user !== null;
   }
 
   logout() {
+    this.userService.purgeUser();
+    this.sessionService.destroyAccessToken();
+    this.router.navigate(["login"]);
+  }
+
+  socialLogin(username: string, token: string, provider: string){
+    return this.apiService.post(API.USER_SOCIAL_LOGIN, {
+      account: username,
+      token: token,
+      provider: provider
+    }).pipe(map(res => res))
+      .subscribe(data => {
+        if (data.status === 200) {
+          // set token for login session
+          this.sessionService.setAccessToken(data.data);
+          this.userService.populate();
+        }
+      });
   }
 
   login(username: string, password: string) {
-    return this.apiService.post(API.USER_LOGIN, {
+    this.apiService.post(API.USER_LOGIN, {
       account: username,
       passwordHash: this.security.MD5Hash(password)
-    }).pipe(map(res => {
-      if (res.status === 200) {
-        // set token for login session
-        this.sessionService.setAccessToken(res.data);
-        console.log(res.data);
-        // get user detail by token
-        this.getLoggedInUser();
-      }
-    }));
+    }).pipe(map(res => res))
+      .subscribe(data => {
+        if (data.status === 200) {
+          // set token for login session
+          this.sessionService.setAccessToken(data.data);
+          this.userService.populate();
+        }
+      });
   }
 
   getLoggedInUser(): Observable<User> {
 
     this.apiService.get(API.USER_DETAIL).pipe(map(res => {
       this.user = res.data;
-      this.userDetails = res.data;
-      console.log(this.userDetails);
-    })).subscribe();
+    }));
 
     return this.user;
   }

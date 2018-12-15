@@ -153,6 +153,9 @@ public class UserController extends AbstractBasedAPI {
             HttpServletRequest request,
             @RequestBody UserRequest userRequest
     ) throws NoSuchAlgorithmException {
+
+        validateParam(userRequest);
+
         //check exist user
         if (userService.findByEmailAndStatus(userRequest.getEmail(), Constant.Status.ACTIVE.getValue()) != null) {
             throw new ApplicationException(APIStatus.ERR_EMAIL_ALREADY_EXISTS);
@@ -174,6 +177,10 @@ public class UserController extends AbstractBasedAPI {
 
         User user = new User();
 
+        if(userRequest.getUserId() != null && !userRequest.getUserId().equals("")){
+            user.setUserId(userRequest.getUserId());
+        }
+
         user.setFirstName(userRequest.getFirstName());
         user.setLastName(userRequest.getLastName());
         user.setUserName(userRequest.getUserName());
@@ -186,6 +193,7 @@ public class UserController extends AbstractBasedAPI {
         user.setSalt(salt);
         user.setRole(Constant.SystemRole.USER.getName());
         user.setPasswordHash(MD5Hash.MD5Encrypt(userRequest.getPasswordHash() + salt));
+
 
         if (userService.saveUser(user) != null) {
             return user;
@@ -202,12 +210,6 @@ public class UserController extends AbstractBasedAPI {
             }
         } catch (Exception e) {
             throw new ApplicationException(APIStatus.ERR_EMAIL_INVALID);
-        }
-
-        if (userRequest.getPasswordHash() != null) { // conditional for update user
-            if (!userRequest.getPasswordHash().equals(userRequest.getConfirmPassword())) {
-                throw new ApplicationException(APIStatus.ERR_PASSWORD_NOT_MATCH);
-            }
         }
     }
 

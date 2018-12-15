@@ -14,7 +14,7 @@
       </ul>
       <!-- Links -->
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item" *ngIf="authBaseService.isLoggedIn()">
+        <li class="nav-item" *appShowAuthed="true">
           <div class="item-icon">
             <a class="nav-link" href="javascript:;;" [routerLink]="['/posts/new']">
               <i class="fa fa-pencil"></i>
@@ -23,7 +23,7 @@
           </div>
 
         </li>
-        <li class="nav-item" *ngIf="authBaseService.isLoggedIn()">
+        <li class="nav-item" *appShowAuthed="true">
           <div class="item-icon">
             <a class="nav-link" href="javascript:;;" [routerLink]="['/products/cart-items']">
               <i class="fa fa-archive"></i>
@@ -32,7 +32,7 @@
           </div>
         </li>
 
-        <li class="nav-item active" *ngIf="authBaseService.isLoggedIn()">
+        <li class="nav-item active" *appShowAuthed="true">
           <a class="nav-link" href="javascript:;;">
             <i class="fa fa-envelope mr-2"></i>
             <span class="sr-only">(current)</span>
@@ -40,16 +40,16 @@
           </a>
         </li>
 
-        <li class="nav-item button-login" *ngIf="!authBaseService.isLoggedIn()">
+        <li class="nav-item button-login" *appShowAuthed="false">
           <a class="nav-link" href="javascript:;;" [routerLink]="['/login']">
             <i class="fa fa-sign-in mr-1"></i> <span textContent="user.login"></span></a>
         </li>
 
-        <li class="nav-item dropdown" *ngIf="authBaseService.isLoggedIn()">
+        <li class="nav-item dropdown" *appShowAuthed="true">
           <a class="nav-link dropdown-toggle waves-light" href="#" id="drdAccount" role="button"
              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-user-circle"></i>
-            <span>{{" " + authBaseService.userDetails.firstName + " " + authBaseService.userDetails.lastName}}</span>
+            <span *ngIf="currentUser !== null">{{" " + currentUser.firstName + " " + currentUser.lastName}}</span>
             <span class="caret"></span>
           </a>
           <div class="dropdown-menu dropdown dropdown-primary" aria-labelledby="drdAccount" role="menu">

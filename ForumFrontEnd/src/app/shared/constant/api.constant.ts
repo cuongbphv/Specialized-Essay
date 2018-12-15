@@ -8,6 +8,7 @@ const BaseURL = {
 export const API = {
   // Auth API
   USER_LOGIN: BaseURL.AUTH_API + '/login',
+  USER_SOCIAL_LOGIN: BaseURL.AUTH_API + '/social_login',
   LOGOUT: BaseURL.AUTH_API + '/logout',
   // User API
   REGISTER_USER: BaseURL.USER_API + '/signup',

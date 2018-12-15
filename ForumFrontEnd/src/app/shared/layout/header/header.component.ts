@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { AuthBaseService } from '../../../core/services';
+import {AuthBaseService, UserService} from '../../../core/services';
 import { ToastrService } from 'ngx-toastr';
+import {User} from '../../../core/models';
 
 @Component({
   selector: 'app-header',
@@ -9,12 +10,23 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+
+  currentUser: User;
+
   constructor(
     public authBaseService: AuthBaseService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    public userService: UserService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.userService.currentUser.subscribe(
+      (userData) => {
+        this.currentUser = userData;
+        console.log(this.currentUser);
+      }
+    );
+  }
 
   setLang(lang) {
     if(lang === 'en') {

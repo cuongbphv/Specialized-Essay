@@ -39,6 +39,7 @@ public enum APIStatus {
     ERR_INCORRECT_MODEL_DATA(700, "Incorrect model data"),
     ERR_USER_NOT_FOUND(701, "User not found."),
     ERR_PASSWORD_NOT_MATCH(702, "Password doesn't match"),
+    ERR_TOKEN_NOT_MATCH(702, "Token doesn't match"),
     ERR_EMAIL_ALREADY_EXISTS(703, "Email already exists"),
     ERR_CREATE_USER(704, "Create User fail"),
     ERR_EMAIL_INVALID(705, "Email is invalid"),
