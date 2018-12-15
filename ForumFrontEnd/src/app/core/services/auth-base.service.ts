@@ -9,7 +9,6 @@ import {ApiService} from './api.service';
 import {FacebookLoginProvider, GoogleLoginProvider, AuthService} from 'angular-6-social-login';
 import {HttpParams} from '@angular/common/http';
 import {SessionService} from './session.service';
-import {rootRoute} from '@angular/router/src/router_module';
 import {UserService} from './user.service';
 import {Router} from '@angular/router';
 

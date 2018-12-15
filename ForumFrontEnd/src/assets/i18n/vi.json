@@ -23,7 +23,8 @@
   },
   "post": {
     "store": "Lưu trữ",
-    "new_post": "Viết bài"
+    "new_post": "Viết bài",
+    "placeholder_title": "Nhập tiêu đề bài viết"
   },
   "footer": {
     "introduction": "GIỚI THIỆU",
