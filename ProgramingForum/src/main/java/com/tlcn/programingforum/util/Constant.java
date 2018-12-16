@@ -44,6 +44,9 @@ public interface Constant {
     //Profile management
     public static final String PROFILE_API = API_PREFIX + "/profile";
 
+    //Post management
+    String ARTICLE_CONTROLLER = API_PREFIX + "/article";
+
     // Request Content Type
     public static final String APPLICATION_JSON_CONTENT_TYPE = "application/json";
     public static final String APPLICATION_URL_ENCODED = "application/x-www-form-urlencoded";
