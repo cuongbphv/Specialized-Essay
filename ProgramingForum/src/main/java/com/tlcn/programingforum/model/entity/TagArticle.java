@@ -8,9 +8,7 @@ import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -27,10 +25,6 @@ import java.io.Serializable;
 @Table(name = "tag_article")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class TagArticle implements Serializable {
-
-    @Id
-    private String tagId;
-    @Id
-    private String articleId;
-
+    @EmbeddedId
+    private TagArticlePK id;
 }

@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 
 import {AuthBaseService, TranslateService, UserService} from '../../../core/services';
 import * as $ from 'jquery';
+import {ArticleService} from '../../../core/services/article.service';
 
 @Component({
   selector: 'create-post',
@@ -15,12 +16,13 @@ export class CreatePostComponent implements OnInit {
     title: '',
     content: '',
     tags: [],
-    userId: ''
+    userId: '',
+    type: 1
   };
 
   constructor(
     public translate: TranslateService,
-    public userService: UserService
+    public articleService: ArticleService
   ) {
 
   }
@@ -47,4 +49,7 @@ export class CreatePostComponent implements OnInit {
     return this.post.tags.includes(tag);
   }
 
+  createArticle() {
+    this.articleService.createPost(this.post);
+  }
 }

@@ -8,6 +8,7 @@ import com.tlcn.programingforum.model.RestAPIResponse;
 import com.tlcn.programingforum.model.entity.Article;
 import com.tlcn.programingforum.model.entity.Tag;
 import com.tlcn.programingforum.model.entity.TagArticle;
+import com.tlcn.programingforum.model.entity.TagArticlePK;
 import com.tlcn.programingforum.service.ArticleService;
 import com.tlcn.programingforum.service.TagArticleService;
 import com.tlcn.programingforum.service.TagService;
@@ -52,17 +53,19 @@ public class ArticleController extends AbstractBasedAPI {
         List<Tag> tagList = tagService.findAllTags();
         List<String> tagIds = new ArrayList<>();
 
-        for(String tag : articleRequest.getTags()) {
-            for(Tag thisTag : tagList) {
-                if (!thisTag.getTagName().equals(tag)) {
-                    Tag newTag = new Tag();
-                    newTag.setTagName(tag);
-                    newTag.setDescription("");
-                    tagIds.add(tagService.saveTag(newTag).getTagId());
+        for(String tagOfArticle : articleRequest.getTags()) {
+            boolean existed = false;
+            for(Tag tag : tagList) {
+                if(tag.getTagName().equals(tagOfArticle)) {
+                    tagIds.add(tag.getTagId());
+                    existed = true;
                 }
-                else {
-                    tagIds.add(thisTag.getTagId());
-                }
+            }
+            if(!existed) {
+                Tag newTag = new Tag();
+                newTag.setTagName(tagOfArticle);
+                newTag.setDescription("");
+                tagIds.add(tagService.saveTag(newTag).getTagId());
             }
         }
 
@@ -77,8 +80,10 @@ public class ArticleController extends AbstractBasedAPI {
         // add to tag_article
         for(String tagId : tagIds) {
             TagArticle tagArticle = new TagArticle();
-            tagArticle.setTagId(tagId);
-            tagArticle.setArticleId(savedArticle.getArticleId());
+            TagArticlePK tagArticlePK = new TagArticlePK();
+            tagArticlePK.setTagId(tagId);
+            tagArticlePK.setArticleId(savedArticle.getArticleId());
+            tagArticle.setId(tagArticlePK);
             tagArticleService.saveTagArticle(tagArticle);
         }
 

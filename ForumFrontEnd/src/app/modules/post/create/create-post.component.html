@@ -7,10 +7,9 @@
 
     <div class="form-row" style="margin-top: 5px;">
       <div class="col-xs-12 col-md-3">
-        <select class="form-control">
-          <option>Choose type of post</option>
-          <option value="1">Article</option>
-          <option value="2">Question</option>
+        <select class="form-control" [(ngModel)]="post.type" [value]="post.type">
+          <option value="1" textContent="post.article"></option>
+          <option value="2" textContent="post.question"></option>
         </select>
       </div>
 
@@ -18,7 +17,7 @@
         <div class="tags-input">
           <span class="tag" *ngFor="let tag of this.post.tags; let i = index;">
             {{tag}}<span data-role="remove-tag" (click)="removeTag(i)"></span></span>
-          <input type="text" data-role="add-tag"/>
+          <input type="text" data-role="add-tag" textPlaceHolder="post.placeholder_tag"/>
         </div>
       </div>
     </div>
@@ -34,7 +33,8 @@
       <div class="form-check">
         <input class="form-check-input" type="checkbox" id="checkUploadFb">
         <label class="form-check-label" for="checkUploadFb">Share to Facebook now</label>
-        <button class="btn btn-shared float-right text-white">POST</button>
+        <button class="btn btn-shared float-right text-white" textContent="button.post"
+                (click)="createArticle()"></button>
       </div>
     </div>
 

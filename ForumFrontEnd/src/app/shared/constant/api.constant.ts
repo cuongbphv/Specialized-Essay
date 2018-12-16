@@ -3,6 +3,7 @@ import {AppConfig} from './app-config.constant';
 const BaseURL = {
   AUTH_API: '/auth',
   USER_API: '/user',
+  ARTICLE_API: '/article'
 };
 
 export const API = {
@@ -17,6 +18,10 @@ export const API = {
   AUTH_USER_PROFILE: '/auth/user',
   AUTH_USER_EMAIL: '/auth/check',
 
-  GET_USER: BaseURL.USER_API + "/"
+  GET_USER: BaseURL.USER_API + "/",
+
+  // Article Management
+  CREATE_ARTICLE: BaseURL.ARTICLE_API
+
 
 };
