@@ -19,6 +19,6 @@ public class ArticleRequest {
     private String title;
     private List<String> tags;
     private String content;
-    private int type;
+    private String type;
     private String userId;
 }

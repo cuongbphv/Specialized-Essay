@@ -17,8 +17,8 @@ export class RegisterComponent implements OnInit {
   user: any = {
     firstName: '',
     lastName: '',
-    email: '',
-    username: '',
+    emailAddress: '',
+    userName: '',
     password: ''
   };
 

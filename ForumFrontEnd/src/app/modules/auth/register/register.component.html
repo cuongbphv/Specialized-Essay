@@ -53,7 +53,7 @@
                  [class.cross-validation-error]="username.touched || username.dirty">
               <input id="username" name="username" placeholder="{{this.translate.data.label.username | translate}}"
                      class="form-control" required="required" type="text" [minlength]="3"
-                     #username="ngModel" [(ngModel)]="user.username" [required]="true" [pattern]="usernamePattern">
+                     #username="ngModel" [(ngModel)]="user.userName" [required]="true" [pattern]="usernamePattern">
 
               <div *ngIf="username.touched">
                 <span class="help-block" *ngIf="username.value === ''">
@@ -72,7 +72,7 @@
                  [class.cross-validation-error]="email.touched || email.dirty">
               <input type="email" class="form-control" id="email" name="email"
                      placeholder="{{this.translate.data.label.email | translate}}"
-                     #email="ngModel" [(ngModel)]="user.email" [required]="true" [pattern]="emailPattern">
+                     #email="ngModel" [(ngModel)]="user.emailAddress" [required]="true" [pattern]="emailPattern">
 
               <div *ngIf="email.touched">
                 <span class="help-block" *ngIf="email.value === ''">

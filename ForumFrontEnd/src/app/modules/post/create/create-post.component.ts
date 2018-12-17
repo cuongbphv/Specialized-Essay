@@ -22,7 +22,8 @@ export class CreatePostComponent implements OnInit {
 
   constructor(
     public translate: TranslateService,
-    public articleService: ArticleService
+    public articleService: ArticleService,
+    public userService: UserService
   ) {
 
   }
@@ -50,6 +51,8 @@ export class CreatePostComponent implements OnInit {
   }
 
   createArticle() {
-    this.articleService.createPost(this.post);
+    this.post.userId = 'f3dd855a569e4c5997dfb4a4849d2c16';
+    console.log(this.post);
+    this.articleService.createPost(this.post).subscribe(data => console.log(data));
   }
 }

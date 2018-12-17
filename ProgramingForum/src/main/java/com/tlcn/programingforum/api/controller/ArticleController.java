@@ -2,6 +2,7 @@ package com.tlcn.programingforum.api.controller;
 
 import com.tlcn.programingforum.api.AbstractBasedAPI;
 import com.tlcn.programingforum.api.model.request.ArticleRequest;
+import com.tlcn.programingforum.api.model.response.ArticleResponse;
 import com.tlcn.programingforum.api.response.APIStatus;
 import com.tlcn.programingforum.exception.ApplicationException;
 import com.tlcn.programingforum.model.RestAPIResponse;
@@ -15,10 +16,7 @@ import com.tlcn.programingforum.service.TagService;
 import com.tlcn.programingforum.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -73,7 +71,8 @@ public class ArticleController extends AbstractBasedAPI {
         article.setTitle(articleRequest.getTitle());
         article.setContent(articleRequest.getContent());
         article.setUserId(articleRequest.getUserId());
-        article.setType(articleRequest.getType());
+        article.setType(Integer.parseInt(articleRequest.getType()));
+        article.setStatus(Constant.Status.ACTIVE.getValue());
 
         Article savedArticle = articleService.saveArticle(article);
 
@@ -88,6 +87,37 @@ public class ArticleController extends AbstractBasedAPI {
         }
 
         return responseUtil.successResponse(article);
+    }
+
+
+    @RequestMapping(path = Constant.WITHIN_ID , method = RequestMethod.GET)
+    public ResponseEntity<RestAPIResponse> getDetailArticle(
+            HttpServletRequest request,
+            @RequestParam("id") String articleId) {
+
+        Article article = articleService.getDetailArticle(articleId,
+                Constant.Status.ACTIVE.getValue());
+
+        if (article == null) {
+            throw new ApplicationException(APIStatus.ERR_ARTICLE_NOT_FOUND);
+        }
+
+        List<TagArticle> tagArticleList = tagArticleService.findByArticleId(articleId);
+        List<Tag> tagList = new ArrayList<>();
+        for(TagArticle tagArticle : tagArticleList) {
+            tagList.add(tagService.findTagById(tagArticle.getId().getTagId()));
+        }
+
+        ArticleResponse response = new ArticleResponse();
+        response.setArticleId(article.getArticleId());
+        response.setContent(article.getContent());
+        response.setTitle(article.getTitle());
+        response.setType(article.getType());
+        response.setUserId(article.getUserId());
+        response.setTagList(tagList);
+
+        return responseUtil.successResponse(response);
+
     }
 
 }

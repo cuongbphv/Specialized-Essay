@@ -14,5 +14,5 @@ import java.util.List;
 @Transactional
 @Repository
 public interface TagRepository extends CrudRepository<Tag, String> {
-
+    Tag findByTagId(String tagId);
 }

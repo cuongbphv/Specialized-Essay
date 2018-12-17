@@ -8,4 +8,6 @@ import com.tlcn.programingforum.model.entity.Article;
 public interface ArticleService {
 
     Article saveArticle(Article article);
+
+    Article getDetailArticle(String article, int status);
 }
