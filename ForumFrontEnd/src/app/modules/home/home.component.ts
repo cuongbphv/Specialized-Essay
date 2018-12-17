@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import {TranslateService, UserService} from '../../core/services';
+import {TagService, TranslateService, UserService} from '../../core/services';
 
 declare var $: any;
 
@@ -14,10 +14,15 @@ export class HomeComponent implements OnInit {
   isOpenTags: boolean = false;
   constructor(
     public translate: TranslateService,
-    private userService: UserService
+    private userService: UserService,
+    private tagService: TagService
   ) {}
 
   ngOnInit() {
+
+    this.tagService.getMostTagInForum().subscribe(
+      data => console.log(data)
+    )
 
     $(document).ready(function(){
 

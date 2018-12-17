@@ -2,7 +2,8 @@
 const BaseURL = {
   AUTH_API: '/auth',
   USER_API: '/user',
-  ARTICLE_API: '/article'
+  ARTICLE_API: '/article',
+  TAG_API: '/tag'
 };
 
 export const API = {
@@ -20,7 +21,10 @@ export const API = {
   GET_USER: BaseURL.USER_API + "/",
 
   // Article Management
-  CREATE_ARTICLE: BaseURL.ARTICLE_API
+  CREATE_ARTICLE: BaseURL.ARTICLE_API,
+  GET_ARTICLE: BaseURL.ARTICLE_API + "/",
 
+  // Tag management
+  GET_MOST_TAG_IN_FORUM: BaseURL.TAG_API + "/most"
 
 };

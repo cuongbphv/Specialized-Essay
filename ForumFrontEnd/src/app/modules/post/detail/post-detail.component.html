@@ -1,0 +1,111 @@
+<div class="container" style="margin-top: 70px;">
+  <div class="row">
+    <!-- Blog Post Content Column -->
+    <div class="col-md-9">
+      <!-- Blog Post -->
+      <!-- Title -->
+      <h2>{{this.article.title}}</h2>
+      <hr>
+      <!-- Date/Time -->
+      <p><span class="fa fa-clock-o"></span> Posted on August 24, 2013 at 9:00 PM</p>
+      <hr>
+
+      <div [innerHTML]="this.article.content">
+
+      </div>
+      <hr>
+      <!-- Blog Comments -->
+      <!-- Comments Form -->
+      <div class="well">
+        <h5>Leave a Comment:</h5>
+        <form role="form">
+          <div class="form-group">
+            <textarea class="form-control" rows="3"></textarea>
+          </div>
+          <button type="submit" class="btn btn-shared text-white float-right">Submit</button>
+        </form>
+      </div>
+      <div class="clearfix">
+
+      </div>
+      <hr>
+      <!-- Posted Comments -->
+      <!-- Comment -->
+      <!--<div class="media">-->
+      <!--<a class="pull-left" href="#">-->
+      <!--<img class="media-object" src="http://placehold.it/64x64" alt="">-->
+      <!--</a>-->
+      <!--<div class="media-body">-->
+      <!--<h4 class="media-heading">Start Bootstrap-->
+      <!--<small>August 25, 2014 at 9:30 PM</small>-->
+      <!--</h4>-->
+      <!--Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus-->
+      <!--odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla.-->
+      <!--Donec lacinia congue-->
+      <!--felis in faucibus.-->
+      <!--</div>-->
+      <!--</div>-->
+      <!-- Comment -->
+      <!--<div class="media">-->
+      <!--<a class="pull-left" href="#">-->
+      <!--<img class="media-object" src="http://placehold.it/64x64" alt="">-->
+      <!--</a>-->
+      <!--<div class="media-body">-->
+      <!--<h4 class="media-heading">Start Bootstrap-->
+      <!--<small>August 25, 2014 at 9:30 PM</small>-->
+      <!--</h4>-->
+      <!--Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus-->
+      <!--odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla.-->
+      <!--Donec lacinia congue-->
+      <!--felis in faucibus.-->
+      <!--&lt;!&ndash; Nested Comment &ndash;&gt;-->
+      <!--<div class="media">-->
+      <!--<a class="pull-left" href="#">-->
+      <!--<img class="media-object" src="http://placehold.it/64x64" alt="">-->
+      <!--</a>-->
+      <!--<div class="media-body">-->
+      <!--<h4 class="media-heading">Nested Start Bootstrap-->
+      <!--<small>August 25, 2014 at 9:30 PM</small>-->
+      <!--</h4>-->
+      <!--Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras-->
+      <!--purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate-->
+      <!--fringilla. Donec lacinia congue-->
+      <!--felis in faucibus.-->
+      <!--</div>-->
+      <!--</div>-->
+      <!--&lt;!&ndash; End Nested Comment &ndash;&gt;-->
+      <!--</div>-->
+      <!--</div>-->
+    </div>
+    <!-- Blog Sidebar Widgets Column -->
+    <div id="sidebar" class="col-md-3">
+
+      <div class="tags">
+        <div class="panel table-contents">
+          <h4>Nội dung chính</h4>
+          <hr>
+          <ul>
+            <li *ngFor="let heading of this.headingTag; let i = index;">
+              <a href="{{heading.id}}">{{heading.base}}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tags">
+        <div class="panel">
+          <h4>Tags</h4>
+          <hr>
+          <a id="{{tag.tagId}}" href="#" [routerLink]="['/tags/' + tag.tagId]"
+             *ngFor="let tag of this.article.tagList; let i = index;">
+            <span class="tag">{{tag.tagName}}</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+

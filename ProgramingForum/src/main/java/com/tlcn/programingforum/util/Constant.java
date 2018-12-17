@@ -47,6 +47,10 @@ public interface Constant {
     //Post management
     String ARTICLE_CONTROLLER = API_PREFIX + "/article";
 
+    // Tag management
+    String TAG_CONTROLLER = API_PREFIX + "/tag";
+    String MOST_TAG_IN_FORUM = "/most";
+
     // Request Content Type
     public static final String APPLICATION_JSON_CONTENT_TYPE = "application/json";
     public static final String APPLICATION_URL_ENCODED = "application/x-www-form-urlencoded";

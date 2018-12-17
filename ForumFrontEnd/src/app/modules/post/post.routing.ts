@@ -10,7 +10,7 @@ export const routes: Routes = [
     component: CreatePostComponent
   },
   {
-    path: 'detail',
+    path: ':id',
     component: PostDetailComponent
   }
 ];

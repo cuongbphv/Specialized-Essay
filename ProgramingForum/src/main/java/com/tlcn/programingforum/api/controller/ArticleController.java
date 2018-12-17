@@ -93,7 +93,7 @@ public class ArticleController extends AbstractBasedAPI {
     @RequestMapping(path = Constant.WITHIN_ID , method = RequestMethod.GET)
     public ResponseEntity<RestAPIResponse> getDetailArticle(
             HttpServletRequest request,
-            @RequestParam("id") String articleId) {
+            @PathVariable("id") String articleId) {
 
         Article article = articleService.getDetailArticle(articleId,
                 Constant.Status.ACTIVE.getValue());
