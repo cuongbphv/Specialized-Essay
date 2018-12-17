@@ -1,24 +1,44 @@
 <main>
 
-  <div class="container-fluid">
-    <div class="col-xs-12">
-      <input class="form-control" type="text" textPlaceHolder="post.placeholder_title">
+  <form (ngSubmit)="f.form.valid" #f="ngForm">
+
+    <input id="post-title" class="form-control" type="text" textPlaceHolder="post.placeholder_title"
+           [(ngModel)]="post.title" name="postTitle" #postTitle="ngModel"/>
+
+    <div class="form-row" style="margin-top: 5px;">
+      <div class="col-xs-12 col-md-3">
+        <select class="form-control" [(ngModel)]="post.type" [value]="post.type">
+          <option value="1" textContent="post.article"></option>
+          <option value="2" textContent="post.question"></option>
+        </select>
+      </div>
+
+      <div class="col-xs-12 col-md-9">
+        <div class="tags-input">
+          <span class="tag" *ngFor="let tag of this.post.tags; let i = index;">
+            {{tag}}<span data-role="remove-tag" (click)="removeTag(i)"></span></span>
+          <input type="text" data-role="add-tag" textPlaceHolder="post.placeholder_tag"/>
+        </div>
+      </div>
     </div>
 
-    <!--<div class="input-categories">-->
-      <!--<ul>-->
-        <!--<li>CSS</li>-->
-        <!--<li>PHP</li>-->
-      <!--</ul>-->
-      <!--<input type="text"/>-->
-    <!--</div>-->
 
-    <!--<div id="editor-area">-->
-      <!--<md-editor name="Content" [preRender]="this.preRenderFunc" [(ngModel)]="content" [height]="'500px'"-->
-                 <!--[mode]="mode" [options]="options" maxlength="5000"></md-editor>-->
-    <!--</div>-->
+    <div id="editor-area">
+      <md-editor id="post-content" name="postContent"
+                 [(ngModel)]="post.content" #postContent="ngModel"
+                 [height]="'500px'" [mode]="mode" [options]="options" maxlength="5000"></md-editor>
+    </div>
 
-  </div>
+    <div class="col-xs-12">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="checkUploadFb">
+        <label class="form-check-label" for="checkUploadFb">Share to Facebook now</label>
+        <button class="btn btn-shared float-right text-white" textContent="button.post"
+                (click)="createArticle()"></button>
+      </div>
+    </div>
+
+  </form>
 
 </main>
 

@@ -20,3 +20,7 @@
   white-space: -o-pre-wrap;   /* Opera 7 */
   word-wrap: break-word;      /* IE */
 }
+
+.btn-shared {
+  background: #1e5f8d;
+}

@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 
-import { TranslateService } from '../../../core/services';
+import {AuthBaseService, TranslateService, UserService} from '../../../core/services';
+import * as $ from 'jquery';
+import {ArticleService} from '../../../core/services/article.service';
 
 @Component({
   selector: 'create-post',
@@ -10,34 +12,44 @@ import { TranslateService } from '../../../core/services';
 
 export class CreatePostComponent implements OnInit {
 
-  content: any = {};
-
-  ngOnInit() {
-    // let es = document.querySelectorAll('.input-categories');
-    // for (let i = 0; i < es.length; i++) {
-    //   es[i]._list = es[i].querySelector('ul');
-    //   es[i]._input = es[i].querySelector('input');
-    //   es[i]._input._icategories = es[i];
-    //   es[i].onkeydown = function(e){
-    //     var e = event || e;
-    //     if(e.keyCode == 13) {
-    //       var c = e.target._icategories;
-    //       var li = document.createElement('li');
-    //       li.innerHTML = c._input.value;
-    //       c._list.appendChild(li);
-    //       c._input.value = '';
-    //       e.preventDefault();
-    //     }
-    //   }
-    // }
-  }
+  post: any = {
+    title: '',
+    content: '',
+    tags: [],
+    userId: '',
+    type: 1
+  };
 
   constructor(
-    public translate: TranslateService
-  ) {}
+    public translate: TranslateService,
+    public articleService: ArticleService
+  ) {
 
-  preRenderFunc(content: string) {
-    return content.replace(/something/g, 'new value'); // must return a string
   }
 
+  ngOnInit() {
+    let self = this;
+    $('input[data-role=\'add-tag\']').keypress(function (event) {
+      if (event.which == 13 || event.which == 44) { // key enter and key ","
+        event.preventDefault();
+        let elem = $('input[data-role=\'add-tag\']');
+        if(self.post.tags.length < 5 && !self.checkDuplicate(elem.val()) && elem.val() !== "") {
+          self.post.tags.push(elem.val().trim());
+          elem.val("");
+        }
+      }
+    });
+  }
+
+  removeTag(i: number) {
+    this.post.tags.splice(i,1);
+  }
+
+  checkDuplicate(tag: string) {
+    return this.post.tags.includes(tag);
+  }
+
+  createArticle() {
+    this.articleService.createPost(this.post);
+  }
 }

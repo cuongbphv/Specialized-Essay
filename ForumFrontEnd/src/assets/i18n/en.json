@@ -24,7 +24,10 @@
   "post": {
     "store": "Store",
     "new_post": "New Post",
-    "placeholder_title": "Please input post's title"
+    "placeholder_title": "Please input post's title",
+    "article": "Article",
+    "question": "Question",
+    "placeholder_tag": "Please choose 5 tags for your post"
   },
   "footer": {
     "introduction": "INTRODUCTION",
@@ -110,6 +113,7 @@
     "register": "REGISTER",
     "change": "Change",
     "follow": "Follow",
-    "done": "Done"
+    "done": "Done",
+    "post": "POST"
   }
 }
