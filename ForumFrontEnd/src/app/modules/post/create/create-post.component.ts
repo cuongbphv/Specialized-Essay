@@ -13,23 +13,23 @@ export class CreatePostComponent implements OnInit {
   content: any = {};
 
   ngOnInit() {
-    let es = document.querySelectorAll('.input-categories');
-    for (let i = 0; i < es.length; i++) {
-      es[i]._list = es[i].querySelector('ul');
-      es[i]._input = es[i].querySelector('input');
-      es[i]._input._icategories = es[i];
-      es[i].onkeydown = function(e){
-        var e = event || e;
-        if(e.keyCode == 13) {
-          var c = e.target._icategories;
-          var li = document.createElement('li');
-          li.innerHTML = c._input.value;
-          c._list.appendChild(li);
-          c._input.value = '';
-          e.preventDefault();
-        }
-      }
-    }
+    // let es = document.querySelectorAll('.input-categories');
+    // for (let i = 0; i < es.length; i++) {
+    //   es[i]._list = es[i].querySelector('ul');
+    //   es[i]._input = es[i].querySelector('input');
+    //   es[i]._input._icategories = es[i];
+    //   es[i].onkeydown = function(e){
+    //     var e = event || e;
+    //     if(e.keyCode == 13) {
+    //       var c = e.target._icategories;
+    //       var li = document.createElement('li');
+    //       li.innerHTML = c._input.value;
+    //       c._list.appendChild(li);
+    //       c._input.value = '';
+    //       e.preventDefault();
+    //     }
+    //   }
+    // }
   }
 
   constructor(

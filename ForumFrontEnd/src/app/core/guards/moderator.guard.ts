@@ -1,16 +1,28 @@
 import { Injectable } from '@angular/core';
-import { Router, CanActivate } from '@angular/router';
+import {Router, CanActivate, RouterStateSnapshot} from '@angular/router';
 import {UserService} from '../services';
 
 @Injectable()
 export class ModeratorGuard implements CanActivate {
   constructor(private router: Router, private userService: UserService) {}
 
-  canActivate() {
+  canActivate(route, state: RouterStateSnapshot) {
     if (this.userService.isModerator()) {
       return true;
     }
-    this.router.navigate(['no-access']);
-    return false;
+
+    if (this.userService.isAuthenticated.subscribe(isAuthen => {
+
+      if (isAuthen) {
+        this.router.navigate(['no-access']);
+      }
+      else {
+        this.router.navigate(['login'], {
+          queryParams: {returnUrl: state.url}
+        });
+      }
+    }))
+
+      return false;
   }
 }

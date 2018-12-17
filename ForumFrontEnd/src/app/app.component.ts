@@ -14,6 +14,9 @@ export class AppComponent implements OnInit{
 
   ngOnInit(): void {
     this.userService.populate();
+    this.userService.isAuthenticated.subscribe(isAuthen => {
+      console.log("authen ", isAuthen);
+    });
   }
 
 }

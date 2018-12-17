@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 
 
-import {API} from '../../shared/constant';
+import {API, AppConfig} from '../../shared/constant';
 import {ApiService} from './api.service';
 import {AuthService} from 'angular-6-social-login';
 import {distinctUntilChanged, map} from 'rxjs/operators';
@@ -80,11 +80,14 @@ export class UserService {
 
 
   isAdmin(): boolean {
-      return this.currentUserSubject.value.role === 'ADMIN';
+      return this.currentUserSubject.value.role <= AppConfig.ROLE_ADMIN;
   }
 
   isModerator(): boolean {
-    return this.currentUserSubject.value.role === 'ADMIN';
+    return this.currentUserSubject.value.role <= AppConfig.ROLE_MODERATOR;
   }
 
+  isUser(): boolean {
+    return this.currentUserSubject.value.role <= AppConfig.ROLE_USER;
+  }
 }

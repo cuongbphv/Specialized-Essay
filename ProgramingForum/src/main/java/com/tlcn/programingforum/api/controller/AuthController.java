@@ -85,7 +85,7 @@ public class AuthController extends AbstractBasedAPI {
 
         // Everything ok. Create session
         // TODO login
-        Session userSession = authService.createUserToken(user, requestModel.keepLogin);
+        Session userSession = authService.createUserToken(user);
         // Create Auth User -> Set to filter config
         // Perform the security
         Authentication authentication = new UsernamePasswordAuthenticationToken(
@@ -123,7 +123,7 @@ public class AuthController extends AbstractBasedAPI {
 
         // Everything ok. Create session
         // TODO login
-        Session userSession = authService.createUserToken(user, requestModel.isKeepLogin());
+        Session userSession = authService.createUserToken(user);
         // Create Auth User -> Set to filter config
         // Perform the security
         Authentication authentication = new UsernamePasswordAuthenticationToken(

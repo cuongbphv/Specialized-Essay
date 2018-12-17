@@ -7,9 +7,10 @@ export class UserGuard implements CanActivate {
   constructor(private router: Router,private userService: UserService) {}
 
   canActivate(route, state: RouterStateSnapshot) {
-    if (this.userService.getCurrentUser() != null) {
+    if (this.userService.isUser()) {
       return true;
     }
+
     this.router.navigate(['login'], {
       queryParams: { returnUrl: state.url }
     });

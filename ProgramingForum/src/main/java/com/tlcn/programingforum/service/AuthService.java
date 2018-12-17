@@ -14,7 +14,7 @@ public interface AuthService {
 
     public User getUserByIdAndStatus(String userId, int status);
 
-    public Session createUserToken(User user, boolean keepLogin);
+    public Session createUserToken(User user);
 
     public Session getUserByTokenId(String id);
 

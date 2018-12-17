@@ -29,11 +29,11 @@ public abstract class AbstractBasedAPI {
     protected CustomUserAuthService customUserAuthService;
 
 
-    public void validatePermission(AuthUser user, String role) {
+    public void validatePermission(AuthUser user, int role) {
         if (user == null) {
             throw new ApplicationException(APIStatus.ERR_ACCOUNT_INVALID);
         }
-        if (!role.equals(user.getRole())) {
+        if (user.getRole() > role) {
             throw new ApplicationException(APIStatus.ERR_FORBIDDEN);
         }
     }

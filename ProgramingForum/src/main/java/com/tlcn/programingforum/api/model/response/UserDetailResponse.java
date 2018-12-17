@@ -24,5 +24,5 @@ public class UserDetailResponse {
     private Date createDate;
     private Date lastActivity;
     private String setting;
-    private String role;
+    private int role;
 }
