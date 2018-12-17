@@ -40,7 +40,7 @@ public class ProfileController extends AbstractBasedAPI {
     ) {
 
         AuthUser authUser = getAuthUserFromSession(request);
-        validatePermission(authUser, Constant.SystemRole.USER.getName());
+        validatePermission(authUser, Constant.SystemRole.USER.getId());
 
         if (userService.getActiveUserByUserId(profileRequest.getUserId()) != null) {
             throw new ApplicationException(APIStatus.ERR_USER_NOT_FOUND);
@@ -53,7 +53,7 @@ public class ProfileController extends AbstractBasedAPI {
             profile.setWebsiteLink(profileRequest.getWebsiteLink());
             profile.setGithubLink(profileRequest.getGithubLink());
             profile.setPosition(profileRequest.getPosition());
-            profile.setDegree(profileRequest.getDegree());
+            profile.setCompany(profileRequest.getDegree());
             profile.setAvatar(profile.getAvatar());
 
             profileService.saveProfile(profile);
@@ -70,7 +70,7 @@ public class ProfileController extends AbstractBasedAPI {
     ) {
 
         AuthUser authUser = getAuthUserFromSession(request);
-        validatePermission(authUser, Constant.SystemRole.USER.getName());
+        validatePermission(authUser, Constant.SystemRole.USER.getId());
 
         Profile profile = profileService.getProfileByUserId(profileRequest.getUserId());
 
@@ -83,7 +83,7 @@ public class ProfileController extends AbstractBasedAPI {
             profile.setWebsiteLink(profileRequest.getWebsiteLink());
             profile.setGithubLink(profileRequest.getGithubLink());
             profile.setPosition(profileRequest.getPosition());
-            profile.setDegree(profileRequest.getDegree());
+            profile.setCompany(profileRequest.getDegree());
             profile.setAvatar(profile.getAvatar());
 
             profileService.saveProfile(profile);
@@ -99,7 +99,7 @@ public class ProfileController extends AbstractBasedAPI {
             @PathVariable("id") String id
     )  {
         AuthUser authUser = getAuthUserFromSession(request);
-        validatePermission(authUser, Constant.SystemRole.USER.getName());
+        validatePermission(authUser, Constant.SystemRole.USER.getId());
 
         if (id != null && !id.isEmpty()) {
             Profile profile = profileService.getProfileByUserId(id);

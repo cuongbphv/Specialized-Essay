@@ -33,11 +33,13 @@ public class Profile {
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "com.tlcn.programingforum.util.IDGeneratorUtil")
     private String userProfileId;
+    private String firstName;
+    private String lastName;
     private String description;
     private String websiteLink;
     private String githubLink;
     private String position;
-    private String degree;
+    private String company;
     private String avatar;
     private String userId;
 }

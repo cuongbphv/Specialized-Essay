@@ -5,7 +5,7 @@ export interface User {
     email: string;
     phone: string;
     lang: string;
-    role: string;
+    role: number;
     createDate: Date;
     lastActivity: Date;
     setting: String;

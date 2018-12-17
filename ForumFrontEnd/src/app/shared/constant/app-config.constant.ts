@@ -6,9 +6,13 @@ export const AppConfig = {
 
   USER_COOKIES: 'User',
 
-  ROLE_ADMIN: 'ADMIN',
+  ROLE_ADMIN: 1,
 
-  ROLE_MODERATOR: 'MODERATOR',
+  ROLE_MODERATOR: 2,
 
-  ROLE_USER: 'USER',
+  ROLE_USER: 3,
+
+  ROLE_GUEST: 4,
+
+  TOKEN_EXPIRE_DATE: 150
 };

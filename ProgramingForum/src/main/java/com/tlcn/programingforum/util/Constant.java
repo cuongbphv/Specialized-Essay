@@ -103,27 +103,25 @@ public interface Constant {
 
     public enum SystemRole {
 
-        SYS_ADMIN("ADMIN", "Admin role"),
-        USER("USER", "User role"),
-        MODERATOR("MODERATOR", "Moderator");
+        SYS_ADMIN(1, "Admin"),
+        USER(3, "User"),
+        MODERATOR(2, "Moderator");
 
+        private final int id;
         private final String name;
-        private final String desc;
 
         ;
 
-        private SystemRole(String name, String desc) {
+        private SystemRole(int id, String name) {
+            this.id = id;
             this.name = name;
-            this.desc = desc;
         }
 
         public String getName() {
             return name;
         }
 
-        public String getDesc() {
-            return desc;
-        }
+        public int getId(){ return id;}
     }
 
     public enum ParamError {

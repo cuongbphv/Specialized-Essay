@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { TranslateService } from '../../core/services';
+import {TranslateService, UserService} from '../../core/services';
 
 declare var $: any;
 
@@ -13,10 +13,12 @@ export class HomeComponent implements OnInit {
   isOpenCategories: boolean = false;
   isOpenTags: boolean = false;
   constructor(
-    public translate: TranslateService
+    public translate: TranslateService,
+    private userService: UserService
   ) {}
 
   ngOnInit() {
+
     $(document).ready(function(){
 
       $('#btnCategories').click(function() {

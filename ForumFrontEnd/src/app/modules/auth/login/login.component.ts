@@ -11,6 +11,7 @@ import {NavigationExtras, Router} from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   loading = false;
+  url: string = "/";
   userLogin: any = {
     username: '',
     password: ''
@@ -53,8 +54,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate(["get-started"],navigationExtras);
         }
         else {
-          console.log('login');
-          this.authBaseService.socialLogin(socialUser.email, socialUser.token, socialUser.provider);
+          this.authBaseService.socialLogin(socialUser.email, socialUser.token, socialUser.provider, this.url);
         }
       });
   }
@@ -62,7 +62,6 @@ export class LoginComponent implements OnInit {
 
   loginByUsername(userForm: NgForm) {
     this.loading = true;
-    this.authBaseService.login(this.userLogin.username, this.userLogin.password);
-    this.router.navigate(["home"]);
+    this.authBaseService.login(this.userLogin.username, this.userLogin.password, this.url);
   }
 }

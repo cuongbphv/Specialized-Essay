@@ -1,11 +1,11 @@
-package com.tlcn.programingforum.api.model.request;
+package com.tlcn.programingforum.api.model.response;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Date;
 
 /**
  * @author Huy Pham
@@ -16,22 +16,24 @@ import org.springframework.web.multipart.MultipartFile;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserRequest {
+public class UserResponse {
 
     //user section
     private String userId;
     private String userName;
-    private String passwordHash;
     private String email;
     private String phone;
     private String lang;
     private String setting;
+    private Date createDate;
+    private Date lastActivity;
+    private int role;
 
     //profile section
     private String userProfileId;
     private String firstName;
     private String lastName;
-    private MultipartFile avatar;
+    private String avatar;
     private String description;
     private String websiteLink;
     private String githubLink;

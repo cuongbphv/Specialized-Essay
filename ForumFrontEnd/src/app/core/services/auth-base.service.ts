@@ -15,11 +15,6 @@ import {Router} from '@angular/router';
 @Injectable()
 export class AuthBaseService {
   user: Observable<User>;
-  userDetails: User = null;
-
-  private formatErrors(error: any) {
-    return throwError(error.error);
-  }
 
   constructor(
     private security: SecurityService,
@@ -42,13 +37,16 @@ export class AuthBaseService {
       userId: user.userId || null,
       phone: user.phone || null,
       lang: user.lang || null,
+      description: user.description || null,
       setting: user.setting || null
     }).pipe(map(res => res));
   }
 
-  isLoggedIn(){
-    return this.user !== null;
-  }
+  // isLoggedIn(): boolean {
+  //   this.userService.isAuthenticated.subscribe(isAuthen =>{
+  //       return isAuthen;
+  //   });
+  // }
 
   logout() {
     this.userService.purgeUser();
@@ -56,7 +54,7 @@ export class AuthBaseService {
     this.router.navigate(["login"]);
   }
 
-  socialLogin(username: string, token: string, provider: string){
+  socialLogin(username: string, token: string, provider: string, url:string){
     return this.apiService.post(API.USER_SOCIAL_LOGIN, {
       account: username,
       token: token,
@@ -67,11 +65,12 @@ export class AuthBaseService {
           // set token for login session
           this.sessionService.setAccessToken(data.data);
           this.userService.populate();
+          this.router.navigate([url]);
         }
       });
   }
 
-  login(username: string, password: string) {
+  login(username: string, password: string, url:string) {
     this.apiService.post(API.USER_LOGIN, {
       account: username,
       passwordHash: this.security.MD5Hash(password)
@@ -81,40 +80,9 @@ export class AuthBaseService {
           // set token for login session
           this.sessionService.setAccessToken(data.data);
           this.userService.populate();
+          this.router.navigate([url]);
         }
       });
-  }
-
-  getLoggedInUser(): Observable<User> {
-
-    this.apiService.get(API.USER_DETAIL).pipe(map(res => {
-      this.user = res.data;
-    }));
-
-    return this.user;
-  }
-
-  isAdmin(): boolean {
-    let user = this.getLoggedInUser();
-    user.subscribe(loginUser => {
-      if (loginUser != null && loginUser.role === 'admin') {
-        return true;
-      }
-    });
-    return false;
-  }
-
-  isModerator(): boolean {
-    let user = this.getLoggedInUser();
-    user.subscribe(loginUser => {
-      if (loginUser != null && loginUser.role === 'moderator') {
-        return true;
-      }
-    });
-    return false;
-  }
-
-  rememberMe(email, password) {
   }
 
   socialSignIn(socialPlatform: string): Promise<any> {
@@ -135,5 +103,4 @@ export class AuthBaseService {
     return this.apiService.get(API.AUTH_USER_EMAIL, params)
       .pipe(map(res => res));
   }
-
 }

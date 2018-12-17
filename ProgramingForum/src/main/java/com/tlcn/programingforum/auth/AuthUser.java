@@ -18,13 +18,13 @@ public class AuthUser implements UserDetails {
     private final String username;
     private final String password;
     private final boolean enabled;
-    private String role;
+    private int role;
     private String lang;
 
     public AuthUser(
             String id,
             String username,
-            String password, String role,
+            String password, int role,
             boolean enabled, String lang
     ) {
         this.id = id;
@@ -72,7 +72,7 @@ public class AuthUser implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(this.role));
+        authorities.add(new SimpleGrantedAuthority(this.role + ""));
         return authorities;
     }
 
@@ -81,11 +81,11 @@ public class AuthUser implements UserDetails {
         return enabled;
     }
 
-    public String getRole() {
+    public int getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(int role) {
         this.role = role;
     }
 

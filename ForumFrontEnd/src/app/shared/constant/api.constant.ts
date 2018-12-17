@@ -1,4 +1,3 @@
-import {AppConfig} from './app-config.constant';
 
 const BaseURL = {
   AUTH_API: '/auth',

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 
-import {AuthBaseService, TranslateService, UserService} from '../../../core/services';
+import {AuthBaseService, SessionService, TranslateService, UserService} from '../../../core/services';
 // import * as $ from 'jquery';
 import {Pattern} from '../../../shared/constant';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
@@ -19,7 +19,9 @@ export class GetStartedComponent implements OnInit {
     emailAddress: '',
     firstName: '',
     lastName: '',
-    password: ''
+    password: '',
+    phone: '',
+    description: '',
   };
 
   isSocialUser: boolean = false;
@@ -28,7 +30,10 @@ export class GetStartedComponent implements OnInit {
   constructor(
     public translate: TranslateService,
     private route: ActivatedRoute,
+    private router: Router,
     private authBaseService: AuthBaseService,
+    private userService: UserService,
+    private sessionService: SessionService
   ) {
     this.route.queryParams.subscribe(params => {
       this.userInfo.firstName = params["firstName"];
@@ -47,6 +52,11 @@ export class GetStartedComponent implements OnInit {
   emailPattern: any = Pattern.EMAIL_PATTERN;
 
   ngOnInit() {
+    this.userService.isAuthenticated.subscribe( isAuthen => {
+      if(isAuthen){
+        this.router.navigate(["/"]);
+      }
+    })
   }
 
   moveStep(value) {
@@ -62,10 +72,11 @@ export class GetStartedComponent implements OnInit {
     this.authBaseService.register(this.userInfo)
       .subscribe(res => {
       if(res.status === 200){
-
           console.log("do create profile");
           console.log(res.data);
-
+          this.sessionService.setAccessToken(res.data);
+          this.userService.populate();
+          this.router.navigate(["/"]);
       }
       });
 
