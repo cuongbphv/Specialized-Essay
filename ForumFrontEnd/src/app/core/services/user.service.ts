@@ -37,7 +37,6 @@ export class UserService {
             this.setCurrentUser(data.data);
           }
         });
-
     } else {
       // Remove any potential remnants of previous auth states
       this.purgeUser();
@@ -49,7 +48,6 @@ export class UserService {
     // Set isAuthenticated to true
     this.isAuthenticatedSubject.next(true);
   }
-
 
   getCurrentUser(): User {
     return this.currentUserSubject.value;
@@ -73,7 +71,6 @@ export class UserService {
   // }
 
   getUser(id: string) : Observable<User>{
-
     return this.apiService.get(API.GET_USER + id)
       .pipe(map(res => res.data));
   }

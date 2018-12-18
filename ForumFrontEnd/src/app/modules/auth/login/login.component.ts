@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 
 import {TranslateService, AuthBaseService, UserService} from '../../../core/services';
 import { NgForm } from '@angular/forms';
-import {NavigationExtras, Router} from '@angular/router';
+import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     public translate: TranslateService,
+    private route: ActivatedRoute,
     private router: Router,
     private authBaseService: AuthBaseService,
     private userService : UserService
@@ -26,7 +27,15 @@ export class LoginComponent implements OnInit {
 
 
   ngOnInit() {
+    this.userService.isAuthenticated.subscribe( isAuthen => {
+      if(isAuthen){
+        this.router.navigate(["/"]);
+      }
+    });
 
+    this.route.queryParams.subscribe(params => {
+      this.url = params["returnUrl"] || "/";
+    });
   }
 
   async socialSignIn(provider: string) {

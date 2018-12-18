@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import { TranslateService, GooglePieChartService} from '../../core/services';
+import {Component, OnInit} from '@angular/core';
+import {TranslateService, GooglePieChartService, UserService} from '../../core/services';
 
-import {PieChartConfig} from '../../core/models';
+import {PieChartConfig, User} from '../../core/models';
 
 declare var $: any;
 
@@ -11,24 +11,26 @@ declare var $: any;
   styleUrls: ['./profile.component.scss']
 })
 
-export class ProfileComponent {
+export class ProfileComponent implements OnInit{
 
   data: any[];
   config: PieChartConfig;
   elementId: string;
 
+  currentUser: User;
+
   constructor(
     private tranSlateService: TranslateService,
-    private pieChartService: GooglePieChartService) {}
+    private pieChartService: GooglePieChartService,
+    private userService:UserService) {}
 
   public ngOnInit() {
-    $(document).ready(function(){
 
+    $(document).ready(function(){
 
       $(function () {
         $("[data-toggle='tooltip']").tooltip();
       });
-
 
       $("div.bhoechie-tab-menu>div.list-group>a").click(function(e) {
         e.preventDefault();
@@ -40,6 +42,12 @@ export class ProfileComponent {
       });
 
     });
+
+    this.userService.currentUser.subscribe(
+      (userData) => {
+        this.currentUser = userData;
+      }
+    );
 
     this.data = [['Post', 'Posts per Tag'],
       ['Javascript', 2],
@@ -53,4 +61,10 @@ export class ProfileComponent {
     this.pieChartService.BuildPieChart(this.elementId, this.data, this.config);
 
   }
+
+  hihi(){
+    console.log('profile ', this.currentUser.userId);
+  }
+
+
 }
