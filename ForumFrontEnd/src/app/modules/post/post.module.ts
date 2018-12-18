@@ -24,10 +24,10 @@ import { ArticleService, UserService } from '../../core/services';
     PostDetailComponent
   ],
   providers: [
-    ArticleService,
-    UserService
+    ArticleService
   ]
 })
+
 export class PostModule {}
 
 

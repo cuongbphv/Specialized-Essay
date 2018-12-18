@@ -30,16 +30,6 @@ import {ShowAuthedDirective} from './directives';
     ShowAuthedDirective,
     TranslateTextDirective,
     TranslatePlaceholderDirective
-  ],
-  providers: [
-    FormBuilder,
-    AuthBaseService,
-    AdminGuard,
-    ModeratorGuard,
-    UserGuard,
-    SessionService,
-    DataService,
-    UserService
   ]
 })
 

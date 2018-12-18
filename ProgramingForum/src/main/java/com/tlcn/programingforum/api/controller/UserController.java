@@ -90,10 +90,8 @@ public class UserController extends AbstractBasedAPI {
         response.setUserName(user.getUserName());
         response.setEmail(user.getEmail());
         response.setPhone(user.getPhone());
-        if(user.getCreateDate() != null && user.getLastActivity() != null) {
-            response.setCreateDate(user.getCreateDate());
-            response.setLastActivity(user.getLastActivity());
-        }
+        response.setCreateDate(user.getCreateDate());
+        response.setLastActivity(user.getLastActivity());
         response.setLang(response.getLang());
         response.setSetting(user.getSetting());
         response.setRole(user.getRole());

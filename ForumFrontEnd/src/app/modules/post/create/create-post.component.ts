@@ -62,14 +62,14 @@ export class CreatePostComponent implements OnInit {
 
   createArticle() {
 
-    console.log(this.userService);
-    this.post.userId = this.currentUser.userId;
-
-    this.articleService.createPost(this.post).subscribe(
-      response => {
-        if (response.status === 200) {
-          this.router.navigate(["/post/" + response.data.articleId]);
-        }
-      });
+    console.log(this.currentUser.userId);
+    // this.post.userId = this.currentUser.userId;
+    //
+    // this.articleService.createPost(this.post).subscribe(
+    //   response => {
+    //     if (response.status === 200) {
+    //       this.router.navigate(["/post/" + response.data.articleId]);
+    //     }
+    //   });
   }
 }
