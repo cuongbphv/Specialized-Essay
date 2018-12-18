@@ -3,7 +3,9 @@ const BaseURL = {
   AUTH_API: '/auth',
   USER_API: '/user',
   ARTICLE_API: '/article',
-  TAG_API: '/tag'
+  TAG_API: '/tag',
+  ARTICLE_INTERACT_API: '/interact',
+  REPORT_ARTICLE_API: '/report'
 };
 
 export const API = {
@@ -23,8 +25,16 @@ export const API = {
   // Article Management
   CREATE_ARTICLE: BaseURL.ARTICLE_API,
   GET_ARTICLE: BaseURL.ARTICLE_API + "/",
+  GET_LIST_ARTICLE: BaseURL.ARTICLE_API + "/list",
 
-  // Tag management
+  // Interact Management
+  ADD_INTERACT: BaseURL.ARTICLE_INTERACT_API,
+  GET_LIST_ARTICLE_INTERACT: BaseURL.ARTICLE_INTERACT_API,
+
+  // Report Article Management
+  REPORT_ARTICLE: BaseURL.REPORT_ARTICLE_API,
+
+  // Tag Management
   GET_MOST_TAG_IN_FORUM: BaseURL.TAG_API + "/most"
 
 };

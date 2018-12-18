@@ -2,6 +2,7 @@ package com.tlcn.programingforum.api.controller;
 
 import com.tlcn.programingforum.api.AbstractBasedAPI;
 import com.tlcn.programingforum.api.model.request.ArticleRequest;
+import com.tlcn.programingforum.api.model.request.PagingRequestModel;
 import com.tlcn.programingforum.api.model.response.ArticleResponse;
 import com.tlcn.programingforum.api.response.APIStatus;
 import com.tlcn.programingforum.exception.ApplicationException;
@@ -9,17 +10,19 @@ import com.tlcn.programingforum.model.RestAPIResponse;
 import com.tlcn.programingforum.model.entity.Article;
 import com.tlcn.programingforum.model.entity.Tag;
 import com.tlcn.programingforum.model.entity.TagArticle;
-import com.tlcn.programingforum.model.entity.TagArticlePK;
+import com.tlcn.programingforum.model.entity.key.TagArticlePK;
 import com.tlcn.programingforum.service.ArticleService;
 import com.tlcn.programingforum.service.TagArticleService;
 import com.tlcn.programingforum.service.TagService;
 import com.tlcn.programingforum.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -63,6 +66,7 @@ public class ArticleController extends AbstractBasedAPI {
                 Tag newTag = new Tag();
                 newTag.setTagName(tagOfArticle);
                 newTag.setDescription("");
+                newTag.setCreateDate(new Date());
                 tagIds.add(tagService.saveTag(newTag).getTagId());
             }
         }
@@ -71,6 +75,7 @@ public class ArticleController extends AbstractBasedAPI {
         article.setTitle(articleRequest.getTitle());
         article.setContent(articleRequest.getContent());
         article.setUserId(articleRequest.getUserId());
+        article.setCreateDate(new Date());
         article.setType(Integer.parseInt(articleRequest.getType()));
         article.setStatus(Constant.Status.ACTIVE.getValue());
 
@@ -117,6 +122,19 @@ public class ArticleController extends AbstractBasedAPI {
         response.setTagList(tagList);
 
         return responseUtil.successResponse(response);
+
+    }
+
+    @RequestMapping(value= Constant.LIST_ARTICLE, method = RequestMethod.POST)
+    public ResponseEntity<RestAPIResponse> getListArticle(
+            HttpServletRequest request,
+            @RequestBody PagingRequestModel pagingRequestModel
+    ) {
+
+
+        Page<Article> articlePage = articleService.getListArticlePaging(pagingRequestModel);
+
+        return responseUtil.successResponse(articlePage);
 
     }
 

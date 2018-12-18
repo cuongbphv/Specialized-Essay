@@ -1,8 +1,12 @@
 package com.tlcn.programingforum.service;
 
+import com.tlcn.programingforum.api.model.request.PagingRequestModel;
 import com.tlcn.programingforum.model.entity.Article;
 import com.tlcn.programingforum.repository.ArticleRepository;
+import com.tlcn.programingforum.repository.specification.ArticleSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 /**
@@ -23,5 +27,13 @@ public class ArticleServiceImpl extends AbstractBaseService implements ArticleSe
     @Override
     public Article getDetailArticle(String articleId, int status) {
         return articleRepository.findByArticleIdAndStatus(articleId, status);
+    }
+
+    @Override
+    public Page<Article> getListArticlePaging(PagingRequestModel pagingRequestModel) {
+        ArticleSpecification userSpec = new ArticleSpecification(pagingRequestModel.getSearchKey(),
+                pagingRequestModel.getSortCase(), pagingRequestModel.isAscSort());
+        PageRequest pageReq = new PageRequest((pagingRequestModel.getPageNumber() - 1), pagingRequestModel.getPageSize());
+        return articleRepository.findAll(userSpec, pageReq);
     }
 }

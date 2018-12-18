@@ -1,19 +1,94 @@
+<div class="icon-bar">
+  <a href="javascript:void(0)" class="back" (click)="backClicked()"><i class="fa fa-arrow-left"></i></a>
+  <a href="javascript:void(0)" class="upvote" (click)="interact('rating',1)"><i class="fa fa-chevron-up"></i></a>
+  <a href="javascript:void(0)" class="mark"><span *ngIf="rating > 0">+</span>{{rating}}</a>
+  <a href="javascript:void(0)" class="downvote" (click)="interact('rating',-1)"><i class="fa fa-chevron-down"></i></a>
+  <a href="javascript:void(0)" class="bookmark" (click)="interact('bookmark',0)"><i class="fa fa-bookmark"></i></a>
+  <a href="javascript:void(0)" class="report" (click)="openModal('modal-report')"><i class="fa fa-exclamation"></i></a>
+</div>
+
+<modal id="modal-report">
+  <div class="modal">
+    <div class="modal-body">
+      <h1>A Custom Modal!</h1>
+      <p>
+        Home page text:/>
+      </p>
+      <button (click)="closeModal('custom-modal-1');">Close</button>
+    </div>
+  </div>
+  <div class="modal-background"></div>
+</modal>
+
 <div class="container" style="margin-top: 70px;">
+
   <div class="row">
     <!-- Blog Post Content Column -->
     <div class="col-md-9">
-      <!-- Blog Post -->
+
       <!-- Title -->
-      <h2>{{this.article.title}}</h2>
-      <hr>
-      <!-- Date/Time -->
-      <p><span class="fa fa-clock-o"></span> Posted on August 24, 2013 at 9:00 PM</p>
+      <h2 class="article__title">{{article.title}}</h2>
       <hr>
 
-      <div [innerHTML]="this.article.content">
+      <!-- Info Date/Time and Stats -->
+      <div class="time__div"><p><span class="fa fa-clock-o"></span> Posted on August 24, 2013 at 9:00 PM</p></div>
+      <div class="stat__div">
+        <span class="stats-item text-muted" data-tippy="" data-original-title="Views"
+              aria-describedby="tippy-285">
+                <i aria-hidden="true" class="fa fa-eye"></i>&nbsp;{{article.viewCount}}</span>
+        <span class="stats-item text-muted" data-tippy="" data-original-title="Clips">
+                <i aria-hidden="true" class="fa fa-bookmark"></i>&nbsp;{{bookmark}}</span>
+        <span class="stats-item text-muted" data-tippy="" data-original-title="Comments">
+                <i aria-hidden="true" class="fa fa-comments"></i>&nbsp;1</span>
+      </div>
+      <div class="clearfix"></div>
+      <!--<div>-->
+        <!--<span *ngIf="this.translate.getCurrentLanguage() === 'en'">-->
+          <!--{{author.firstName}} {{author.lastName}}-->
+        <!--</span>-->
 
+        <!--<span *ngIf="this.translate.getCurrentLanguage() === 'vi'">-->
+          <!--{{author.lastName}} {{author.firstName}}-->
+        <!--</span>-->
+
+      <!--</div>-->
+      <hr>
+
+      <!-- Content of Post -->
+      <div [innerHTML]="this.article.content | safeHtml"></div>
+      <hr>
+
+      <!-- Author -->
+      <div class="author-biografia">
+        <img class="avatar-author img-fluid rounded"
+             src="https://bootstrapmade.com/wp-content/themefiles/Moderna/400.png">
+
+        <div class="author-info">
+          <h5>Tác giả: <a href="http://www.portfolio2017.skn1.com/oficial/" target="_blank">Bùi Cường</a></h5>
+          <p class="alert alert-success">Đã tham gia diễn đàn ngày 20-11-2018</p>
+
+          <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Follow
+              <span class="badge badge-primary badge-pill">25</span>
+            </li>
+
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Posts
+              <span class="badge badge-primary badge-pill">3</span>
+            </li>
+
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Award
+              <span class="badge badge-primary badge-pill">100</span>
+            </li>
+          </ul>
+
+        </div>
       </div>
       <hr>
+
+
       <!-- Blog Comments -->
       <!-- Comments Form -->
       <div class="well">
@@ -89,6 +164,7 @@
               <a href="{{heading.id}}">{{heading.base}}</a>
             </li>
           </ul>
+          <p *ngIf="this.headingTag.length === 0">Không có bảng nội dung</p>
         </div>
       </div>
 

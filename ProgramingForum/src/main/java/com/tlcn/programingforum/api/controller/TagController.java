@@ -2,6 +2,7 @@ package com.tlcn.programingforum.api.controller;
 
 import com.tlcn.programingforum.api.AbstractBasedAPI;
 import com.tlcn.programingforum.api.model.request.ArticleRequest;
+import com.tlcn.programingforum.api.model.response.TopTagResponse;
 import com.tlcn.programingforum.model.RestAPIResponse;
 import com.tlcn.programingforum.model.entity.Tag;
 import com.tlcn.programingforum.service.TagArticleService;
@@ -36,7 +37,7 @@ public class TagController extends AbstractBasedAPI {
     public ResponseEntity<RestAPIResponse> getMostTagUsedInForum(
             HttpServletRequest request
     ) {
-        List<Tag> tagList = tagService.findMostTagInForum();
+        List<Object> tagList = tagService.findMostTagInForum();
 
         return responseUtil.successResponse(tagList);
     }

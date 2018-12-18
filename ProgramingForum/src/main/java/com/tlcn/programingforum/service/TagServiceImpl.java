@@ -1,8 +1,10 @@
 package com.tlcn.programingforum.service;
 
+import com.tlcn.programingforum.api.model.response.TopTagResponse;
 import com.tlcn.programingforum.model.entity.Tag;
 import com.tlcn.programingforum.repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,8 +35,8 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public List<Tag> findMostTagInForum() {
-        return tagRepository.findTop5TagMostInForum();
+    public List<Object> findMostTagInForum() {
+        return tagRepository.findTop5TagMostInForum(new PageRequest(0, 5));
     }
 
 

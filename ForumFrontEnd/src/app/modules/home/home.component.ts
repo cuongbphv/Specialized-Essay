@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import {TagService, TranslateService, UserService} from '../../core/services';
+import {ArticleService, TagService, TranslateService, UserService} from '../../core/services';
 
 declare var $: any;
 
@@ -10,19 +10,40 @@ declare var $: any;
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+
+  pagingRequest: any = {
+    searchKey: "",
+    sortCase: 1,
+    ascSort: true,
+    pageNumber: 1,
+    pageSize: 10
+  };
+  topTags: any = [];
+  listArticle: any = [];
+
   isOpenCategories: boolean = false;
   isOpenTags: boolean = false;
   constructor(
     public translate: TranslateService,
     private userService: UserService,
-    private tagService: TagService
+    private tagService: TagService,
+    private articleService: ArticleService
   ) {}
 
   ngOnInit() {
 
     this.tagService.getMostTagInForum().subscribe(
-      data => console.log(data)
-    )
+      data => {
+        this.topTags = data
+      }
+    );
+
+    this.articleService.getListArticle(this.pagingRequest).subscribe(
+      data => {
+        this.listArticle = data.content;
+        console.log((this.listArticle));
+      }
+    );
 
     $(document).ready(function(){
 

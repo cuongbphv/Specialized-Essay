@@ -4,10 +4,8 @@ import { FormsModule, FormBuilder } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 
-import { TranslateTextDirective, TranslatePlaceholderDirective } from './directives';
-import { TranslatePipe } from './pipes';
-import { AdminGuard, ModeratorGuard, UserGuard } from '../core/guards';
-import {SessionService, DataService, AuthBaseService, UserService} from '../core/services';
+import {TranslateTextDirective, TranslatePlaceholderDirective, ModalComponent} from './directives';
+import {SafeHtmlPipe, TranslatePipe} from './pipes';
 import {ShowAuthedDirective} from './directives';
 
 @NgModule({
@@ -21,7 +19,9 @@ import {ShowAuthedDirective} from './directives';
     TranslatePipe,
     TranslateTextDirective,
     TranslatePlaceholderDirective,
-    ShowAuthedDirective
+    ShowAuthedDirective,
+    SafeHtmlPipe,
+    ModalComponent
   ],
   exports: [
     FormsModule,
@@ -29,7 +29,9 @@ import {ShowAuthedDirective} from './directives';
     TranslatePipe,
     ShowAuthedDirective,
     TranslateTextDirective,
-    TranslatePlaceholderDirective
+    TranslatePlaceholderDirective,
+    SafeHtmlPipe,
+    ModalComponent
   ]
 })
 

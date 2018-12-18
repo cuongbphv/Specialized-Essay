@@ -54,7 +54,8 @@ public enum APIStatus {
     ERR_USER_PROFILE_NOT_FOUND(800, "User Profile not found"),
 
     //POST
-    ERR_ARTICLE_NOT_FOUND(900, "Article not found");
+    ERR_ARTICLE_NOT_FOUND(900, "Article not found"),
+    ERR_REPORTED(901, "Reported");
 
     private final int code;
     private final String description;

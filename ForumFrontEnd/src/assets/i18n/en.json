@@ -115,5 +115,23 @@
     "follow": "Follow",
     "done": "Done",
     "post": "POST"
+  },
+  "message": {
+    "interact": {
+      "upvote": "You upvoted this post",
+      "downvote": "You just downvoted this post",
+      "bookmark": "You bookmarked this post",
+      "unbookmark": "You unmarked this post",
+      "share": "You shared this post"
+    },
+    "report": {
+      "success": "You reported this post successfully"
+    }
+  },
+  "api": {
+    "status": {
+      "900": "Article not found",
+      "901": "You reported this post"
+    }
   }
 }

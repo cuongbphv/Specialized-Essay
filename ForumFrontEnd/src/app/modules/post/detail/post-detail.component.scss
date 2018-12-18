@@ -1,4 +1,59 @@
+.icon-bar {
+  position: fixed;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
 
+.icon-bar a {
+  display: block;
+  text-align: center;
+  padding: 16px;
+  transition: all 0.3s ease;
+  color: white;
+  font-size: 20px;
+  text-decoration: none;
+}
+
+.icon-bar a:hover {
+  background-color: #000;
+}
+
+.back {
+  background: #3B5998;
+  color: white;
+}
+
+.downvote {
+  background: #55ACEE;
+  color: white;
+}
+
+.mark {
+  background: #dd4b39;
+  color: white;
+}
+
+.upvote {
+  background: #007bb5;
+  color: white;
+}
+
+.bookmark {
+  background: #bb0000;
+  color: white;
+}
+
+.report {
+  background: #7a7a7a;
+  color: white;
+}
+
+.content {
+  margin-left: 75px;
+  font-size: 30px;
+}
 
 .panel{
   margin-bottom: 10px;
@@ -14,6 +69,13 @@
   margin-bottom: 20px;
   margin-top: 20px;
   position: relative;
+  clear: both;
+}
+
+.article__title {
+  color: #00B5AD;
+  font-family: "Montserrat";
+  word-break: break-word;
 }
 
 .panel hr:before{
@@ -74,4 +136,73 @@
   background-color: hsl(0, 0%, 98%)
 }
 
+.author-biografia {
+  width: 100%;
+  height: auto;
+  display: flex;
+  padding: 6px 10px;
+  background-color: #E3E8F8;
+  position: relative;
+  margin: 0 auto 10px auto;
+}
+.author-biografia:before,
+.author-biografia:after {
+  z-index: -1;
+  position: absolute;
+  content: "";
+  bottom: 15px;
+  left: 10px;
+  width: 50%;
+  top: 80%;
+  max-width:500px;
+  background: #777;
+  -webkit-box-shadow: 0 15px 10px #777;
+  -moz-box-shadow: 0 15px 10px #777;
+  box-shadow: 0 15px 10px #777;
+  -webkit-transform: rotate(-3deg);
+  -moz-transform: rotate(-3deg);
+  -o-transform: rotate(-3deg);
+  -ms-transform: rotate(-3deg);
+  transform: rotate(-3deg);
+}
+.author-biografia:after {
+  -webkit-transform: rotate(3deg);
+  -moz-transform: rotate(3deg);
+  -o-transform: rotate(3deg);
+  -ms-transform: rotate(3deg);
+  transform: rotate(3deg);
+  right: 10px;
+  left: auto;
+}
+.author-info {
+  height: 100%;
+  flex: 2 1 auto;
+  padding: 0 10px 10px 10px;
+}
+.avatar-author {
+  flex: 0 1 auto;
+  width: 200px;
+  height: 200px;
+  float: left;
+  display: inline-block;
+}
+.author-biografia h3 {
+  border-bottom: 2px solid #008080;
+  padding: 0;
+}
 
+.time__div
+{
+  width: 60%;
+  float:left;
+}
+
+.stat__div
+{
+  width: 40%;
+  float:right;
+  text-align: right;
+}
+.stat__div span {
+  padding-left: 10px;
+}

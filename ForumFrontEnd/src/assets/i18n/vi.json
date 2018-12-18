@@ -115,5 +115,23 @@
     "follow": "Theo dõi",
     "done": "Hoàn thành",
     "post": "ĐĂNG BÀI"
+  },
+  "message": {
+    "interact": {
+      "upvote": "Bạn đã đánh giá +1 cho bài viết",
+      "downvote": "Bạn đã đánh giá -1 cho bài viết",
+      "bookmark": "Bạn đã lưu trữ bài viết",
+      "unbookmark": "Bạn đã gỡ lưu trữ bài viết",
+      "share": "Bạn đã chia sẻ bài viết"
+    },
+    "report": {
+      "success": "Bạn đã báo cáo bài viết thành công"
+    }
+  },
+  "api": {
+    "status": {
+      "900": "Không tìm thấy bài viết",
+      "901": "Bạn đã báo cáo bài viết trước đó"
+    }
   }
 }

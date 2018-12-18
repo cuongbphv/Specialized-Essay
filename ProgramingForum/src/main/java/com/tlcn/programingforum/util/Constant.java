@@ -46,6 +46,14 @@ public interface Constant {
 
     //Post management
     String ARTICLE_CONTROLLER = API_PREFIX + "/article";
+    String LIST_ARTICLE = "/list";
+
+    // Article Interact
+    String ARTICLE_INTERACT_CONTROLLER = API_PREFIX + "/interact";
+    String LIST_ARTICLE_INTERACT = "/list";
+
+    // Report Interact
+    String REPORT_ARTICLE_CONTROLLER = API_PREFIX + "/report";
 
     // Tag management
     String TAG_CONTROLLER = API_PREFIX + "/tag";
@@ -81,6 +89,12 @@ public interface Constant {
     public static final String CHECK_FACEBOOK_ACCESS_TOKEN_TAIL = "&input_token=";
     public static final String CHECK_GOOGLE_ACCESS_TOKEN = "https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=";
 
+
+    //sort case user management
+    int SORT_BY_CREATE_DATE = 1;
+    int SORT_BY_TYPE = 2;
+    int SORT_BY_VIEW = 3;
+    int SORT_BY_BOOKMARK = 4;
 
     public enum Status{
 

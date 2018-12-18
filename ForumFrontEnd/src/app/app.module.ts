@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { AppComponent } from './app.component';
 import { ToastrModule } from 'ngx-toastr';
 
-import { SharedModule, FooterComponent, HeaderComponent } from './shared';
+import {SharedModule, FooterComponent, HeaderComponent} from './shared';
 import { HomeModule } from './modules/home/home.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { AppRoutingModule } from './app.routing';

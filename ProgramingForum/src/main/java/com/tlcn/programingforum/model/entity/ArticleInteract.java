@@ -1,7 +1,7 @@
 package com.tlcn.programingforum.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.tlcn.programingforum.model.entity.key.TagArticlePK;
+import com.tlcn.programingforum.model.entity.key.ArticleUserPK;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,11 +9,12 @@ import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
- * @author buiph on 16/12/2018
+ * @author buiph on 18/12/2018
  */
 
 @Entity
@@ -23,9 +24,14 @@ import java.io.Serializable;
 @AllArgsConstructor
 @DynamicInsert
 @DynamicUpdate
-@Table(name = "tag_article")
+@Table(name = "article_interact")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class TagArticle implements Serializable {
+public class ArticleInteract {
+
     @EmbeddedId
-    private TagArticlePK id;
+    ArticleUserPK id;
+
+    private int rating;
+    private int bookmark;
+    private int share;
 }
