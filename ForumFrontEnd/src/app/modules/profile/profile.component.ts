@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {TranslateService, GooglePieChartService, UserService} from '../../core/services';
+import {TranslateService, GooglePieChartService, UserService, ProfilesService} from '../../core/services';
 
-import {PieChartConfig, User} from '../../core/models';
+import {PieChartConfig, Profile, User} from '../../core/models';
+import {Pattern} from '../../shared/constant';
 
 declare var $: any;
 
@@ -19,10 +20,28 @@ export class ProfileComponent implements OnInit{
 
   currentUser: User;
 
+  currentProfile: Profile = {
+    userId: '',
+    userProfileId: '',
+    lastName: '',
+    firstName: '',
+    avatar: '',
+    company: '',
+    position: '',
+    description: '',
+    githubLink: '',
+    websiteLink: '',
+  };
+
+  profileMode: number = 1; // 1 info, 2 update
+
+  namePattern: any = Pattern.NAME_PATTERN;
+
   constructor(
-    private tranSlateService: TranslateService,
+    public translate: TranslateService,
     private pieChartService: GooglePieChartService,
-    private userService:UserService) {}
+    private userService:UserService,
+    private profileService: ProfilesService) {}
 
   public ngOnInit() {
 
@@ -46,6 +65,10 @@ export class ProfileComponent implements OnInit{
     this.userService.currentUser.subscribe(
       (userData) => {
         this.currentUser = userData;
+        this.profileService.get(userData.userId)
+          .subscribe(userProfile => {
+            this.currentProfile = userProfile;
+          });
       }
     );
 
@@ -63,8 +86,22 @@ export class ProfileComponent implements OnInit{
   }
 
   hihi(){
-    console.log('profile ', this.currentUser.userId);
+    console.log('profile ', this.currentUser);
   }
 
+  forwardToUpdate(){
+    this.profileMode = 2;
+  }
+
+  updateProfile(){
+
+    this.profileService.update(this.currentProfile)
+      .subscribe(userProfile => {
+        this.currentProfile = userProfile;
+        console.log("Profile Updated");
+        this.profileMode = 1;
+      })
+
+  }
 
 }

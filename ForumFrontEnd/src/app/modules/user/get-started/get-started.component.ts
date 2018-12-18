@@ -24,6 +24,7 @@ export class GetStartedComponent implements OnInit {
     description: '',
   };
 
+  imgUrl : string;
   isSocialUser: boolean = false;
   step:number = 1;
 
@@ -42,6 +43,8 @@ export class GetStartedComponent implements OnInit {
       this.userInfo.userId = params["userId"];
       this.userInfo.image = params["image"];
       this.isSocialUser = params["isSocialUser"];
+
+      this.imgUrl = params["image"] || '';
     });
   }
 
@@ -68,7 +71,6 @@ export class GetStartedComponent implements OnInit {
 
   doRegister(){
 
-    console.log(this.userInfo);
     this.authBaseService.register(this.userInfo)
       .subscribe(res => {
       if(res.status === 200){
@@ -79,7 +81,21 @@ export class GetStartedComponent implements OnInit {
           this.router.navigate(["/"]);
       }
       });
+  }
 
+  readUrl(event:any) {
+    if (event.target.files && event.target.files[0]) {
+
+      this.userInfo.imgFile = event.target.files[0];
+
+      let reader = new FileReader();
+
+      reader.onload = (event: ProgressEvent) => {
+        this.imgUrl = (<FileReader>event.target).result;
+      };
+
+      reader.readAsDataURL(event.target.files[0]);
+    }
   }
 
 }

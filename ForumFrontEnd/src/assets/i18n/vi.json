@@ -68,6 +68,12 @@
     "forgot_password": "Quên mật khẩu?",
     "phone_no": "Số điện thoại",
     "description": "Mô tả",
+    "company": "Công ty",
+    "position": "Vị trí",
+    "github": "Github",
+    "website": "Website",
+    "link": "LIÊN KẾT",
+    "about": "Thông tin",
     "get_started": {
       "step": "Bước",
       "your_account_info": "Thông tin tài khoản",
@@ -114,7 +120,8 @@
     "change": "Thay đổi",
     "follow": "Theo dõi",
     "done": "Hoàn thành",
-    "post": "ĐĂNG BÀI"
+    "post": "ĐĂNG BÀI",
+    "update": "CẬP NHẬT"
   },
   "message": {
     "interact": {

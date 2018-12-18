@@ -68,6 +68,12 @@
     "forgot_password": "Forgot Password?",
     "phone_no": "Phone Number",
     "description": "Description",
+    "company": "Company",
+    "position": "Position",
+    "github": "Github",
+    "website": "Website",
+    "link": "LINK",
+    "about": "About",
     "get_started": {
       "step": "Step",
       "your_account_info": "Your account information",
@@ -114,7 +120,8 @@
     "change": "Change",
     "follow": "Follow",
     "done": "Done",
-    "post": "POST"
+    "post": "POST",
+    "update": "UPDATE"
   },
   "message": {
     "interact": {
