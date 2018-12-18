@@ -48,12 +48,14 @@ public class ProfileController extends AbstractBasedAPI {
 
             Profile profile = new Profile();
 
+            profile.setFirstName(profileRequest.getFirstName());
+            profile.setLastName(profileRequest.getLastName());
             profile.setUserId(profileRequest.getUserId());
             profile.setDescription(profileRequest.getDescription());
             profile.setWebsiteLink(profileRequest.getWebsiteLink());
             profile.setGithubLink(profileRequest.getGithubLink());
             profile.setPosition(profileRequest.getPosition());
-            profile.setCompany(profileRequest.getDegree());
+            profile.setCompany(profileRequest.getCompany());
             profile.setAvatar(profile.getAvatar());
 
             profileService.saveProfile(profile);
@@ -75,15 +77,18 @@ public class ProfileController extends AbstractBasedAPI {
         Profile profile = profileService.getProfileByUserId(profileRequest.getUserId());
 
         //check user profile
-        if (profile != null) {
+        if (profile == null) {
             throw new ApplicationException(APIStatus.ERR_USER_PROFILE_NOT_FOUND);
-        } else {
+        }
+        else {
 
+            profile.setFirstName(profileRequest.getFirstName());
+            profile.setLastName(profileRequest.getLastName());
             profile.setDescription(profileRequest.getDescription());
             profile.setWebsiteLink(profileRequest.getWebsiteLink());
             profile.setGithubLink(profileRequest.getGithubLink());
             profile.setPosition(profileRequest.getPosition());
-            profile.setCompany(profileRequest.getDegree());
+            profile.setCompany(profileRequest.getCompany());
             profile.setAvatar(profile.getAvatar());
 
             profileService.saveProfile(profile);

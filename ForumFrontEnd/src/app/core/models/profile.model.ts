@@ -1,6 +1,12 @@
 export interface Profile {
-  username: string;
-  bio: string;
-  image: string;
-  following: boolean;
+  userId: string;
+  userProfileId: string;
+  lastName: string;
+  firstName: string;
+  avatar: string;
+  company: string;
+  position: string;
+  description: string;
+  githubLink: string;
+  websiteLink: string;
 }

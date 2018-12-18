@@ -31,6 +31,7 @@ public class UserRequest {
     private String userProfileId;
     private String firstName;
     private String lastName;
+    @JsonIgnore
     private MultipartFile avatar;
     private String description;
     private String websiteLink;

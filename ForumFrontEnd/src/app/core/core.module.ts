@@ -16,6 +16,7 @@ import {
   TranslateService,
   UserService
 } from './services';
+import {AdminGuard, ModeratorGuard, UserGuard} from './guards';
 
 
 @NgModule({
@@ -38,7 +39,10 @@ import {
     SessionService,
     TranslateService,
     CookieService,
-    UserService
+    UserService,
+    AdminGuard,
+    ModeratorGuard,
+    UserGuard
   ],
   declarations: []
 })

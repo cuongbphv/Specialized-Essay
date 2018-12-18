@@ -12,20 +12,24 @@ import com.tlcn.programingforum.model.entity.Profile;
 import com.tlcn.programingforum.model.entity.Session;
 import com.tlcn.programingforum.model.entity.User;
 import com.tlcn.programingforum.service.AuthService;
+import com.tlcn.programingforum.service.FileUploadService;
 import com.tlcn.programingforum.service.ProfileService;
 import com.tlcn.programingforum.service.UserService;
 import com.tlcn.programingforum.util.CommonUtil;
 import com.tlcn.programingforum.util.Constant;
 import com.tlcn.programingforum.util.MD5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.jws.soap.SOAPBinding;
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Date;
@@ -47,6 +51,9 @@ public class UserController extends AbstractBasedAPI {
 
     @Autowired
     AuthService authService;
+
+    @Autowired
+    FileUploadService fileUploadService;
 
     @RequestMapping(value = Constant.WITHIN_ID, method = RequestMethod.GET)
     public ResponseEntity<RestAPIResponse> getDetailUserByAdmin(
@@ -178,10 +185,15 @@ public class UserController extends AbstractBasedAPI {
         }
     }
 
-    @RequestMapping(path = Constant.USER_REGISTER, method = RequestMethod.POST)
+    @RequestMapping(path = Constant.USER_REGISTER,
+            method = RequestMethod.POST)
+//            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<RestAPIResponse> createUser(
+//            @RequestPart("avatar") MultipartFile avatar,
+//            @RequestPart("userInfo") String userName
             @RequestBody UserRequest userRequest
-    ) throws NoSuchAlgorithmException {
+            ) throws NoSuchAlgorithmException {
+
 
         validateParam(userRequest);
 
@@ -251,6 +263,11 @@ public class UserController extends AbstractBasedAPI {
             profile.setFirstName(userRequest.getFirstName());
             profile.setLastName(userRequest.getLastName());
 
+            if(userRequest.getAvatar() != null){
+                String url = fileUploadService.uploadFile(userRequest.getAvatar(),
+                        "usr_avt_"+user.getUserId());
+                profile.setAvatar(url);
+            }
 //            profile.setAvatar(userRequest.getAvatar());
 
             if(userRequest.getDescription() != null) {

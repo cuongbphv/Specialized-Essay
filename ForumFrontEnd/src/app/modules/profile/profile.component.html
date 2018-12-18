@@ -1,7 +1,7 @@
 <section>
   <div class="container profile-container testimonial py-5">
-    <div class="profile-info row">
-      <div class="col-lg-4 col-sm-6">
+    <div *ngIf="profileMode===1" class="profile-info row">
+      <div class="col-lg-4 col-xs-12">
 
         <div class="card hovercard">
           <div class="cardheader">
@@ -12,29 +12,30 @@
           </div>
           <div class="info">
             <div class="title">
-              <a target="_blank" href="https://scripteden.com/">{{currentUser.firstName}}</a>
+              <a>{{currentProfile.firstName + " " + currentProfile.lastName}}</a>
             </div>
-            <div class="desc">Passionate designer</div>
-            <div class="desc">Curious developer</div>
-            <div class="desc">Tech geek</div>
+            <div class="desc">{{currentProfile.position}}</div>
+            <div class="desc">{{currentProfile.company}}</div>
           </div>
           <div class="bottom">
-            <a class="btn btn-primary btn-twitter btn-sm" href="https://twitter.com/webmaniac">
-              <i class="fa fa-twitter"></i>
-            </a>
-            <a class="btn btn-danger btn-sm" rel="publisher"
-               href="https://plus.google.com/+ahmshahnuralam">
-              <i class="fa fa-google-plus"></i>
+            <a class="btn btn-dark btn-sm" rel="publisher"
+               href="{{currentProfile.githubLink}}">
+              <i class="fa fa-github"></i>
             </a>
             <a class="btn btn-primary btn-sm" rel="publisher"
-               href="https://plus.google.com/shahnuralam">
+               href="{{currentProfile.websiteLink}}">
               <i class="fa fa-facebook"></i>
             </a>
+          </div>
+          <div class="text-center">
+            <input type="submit" class="profile-edit-btn"  style="width: 30%;"
+                   name="btnUpdateProfile" (click)="forwardToUpdate()"
+                   value="{{this.translate.data.button.update | translate}}"/>
           </div>
         </div>
       </div>
 
-      <div class="col-lg-4 col-sm-6">
+      <div class="col-lg-4 col-xs-12">
         <div class="follow">
           <div class="btn-follow">
             <button class="btn-follow btn-primary" (click)="hihi()">Follow <i class="fa fa-rss"></i></button>
@@ -93,20 +94,20 @@
         </div>
       </div>
 
-      <div class="col-lg-4 col-sm-6">
+      <div class="col-lg-4 col-xs-12">
         <div class="chart col-xs-12" style="text-align: center">
           <pie-chart class="col-xs-8" [data]="data" [config]="config" [elementId]="elementId"></pie-chart>
         </div>
         <div class="statistics-info col-xs-12">
-          <div class="col-lg-4">
+          <div class="col-lg-4 col-xs-4">
             <p>BOOKMARK</p>
             <p class="statistics-num">230</p>
           </div>
-          <div class="col-lg-4">
+          <div class="col-lg-4 col-xs-4">
             <p>COMMENT</p>
             <p class="statistics-num">29955</p>
           </div>
-          <div class="col-lg-4">
+          <div class="col-lg-4 col-xs-4">
             <p>VIEW</p>
             <p class="statistics-num">129955</p>
           </div>
@@ -115,9 +116,187 @@
       </div>
 
     </div>
+
+
+    <div *ngIf="profileMode===2" class="emp-profile profile-update container">
+      <form method="post">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="profile-img">
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog"
+                alt=""/>
+              <div class="file btn btn-primary">
+                {{this.translate.data.button.change | translate}}
+                <input type="file" name="file"/>
+              </div>
+            </div>
+
+            <div class="profile-work">
+              <p class="text-center">{{this.translate.data.label.link | translate}}</p>
+              <div class="form-row">
+                <label class="form-group col-md-3">{{this.translate.data.label.github | translate}}</label>
+                <div class="form-group col-md-9 cross-validation">
+                  <input type="text" class="form-control" name="github"
+                         [(ngModel)]="currentProfile.githubLink">
+                </div>
+              </div>
+              <div class="form-row">
+                <label class="form-group col-md-3">{{this.translate.data.label.website | translate}}</label>
+                <div class="form-group col-md-9 cross-validation">
+                  <input type="text" class="form-control" name="website"
+                         [(ngModel)]="currentProfile.websiteLink">
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="col-md-8">
+            <div class="profile-head">
+              <!--<p class="proile-rating">RANKINGS : <span>8/10</span></p>-->
+              <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                     aria-controls="home" aria-selected="true">{{this.translate.data.label.about | translate}}</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                     aria-controls="profile" aria-selected="false">Timeline</a>
+                </li>
+              </ul>
+
+              <div class="tab-content profile-tab" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+                  <div class="row">
+
+                    <label class="form-group col-md-2">{{this.translate.data.label.first_name | translate}}</label>
+
+                    <div class="form-group col-md-4 cross-validation"
+                         [class.cross-validation-error]="firstName.touched || firstName.dirty">
+                      <input id="firstName" name="firstName"
+                             class="form-control" type="text" #firstName="ngModel"
+                             [(ngModel)]="currentProfile.firstName"
+                             [required]="true"
+                             [pattern]="namePattern">
+
+                      <div *ngIf="firstName.touched">
+                        <span class="help-block" *ngIf="firstName.value === ''">
+                          {{this.translate.data.validation.first_name.required | translate}}
+                        </span>
+                                <span class="help-block" *ngIf="firstName.errors?.pattern">
+                          {{this.translate.data.validation.first_name.pattern | translate}}
+                        </span>
+                      </div>
+                    </div>
+
+                    <label class="form-group col-md-2">{{this.translate.data.label.last_name | translate}}</label>
+
+                    <div class="form-group col-md-4 cross-validation"
+                         [class.cross-validation-error]="lastName.touched || lastName.dirty">
+                      <input type="text" class="form-control" id="lastName" name="lastName"
+                             #lastName="ngModel" [(ngModel)]="currentProfile.lastName" [required]="true"
+                             [pattern]="namePattern">
+
+                      <div *ngIf="lastName.touched">
+                        <span class="help-block" *ngIf="lastName.value === ''">
+                          {{this.translate.data.validation.last_name.required | translate}}
+                        </span>
+                                <span class="help-block" *ngIf="lastName.errors?.pattern">
+                          {{this.translate.data.validation.last_name.pattern | translate}}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <label class="form-group col-md-2">{{this.translate.data.label.company | translate}}</label>
+                    <div class="form-group col-md-10 cross-validation">
+                      <input type="text" class="form-control" name="company"
+                             maxlength="255"
+                             #company="ngModel" [(ngModel)]="currentProfile.company">
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <label class="form-group col-md-2">{{this.translate.data.label.position | translate}}</label>
+                    <div class="form-group col-md-10 cross-validation">
+                      <input type="text" class="form-control" name="position"
+                             maxlength="255"
+                             #position="ngModel" [(ngModel)]="currentProfile.position">
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <label class="form-group col-md-2">{{this.translate.data.label.description | translate}}</label>
+                    <div class="form-group col-md-10 cross-validation">
+                     <textarea type="text" class="form-control" id="description" name="description"
+                               #description="ngModel" [(ngModel)]="currentProfile.description"
+                               maxlength="1000"
+                               style="height: 150px">
+                  </textarea>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label>Experience</label>
+                    </div>
+                    <div class="col-md-6">
+                      <p>Expert</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label>Hourly Rate</label>
+                    </div>
+                    <div class="col-md-6">
+                      <p>10$/hr</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label>Total Projects</label>
+                    </div>
+                    <div class="col-md-6">
+                      <p>230</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label>English Level</label>
+                    </div>
+                    <div class="col-md-6">
+                      <p>Expert</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label>Availability</label>
+                    </div>
+                    <div class="col-md-6">
+                      <p>6 months</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Your Bio</label><br/>
+                      <p>Your detail description</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12 text-right">
+            <input type="submit" class="profile-edit-btn" name="btnUpdateProfile" (click)="updateProfile()"
+                   value="{{this.translate.data.button.update | translate}}"/>
+          </div>
+        </div>
+      </form>
+    </div>
+
     <hr>
     <div class="profile-post">
-
       <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bhoechie-tab-container">
           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bhoechie-tab-menu">

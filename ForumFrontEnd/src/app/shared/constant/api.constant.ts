@@ -2,6 +2,7 @@
 const BaseURL = {
   AUTH_API: '/auth',
   USER_API: '/user',
+  PROFILE: '/profile',
   ARTICLE_API: '/article',
   TAG_API: '/tag'
 };
@@ -19,6 +20,10 @@ export const API = {
   AUTH_USER_EMAIL: '/auth/check',
 
   GET_USER: BaseURL.USER_API + "/",
+
+  //Profile API
+  GET_PROFILE: '/profile/',
+  UPDATE_PROFILE: BaseURL.PROFILE,
 
   // Article Management
   CREATE_ARTICLE: BaseURL.ARTICLE_API,
