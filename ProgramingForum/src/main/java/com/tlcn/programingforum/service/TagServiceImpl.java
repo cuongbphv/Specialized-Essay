@@ -27,5 +27,15 @@ public class TagServiceImpl implements TagService {
         return tagRepository.save(tag);
     }
 
+    @Override
+    public Tag findTagById(String tagId) {
+        return tagRepository.findByTagId(tagId);
+    }
+
+    @Override
+    public List<Tag> findMostTagInForum() {
+        return tagRepository.findTop5TagMostInForum();
+    }
+
 
 }

@@ -51,7 +51,10 @@ public enum APIStatus {
     ERR_OLD_PASS(717, "Old password incorect"),
 
     //Profile
-    ERR_USER_PROFILE_NOT_FOUND(800, "User Profile not found");
+    ERR_USER_PROFILE_NOT_FOUND(800, "User Profile not found"),
+
+    //POST
+    ERR_ARTICLE_NOT_FOUND(900, "Article not found");
 
     private final int code;
     private final String description;

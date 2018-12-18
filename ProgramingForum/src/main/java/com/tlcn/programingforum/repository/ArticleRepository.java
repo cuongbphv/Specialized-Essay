@@ -12,4 +12,5 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Repository
 public interface ArticleRepository extends CrudRepository<Article, String> {
+    Article findByArticleIdAndStatus(String articleId, int status);
 }

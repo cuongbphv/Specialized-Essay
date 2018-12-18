@@ -27,7 +27,7 @@
     "placeholder_title": "Please input post's title",
     "article": "Article",
     "question": "Question",
-    "placeholder_tag": "Please choose 5 tags for your post"
+    "placeholder_tag": "Input 5 tags for post"
   },
   "footer": {
     "introduction": "INTRODUCTION",

@@ -7,6 +7,7 @@ import { HomeRoutingModule } from './home.routing';
 
 // Components
 import { HomeComponent } from './home.component';
+import {TagService} from '../../core/services';
 
 @NgModule({
   imports: [
@@ -17,7 +18,9 @@ import { HomeComponent } from './home.component';
   declarations: [
     HomeComponent
   ],
-  providers: []
+  providers: [
+    TagService
+  ]
 })
 export class HomeModule {}
 

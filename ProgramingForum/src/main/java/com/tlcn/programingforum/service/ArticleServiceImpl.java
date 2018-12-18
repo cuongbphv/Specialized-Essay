@@ -19,4 +19,9 @@ public class ArticleServiceImpl extends AbstractBaseService implements ArticleSe
     public Article saveArticle(Article article) {
         return articleRepository.save(article);
     }
+
+    @Override
+    public Article getDetailArticle(String articleId, int status) {
+        return articleRepository.findByArticleIdAndStatus(articleId, status);
+    }
 }

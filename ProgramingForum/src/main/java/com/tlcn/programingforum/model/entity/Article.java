@@ -46,5 +46,6 @@ public class Article {
     private String thumbnail;
     private boolean isApproved;
     private String userId;
+    private int status;
 
 }

@@ -5,6 +5,8 @@ import com.tlcn.programingforum.repository.TagArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author buiph on 16/12/2018
  */
@@ -17,5 +19,10 @@ public class TagArticleServiceImpl implements TagArticleService {
     @Override
     public TagArticle saveTagArticle(TagArticle tagArticle) {
         return tagArticleRepository.save(tagArticle);
+    }
+
+    @Override
+    public List<TagArticle> findByArticleId(String articleId) {
+        return tagArticleRepository.findByIdArticleId(articleId);
     }
 }
