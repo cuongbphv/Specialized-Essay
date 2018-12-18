@@ -10,7 +10,7 @@ import { LMarkdownEditorModule } from 'ngx-markdown-editor';
 // Components
 import { CreatePostComponent } from './create/create-post.component';
 import { PostDetailComponent } from './detail/post-detail.component';
-import {ArticleInteractService, ArticleService, CustomToastrService, ModalService} from '../../core/services';
+import {ArticleInteractService, ArticleService, CustomToastrService, ModalService, ReportArticleService} from '../../core/services';
 
 @NgModule({
   imports: [
@@ -27,7 +27,8 @@ import {ArticleInteractService, ArticleService, CustomToastrService, ModalServic
     ArticleService,
     ArticleInteractService,
     CustomToastrService,
-    ModalService
+    ModalService,
+    ReportArticleService
   ]
 })
 

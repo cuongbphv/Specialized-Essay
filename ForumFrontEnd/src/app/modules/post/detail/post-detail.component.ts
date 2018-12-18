@@ -4,12 +4,14 @@ import {Location} from '@angular/common';
 import {
   ArticleInteractService,
   ArticleService,
-  CustomToastrService, ModalService,
+  CustomToastrService, ModalService, ReportArticleService,
   UserService
 } from '../../../core/services';
 import {ActivatedRoute} from '@angular/router';
 import marked from 'marked';
 import {User} from '../../../core/models';
+
+import * as $ from 'jquery';
 
 @Component({
   selector: 'post-detail',
@@ -25,11 +27,16 @@ export class PostDetailComponent implements OnInit {
   headingTag: any = [];
   listInteracts = [];
   myInteract: any = {
-    articleId: "",
-    userId: "",
+    articleId: '',
+    userId: '',
     rating: 0,
     bookmark: 0,
     share: 0
+  };
+  myReport: any = {
+    articleId: '',
+    userId: '',
+    reason: ''
   };
   currentUser: User;
 
@@ -40,6 +47,7 @@ export class PostDetailComponent implements OnInit {
     private userService: UserService,
     private toastrService: CustomToastrService,
     private modalService: ModalService,
+    private reportArticleService: ReportArticleService,
     private _location: Location
   ) {
   }
@@ -92,29 +100,31 @@ export class PostDetailComponent implements OnInit {
       }
     }
     console.log(this.headingTag);
-    return marked(content, {sanitize: true, tables: true}).replace(/<img/g, "<img style=\"max-width:100%\"");
+    return marked(content, {sanitize: true, tables: true}).replace(/<img/g, '<img style="max-width:100%"');
   }
 
   backClicked() {
     this._location.back();
   }
 
-  interact(type : string, value: number) {
-    if(type === 'rating') {
+  interact(type: string, value: number) {
+    if (this.article.userId === this.currentUser.userId) {
+      this.toastrService.showErrorToastr('message.interact.error');
+      return;
+    }
+
+    if (type === 'rating') {
       this.myInteract.rating = value;
-      if(value === 1) {
+      if (value === 1) {
         this.toastrService.showSuccessToastr('message.interact.upvote');
-      }
-      else if (value === -1) {
+      } else if (value === -1) {
         this.toastrService.showWarningToastr('message.interact.downvote');
       }
-    }
-    else if (type === 'bookmark') {
+    } else if (type === 'bookmark') {
       if (this.myInteract.bookmark === 0) {
         this.myInteract.bookmark = 1;
         this.toastrService.showSuccessToastr('message.interact.bookmark');
-      }
-      else if(this.myInteract.bookmark === 1) {
+      } else if (this.myInteract.bookmark === 1) {
         this.myInteract.bookmark = 0;
         this.toastrService.showWarningToastr('message.interact.unbookmark');
       }
@@ -125,11 +135,20 @@ export class PostDetailComponent implements OnInit {
         console.log(data);
         this.getListInteract();
       }
-    )
+    );
   }
 
   report() {
-
+    if (this.article.userId === this.currentUser.userId) {
+      this.toastrService.showErrorToastr('message.report.error');
+    }
+    else {
+      this.myReport.articleId = this.article.articleId;
+      this.myReport.userId = this.currentUser.userId;
+      this.reportArticleService.report(this.myReport).subscribe();
+    }
+    $("[data-dismiss=modal]").trigger({ type: "click" });
+    $('#txtReason').val("");
   }
 
   getListInteract() {
@@ -139,8 +158,8 @@ export class PostDetailComponent implements OnInit {
         this.rating = 0;
         this.bookmark = 0;
         console.log(this.listInteracts);
-        for(let i = 0; i < this.listInteracts.length; i++) {
-          if(this.listInteracts[i].userId === this.currentUser.userId) {
+        for (let i = 0; i < this.listInteracts.length; i++) {
+          if (this.listInteracts[i].userId === this.currentUser.userId) {
             this.myInteract.rating = this.listInteracts[i].rating;
             this.myInteract.bookmark = this.listInteracts[i].bookmark;
             this.myInteract.share = this.listInteracts[i].share;
@@ -150,13 +169,5 @@ export class PostDetailComponent implements OnInit {
         }
       }
     );
-  }
-
-  openModal(id: string) {
-    this.modalService.open(id);
-  }
-
-  closeModal(id: string) {
-    this.modalService.close(id);
   }
 }

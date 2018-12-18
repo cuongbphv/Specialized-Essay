@@ -16,11 +16,12 @@ export class ReportArticleService {
   }
 
   report(reportObj: any): Observable<any> {
-    return this.apiService.post(API.ADD_INTERACT, {
+    return this.apiService.post(API.REPORT_ARTICLE, {
       articleId: reportObj.articleId,
       userId: reportObj.userId,
       reason: reportObj.reason
     }).pipe(map(res => {
+      console.log(res);
       if(res.status === 200) {
         this.toastrService.showSuccessToastr('message.report.success');
       }

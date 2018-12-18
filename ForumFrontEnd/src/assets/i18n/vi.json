@@ -82,7 +82,9 @@
       "top_author": "Top tác giả",
       "skip_step": "Bỏ qua bước này",
       "done": "Hoàn tất"
-    }
+    },
+    "report": "BÁO CÁO",
+    "reason": "Lý do báo cáo"
   },
   "validation": {
     "first_name": {
@@ -121,7 +123,9 @@
     "follow": "Theo dõi",
     "done": "Hoàn thành",
     "post": "ĐĂNG BÀI",
-    "update": "CẬP NHẬT"
+    "update": "CẬP NHẬT",
+    "close": "Đóng",
+    "report": "Báo cáo"
   },
   "message": {
     "interact": {
@@ -129,10 +133,12 @@
       "downvote": "Bạn đã đánh giá -1 cho bài viết",
       "bookmark": "Bạn đã lưu trữ bài viết",
       "unbookmark": "Bạn đã gỡ lưu trữ bài viết",
-      "share": "Bạn đã chia sẻ bài viết"
+      "share": "Bạn đã chia sẻ bài viết",
+      "error": "Bạn không thể tương tác bài viết của bạn"
     },
     "report": {
-      "success": "Bạn đã báo cáo bài viết thành công"
+      "success": "Bạn đã báo cáo bài viết thành công",
+      "error": "Bạn không thể báo cáo bài viết của bạn"
     }
   },
   "api": {
