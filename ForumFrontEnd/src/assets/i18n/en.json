@@ -92,7 +92,10 @@
     "comment_at": "comment at",
     "comment": "Comment",
     "share_now": "Share now",
-    "post_on": " Posted on"
+    "post_on": " Posted on",
+    "no_toc": "No table of content",
+    "no_tag": "No tags",
+    "my_tags": "My tags"
   },
   "validation": {
     "first_name": {
@@ -121,6 +124,12 @@
     },
     "phone_no": {
       "pattern": "Phone number is wrong format"
+    },
+    "content": {
+      "required": "Content is required"
+    },
+    "title": {
+      "required": "Title is required"
     }
   },
   "button": {
@@ -148,6 +157,10 @@
     "report": {
       "success": "You reported this post successfully",
       "error": "You can not report your post"
+    },
+    "resolved": {
+      "existed": "You marked as resolved for right answer",
+      "success": "You marked as resolved successfully"
     }
   },
   "api": {

@@ -299,8 +299,8 @@
 }
 
 .reply-list .comment-avatar {
-  width: 50px;
-  height: 50px;
+  width: 10%;
+  height: auto;
 }
 
 .comment-main-level:after {
@@ -340,7 +340,7 @@
 }
 
 .reply-list .comment-box {
-  width: 610px;
+  width: 87%;
 }
 .comment-box .comment-head {
   background: #FCFCFC;
@@ -366,6 +366,22 @@
 
 .comment-box .comment-head i:hover {
   color: #03658c;
+}
+
+.comment-box .comment-head i.fa-heart:hover {
+  color: red;
+}
+
+.comment-box .comment-head i.fa-check:hover {
+  color: green;
+}
+
+.comment-box .comment-head i.fa-check-circle {
+  color: green;
+}
+
+.comment-box .comment-head i.fa-reply:hover {
+  color: #1e5f8d;
 }
 
 .comment-box .comment-name {

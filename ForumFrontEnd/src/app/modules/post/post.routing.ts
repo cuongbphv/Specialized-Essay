@@ -4,6 +4,7 @@ import { CreatePostComponent } from './create/create-post.component';
 import { PostDetailComponent } from './detail/post-detail.component';
 import { NgModule } from '@angular/core';
 import {UserGuard} from '../../core/guards';
+import {EditPostComponent} from './edit/edit-post.component';
 
 export const routes: Routes = [
   {
@@ -14,6 +15,10 @@ export const routes: Routes = [
   {
     path: ':id',
     component: PostDetailComponent
+  },
+  {
+    path: 'edit/:id',
+    component: EditPostComponent
   }
 ];
 

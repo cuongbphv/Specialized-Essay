@@ -3,8 +3,8 @@
     <!-- Navbar brand -->
     <a class="navbar-brand" href="javascript:void(0)" [routerLink]="['/']">Shared</a>
     <!-- Collapse button -->
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNav" aria-controls="mainNav"
-            aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNav"
+            aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <!-- Collapsible content -->
@@ -16,27 +16,25 @@
       <ul class="navbar-nav ml-auto">
         <li class="nav-item" *appShowAuthed="true">
           <div class="item-icon">
-            <a class="nav-link" href="javascript:;;" [routerLink]="['/post/create']">
-              <i class="fa fa-pencil"></i>
-              <span class="mt-2 text-white" textContent="post.new_post"></span>
+            <a class="nav-link text-white" href="javascript:;;" [routerLink]="['/post/create']">
+              <i class="fa fa-plus-square"></i>
             </a>
           </div>
 
         </li>
         <li class="nav-item" *appShowAuthed="true">
           <div class="item-icon">
-            <a class="nav-link" href="javascript:;;" [routerLink]="['/products/cart-items']">
+            <a class="nav-link text-white" href="javascript:;;" [routerLink]="['/store']">
               <i class="fa fa-archive"></i>
-              <span class="mt-2 text-white" textContent="post.store"></span>
+              <span class='badgeAlert'>2</span>
             </a>
           </div>
         </li>
 
         <li class="nav-item active" *appShowAuthed="true">
-          <a class="nav-link" href="javascript:;;">
-            <i class="fa fa-envelope mr-2"></i>
-            <span class="sr-only">(current)</span>
-            <span textContent="user.notify"></span>
+          <a class="nav-link text-white" href="javascript:;;">
+            <i class="fa fa-bell mr-2"></i>
+            <span class='badgeAlert'>2</span>
           </a>
         </li>
 

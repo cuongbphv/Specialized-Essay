@@ -1,6 +1,7 @@
 package com.tlcn.programingforum.model.entity;
 
-import com.tlcn.programingforum.model.entity.key.ArticleUserPK;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.tlcn.programingforum.model.entity.key.CommentUserPK;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 /**
- * @author buiph on 18/12/2018
+ * @author buiph on 19/12/2018
  */
 
 @Entity
@@ -23,11 +24,12 @@ import java.util.Date;
 @AllArgsConstructor
 @DynamicInsert
 @DynamicUpdate
-@Table(name = "report_article")
-public class ReportArticle {
+@Table(name = "report_comment")
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+public class ReportComment {
 
     @EmbeddedId
-    ArticleUserPK id;
+    CommentUserPK id;
 
     @CreatedDate
     @Column(name = "create_date")
@@ -35,5 +37,4 @@ public class ReportArticle {
     private Date createDate;
 
     private String reason;
-
 }

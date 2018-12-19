@@ -13,12 +13,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PagingRequestModel {
-
     private String searchKey;
     private String name;
     private int sortCase;
     private boolean ascSort;
     private int pageNumber;
     private int pageSize;
-    private String lang;
+    private int type;
 }

@@ -26,6 +26,7 @@ import {AdminFooterComponent} from './_layout/admin-footer/footer.component';
 import {AdminSidebarComponent} from './_layout/admin-sidebar/sidebar.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {AdminModule} from './modules/admin/admin.module';
+import {ErrorModule} from './modules/error/error.module';
 
 
 // Configs
@@ -63,6 +64,7 @@ export function setupTranslateFactory(service: TranslateService): Function {
     SharedModule,
     AuthModule,
     HomeModule,
+    ErrorModule,
     CoreModule,
     SocialLoginModule,
     UserModule,

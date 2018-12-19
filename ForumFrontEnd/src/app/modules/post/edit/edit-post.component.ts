@@ -2,20 +2,21 @@ import {Component, OnInit} from '@angular/core';
 
 import {ArticleService, TranslateService, UserService} from '../../../core/services';
 import * as $ from 'jquery';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {User} from '../../../core/models';
 
 @Component({
-  selector: 'create-post',
-  templateUrl: './create-post.component.html',
-  styleUrls: ['./create-post.component.scss']
+  selector: 'edit-post',
+  templateUrl: './edit-post.component.html',
+  styleUrls: ['./edit-post.component.scss']
 })
 
-export class CreatePostComponent implements OnInit {
+export class EditPostComponent implements OnInit {
 
   currentUser: User;
 
   post: any = {
+    articleId: '',
     title: '',
     content: '',
     tags: [],
@@ -27,7 +28,8 @@ export class CreatePostComponent implements OnInit {
     public translate: TranslateService,
     public articleService: ArticleService,
     private userService: UserService,
-    public router: Router
+    public router: Router,
+    private route: ActivatedRoute
   ) {
   }
 
@@ -38,6 +40,24 @@ export class CreatePostComponent implements OnInit {
         this.currentUser = userData;
       }
     );
+
+    this.route.params.subscribe(params => {
+      this.articleService.getDetailPost(params['id']).subscribe(
+        data => {
+          if (this.currentUser.userId !== data.userId) {
+            this.router.navigate(["/post" + this.post.articleId]);
+          }
+          this.post.articleId = data.articleId;
+          this.post.title = data.title;
+          this.post.userId = data.userId;
+          for(let i = 0; i < data.tagList.length; i++) {
+            this.post.tags.push(data.tagList[i].tagName);
+          }
+          this.post.content = data.content;
+          this.post.type = data.type;
+        }
+      );
+    });
 
     let self = this;
     $('input[data-role=\'add-tag\']').keypress(function (event) {
@@ -60,10 +80,10 @@ export class CreatePostComponent implements OnInit {
     return this.post.tags.includes(tag);
   }
 
-  createArticle() {
+  updateArticle() {
     this.post.userId = this.currentUser.userId;
 
-    this.articleService.createPost(this.post).subscribe(
+    this.articleService.updatePost(this.post).subscribe(
       data => {
         this.router.navigate(["/post/" + data.articleId]);
       });

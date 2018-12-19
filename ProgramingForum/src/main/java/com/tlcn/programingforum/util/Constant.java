@@ -48,6 +48,8 @@ public interface Constant {
     String ARTICLE_CONTROLLER = API_PREFIX + "/article";
     String LIST_ARTICLE = "/list";
     String VIEW_COUNT = "/view";
+    String STATS_BY_ARTICLE = "/stats";
+    String MARK_AS_RESOLVED = "/resolved";
 
     // Article Interact
     String ARTICLE_INTERACT_CONTROLLER = API_PREFIX + "/interact";
@@ -59,6 +61,7 @@ public interface Constant {
     // Tag management
     String TAG_CONTROLLER = API_PREFIX + "/tag";
     String MOST_TAG_IN_FORUM = "/most";
+    String MY_TAGS = "/my_tags";
 
     // Comment management
     String COMMENT_CONTROLLER = API_PREFIX + "/comment";
@@ -103,13 +106,37 @@ public interface Constant {
 
     public enum Status{
 
+        DELETE("DELETE",0),
         ACTIVE("ACTIVE", 1),
-        DELETE("DELETE",0);
+        PENDING("PENDING",2),
+        BLOCK("BLOCK",3);
 
         private final String name;
         private final int value;
 
         private Status(String name, int value){
+            this.name = name;
+            this.value = value;
+        }
+
+        public String getName(){
+            return  this.name;
+        }
+
+        public int getValue(){
+            return this.value;
+        }
+    }
+
+    enum ArticleType{
+
+        ARTICLE("ARTICLE", 1),
+        QUESTION("QUESTION",2);
+
+        private final String name;
+        private final int value;
+
+        ArticleType(String name, int value){
             this.name = name;
             this.value = value;
         }

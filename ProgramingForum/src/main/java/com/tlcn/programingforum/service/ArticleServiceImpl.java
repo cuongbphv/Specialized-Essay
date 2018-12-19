@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author buiph on 16/12/2018
  */
@@ -32,8 +34,14 @@ public class ArticleServiceImpl extends AbstractBaseService implements ArticleSe
     @Override
     public Page<Article> getListArticlePaging(PagingRequestModel pagingRequestModel) {
         ArticleSpecification userSpec = new ArticleSpecification(pagingRequestModel.getSearchKey(),
-                pagingRequestModel.getSortCase(), pagingRequestModel.isAscSort());
+                pagingRequestModel.getSortCase(), pagingRequestModel.isAscSort(),
+                pagingRequestModel.getType());
         PageRequest pageReq = new PageRequest((pagingRequestModel.getPageNumber() - 1), pagingRequestModel.getPageSize());
         return articleRepository.findAll(userSpec, pageReq);
+    }
+
+    @Override
+    public List<Article> findByUserId(String userId) {
+        return articleRepository.findByUserId(userId);
     }
 }

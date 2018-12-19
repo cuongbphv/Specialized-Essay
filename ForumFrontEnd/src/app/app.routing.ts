@@ -6,6 +6,7 @@ import {RegisterComponent} from './modules/auth/register/register.component';
 import {LoginComponent} from './modules/auth/login/login.component';
 import {HomeComponent} from './modules/home/home.component';
 import {DashboardComponent} from './modules/admin/dashboard/dashboard.component';
+import {ErrorComponent} from './modules/error/error.component';
 
 const routes: Routes = [
 
@@ -42,7 +43,7 @@ const routes: Routes = [
     path: 'admin',
     component: AdminLayoutComponent,
     children: [
-      { path: '', redirectTo: '/admin/dashboard', pathMatch: 'full' },
+      {path: '', redirectTo: '/admin/dashboard', pathMatch: 'full'},
       {
         path: '',
         loadChildren: './modules/admin/admin.module#AdminModule'
@@ -50,18 +51,11 @@ const routes: Routes = [
     ]
   },
 
-  // {
-  //   //   path: 'profile',
-  //   //   loadChildren: './modules/profile/profile.module#ProfileModule'
-  //   // },
-  //   // {
-  //   //   path: 'post',
-  //   //   loadChildren: './modules/post/post.module#PostModule'
-  //   // },
-  //   // {
-  //   //   path: 'admin',
-  //   //   loadChildren: './modules/admin/admin.module#AdminModule'
-  //   // }
+  {
+    path: '**',
+    redirectTo: 'error'
+  }
+
 ];
 
 @NgModule({
