@@ -47,6 +47,7 @@ public interface Constant {
     //Post management
     String ARTICLE_CONTROLLER = API_PREFIX + "/article";
     String LIST_ARTICLE = "/list";
+    String VIEW_COUNT = "/view";
 
     // Article Interact
     String ARTICLE_INTERACT_CONTROLLER = API_PREFIX + "/interact";
@@ -58,6 +59,10 @@ public interface Constant {
     // Tag management
     String TAG_CONTROLLER = API_PREFIX + "/tag";
     String MOST_TAG_IN_FORUM = "/most";
+
+    // Comment management
+    String COMMENT_CONTROLLER = API_PREFIX + "/comment";
+    String LIST_COMMENT_IN_ARTICLE = "/list";
 
     // Request Content Type
     public static final String APPLICATION_JSON_CONTENT_TYPE = "application/json";

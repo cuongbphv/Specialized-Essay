@@ -84,7 +84,14 @@
       "done": "Hoàn tất"
     },
     "report": "BÁO CÁO",
-    "reason": "Lý do báo cáo"
+    "reason": "Lý do báo cáo",
+    "author": "Tác giả",
+    "join_date": "Đã tham gia diễn đàn vào",
+    "table_of_content": "Nội dung chính",
+    "tags": "Thẻ",
+    "comment_at": "bình luận lúc",
+    "comment": "Bình luận",
+    "share_now": "Chia sẻ ngay"
   },
   "validation": {
     "first_name": {
@@ -125,7 +132,9 @@
     "post": "ĐĂNG BÀI",
     "update": "CẬP NHẬT",
     "close": "Đóng",
-    "report": "Báo cáo"
+    "report": "Báo cáo",
+    "comment": "BÌNH LUẬN",
+    "post_on": " Đã đăng vào"
   },
   "message": {
     "interact": {

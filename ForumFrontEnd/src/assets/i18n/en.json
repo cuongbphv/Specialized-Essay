@@ -84,7 +84,15 @@
       "done": "Done"
     },
     "report": "REPORT",
-    "reason": "Report's reason"
+    "reason": "Report's reason",
+    "author": "Author",
+    "join_date": "Joined to forum on",
+    "table_of_content": "Table of content",
+    "tags": "Tags",
+    "comment_at": "comment at",
+    "comment": "Comment",
+    "share_now": "Share now",
+    "post_on": " Posted on"
   },
   "validation": {
     "first_name": {
@@ -125,7 +133,8 @@
     "post": "POST",
     "update": "UPDATE",
     "close": "CLOSE",
-    "report": "REPORT"
+    "report": "REPORT",
+    "comment": "COMMENT"
   },
   "message": {
     "interact": {

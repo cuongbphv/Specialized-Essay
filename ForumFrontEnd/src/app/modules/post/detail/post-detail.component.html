@@ -44,13 +44,13 @@
 </div>
 
 <!--<modal id="modal-report">-->
-  <!--<div class="modal">-->
-    <!--<div class="modal-body">-->
-      <!--<h1>Test</h1>-->
-      <!--<button (click)="closeModal('modal-report');">Close</button>-->
-    <!--</div>-->
-  <!--</div>-->
-  <!--<div class="modal-background"></div>-->
+<!--<div class="modal">-->
+<!--<div class="modal-body">-->
+<!--<h1>Test</h1>-->
+<!--<button (click)="closeModal('modal-report');">Close</button>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="modal-background"></div>-->
 <!--</modal>-->
 
 <div class="container" style="margin-top: 70px;">
@@ -64,27 +64,18 @@
       <hr>
 
       <!-- Info Date/Time and Stats -->
-      <div class="time__div"><p><span class="fa fa-clock-o"></span> Posted on August 24, 2013 at 9:00 PM</p></div>
+      <div class="time__div"><p><span class="fa fa-clock-o"></span>
+        <span textContent="label.post_on"></span> {{article.createDate | date: 'MM/dd/yyyy HH:mm'}}</p></div>
       <div class="stat__div">
         <span class="stats-item text-muted" data-tippy="" data-original-title="Views"
               aria-describedby="tippy-285">
                 <i aria-hidden="true" class="fa fa-eye"></i>&nbsp;{{article.viewCount}}</span>
         <span class="stats-item text-muted" data-tippy="" data-original-title="Clips">
-                <i aria-hidden="true" class="fa fa-bookmark"></i>&nbsp;{{bookmark}}</span>
+                <i aria-hidden="true" class="fa fa-bookmark"></i>&nbsp;{{bookmarkCount}}</span>
         <span class="stats-item text-muted" data-tippy="" data-original-title="Comments">
-                <i aria-hidden="true" class="fa fa-comments"></i>&nbsp;1</span>
+                <i aria-hidden="true" class="fa fa-comments"></i>&nbsp;{{commentCount}}</span>
       </div>
       <div class="clearfix"></div>
-      <!--<div>-->
-        <!--<span *ngIf="this.translate.getCurrentLanguage() === 'en'">-->
-          <!--{{author.firstName}} {{author.lastName}}-->
-        <!--</span>-->
-
-        <!--<span *ngIf="this.translate.getCurrentLanguage() === 'vi'">-->
-          <!--{{author.lastName}} {{author.firstName}}-->
-        <!--</span>-->
-
-      <!--</div>-->
       <hr>
 
       <!-- Content of Post -->
@@ -97,8 +88,15 @@
              src="https://bootstrapmade.com/wp-content/themefiles/Moderna/400.png">
 
         <div class="author-info">
-          <h5>Tác giả: <a href="http://www.portfolio2017.skn1.com/oficial/" target="_blank">Bùi Cường</a></h5>
-          <p class="alert alert-success">Đã tham gia diễn đàn ngày 20-11-2018</p>
+          <h5><span textContent="label.author"></span>: <a href="javascript:void(0)"
+                                                           [routerLink]="['/profile/' + author.userName]"
+                                                           target="_blank">
+            <span *ngIf="lang === 'vi'">{{author.lastName}} {{author.firstName}}</span>
+            <span *ngIf="lang === 'en'">{{author.firstName}} {{author.lastName}}</span>
+          </a></h5>
+          <p class="alert alert-success">
+            <span textContent="label.join_date"></span><span> {{author.createDate | date:'MM/dd/yyyy'}}</span>
+          </p>
 
           <ul class="list-group">
             <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -124,73 +122,97 @@
 
       <!-- Blog Comments -->
       <!-- Comments Form -->
-      <div class="well">
-        <h5>Leave a Comment:</h5>
-        <form role="form">
-          <div class="form-group">
-            <textarea class="form-control" rows="3"></textarea>
-          </div>
-          <button type="submit" class="btn btn-shared text-white float-right">Submit</button>
-        </form>
-      </div>
-      <div class="clearfix">
-
-      </div>
+      <div class="widget-area-comment no-padding blank">
+        <div class="status-upload">
+          <form>
+            <textarea name="txtNewComment" [(ngModel)]="newComment.content"
+                      textPlaceHolder="label.share_now"></textarea>
+            <!--<ul>-->
+            <!--<li><a title="" data-toggle="tooltip" data-placement="bottom" data-original-title="Audio"><i-->
+            <!--class="fa fa-music"></i></a></li>-->
+            <!--<li><a title="" data-toggle="tooltip" data-placement="bottom" data-original-title="Video"><i-->
+            <!--class="fa fa-video-camera"></i></a></li>-->
+            <!--<li><a title="" data-toggle="tooltip" data-placement="bottom" data-original-title="Sound Record"><i-->
+            <!--class="fa fa-microphone"></i></a></li>-->
+            <!--<li><a title="" data-toggle="tooltip" data-placement="bottom" data-original-title="Picture"><i-->
+            <!--class="fa fa-picture-o"></i></a></li>-->
+            <!--</ul>-->
+            <button type="submit" class="btn btn-shared green" (click)="addComment(null)">
+              <i class="fa fa-share"></i> <span textContent="button.comment"></span>
+            </button>
+          </form>
+        </div><!-- Status Upload  -->
+      </div><!-- Widget Area -->
       <hr>
-      <!-- Posted Comments -->
-      <!-- Comment -->
-      <!--<div class="media">-->
-      <!--<a class="pull-left" href="#">-->
-      <!--<img class="media-object" src="http://placehold.it/64x64" alt="">-->
-      <!--</a>-->
-      <!--<div class="media-body">-->
-      <!--<h4 class="media-heading">Start Bootstrap-->
-      <!--<small>August 25, 2014 at 9:30 PM</small>-->
-      <!--</h4>-->
-      <!--Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus-->
-      <!--odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla.-->
-      <!--Donec lacinia congue-->
-      <!--felis in faucibus.-->
-      <!--</div>-->
-      <!--</div>-->
-      <!-- Comment -->
-      <!--<div class="media">-->
-      <!--<a class="pull-left" href="#">-->
-      <!--<img class="media-object" src="http://placehold.it/64x64" alt="">-->
-      <!--</a>-->
-      <!--<div class="media-body">-->
-      <!--<h4 class="media-heading">Start Bootstrap-->
-      <!--<small>August 25, 2014 at 9:30 PM</small>-->
-      <!--</h4>-->
-      <!--Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus-->
-      <!--odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla.-->
-      <!--Donec lacinia congue-->
-      <!--felis in faucibus.-->
-      <!--&lt;!&ndash; Nested Comment &ndash;&gt;-->
-      <!--<div class="media">-->
-      <!--<a class="pull-left" href="#">-->
-      <!--<img class="media-object" src="http://placehold.it/64x64" alt="">-->
-      <!--</a>-->
-      <!--<div class="media-body">-->
-      <!--<h4 class="media-heading">Nested Start Bootstrap-->
-      <!--<small>August 25, 2014 at 9:30 PM</small>-->
-      <!--</h4>-->
-      <!--Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras-->
-      <!--purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate-->
-      <!--fringilla. Donec lacinia congue-->
-      <!--felis in faucibus.-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--&lt;!&ndash; End Nested Comment &ndash;&gt;-->
-      <!--</div>-->
-      <!--</div>-->
+
+      <div class="comments-container">
+        <h1 textContent="label.comment"></h1>
+
+        <ul id="comments-list" class="comments-list" style="padding: 0;">
+          <li id="{{comment.commentId}}" *ngFor="let comment of listComments; let i = index;">
+            <div class="comment-main-level">
+
+              <div class="comment-avatar">
+                <img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt="">
+              </div>
+
+              <div class="comment-box">
+
+                <div class="comment-head">
+                  <h6 class="comment-name" [ngClass]="{ 'by-author' : comment.userId === article.userId }">
+                    <a href="http://creaticode.com/blog">
+                      {{comment.userDetail.firstName}} {{comment.userDetail.lastName}}
+                    </a>
+                  </h6>
+                  <span> <span textContent="label.comment_at"></span> {{comment.createDate | date: 'MM/dd/yyyy HH:mm'}}</span>
+                  <i class="fa fa-reply"></i>
+                  <i class="fa fa-heart"></i>
+                </div>
+
+                <div class="comment-content">
+                  {{comment.content}}
+                </div>
+
+              </div>
+            </div>
+            <!-- Respuestas de los comentarios -->
+            <ul class="comments-list reply-list">
+              <li id="{{childComment.commentId}}" *ngFor="let childComment of comment.childComments; let j = index;">
+                <!-- Avatar -->
+                <div class="comment-avatar">
+                  <img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_2_zps7de12f8b.jpg" alt="">
+                </div>
+                <div class="comment-box">
+                  <div class="comment-head">
+                    <h6 class="comment-name" [ngClass]="{ 'by-author' : childComment.userId === article.userId }">
+                      <a href="http://creaticode.com/blog">
+                        {{childComment.userDetail.firstName}} {{childComment.userDetail.lastName}}
+                      </a>
+                    </h6>
+                    <span> <span textContent="label.comment_at"></span> {{childComment.createDate | date: 'MM/dd/yyyy HH:mm'}}</span>
+                    <i class="fa fa-reply"></i>
+                    <i class="fa fa-heart"></i>
+                  </div>
+                  <div class="comment-content">
+                    {{childComment.content}}
+                  </div>
+                </div>
+              </li>
+
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+
     </div>
+
     <!-- Blog Sidebar Widgets Column -->
     <div id="sidebar" class="col-md-3">
 
       <div class="tags">
         <div class="panel table-contents">
-          <h4>Nội dung chính</h4>
+          <h4 textContent="label.table_of_content"></h4>
           <hr>
           <ul>
             <li *ngFor="let heading of this.headingTag; let i = index;">
@@ -203,7 +225,7 @@
 
       <div class="tags">
         <div class="panel">
-          <h4>Tags</h4>
+          <h4 textContent="label.tags"></h4>
           <hr>
           <a id="{{tag.tagId}}" href="#" [routerLink]="['/tags/' + tag.tagId]"
              *ngFor="let tag of this.article.tagList; let i = index;">

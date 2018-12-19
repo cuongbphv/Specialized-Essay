@@ -94,6 +94,23 @@ public class ArticleController extends AbstractBasedAPI {
         return responseUtil.successResponse(article);
     }
 
+    @RequestMapping(path = Constant.VIEW_COUNT, method = RequestMethod.GET)
+    public ResponseEntity<RestAPIResponse> viewCountArticle(
+            HttpServletRequest request,
+            @RequestParam("article_id") String articleId) {
+
+        Article article = articleService.getDetailArticle(articleId, Constant.Status.ACTIVE.getValue());
+
+        if (article == null) {
+            throw new ApplicationException(APIStatus.ERR_ARTICLE_NOT_FOUND);
+        }
+
+        article.setViewCount(article.getViewCount() + 1);
+
+        return responseUtil.successResponse(articleService.saveArticle(article));
+
+    }
+
 
     @RequestMapping(path = Constant.WITHIN_ID , method = RequestMethod.GET)
     public ResponseEntity<RestAPIResponse> getDetailArticle(

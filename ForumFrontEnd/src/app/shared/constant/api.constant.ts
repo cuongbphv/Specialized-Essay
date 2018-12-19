@@ -6,7 +6,8 @@ const BaseURL = {
   ARTICLE_API: '/article',
   TAG_API: '/tag',
   ARTICLE_INTERACT_API: '/interact',
-  REPORT_ARTICLE_API: '/report'
+  REPORT_ARTICLE_API: '/report',
+  COMMENT_API: '/comment'
 };
 
 export const API = {
@@ -31,10 +32,15 @@ export const API = {
   CREATE_ARTICLE: BaseURL.ARTICLE_API,
   GET_ARTICLE: BaseURL.ARTICLE_API + "/",
   GET_LIST_ARTICLE: BaseURL.ARTICLE_API + "/list",
+  VIEW_COUNT: BaseURL.ARTICLE_API + "/view",
 
   // Interact Management
   ADD_INTERACT: BaseURL.ARTICLE_INTERACT_API,
   GET_LIST_ARTICLE_INTERACT: BaseURL.ARTICLE_INTERACT_API,
+
+  // Comment Management
+  ADD_COMMENT: BaseURL.COMMENT_API,
+  LIST_COMMENT_IN_ARTICLE: BaseURL.COMMENT_API + "/list",
 
   // Report Article Management
   REPORT_ARTICLE: BaseURL.REPORT_ARTICLE_API,

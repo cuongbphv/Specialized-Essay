@@ -40,4 +40,9 @@ export class ArticleService {
     }).pipe(map(res => res.data));
   }
 
+  viewCount(articleId: string): Observable<any> {
+    return this.apiService.get(API.VIEW_COUNT + "?article_id=" + articleId)
+      .pipe(map(res => res.data));
+  }
+
 }
