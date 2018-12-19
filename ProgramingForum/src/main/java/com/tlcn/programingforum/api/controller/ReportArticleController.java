@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 /**
  * @author buiph on 18/12/2018
@@ -52,6 +53,7 @@ public class ReportArticleController extends AbstractBasedAPI {
         newReport.setId(new ArticleUserPK(
                 reportArticleRequest.getArticleId(),reportArticleRequest.getUserId()));
         newReport.setReason(reportArticleRequest.getReason());
+        newReport.setCreateDate(new Date());
 
         return responseUtil.successResponse(reportArticleService.createReportArticle(newReport));
     }

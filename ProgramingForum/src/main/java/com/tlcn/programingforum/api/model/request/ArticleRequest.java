@@ -16,9 +16,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ArticleRequest {
+    private String articleId;
     private String title;
     private List<String> tags;
     private String content;
     private String type;
     private String userId;
+    private String rightAnswerId;
 }

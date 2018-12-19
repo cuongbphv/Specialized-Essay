@@ -7,12 +7,11 @@ import {
   CustomToastrService, ModalService, ProfilesService, ReportArticleService, TranslateService,
   UserService
 } from '../../../core/services';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import marked from 'marked';
 import {User,Comment} from '../../../core/models';
 
 import * as $ from 'jquery';
-import {ReplaySubject} from 'rxjs';
 
 @Component({
   selector: 'post-detail',
@@ -58,11 +57,14 @@ export class PostDetailComponent implements OnInit {
     private profileService: ProfilesService,
     public translateService: TranslateService,
     private commentService: CommentService,
-    private _location: Location
+    private _location: Location,
+    private router: Router
   ) {
   }
 
   ngOnInit(): void {
+
+    $('form').submit(false);
 
     // init commnet
     this.newComment = new class implements Comment {
@@ -137,7 +139,7 @@ export class PostDetailComponent implements OnInit {
         article => {
           self.article.viewCount = article.viewCount;
         });
-      }, 10000);
+      }, 20000);
   }
 
   backClicked() {
@@ -227,61 +229,121 @@ export class PostDetailComponent implements OnInit {
     );
   }
 
-  getProfile(userId: string){
-    let obj = {
-      userId: "",
-      userName: "",
-      firstName: "",
-      lastName: "",
-      userProfileId: ""
-    };
-    this.userService.getUser(userId).subscribe(
-      author => {
-        obj.userId = author.userId;
-        obj.userName = author.userName;
-      }
-    );
+  addComment(parentId: string, reply: boolean, id: string){
 
-    this.profileService.get(this.article.userId).subscribe(
-      author => {
-        obj.firstName = author.firstName;
-        obj.lastName = author.lastName;
-        obj.userProfileId = author.userProfileId;
-      }
-    );
-    return obj;
-  }
-
-  addComment(parentId: string){
-    // clear text in comment box
-    $('#txtNewComment').val("");
+    if(reply) {
+      this.newComment.content = $(id).val();
+    }
 
     this.newComment.articleId = this.article.articleId;
     this.newComment.userId = this.currentUser.userId;
     this.newComment.parentId = parentId;
     this.commentService.addComment(this.newComment).subscribe();
 
-    this.getCommentsInArticle(this.article, this.pageNumber, this.pageSize);
+    $('#txtNewComment').val("");
+    $(id).val("");
+
+    // this.getCommentsInArticle(this.article, this.pageNumber, this.pageSize);
   }
 
   getCommentsInArticle(articleId: string, pageNumber: number, pageSize: number){
     this.commentService.getListComment(articleId,pageNumber,pageSize).subscribe(
       comments => {
         if(comments != null) {
+          console.log(comments);
           this.commentCount = 0;
           for(let i = 0; i < comments.length; i++) {
             this.commentCount++;
-            comments[i].userDetail = this.getProfile(comments[i].userId);
-            if(comments.childComments != null) {
-              for(let j = 0; j < comments.childComments.length; j++) {
+            comments[i].commentBox = [];
+
+            // get profile
+            this.userService.getUser(comments[i].userId).subscribe(
+              author => {
+
+                let obj = {
+                  userId: comments[i].userId,
+                  userName: "",
+                  firstName: "",
+                  lastName: "",
+                  userProfileId: ""
+                };
+
+                obj.userName = author.userName;
+
+                this.profileService.get(comments[i].userId).subscribe(
+                  profile => {
+                    obj.firstName = profile.firstName;
+                    obj.lastName = profile.lastName;
+                    obj.userProfileId = profile.userProfileId;
+                    comments[i].userDetail = obj;
+                  }
+                );
+              }
+            );
+
+            if(comments[i].childComments !== null) {
+              console.log(comments[i].childComments.length);
+              for(let j = 0; j < comments[i].childComments.length; j++) {
                 this.commentCount++;
-                comments.childComments[j].userDetail = this.getProfile(comments.childComments[j].userId);
+
+                // get profile
+                this.userService.getUser(comments[i].childComments[j].userId).subscribe(
+                  author => {
+
+                    let obj = {
+                      userId: comments[i].childComments[j].userId,
+                      userName: "",
+                      firstName: "",
+                      lastName: "",
+                      userProfileId: ""
+                    };
+
+                    obj.userName = author.userName;
+
+                    this.profileService.get(comments[i].childComments[j].userId).subscribe(
+                      profile => {
+                        obj.firstName = profile.firstName;
+                        obj.lastName = profile.lastName;
+                        obj.userProfileId = profile.userProfileId;
+                        comments[i].childComments[j].userDetail = obj;
+                      }
+                    );
+                  }
+                );
+
               }
             }
           }
+
           this.listComments = comments;
+
         }
       }
     );
   }
+
+  markAsResolved(rightAnswerId: string){
+    if(this.article.rightAnswerId === null) {
+      this.articleService.markAsResolved(this.article.articleId, rightAnswerId).subscribe(
+        data => {
+          this.article.rightAnswerId = data.rightAnswerId;
+        }
+      );
+    }
+    else {
+      this.toastrService.showWarningToastr('message.resolved.existed');
+    }
+  }
+
+  addCommentBox(index: number, parentId: string){
+    if(this.listComments[index].commentBox.length === 0) {
+      this.listComments[index].commentBox.push("comment-box-"+parentId);
+    }
+  }
+
+
+  removeCommentBox(index){
+    this.listComments[index].commentBox = [];
+  }
+
 }

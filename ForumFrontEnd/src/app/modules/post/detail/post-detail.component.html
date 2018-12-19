@@ -60,7 +60,13 @@
     <div class="col-md-9">
 
       <!-- Title -->
-      <h2 class="article__title">{{article.title}}</h2>
+      <h2 class="article__title">{{article.title}}
+        <span *ngIf="article.userId === currentUser.userId">
+        <a href="javascript:void(0)" [routerLink]="['/post/edit/' + article.articleId]">
+          <i class="fa fa-pencil"></i>
+        </a>
+      </span>
+      </h2>
       <hr>
 
       <!-- Info Date/Time and Stats -->
@@ -95,7 +101,7 @@
             <span *ngIf="lang === 'en'">{{author.firstName}} {{author.lastName}}</span>
           </a></h5>
           <p class="alert alert-success">
-            <span textContent="label.join_date"></span><span> {{author.createDate | date:'MM/dd/yyyy'}}</span>
+            <span textContent="label.join_date"></span><span> {{article.createDate | date:'MM/dd/yyyy'}}</span>
           </p>
 
           <ul class="list-group">
@@ -137,7 +143,7 @@
             <!--<li><a title="" data-toggle="tooltip" data-placement="bottom" data-original-title="Picture"><i-->
             <!--class="fa fa-picture-o"></i></a></li>-->
             <!--</ul>-->
-            <button type="submit" class="btn btn-shared green" (click)="addComment(null)">
+            <button type="submit" class="btn btn-shared green" (click)="addComment(null,false,null)">
               <i class="fa fa-share"></i> <span textContent="button.comment"></span>
             </button>
           </form>
@@ -149,7 +155,7 @@
         <h1 textContent="label.comment"></h1>
 
         <ul id="comments-list" class="comments-list" style="padding: 0;">
-          <li id="{{comment.commentId}}" *ngFor="let comment of listComments; let i = index;">
+          <li id="{{comment.commentId}}" *ngFor="let comment of listComments; let parentIndex = index;">
             <div class="comment-main-level">
 
               <div class="comment-avatar">
@@ -159,14 +165,17 @@
               <div class="comment-box">
 
                 <div class="comment-head">
-                  <h6 class="comment-name" [ngClass]="{ 'by-author' : comment.userId === article.userId }">
+                  <h6 class="comment-name" [ngClass]="{ 'by-author' : comment.userId === currentUser.userId }">
                     <a href="http://creaticode.com/blog">
                       {{comment.userDetail.firstName}} {{comment.userDetail.lastName}}
                     </a>
                   </h6>
                   <span> <span textContent="label.comment_at"></span> {{comment.createDate | date: 'MM/dd/yyyy HH:mm'}}</span>
-                  <i class="fa fa-reply"></i>
+                  <i class="fa fa-reply" (click)="addCommentBox(parentIndex, comment.commentId)"></i>
                   <i class="fa fa-heart"></i>
+                  <i *ngIf="(article.type === 2 && article.rightAnswerId === null)" class="fa fa-check"
+                     (click)="markAsResolved(comment.commentId)"></i>
+                  <i *ngIf="(article.type === 2 && article.rightAnswerId === comment.commentId)" class="fa fa-check-circle"></i>
                 </div>
 
                 <div class="comment-content">
@@ -174,6 +183,7 @@
                 </div>
 
               </div>
+
             </div>
             <!-- Respuestas de los comentarios -->
             <ul class="comments-list reply-list">
@@ -184,17 +194,38 @@
                 </div>
                 <div class="comment-box">
                   <div class="comment-head">
-                    <h6 class="comment-name" [ngClass]="{ 'by-author' : childComment.userId === article.userId }">
+                    <h6 class="comment-name" [ngClass]="{ 'by-author' : childComment.userId === currentUser.userId }">
                       <a href="http://creaticode.com/blog">
                         {{childComment.userDetail.firstName}} {{childComment.userDetail.lastName}}
                       </a>
                     </h6>
-                    <span> <span textContent="label.comment_at"></span> {{childComment.createDate | date: 'MM/dd/yyyy HH:mm'}}</span>
-                    <i class="fa fa-reply"></i>
+                    <span> <span
+                      textContent="label.comment_at"></span> {{childComment.createDate | date: 'MM/dd/yyyy HH:mm'}}</span>
                     <i class="fa fa-heart"></i>
+                    <i *ngIf="(article.type === 2 && article.rightAnswerId === null)" class="fa fa-check"
+                        (click)="markAsResolved(childComment.commentId)"></i>
+                    <i *ngIf="(article.type === 2 && article.rightAnswerId === childComment.commentId)"
+                       class="fa fa-check-circle"></i>
                   </div>
                   <div class="comment-content">
                     {{childComment.content}}
+                  </div>
+                </div>
+              </li>
+
+              <li>
+                <div *ngFor="let box of comment.commentBox" class="widget-area-comment no-padding blank comment-box">
+                  <div class="status-upload">
+                    <form>
+                    <textarea id="{{box}}" name="txtNewComment" textPlaceHolder="label.share_now"></textarea>
+                      <button class="btn btn-shared green" (click)="addComment(comment.commentId,true,'#' + box)">
+                        <i class="fa fa-share"></i> <span textContent="button.comment"></span>
+                      </button>
+
+                      <button class="btn btn-warning green" (click)="removeCommentBox(parentIndex)">
+                        <span textContent="button.close"></span>
+                      </button>
+                    </form>
                   </div>
                 </div>
               </li>
@@ -219,7 +250,7 @@
               <a href="{{heading.id}}">{{heading.base}}</a>
             </li>
           </ul>
-          <p *ngIf="this.headingTag.length === 0">Không có bảng nội dung</p>
+          <p *ngIf="this.headingTag.length === 0" textContent="label.no_toc"></p>
         </div>
       </div>
 
@@ -227,7 +258,7 @@
         <div class="panel">
           <h4 textContent="label.tags"></h4>
           <hr>
-          <a id="{{tag.tagId}}" href="#" [routerLink]="['/tags/' + tag.tagId]"
+          <a id="{{tag.tagId}}" href="#" [routerLink]="['/tag/' + tag.tagId]"
              *ngFor="let tag of this.article.tagList; let i = index;">
             <span class="tag">{{tag.tagName}}</span>
           </a>

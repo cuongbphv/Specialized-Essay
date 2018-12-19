@@ -19,6 +19,7 @@ import {
   FacebookLoginProvider,
 } from 'angular-6-social-login';
 import {UserModule} from './modules/user/user.module';
+import {ErrorModule} from './modules/error/error.module';
 
 
 // Configs
@@ -56,6 +57,7 @@ export function setupTranslateFactory(service: TranslateService): Function {
     SharedModule,
     AuthModule,
     HomeModule,
+    ErrorModule,
     CoreModule,
     SocialLoginModule,
     UserModule,

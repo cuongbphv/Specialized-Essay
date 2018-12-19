@@ -91,7 +91,11 @@
     "tags": "Thẻ",
     "comment_at": "bình luận lúc",
     "comment": "Bình luận",
-    "share_now": "Chia sẻ ngay"
+    "share_now": "Chia sẻ ngay",
+    "post_on": " Đã đăng vào",
+    "no_toc": "Không có bảng nội dung",
+    "no_tag": "Không có thẻ",
+    "my_tags": "Thẻ của tôi"
   },
   "validation": {
     "first_name": {
@@ -120,6 +124,12 @@
     },
     "phone_no": {
       "pattern": "Số điện thoại không hợp lệ"
+    },
+    "content": {
+      "required": "Nội dung bắt buộc nhập"
+    },
+    "title": {
+      "required": "Tiêu đề bắt buộc nhập"
     }
   },
   "button": {
@@ -133,8 +143,7 @@
     "update": "CẬP NHẬT",
     "close": "Đóng",
     "report": "Báo cáo",
-    "comment": "BÌNH LUẬN",
-    "post_on": " Đã đăng vào"
+    "comment": "BÌNH LUẬN"
   },
   "message": {
     "interact": {
@@ -148,6 +157,10 @@
     "report": {
       "success": "Bạn đã báo cáo bài viết thành công",
       "error": "Bạn không thể báo cáo bài viết của bạn"
+    },
+    "resolved": {
+      "existed": "Bạn đã đánh dấu câu trả lời đúng trước đó",
+      "success": "Bạn đã đánh dấu câu trả lời đúng thành công"
     }
   },
   "api": {

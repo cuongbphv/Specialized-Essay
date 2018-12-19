@@ -1,3 +1,25 @@
+.badgeAlert {
+  display: inline-block;
+  min-width: 10px;
+  padding: 3px 7px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+  vertical-align: baseline;
+  white-space: nowrap;
+  text-align: center;
+  background-color: #d9534f;
+  border-radius: 10px;
+  position: absolute;
+  margin-top: -5px;
+  margin-left: -15px
+}
+
+.fa {
+  font-size: 15px;
+}
+
 .navbar {
   top: 0;
 }
@@ -20,14 +42,11 @@
 }
 
 .item-icon i {
-  font-size: 13px;
   padding-right: 5px;
 }
 
 .navbar-nav li {
-  margin-left: 10px;
   padding-right: 2px;
-  border-right: 1px solid #888888;
 }
 
 .bg-dark {

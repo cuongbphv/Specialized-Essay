@@ -6,7 +6,7 @@ import {CookieService} from 'ngx-cookie-service';
 
 import {
   ApiService,
-  AuthBaseService,
+  AuthBaseService, CustomToastrService,
   DataService,
   FileService,
   GoogleChartsBaseService,
@@ -42,7 +42,8 @@ import {AdminGuard, ModeratorGuard, UserGuard} from './guards';
     UserService,
     AdminGuard,
     ModeratorGuard,
-    UserGuard
+    UserGuard,
+    CustomToastrService
   ],
   declarations: []
 })

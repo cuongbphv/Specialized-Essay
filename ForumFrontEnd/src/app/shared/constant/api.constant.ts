@@ -30,9 +30,12 @@ export const API = {
 
   // Article Management
   CREATE_ARTICLE: BaseURL.ARTICLE_API,
+  UPDATE_ARTICLE: BaseURL.ARTICLE_API,
   GET_ARTICLE: BaseURL.ARTICLE_API + "/",
   GET_LIST_ARTICLE: BaseURL.ARTICLE_API + "/list",
   VIEW_COUNT: BaseURL.ARTICLE_API + "/view",
+  STATS_BY_ARTICLE: BaseURL.ARTICLE_API + "/stats",
+  MARK_AS_RESOLVED: BaseURL.ARTICLE_API + "/resolved",
 
   // Interact Management
   ADD_INTERACT: BaseURL.ARTICLE_INTERACT_API,
@@ -46,6 +49,7 @@ export const API = {
   REPORT_ARTICLE: BaseURL.REPORT_ARTICLE_API,
 
   // Tag Management
-  GET_MOST_TAG_IN_FORUM: BaseURL.TAG_API + "/most"
+  GET_MOST_TAG_IN_FORUM: BaseURL.TAG_API + "/most",
+  MY_TAGS: BaseURL.TAG_API + "/my_tags"
 
 };

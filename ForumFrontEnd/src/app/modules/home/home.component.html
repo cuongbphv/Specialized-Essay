@@ -5,37 +5,20 @@
       <div class="col-xs-12 col-sm-8 col-md-9">
 
         <div class="nav">
+
           <div class="nav__categories js-dropdown">
-            <!--<div class="nav__select">-->
-              <!--<div id="btnCategories" class="btn-select" data-dropdown-btn="categories">Chủ đề</div>-->
-              <!--<nav class="dropdown dropdown&#45;&#45;design-01" data-dropdown-list="categories" uib-dropdown>-->
-                <!--<ul class="dropdown__catalog row">-->
-                  <!--<li class="col-xs-6"><a href="#" class="category"><i class="bg-f9bc64"></i>Hobbies</a></li>-->
-                  <!--<li class="col-xs-6"><a href="#" class="category"><i class="bg-348aa7"></i>Social</a></li>-->
-                  <!--<li class="col-xs-6"><a href="#" class="category"><i class="bg-4436f8"></i>Video</a></li>-->
-                  <!--<li class="col-xs-6"><a href="#" class="category"><i class="bg-5dd39e"></i>Random</a></li>-->
-                  <!--<li class="col-xs-6"><a href="#" class="category"><i class="bg-ff755a"></i>Arts</a></li>-->
-                  <!--<li class="col-xs-6"><a href="#" class="category"><i class="bg-bce784"></i>Tech</a></li>-->
-                  <!--<li class="col-xs-6"><a href="#" class="category"><i class="bg-83253f"></i>Gaming</a></li>-->
-                  <!--<li class="col-xs-6"><a href="#" class="category"><i class="bg-c49bbb"></i>Science</a></li>-->
-                <!--</ul>-->
-              <!--</nav>-->
-            <!--</div>-->
             <div class="nav__select">
-              <div id="btnTags" class="btn-select" data-dropdown-btn="tags">Thẻ của tôi</div>
-              <div class="dropdown dropdown--design-01" data-dropdown-list="tags" uib-dropdown>
+              <div id="btnTags" class="btn-select" data-dropdown-btn="tags" textContent="label.my_tags"></div>
+              <div class="dropdown dropdown--design-01" data-dropdown-list="tags">
                 <div class="tags">
-                  <a href="#" class="bg-4f80b0">java</a>
-                  <a href="#" class="bg-424ee8">javascript</a>
-                  <a href="#" class="bg-36b7d7">c#</a>
-                  <a href="#" class="bg-ef429e">c++</a>
-                  <a href="#" class="bg-7cc576">ai</a>
-                  <a href="#" class="bg-3a3a17">machine learning</a>
-                  <a href="#" class="bg-6f7e9c">funny</a>
+                  <span textContent="label.no_tags" *ngIf="myTags.length === 0"></span>
+                  <a href="javascript:void(0)" *ngFor="let tag of myTags; let i = index;"
+                     [routerLink]="['/tag/' + tag.tagId]" class="bg-4f80b0">{{tag.tagName}}</a>
                 </div>
               </div>
             </div>
           </div>
+
           <div class="nav__menu js-dropdown">
             <div class="nav__select">
               <div class="btn-select" data-dropdown-btn="menu">Diễn đàn</div>
@@ -50,19 +33,19 @@
               </div>
             </div>
             <ul id="post-type">
-              <li class="active"><a href="#">Diễn đàn</a></li>
+              <li class="active"><a href="javascript:void(0)" (click)="getListArticleByType(1)">Diễn đàn</a></li>
               <li><a href="#">Hội nhóm</a></li>
               <li><a href="#">Xu hướng</a></li>
-              <li><a href="#">Hỏi đáp</a></li>
+              <li><a href="javascript:void(0)" (click)="getListArticleByType(2)">Hỏi đáp</a></li>
               <li><a href="#">Lưu trữ</a></li>
               <li><a class="btn btn-create-post" href="#" [routerLink]="['/post/create']">Viết bài</a></li>
             </ul>
           </div>
         </div>
 
-        <div class="posts">
+        <div class="posts" *ngFor="let post of articles; let i = index;">
 
-          <div class="post-item" *ngFor="let post of listArticle; let i = index;">
+          <div class="post-item">
 
             <div class="avatar">
               <img src="https://bootstrapmade.com/wp-content/themefiles/Moderna/400.png"
@@ -71,8 +54,8 @@
 
             <div class="post-left">
               <div class="post-author">
-                <span class="post-author-name"><b>Bùi Cường</b></span>
-                <span class="post-time">&nbsp; đăng cách đây 52 phút trước</span>
+                <span class="post-author-name"><b>{{post.firstName}} {{post.lastName}}</b></span>
+                <span class="post-time">&nbsp; {{post.createDate | date: 'MM/dd/yyyy HH:mm'}}</span>
                 <!--<span class="text-muted"><i class="fa fa-bookmark float-right"></i></span>-->
               </div>
 
@@ -82,8 +65,8 @@
                 </div>
 
                 <div class="tags">
-                  <a href="#" class="bg-4f80b0">chat bot</a>
-                  <a href="#" class="bg-4f80b0">C#</a>
+                  <a *ngFor="let tag of post.tags; let j = index;" href="javascript:void(0)"
+                     [routerLink]="['/tag/' + tag.tagId]" class="bg-4f80b0">{{tag.tagName}}</a>
                 </div>
               </div>
 
@@ -91,11 +74,12 @@
                 <div class="stats">
                 <span class="stats-item text-muted" data-tippy="" data-original-title="Views"
                       aria-describedby="tippy-285">
-                <i aria-hidden="true" class="fa fa-eye"></i>&nbsp;44</span>
+                <i aria-hidden="true" class="fa fa-eye"></i>&nbsp;{{post.viewCount}}</span>
                   <span class="stats-item text-muted" data-tippy="" data-original-title="Clips">
-                <i aria-hidden="true" class="fa fa-bookmark"></i>&nbsp;1</span>
+                <i aria-hidden="true" class="fa fa-bookmark"></i>&nbsp;{{post.bookmarkCount}}</span>
                   <span class="stats-item text-muted" data-tippy="" data-original-title="Comments">
-                <i aria-hidden="true" class="fa fa-comments"></i>&nbsp;1</span>
+                <i aria-hidden="true" class="fa fa-comments"></i>&nbsp;{{post.commentNum}}</span>
+                  <i *ngIf="(post.type === 2 && post.rightAnswerId !== null)" class="fa fa-check-circle"></i>
                 </div>
 
               </div>
@@ -104,11 +88,10 @@
             <div class="post-right">
               <div class="upvote text-muted">
                 <i class="fa fa-chevron-up"></i>
-                <p>6</p>
+                <p><span *ngIf="post.rating > 0">+</span>{{post.rating}}</p>
                 <i class="fa fa-chevron-down"></i>
               </div>
             </div>
-
 
           </div>
 
@@ -182,19 +165,19 @@
             </div>
           </div>
 
-          <div class="widget-area">
-            <h3 class="widget-title">Newsletter</h3>
-            <div class="newsletter"><p>Subscribe to get notified when new theme is released</p>
-              <form class="clearfix" action="#" method="post">
-                <div class="email">
-                  <input type="text" name="email" placeholder="Enter your email">
-                </div>
-                <div class="submit">
-                  <input type="submit" value="Subscribe">
-                </div>
-              </form>
-            </div>
-          </div>
+          <!--<div class="widget-area">-->
+            <!--<h3 class="widget-title">Newsletter</h3>-->
+            <!--<div class="newsletter"><p>Subscribe to get notified when new theme is released</p>-->
+              <!--<form class="clearfix" action="#" method="post">-->
+                <!--<div class="email">-->
+                  <!--<input type="text" name="email" placeholder="Enter your email">-->
+                <!--</div>-->
+                <!--<div class="submit">-->
+                  <!--<input type="submit" value="Subscribe">-->
+                <!--</div>-->
+              <!--</form>-->
+            <!--</div>-->
+          <!--</div>-->
 
         </div>
       </div>
@@ -202,37 +185,3 @@
 
   </div>
 </section>
-
-<!--<div class="container-fluid">-->
-
-<!--&lt;!&ndash; tittle &ndash;&gt;-->
-<!--<div class="main-title text-center">-->
-<!--<h3>{{this.translate.data.title | translate}}</h3>-->
-<!--<p class="lead">-->
-<!--{{translate.data.main.main_title_1 | translate}} <br>{{translate.data.main.main_title_2 | translate}}-->
-<!--</p>-->
-
-<!--&lt;!&ndash; register link &ndash;&gt;-->
-<!--<div class="row text-center">-->
-<!--<div class="col-xs-12 col-sm-12 col-md-12">-->
-<!--<ul class="list-unstyled list-inline social text-center">-->
-<!--<span>{{translate.data.main.join | translate}}</span>-->
-<!--<li class="list-inline-item"><a href="javascript:"><i class="fa fa-facebook"></i></a>-->
-<!--</li>-->
-<!--<li class="list-inline-item"><a href="javascript:"><i class="fa fa-google"></i></a></li>-->
-<!--<span>{{translate.data.main.or | translate}}-->
-<!--<a href="javascript:;;" [routerLink]="['/register']">{{translate.data.main.register | translate}}</a>-->
-<!--</span>-->
-<!--</ul>-->
-<!--</div>-->
-<!--</div>-->
-
-<!--&lt;!&ndash; introduction forum &ndash;&gt;-->
-<!--<div class="text-center">-->
-<!--<div class="col-xs-12 col-sm-12 col-md-12">-->
-
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-
-<!--</div>-->

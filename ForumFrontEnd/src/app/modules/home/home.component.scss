@@ -723,8 +723,16 @@ ul, ol {
   border-radius: 50%;
 }
 
+.post-info {
+  margin-top: 3px;
+}
+
 .post-info span {
   padding-right: 20px;
+}
+
+.post-info .fa-check-circle {
+  color: green;
 }
 
 .post-author-name, .post-time {

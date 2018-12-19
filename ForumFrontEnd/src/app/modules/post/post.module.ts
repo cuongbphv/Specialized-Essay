@@ -18,6 +18,7 @@ import {
   ProfilesService,
   ReportArticleService
 } from '../../core/services';
+import {EditPostComponent} from './edit/edit-post.component';
 
 @NgModule({
   imports: [
@@ -28,7 +29,8 @@ import {
   ],
   declarations: [
     CreatePostComponent,
-    PostDetailComponent
+    PostDetailComponent,
+    EditPostComponent
   ],
   providers: [
     ArticleService,

@@ -21,11 +21,13 @@ public class ArticleSpecification implements Specification<Article> {
     private final String searchKey;
     private final int sortCase;
     private final boolean ascSort;
+    private int type;
 
-    public ArticleSpecification(String searchKey, int sortCase, boolean ascSort) {
+    public ArticleSpecification(String searchKey, int sortCase, boolean ascSort, int type) {
         this.searchKey = searchKey;
         this.sortCase = sortCase;
         this.ascSort = ascSort;
+        this.type = type;
     }
 
     @Override
@@ -34,6 +36,8 @@ public class ArticleSpecification implements Specification<Article> {
 
         Predicate status = cb.notEqual(root.get("status"), Constant.Status.DELETE.getValue());
         predicates.add(status);
+        Predicate typeCr = cb.equal(root.get("type"), type);
+        predicates.add(typeCr);
         // filter by search key [name]
         if (searchKey != null && !searchKey.trim().isEmpty()) {
             String wrapSearch = "%" + searchKey.trim() + "%";

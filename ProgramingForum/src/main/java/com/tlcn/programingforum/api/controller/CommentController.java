@@ -11,8 +11,6 @@ import com.tlcn.programingforum.model.entity.Comment;
 import com.tlcn.programingforum.service.CommentService;
 import com.tlcn.programingforum.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -68,19 +66,18 @@ public class CommentController extends AbstractBasedAPI {
         List<CommentResponse> responses = new ArrayList<>();
 
         for(Comment parentComment: comments) {
-            CommentResponse response = new CommentResponse();
-            response.setCommentId(parentComment.getCommentId());
-            response.setArticleId(parentComment.getArticleId());
-            response.setUserId(parentComment.getUserId());
-            response.setCreateDate(parentComment.getCreateDate());
-            response.setContent(parentComment.getContent());
-            if(parentComment.getParentId() != null) {
-                response.setParentId(parentComment.getParentId());
-                List<Comment> childComments =
-                        commentService.getListCommentByParentId(parentComment.getParentId());
+            if(parentComment.getParentId() == null) {
+                CommentResponse response = new CommentResponse();
+                response.setCommentId(parentComment.getCommentId());
+                response.setArticleId(parentComment.getArticleId());
+                response.setUserId(parentComment.getUserId());
+                response.setCreateDate(parentComment.getCreateDate());
+                response.setContent(parentComment.getContent());
+                List<Comment> childComments = commentService.getListCommentByParentId(
+                        parentComment.getCommentId());
                 response.setChildComments(childComments);
+                responses.add(response);
             }
-            responses.add(response);
         }
 
         return responseUtil.successResponse(responses);
