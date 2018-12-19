@@ -1,0 +1,90 @@
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+  <ul class="nav">
+    <li class="nav-item nav-profile">
+      <div class="nav-link">
+        <div class="user-wrapper">
+          <div class="profile-image">
+            <img src="assets/images/faces/face1.jpg" alt="profile image">
+          </div>
+          <div class="text-wrapper">
+            <p class="profile-name">Best Ocschos</p>
+            <div>
+              <small class="designation text-muted">Admin</small>
+              <span class="status-indicator online"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/admin/dashboard" routerLinkActive="active">
+        <i class="menu-icon mdi mdi-television"></i>
+        <span class="menu-title">Dashboard</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link collapsed" routerLinkActive="active"
+         data-toggle="collapse" href="#manage-post"
+         aria-expanded="false" aria-controls="manage-post">
+        <i class="menu-icon mdi mdi-newspaper"></i>
+        <span class="menu-title">Manage Post</span>
+        <i class="menu-arrow"></i>
+      </a>
+      <div class="collapse" id="manage-post" style="">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/admin/post/list" routerLinkActive="active">List Post</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/dashboard">Unapproved Post</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/dashboard">Reported Post</a>
+          </li>
+        </ul>
+      </div>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#manage-user"
+         aria-expanded="false" aria-controls="manage-user">
+        <i class="menu-icon mdi mdi-account"></i>
+        <span class="menu-title">Manage User</span>
+        <i class="menu-arrow"></i>
+      </a>
+      <div class="collapse" id="manage-user" style="">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/admin/user/list" routerLinkActive="active">List User</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/dashboard">Banned User</a>
+          </li>
+        </ul>
+      </div>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#manage-tag"
+         aria-expanded="false" aria-controls="manage-tag">
+        <i class="menu-icon mdi mdi-tag"></i>
+        <span class="menu-title">Manage Tag</span>
+        <i class="menu-arrow"></i>
+      </a>
+      <div class="collapse" id="manage-tag" style="">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/dashboard">List Tag</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/dashboard">Unapproved Tag</a>
+          </li>
+        </ul>
+      </div>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link">
+        <i class="menu-icon mdi mdi-archive"></i>
+        <span class="menu-title">Manage Achievement</span>
+      </a>
+    </li>
+  </ul>
+</nav>

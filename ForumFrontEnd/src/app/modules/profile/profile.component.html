@@ -1,6 +1,6 @@
 <section>
   <div class="container profile-container testimonial py-5">
-    <div *ngIf="profileMode===1" class="profile-info row">
+    <div [hidden]="profileMode!==1" class="profile-info row">
       <div class="col-lg-4 col-xs-12">
 
         <div class="card hovercard">
@@ -114,11 +114,10 @@
         </div>
 
       </div>
-
     </div>
 
 
-    <div *ngIf="profileMode===2" class="emp-profile profile-update container">
+    <div [hidden]="profileMode!==2" class="emp-profile profile-update container">
       <form method="post">
         <div class="row">
           <div class="col-md-4">

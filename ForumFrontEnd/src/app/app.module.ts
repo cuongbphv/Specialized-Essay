@@ -19,6 +19,13 @@ import {
   FacebookLoginProvider,
 } from 'angular-6-social-login';
 import {UserModule} from './modules/user/user.module';
+import { AdminLayoutComponent } from './_layout/admin-layout/admin-layout.component';
+import { UserLayoutComponent } from './_layout/user-layout/user-layout.component';
+import {AdminNavbarComponent} from './_layout/admin-navbar/navbar.component';
+import {AdminFooterComponent} from './_layout/admin-footer/footer.component';
+import {AdminSidebarComponent} from './_layout/admin-sidebar/sidebar.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {AdminModule} from './modules/admin/admin.module';
 
 
 // Configs
@@ -59,7 +66,9 @@ export function setupTranslateFactory(service: TranslateService): Function {
     CoreModule,
     SocialLoginModule,
     UserModule,
+    AdminModule,
     AppRoutingModule,
+    NgbModule,
     ToastrModule.forRoot({
       timeOut: 4000,
       autoDismiss: true,
@@ -70,7 +79,12 @@ export function setupTranslateFactory(service: TranslateService): Function {
   declarations: [
     AppComponent,
     FooterComponent,
-    HeaderComponent
+    HeaderComponent,
+    AdminNavbarComponent,
+    AdminFooterComponent,
+    AdminSidebarComponent,
+    AdminLayoutComponent,
+    UserLayoutComponent
   ],
   providers: [
     TranslateService,
