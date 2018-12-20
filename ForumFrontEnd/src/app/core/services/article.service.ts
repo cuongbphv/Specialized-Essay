@@ -103,4 +103,40 @@ export class ArticleService {
       }));
   }
 
+  getRelatedArticle(tagIds: any, type: string): Observable<any> {
+    return this.apiService.post(API.GET_RELATED_ARTICLE, {
+      tags: tagIds,
+      type: type
+    })
+      .pipe(map(res => {
+        if(res.status === 200){
+          return res.data;
+        }
+        return null;
+      }));
+  }
+
+  getArticleSameAuthor(userId: string, type: string): Observable<any> {
+    return this.apiService.post(API.ARTICLE_SAME_AUTHOR, {
+      userId: userId,
+      type: type
+    })
+      .pipe(map(res => {
+        if(res.status === 200){
+          return res.data;
+        }
+        return null;
+      }));
+  }
+
+  getBookmarkList(userId: string, type: number): Observable<any> {
+    return this.apiService.get(API.BOOKMARK_LIST + "?user_id=" + userId + "&type=" + type)
+      .pipe(map(res => {
+        if(res.status === 200){
+          return res.data;
+        }
+        return null;
+      }));
+  }
+
 }

@@ -18,9 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author buiph on 15/12/2018
@@ -228,14 +226,8 @@ public class ArticleController extends AbstractBasedAPI {
 
         // get number of comment
         int commentNumber = 0;
-        List<Comment> comments = commentService.getListComment(articleId);
-        for(Comment comment : comments) {
-            if(comment.getParentId() != null) {
-                List<Comment> childComments = commentService.getListCommentByParentId(
-                        comment.getParentId());
-                commentNumber += childComments.size();
-            }
-        }
+        List<Comment> comments = commentService.getListComment(
+                articleId, Constant.Status.ACTIVE.getValue());
         commentNumber += comments.size();
 
         int rating = 0;
@@ -270,6 +262,122 @@ public class ArticleController extends AbstractBasedAPI {
 
     }
 
+    @RequestMapping(path = Constant.RELATED_ARTICLE_TAG, method = RequestMethod.POST)
+    public ResponseEntity<RestAPIResponse> getRelatedArticleByTag(
+            HttpServletRequest request,
+            @RequestBody ArticleRequest articleRequest) {
+
+        if(articleRequest == null) {
+            throw new ApplicationException(APIStatus.ERR_BAD_REQUEST);
+        }
+
+        List<Article> relatedArticle = new ArrayList<>();
+        for(String tagId : articleRequest.getTags()) {
+            List<TagArticle> tagArticles = tagArticleService.findByTagId(tagId);
+            for(TagArticle findId : tagArticles) {
+                Article article = articleService.findByArticleIdAndTypeAndStatus(
+                        findId.getId().getArticleId(),
+                        Integer.parseInt(articleRequest.getType()),
+                        Constant.Status.ACTIVE.getValue());
+                relatedArticle.add(article);
+            }
+        }
+
+        List<Article> response = new ArrayList<>();
+
+        for(Article article : relatedArticle) {
+
+            int rating = 0;
+            int bookmark = 0;
+            int share = 0;
+            List<ArticleInteract> articleInteracts = articleInteractService.findByArticleId(
+                    article.getArticleId());
+            for(ArticleInteract articleInteract : articleInteracts) {
+                // get number of rating
+                rating += articleInteract.getRating();
+                // get number of bookmark
+                bookmark += articleInteract.getBookmark();
+                // get number of share
+                share += articleInteract.getShare();
+            }
+
+            if(rating + bookmark + share > 0) {
+                response.add(article);
+            }
+        }
+
+        Collections.sort(response, new Comparator<Article>() {
+            public int compare(Article o1, Article o2) {
+                return o1.getCreateDate().compareTo(o2.getCreateDate());
+            }
+        });
+
+        if(response.size() > 3) {
+            return responseUtil.successResponse(response.subList(0, 3));
+        }
+
+        return responseUtil.successResponse(response);
+
+    }
+
+    @RequestMapping(path = Constant.THE_SAME_AUTHOR, method = RequestMethod.POST)
+    public ResponseEntity<RestAPIResponse> getArticleTheSameAuthor(
+            HttpServletRequest request,
+            @RequestBody ArticleRequest articleRequest) {
+
+        if(articleRequest == null) {
+            throw new ApplicationException(APIStatus.ERR_BAD_REQUEST);
+        }
+
+        List<Article> sameAuthor = new ArrayList<>();
+
+        List<Article> articles = articleService.findByUserIdAndTypeAndStatus(
+                articleRequest.getUserId(),
+                Integer.parseInt(articleRequest.getType()),
+                Constant.Status.ACTIVE.getValue());
+        for(Article findId : articles) {
+            Article article = articleService.getDetailArticle(
+                    findId.getArticleId(), Constant.Status.ACTIVE.getValue());
+            sameAuthor.add(article);
+        }
+
+        Collections.sort(sameAuthor, new Comparator<Article>() {
+            public int compare(Article o1, Article o2) {
+                return o1.getCreateDate().compareTo(o2.getCreateDate());
+            }
+        });
+
+        if(sameAuthor.size() > 3) {
+            return responseUtil.successResponse(sameAuthor.subList(0, 3));
+        }
+
+        return responseUtil.successResponse(sameAuthor);
+    }
+
+    @RequestMapping(path = Constant.BOOKMARK_ARTICLE, method = RequestMethod.GET)
+    public ResponseEntity<RestAPIResponse> getArticleTheSameAuthor(
+            HttpServletRequest request,
+            @RequestParam("type") int type,
+            @RequestParam("user_id") String userId) {
+
+        if(userId.equals("")) {
+            throw new ApplicationException(APIStatus.ERR_BAD_REQUEST);
+        }
+
+        // get all bookmark by userId
+        List<Article> articles = new ArrayList<>();
+        List<ArticleInteract> bookmarks = articleInteractService.findByUserIdAndBookmark(userId);
+
+        for(ArticleInteract articleInteract : bookmarks) {
+            Article article = articleService.findByArticleIdAndTypeAndStatus(
+                    articleInteract.getId().getArticleId(),
+                    type,
+                    Constant.Status.ACTIVE.getValue());
+            articles.add(article);
+        }
+
+        return responseUtil.successResponse(articles);
+    }
 
     private List<String> addToTagList(List<String> tagNames, List<Tag> tagList) {
         List<String> tagIds = new ArrayList<>();

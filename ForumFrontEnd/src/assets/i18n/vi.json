@@ -11,7 +11,15 @@
     "main_title_2": "NodeJS, Angular, React, VueJS, Spring Boot, DevOps, ... Cho đi mọi thứ bạn sẽ nhận lại mọi thứ!",
     "join": "Tham gia ngay với",
     "or": "hoặc",
-    "register": "đăng ký thành viên"
+    "register": "đăng ký thành viên",
+    "forum": "Diễn đàn",
+    "group": "Hội nhóm",
+    "trending": "Xu hướng",
+    "question": "Hỏi đáp",
+    "bookmark": "Lưu trữ",
+    "create_post": "Viết bài",
+    "top_tag": "Top Thẻ",
+    "tagged": "lần được sử dụng"
   },
   "user": {
     "login": "Đăng nhập",
@@ -95,7 +103,9 @@
     "post_on": " Đã đăng vào",
     "no_toc": "Không có bảng nội dung",
     "no_tag": "Không có thẻ",
-    "my_tags": "Thẻ của tôi"
+    "my_tags": "Thẻ của tôi",
+    "update_comment": "CẬP NHẬT BÌNH LUẬN",
+    "same_author": "Bài viết cùng tác giả"
   },
   "validation": {
     "first_name": {
@@ -158,15 +168,26 @@
       "success": "Bạn đã báo cáo bài viết thành công",
       "error": "Bạn không thể báo cáo bài viết của bạn"
     },
+    "report_comment": {
+      "success": "Bạn đã báo cáo bình luận thành công",
+      "error": "Bạn không thể báo cáo bình luận của bạn"
+    },
     "resolved": {
       "existed": "Bạn đã đánh dấu câu trả lời đúng trước đó",
       "success": "Bạn đã đánh dấu câu trả lời đúng thành công"
+    },
+    "comment": {
+      "delete_success": "Xóa bình luận thành công",
+      "update_success": "Cập nhật bình luận thành công"
     }
   },
   "api": {
     "status": {
+      "400": "Request không đúng",
+      "406": "Tham số không đúng",
       "900": "Không tìm thấy bài viết",
-      "901": "Bạn đã báo cáo bài viết trước đó"
+      "901": "Bạn đã báo cáo trước đó",
+      "1000": "Không tìm thầy bình luận"
     }
   }
 }

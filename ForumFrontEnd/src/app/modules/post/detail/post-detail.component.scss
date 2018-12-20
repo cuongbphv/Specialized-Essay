@@ -175,14 +175,17 @@
 .author-info {
   height: 100%;
   flex: 2 1 auto;
-  padding: 0 10px 10px 10px;
+  padding: 10px;
 }
 .avatar-author {
   flex: 0 1 auto;
   width: 200px;
   height: 200px;
   float: left;
-  display: inline-block;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  display: block;
 }
 .author-biografia h3 {
   border-bottom: 2px solid #008080;
@@ -203,6 +206,10 @@
 }
 .stat__div span {
   padding-left: 10px;
+}
+
+.comments-container {
+  margin-bottom: 50px;
 }
 
 .comments-container h1 {
@@ -369,6 +376,10 @@
 }
 
 .comment-box .comment-head i.fa-heart:hover {
+  color: red;
+}
+
+.comment-box .comment-head i.fa-trash:hover {
   color: red;
 }
 
@@ -549,4 +560,19 @@ body .no-padding {
 }
 .status-upload form button > i {
   margin-right: 7px;
+}
+
+@media only screen and (max-width: 657px) {
+  .icon-bar {
+    display: none;
+  }
+}
+
+.stat-related span {
+  margin-right: 8px;
+}
+
+#sidebar {
+  position: fixed;
+  right: 0;
 }

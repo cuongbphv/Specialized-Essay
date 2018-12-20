@@ -22,7 +22,7 @@ $theme-colors: ( primary: #308ee0, secondary: #e5e5e5, success: #00ce68, info: #
 $colors: ( blue: $blue, indigo: $indigo, purple: $purple, pink: $pink, red: $red, orange: $orange, yellow: $yellow, green: $green, teal: $teal, cyan: $cyan, white: $white, white-smoke: #f3f5f6, gray: $gray-600, gray-light: #8ba2b5, gray-lightest: #f7f7f9, gray-dark: #292b2c);
 ////////// COLOR SYSTEM //////////
 ////////// COLOR VARIABLES //////////
-$content-bg: #f2f8f9;
+$content-bg: #fff;
 $footer-bg: $content-bg;
 $footer-color: color(dark);
 $border-color: #f2f2f2;
@@ -210,11 +210,11 @@ $modal-footer-border-color: $border-color;
 $modal-header-border-width: $border-width;
 $modal-content-border-width: $border-width;
 $modal-footer-border-width: $border-width;
-$modal-header-padding-x: 26px;
-$modal-header-padding-y: 25px;
-$modal-body-padding-x: 26px;
-$modal-body-padding-y: 35px;
-$modal-footer-padding-x: 31px;
+$modal-header-padding-x: 15px;
+$modal-header-padding-y: 20px;
+$modal-body-padding-x: 15px;
+$modal-body-padding-y: 20px;
+$modal-footer-padding-x: 20px;
 $modal-footer-padding-y: 15px;
 $modal-lg: 90%;
 $modal-md: 500px;

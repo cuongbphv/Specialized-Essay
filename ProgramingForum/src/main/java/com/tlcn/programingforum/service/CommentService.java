@@ -11,6 +11,7 @@ import java.util.List;
  */
 public interface CommentService {
     Comment saveComment(Comment comment);
-    List<Comment> getListComment(String articleId);
-    List<Comment> getListCommentByParentId(String parentId);
+    List<Comment> getListComment(String articleId, int status);
+    List<Comment> getListCommentByParentId(String parentId, int status);
+    Comment findByCommentIdAndStatus(String commentId, int status);
 }

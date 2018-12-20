@@ -15,7 +15,11 @@ public interface ArticleService {
 
     Article getDetailArticle(String article, int status);
 
+    Article findByArticleIdAndTypeAndStatus(String articleId, int type, int status);
+
     Page<Article> getListArticlePaging(PagingRequestModel pagingRequestModel);
 
-    List<Article> findByUserId(String userId);
+    List<Article> findByUserIdAndTypeAndStatus(String userId, int type, int status);
+
+    List<Article> findByUserIdAndStatus(String userId, int status);
 }

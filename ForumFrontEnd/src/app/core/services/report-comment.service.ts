@@ -7,7 +7,7 @@ import {map} from 'rxjs/operators';
 import {CustomToastrService} from './custom-toastr.service';
 
 @Injectable()
-export class ReportArticleService {
+export class ReportCommentService {
 
   constructor(
     private apiService: ApiService,
@@ -16,13 +16,13 @@ export class ReportArticleService {
   }
 
   report(reportObj: any): Observable<any> {
-    return this.apiService.post(API.REPORT_ARTICLE, {
-      articleId: reportObj.articleId,
+    return this.apiService.post(API.REPORT_COMMENT, {
+      commentId: reportObj.commentId,
       userId: reportObj.userId,
       reason: reportObj.reason
     }).pipe(map(res => {
       if(res.status === 200) {
-        this.toastrService.showSuccessToastr('message.report.success');
+        this.toastrService.showSuccessToastr('message.report_comment.success');
       }
       else {
         this.toastrService.showErrorToastr('api.status.' + res.status);

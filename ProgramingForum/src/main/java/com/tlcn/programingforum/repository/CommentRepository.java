@@ -16,6 +16,7 @@ import java.util.List;
 @Transactional
 @Repository
 public interface CommentRepository extends CrudRepository<Comment, String> {
-    List<Comment> findByArticleId(String articleId);
-    List<Comment> findByParentId(String parentId);
+    List<Comment> findByArticleIdAndStatus(String articleId, int status);
+    List<Comment> findByParentIdAndStatus(String parentId, int status);
+    Comment findByCommentIdAndStatus(String commentId, int status);
 }

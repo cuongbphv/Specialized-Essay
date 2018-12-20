@@ -51,6 +51,9 @@ public interface Constant {
     String VIEW_COUNT = "/view";
     String STATS_BY_ARTICLE = "/stats";
     String MARK_AS_RESOLVED = "/resolved";
+    String RELATED_ARTICLE_TAG = "/related";
+    String THE_SAME_AUTHOR = "/same-author";
+    String BOOKMARK_ARTICLE = "/bookmark";
 
     // Article Interact
     String ARTICLE_INTERACT_CONTROLLER = API_PREFIX + "/interact";
@@ -58,6 +61,9 @@ public interface Constant {
 
     // Report Interact
     String REPORT_ARTICLE_CONTROLLER = API_PREFIX + "/report";
+
+    // Report Comment
+    String REPORT_COMMENT_CONTROLLER = API_PREFIX + "/report-comment";
 
     // Tag management
     String TAG_CONTROLLER = API_PREFIX + "/tag";

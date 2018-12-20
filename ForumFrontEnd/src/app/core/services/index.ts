@@ -16,3 +16,4 @@ export * from './custom-toastr.service';
 export * from './report-article.service';
 export * from './modal.service';
 export * from './comment.service';
+export * from './report-comment.service';

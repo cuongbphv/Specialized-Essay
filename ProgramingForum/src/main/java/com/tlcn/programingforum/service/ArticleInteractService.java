@@ -1,6 +1,7 @@
 package com.tlcn.programingforum.service;
 
 import com.tlcn.programingforum.model.entity.ArticleInteract;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -13,4 +14,6 @@ public interface ArticleInteractService {
     ArticleInteract findByArticleIdAndUserId(String articleId, String userId);
 
     List<ArticleInteract> findByArticleId(String articleId);
+
+    List<ArticleInteract> findByUserIdAndBookmark(String userId);
 }

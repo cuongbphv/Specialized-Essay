@@ -17,5 +17,7 @@ import java.util.List;
 @Repository
 public interface ArticleRepository extends CrudRepository<Article, String>, JpaSpecificationExecutor<Article> {
     Article findByArticleIdAndStatus(String articleId, int status);
-    List<Article> findByUserId(String userId);
+    Article findByArticleIdAndTypeAndStatus(String articleId, int type, int status);
+    List<Article> findByUserIdAndTypeAndStatus(String userId, int type, int status);
+    List<Article> findByUserIdAndStatus(String userId, int status);
 }

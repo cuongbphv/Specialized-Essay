@@ -25,12 +25,17 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> getListComment(String articleId) {
-        return commentRepository.findByArticleId(articleId);
+    public List<Comment> getListComment(String articleId, int status) {
+        return commentRepository.findByArticleIdAndStatus(articleId, status);
     }
 
     @Override
-    public List<Comment> getListCommentByParentId(String parentId) {
-        return commentRepository.findByParentId(parentId);
+    public List<Comment> getListCommentByParentId(String parentId, int status) {
+        return commentRepository.findByParentIdAndStatus(parentId, status);
+    }
+
+    @Override
+    public Comment findByCommentIdAndStatus(String commentId, int status) {
+        return commentRepository.findByCommentIdAndStatus(commentId, status);
     }
 }

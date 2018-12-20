@@ -21,24 +21,30 @@
 
           <div class="nav__menu js-dropdown">
             <div class="nav__select">
-              <div class="btn-select" data-dropdown-btn="menu">Diễn đàn</div>
+              <div id="btnMenu" class="btn-select" data-dropdown-btn="menu" textContent="main.forum"></div>
               <div class="dropdown dropdown--design-01" data-dropdown-list="menu">
                 <ul class="dropdown__catalog">
-                  <li><a href="#">Hội nhóm</a></li>
-                  <li><a href="#">Xu hướng</a></li>
-                  <li><a href="#">Hỏi đáp</a></li>
-                  <li><a href="#">Lưu trữ</a></li>
-                  <li><a class="btn btn-primary" href="#" [routerLink]="['/post/create']">Viết bài</a></li>
+                  <!--<li><a href="#" textContent="main.group"></a></li>-->
+                  <li><a href="#" textContent="main.trending"></a></li>
+                  <li><a href="#" textContent="main.question"></a></li>
+                  <li><a href="javascript:void(0)" (click)="getListBookmarkArticle(1)"
+                         textContent="main.bookmark"></a></li>
+                  <li><a class="btn btn-primary" href="#" [routerLink]="['/post/create']"
+                         textContent="main.create_post"></a></li>
                 </ul>
               </div>
             </div>
             <ul id="post-type">
-              <li class="active"><a href="javascript:void(0)" (click)="getListArticleByType(1)">Diễn đàn</a></li>
-              <li><a href="#">Hội nhóm</a></li>
-              <li><a href="#">Xu hướng</a></li>
-              <li><a href="javascript:void(0)" (click)="getListArticleByType(2)">Hỏi đáp</a></li>
-              <li><a href="#">Lưu trữ</a></li>
-              <li><a class="btn btn-create-post" href="#" [routerLink]="['/post/create']">Viết bài</a></li>
+              <li class="active"><a href="javascript:void(0)" (click)="getListArticleByType(1)"
+                                    textContent="main.forum"></a></li>
+              <!--<li><a href="#">Hội nhóm</a></li>-->
+              <li><a href="#" textContent="main.trending"></a></li>
+              <li><a href="javascript:void(0)" (click)="getListArticleByType(2)"
+                     textContent="main.question"></a></li>
+              <li><a href="javascript:void(0)" (click)="getListBookmarkArticle(1)"
+                     textContent="main.bookmark"></a></li>
+              <li><a class="btn btn-create-post" href="#" [routerLink]="['/post/create']"
+                     textContent="main.create_post"></a></li>
             </ul>
           </div>
         </div>
@@ -114,11 +120,11 @@
             </div>
           </div>
 
-          <div class="widget-area"><h3 class="widget-title">Top Tag</h3>
+          <div class="widget-area"><h3 class="widget-title" textContent="main.top_tag"></h3>
             <div class="popular-authors" *ngFor="let tag of topTags; let i = index">
               <h4><a [routerLink]="['/tag/' + tag[0]]" href="#" rel="bookmark"><i class="fa fa-tags"></i> {{tag[1]}}</a></h4>
               <div class="info">
-                <div class="downloads">{{tag[4]}} taged</div>
+                <div class="downloads">{{tag[4]}} <span textContent="main.tagged"></span></div>
               </div>
             </div>
           </div>

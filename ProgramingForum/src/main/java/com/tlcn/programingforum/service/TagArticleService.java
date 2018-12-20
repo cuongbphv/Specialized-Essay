@@ -11,5 +11,6 @@ import java.util.List;
 public interface TagArticleService {
     TagArticle saveTagArticle(TagArticle tagArticle);
     List<TagArticle> findByArticleId(String articleId);
+    List<TagArticle> findByTagId(String tagId);
     void deleteTagArticle(TagArticle tagArticle);
 }

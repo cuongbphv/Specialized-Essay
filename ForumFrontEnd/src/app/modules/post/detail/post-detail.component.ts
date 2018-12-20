@@ -4,14 +4,14 @@ import {Location} from '@angular/common';
 import {
   ArticleInteractService,
   ArticleService, CommentService,
-  CustomToastrService, ModalService, ProfilesService, ReportArticleService, TranslateService,
+  CustomToastrService, ModalService, ProfilesService, ReportArticleService, ReportCommentService, TranslateService,
   UserService
 } from '../../../core/services';
 import {ActivatedRoute, Router} from '@angular/router';
 import marked from 'marked';
 import {User,Comment} from '../../../core/models';
 
-import * as $ from 'jquery';
+declare var $ : any;
 
 @Component({
   selector: 'post-detail',
@@ -40,11 +40,20 @@ export class PostDetailComponent implements OnInit {
     userId: '',
     reason: ''
   };
+  myCommentReport: any = {
+    commentId: '',
+    userId: '',
+    reason: ''
+  };
   currentUser: User;
   newComment: Comment;
   listComments = [];
   pageNumber: number = 1;
   pageSize: number = 10;
+  contentComment = "";
+  commentId = "";
+  listRelatedArticle = [];
+  listTheSameAuthorArticle = [];
 
   constructor(
     public articleService: ArticleService,
@@ -54,6 +63,7 @@ export class PostDetailComponent implements OnInit {
     private toastrService: CustomToastrService,
     private modalService: ModalService,
     private reportArticleService: ReportArticleService,
+    private reportCommentService: ReportCommentService,
     private profileService: ProfilesService,
     public translateService: TranslateService,
     private commentService: CommentService,
@@ -64,7 +74,20 @@ export class PostDetailComponent implements OnInit {
 
   ngOnInit(): void {
 
-    $('form').submit(false);
+    $(document).ready(function () {
+      window.addEventListener("scroll", function (event) {
+
+        // var limit = Math.max( document.body.scrollHeight, document.body.offsetHeight,
+        //   document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight );
+        //
+        // if(this.scrollY > limit - $('#sidebar').height()) {
+        //
+        // }
+        //
+        // console.log(document.documentElement.scrollHeight);
+
+      });
+    });
 
     // init commnet
     this.newComment = new class implements Comment {
@@ -97,6 +120,42 @@ export class PostDetailComponent implements OnInit {
           // Content data
           data.content = this.preRenderMarkdown(data.content);
           this.article = data;
+
+          // get realted article
+          let tagIds = [];
+          for(let i = 0; i < this.article.tagList; i++) {
+            tagIds.push(this.article.tagList[i].tagId);
+          }
+          this.articleService.getRelatedArticle(tagIds, this.article.type).subscribe(
+            data => {
+              this.listRelatedArticle = data;
+            }
+          );
+
+          // get article by the same author
+          this.articleService.getArticleSameAuthor(this.article.userId, this.article.type).subscribe(
+            data => {
+              for(let i = 0; i < data.length; i++) {
+                this.profileService.get(data[i].userId).subscribe(
+                  profile => {
+                    data[i].firstName = profile.firstName;
+                    data[i].lastName = profile.lastName;
+                    data[i].userProfileId = profile.userProfileId;
+
+                    this.articleService.statByArticle(data[i].articleId).subscribe(
+                      stat => {
+                        data[i].rating = stat.rating;
+                        data[i].bookmark = stat.bookmark;
+                        data[i].share = stat.share;
+                        data[i].commentNum = stat.commentNum;
+                      }
+                    );
+                  }
+                );
+              }
+              this.listTheSameAuthorArticle = data;
+            }
+          );
 
           // Author
           this.getAuthorInfo(this.article.userId);
@@ -189,6 +248,23 @@ export class PostDetailComponent implements OnInit {
     $('#txtReason').val('');
   }
 
+  passData(commentId: string, commentUserId: string) {
+    if (commentUserId === this.currentUser.userId) {
+      this.toastrService.showErrorToastr('message.report_comment.error');
+      $('#modal-report-comment').modal('show');
+    } else {
+      this.myCommentReport.commentId = commentId;
+      this.myCommentReport.userId = this.currentUser.userId;
+      $('#modal-report-comment').modal('hide');
+    }
+  }
+
+  reportComment() {
+    this.reportCommentService.report(this.myCommentReport).subscribe();
+    $('#modal-report-comment').modal('hide');
+    $('#txtReasonComment').val('');
+  }
+
   getListInteract() {
     this.articleInteractService.getListArticleInteract(this.article.articleId).subscribe(
       interacts => {
@@ -238,7 +314,78 @@ export class PostDetailComponent implements OnInit {
     this.newComment.articleId = this.article.articleId;
     this.newComment.userId = this.currentUser.userId;
     this.newComment.parentId = parentId;
-    this.commentService.addComment(this.newComment).subscribe();
+    this.commentService.addComment(this.newComment).subscribe(
+      newComment => {
+        if(newComment != null){
+          if(newComment.parentId != null){
+            for(let i = 0; i < this.listComments.length; i++) {
+              if(this.listComments[i].commentId === newComment.parentId) {
+                // get profile
+                this.userService.getUser(newComment.userId).subscribe(
+                  author => {
+
+                    let obj = {
+                      userId: newComment.userId,
+                      userName: "",
+                      firstName: "",
+                      lastName: "",
+                      userProfileId: ""
+                    };
+
+                    obj.userName = author.userName;
+
+                    this.profileService.get(newComment.userId).subscribe(
+                      profile => {
+                        obj.firstName = profile.firstName;
+                        obj.lastName = profile.lastName;
+                        obj.userProfileId = profile.userProfileId;
+
+                        newComment.userDetail = obj;
+                        newComment.commentBox = [];
+                        newComment.childComments = [];
+
+
+                        this.listComments[i].childComments.push(newComment);
+                      }
+                    );
+                  }
+                );
+              }
+            }
+          }
+          else {
+            // get profile
+            this.userService.getUser(newComment.userId).subscribe(
+              author => {
+
+                let obj = {
+                  userId: newComment.userId,
+                  userName: "",
+                  firstName: "",
+                  lastName: "",
+                  userProfileId: ""
+                };
+
+                obj.userName = author.userName;
+
+                this.profileService.get(newComment.userId).subscribe(
+                  profile => {
+                    obj.firstName = profile.firstName;
+                    obj.lastName = profile.lastName;
+                    obj.userProfileId = profile.userProfileId;
+
+                    newComment.userDetail = obj;
+                    newComment.commentBox = [];
+                    newComment.childComments = [];
+
+                    this.listComments.push(newComment);
+                  }
+                );
+              });
+          }
+        }
+      }
+    );
 
     $('#txtNewComment').val("");
     $(id).val("");
@@ -246,11 +393,37 @@ export class PostDetailComponent implements OnInit {
     // this.getCommentsInArticle(this.article, this.pageNumber, this.pageSize);
   }
 
+  openModalUpdateComment(commentId: string, content: string) {
+    this.contentComment = content;
+    this.commentId = commentId;
+    $('#modal-update-comment').modal('hide');
+  }
+
+  updateComment(commentId: string, content: string) {
+    this.commentService.updateComment(commentId, content).subscribe(
+      data => {
+        if (data != null) {
+          this.getCommentsInArticle(this.article.articleId,this.pageNumber,this.pageSize);
+          $('#modal-update-comment').modal('hide');
+        }
+      }
+    )
+  }
+
+  deleteComment(commentId: string) {
+    this.commentService.deleteComment(commentId).subscribe(
+      data => {
+        if (data != null) {
+          this.getCommentsInArticle(this.article.articleId,this.pageNumber,this.pageSize);
+        }
+      }
+    )
+  }
+
   getCommentsInArticle(articleId: string, pageNumber: number, pageSize: number){
     this.commentService.getListComment(articleId,pageNumber,pageSize).subscribe(
       comments => {
         if(comments != null) {
-          console.log(comments);
           this.commentCount = 0;
           for(let i = 0; i < comments.length; i++) {
             this.commentCount++;
@@ -282,7 +455,6 @@ export class PostDetailComponent implements OnInit {
             );
 
             if(comments[i].childComments !== null) {
-              console.log(comments[i].childComments.length);
               for(let j = 0; j < comments[i].childComments.length; j++) {
                 this.commentCount++;
 
@@ -340,7 +512,6 @@ export class PostDetailComponent implements OnInit {
       this.listComments[index].commentBox.push("comment-box-"+parentId);
     }
   }
-
 
   removeCommentBox(index){
     this.listComments[index].commentBox = [];

@@ -31,4 +31,9 @@ public class ArticleInteractServiceImpl implements ArticleInteractService {
     public List<ArticleInteract> findByArticleId(String articleId) {
         return articleInteractRepository.findByIdArticleId(articleId);
     }
+
+    @Override
+    public List<ArticleInteract> findByUserIdAndBookmark(String userId) {
+        return articleInteractRepository.findByIdUserIdAndAndBookmark(userId, 1);
+    }
 }
