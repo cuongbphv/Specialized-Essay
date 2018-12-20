@@ -36,8 +36,11 @@ public class ArticleSpecification implements Specification<Article> {
 
         Predicate status = cb.notEqual(root.get("status"), Constant.Status.DELETE.getValue());
         predicates.add(status);
-        Predicate typeCr = cb.equal(root.get("type"), type);
-        predicates.add(typeCr);
+
+        if(type != 0) {
+            Predicate typeCr = cb.equal(root.get("type"), type);
+            predicates.add(typeCr);
+        }
         // filter by search key [name]
         if (searchKey != null && !searchKey.trim().isEmpty()) {
             String wrapSearch = "%" + searchKey.trim() + "%";

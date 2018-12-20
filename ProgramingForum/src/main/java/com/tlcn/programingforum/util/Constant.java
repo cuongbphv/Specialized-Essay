@@ -41,6 +41,7 @@ public interface Constant {
     public static final String UPDATE_PASS = "/update_password";
     public static final String USER_UPDATE_PASS = "/user_update_password";
 
+
     //Profile management
     public static final String PROFILE_API = API_PREFIX + "/profile";
 
@@ -104,11 +105,17 @@ public interface Constant {
     public static final String CHECK_GOOGLE_ACCESS_TOKEN = "https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=";
 
 
-    //sort case user management
+    //sort case article management
     int SORT_BY_CREATE_DATE = 1;
     int SORT_BY_TYPE = 2;
     int SORT_BY_VIEW = 3;
     int SORT_BY_BOOKMARK = 4;
+
+    //sort case user management
+    int SORT_BY_FIRST_NAME = 2;
+    int SORT_BY_LAST_NAME = 3;
+    int SORT_BY_USERNAME = 4;
+    int SORT_BY_ROLE = 5;
 
     public enum Status{
 

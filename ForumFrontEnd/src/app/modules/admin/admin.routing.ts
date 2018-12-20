@@ -15,6 +15,10 @@ export const routes: Routes = [
   {
     path: 'user',
     loadChildren: './manage-user/manage-user.module#ManageUserModule'
+  },
+  {
+    path: 'tag',
+    loadChildren: './manage-tag/manage-tag.module#ManageTagModule'
   }
 ];
 

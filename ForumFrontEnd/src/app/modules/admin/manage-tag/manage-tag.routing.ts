@@ -1,18 +1,17 @@
 import {RouterModule, Routes} from '@angular/router';
 
 import {NgModule} from '@angular/core';
-import {ListUserComponent} from './list-user/list-user.component';
-import {DetailUserComponent} from './detail/detail-user.component';
-
+import {ListTagComponent} from './list-tag/list-tag.component';
+import {DetailTagComponent} from './detail/detail-tag.component';
 
 export const routes: Routes = [
   {
     path: 'list',
-    component: ListUserComponent
+    component: ListTagComponent
   },
   {
     path: ':id',
-    component: DetailUserComponent
+    component: DetailTagComponent
   }
 ];
 
@@ -20,4 +19,4 @@ export const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ManageUserRouting {}
+export class ManageTagRouting {}

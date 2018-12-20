@@ -1,6 +1,7 @@
 package com.tlcn.programingforum.api.controller;
 
 import com.tlcn.programingforum.api.AbstractBasedAPI;
+import com.tlcn.programingforum.api.model.request.PagingRequestModel;
 import com.tlcn.programingforum.api.model.request.UserRequest;
 import com.tlcn.programingforum.api.model.response.UserDetailResponse;
 import com.tlcn.programingforum.api.model.response.UserResponse;
@@ -8,6 +9,7 @@ import com.tlcn.programingforum.api.response.APIStatus;
 import com.tlcn.programingforum.auth.AuthUser;
 import com.tlcn.programingforum.exception.ApplicationException;
 import com.tlcn.programingforum.model.RestAPIResponse;
+import com.tlcn.programingforum.model.entity.Article;
 import com.tlcn.programingforum.model.entity.Profile;
 import com.tlcn.programingforum.model.entity.Session;
 import com.tlcn.programingforum.model.entity.User;
@@ -19,6 +21,7 @@ import com.tlcn.programingforum.util.CommonUtil;
 import com.tlcn.programingforum.util.Constant;
 import com.tlcn.programingforum.util.MD5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -296,6 +299,24 @@ public class UserController extends AbstractBasedAPI {
         }
 
         return null;
+    }
+
+
+    /**
+     * Admin get list User
+     * @param pagingRequestModel
+     */
+    @RequestMapping(value= Constant.USER_LIST, method = RequestMethod.POST)
+    public ResponseEntity<RestAPIResponse> getListArticle(
+            HttpServletRequest request,
+            @RequestBody PagingRequestModel pagingRequestModel
+    ) {
+
+
+        Page<UserResponse> listUsers = userService.getListUserPaging(pagingRequestModel, "en");
+
+        return responseUtil.successResponse(listUsers);
+
     }
 
     private void validateParam(UserRequest userRequest) {
