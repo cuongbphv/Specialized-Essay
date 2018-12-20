@@ -7,6 +7,7 @@ import {
   UserService
 } from '../../core/services';
 import {User} from '../../core/models';
+import {PagerService} from '../../core/services/pager.service';
 
 declare var $: any;
 
@@ -29,6 +30,10 @@ export class HomeComponent implements OnInit {
   myTags: any = [];
   articles: any = [];
   currentUser: User;
+  currentPage = 0;
+  totalPages = 0;
+  totalItems = 10;
+
 
   constructor(
     public translate: TranslateService,
@@ -104,9 +109,19 @@ export class HomeComponent implements OnInit {
 
     this.articleService.getListArticle(this.pagingRequest).subscribe(
       data => {
+        console.log(data);
         this.articles = data.content;
 
+        this.totalPages = data.totalPages;
+        this.totalItems = data.tottalElements;
+        this.currentPage = data.number;
+
         for (let i = 0; i < this.articles.length; i++) {
+
+          if(this.articles[i].rightAnswerId == undefined) {
+            this.articles[i].rightAnswerId = '';
+          }
+
           this.articleService.getDetailPost(this.articles[i].articleId).subscribe(
             data => {
 
@@ -166,6 +181,10 @@ export class HomeComponent implements OnInit {
       }
     );
 
+  }
+
+  counter(i: number) {
+    return new Array(i);
   }
 
 }

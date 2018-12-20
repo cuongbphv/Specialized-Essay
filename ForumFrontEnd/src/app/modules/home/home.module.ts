@@ -7,7 +7,7 @@ import { HomeRoutingModule } from './home.routing';
 
 // Components
 import { HomeComponent } from './home.component';
-import {ArticleInteractService, ArticleService, ProfilesService, TagService} from '../../core/services';
+import {ArticleInteractService, ArticleService, PagerService, ProfilesService, TagService} from '../../core/services';
 
 @NgModule({
   imports: [
@@ -22,7 +22,8 @@ import {ArticleInteractService, ArticleService, ProfilesService, TagService} fro
     TagService,
     ArticleService,
     ProfilesService,
-    ArticleInteractService
+    ArticleInteractService,
+    PagerService
   ]
 })
 export class HomeModule {}

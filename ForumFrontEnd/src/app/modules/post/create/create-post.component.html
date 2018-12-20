@@ -6,7 +6,8 @@
          [class.cross-validation-error]="postTitle.touched || postTitle.dirty">
 
       <input id="post-title" class="form-control" type="text" textPlaceHolder="post.placeholder_title"
-             [(ngModel)]="post.title" name="postTitle" #postTitle="ngModel" [required]="true"/>
+             [(ngModel)]="post.title" name="postTitle" #postTitle="ngModel" [required]="true"
+             maxlength="200" [maxlength]="200"/>
 
       <div *ngIf="postTitle.touched">
         <span class="help-block" *ngIf="postTitle.value === ''">

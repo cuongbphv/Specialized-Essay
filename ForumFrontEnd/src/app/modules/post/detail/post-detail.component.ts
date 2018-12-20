@@ -317,72 +317,7 @@ export class PostDetailComponent implements OnInit {
     this.commentService.addComment(this.newComment).subscribe(
       newComment => {
         if(newComment != null){
-          if(newComment.parentId != null){
-            for(let i = 0; i < this.listComments.length; i++) {
-              if(this.listComments[i].commentId === newComment.parentId) {
-                // get profile
-                this.userService.getUser(newComment.userId).subscribe(
-                  author => {
-
-                    let obj = {
-                      userId: newComment.userId,
-                      userName: "",
-                      firstName: "",
-                      lastName: "",
-                      userProfileId: ""
-                    };
-
-                    obj.userName = author.userName;
-
-                    this.profileService.get(newComment.userId).subscribe(
-                      profile => {
-                        obj.firstName = profile.firstName;
-                        obj.lastName = profile.lastName;
-                        obj.userProfileId = profile.userProfileId;
-
-                        newComment.userDetail = obj;
-                        newComment.commentBox = [];
-                        newComment.childComments = [];
-
-
-                        this.listComments[i].childComments.push(newComment);
-                      }
-                    );
-                  }
-                );
-              }
-            }
-          }
-          else {
-            // get profile
-            this.userService.getUser(newComment.userId).subscribe(
-              author => {
-
-                let obj = {
-                  userId: newComment.userId,
-                  userName: "",
-                  firstName: "",
-                  lastName: "",
-                  userProfileId: ""
-                };
-
-                obj.userName = author.userName;
-
-                this.profileService.get(newComment.userId).subscribe(
-                  profile => {
-                    obj.firstName = profile.firstName;
-                    obj.lastName = profile.lastName;
-                    obj.userProfileId = profile.userProfileId;
-
-                    newComment.userDetail = obj;
-                    newComment.commentBox = [];
-                    newComment.childComments = [];
-
-                    this.listComments.push(newComment);
-                  }
-                );
-              });
-          }
+          this.getCommentsInArticle(this.article.articleId,this.pageNumber,this.pageSize);
         }
       }
     );

@@ -1,6 +1,6 @@
 <section id="content">
   <div class="container">
-    <div class="row">
+    <div class="row" style="margin-bottom: 20px;">
 
       <div class="col-xs-12 col-sm-8 col-md-9">
 
@@ -67,7 +67,7 @@
 
               <div class="post-detail">
                 <div class="post-title">
-                  <a href="#" [routerLink]="['/post/' + post.articleId]">{{post.title}}</a>
+                  <a href="#" [routerLink]="['/post/' + post.articleId]" class="wrap">{{post.title}}</a>
                 </div>
 
                 <div class="tags">
@@ -85,7 +85,7 @@
                 <i aria-hidden="true" class="fa fa-bookmark"></i>&nbsp;{{post.bookmarkCount}}</span>
                   <span class="stats-item text-muted" data-tippy="" data-original-title="Comments">
                 <i aria-hidden="true" class="fa fa-comments"></i>&nbsp;{{post.commentNum}}</span>
-                  <i *ngIf="(post.type === 2 && post.rightAnswerId !== null)" class="fa fa-check-circle"></i>
+                  <i *ngIf="(post.type === 2 && post.rightAnswerId !== '')" class="fa fa-check-circle"></i>
                 </div>
 
               </div>
@@ -102,6 +102,40 @@
           </div>
 
         </div>
+
+        <div class="pagination-wrapper" *ngIf="totalItems > 10">
+          <div class="pagination">
+            <a class="prev page-numbers" href="javascript:;">prev</a>
+            <span aria-current="page" class="page-numbers"
+                  [ngClass]="{'current' : i === currentPage}"
+                  *ngFor="let page of counter(totalPages); let i = index;">{{i + 1}}</span>
+            <a class="next page-numbers" href="javascript:;">next</a>
+          </div>
+        </div>
+
+        <!-- paging possts -->
+        <!--<div class="text-center">-->
+          <!--&lt;!&ndash; items being paged &ndash;&gt;-->
+          <!--<div *ngFor="let item of pagedItems">{{item.name}}</div>-->
+          <!--&lt;!&ndash; pager &ndash;&gt;-->
+          <!--<ul *ngIf="pager.pages && pager.pages.length" class="pagination">-->
+            <!--<li [ngClass]="{disabled:pager.currentPage === 1}">-->
+              <!--<a (click)="setPage(1)">First</a>-->
+            <!--</li>-->
+            <!--<li [ngClass]="{disabled:pager.currentPage === 1}">-->
+              <!--<a (click)="setPage(pager.currentPage - 1)">Previous</a>-->
+            <!--</li>-->
+            <!--<li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">-->
+              <!--<a (click)="setPage(page)">{{page}}</a>-->
+            <!--</li>-->
+            <!--<li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">-->
+              <!--<a (click)="setPage(pager.currentPage + 1)">Next</a>-->
+            <!--</li>-->
+            <!--<li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">-->
+              <!--<a (click)="setPage(pager.totalPages)">Last</a>-->
+            <!--</li>-->
+          <!--</ul>-->
+        <!--</div>-->
 
       </div>
 
