@@ -44,7 +44,8 @@ public class Article {
     private int type;
     private String rightAnswerId;
     private String thumbnail;
-    private boolean isApproved;
+    private int isApproved;
+    private String approvedBy;
     private String userId;
     private int status;
 
