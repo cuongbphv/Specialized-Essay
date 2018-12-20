@@ -12,10 +12,7 @@ import com.tlcn.programingforum.service.CommentService;
 import com.tlcn.programingforum.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -61,7 +58,8 @@ public class CommentController extends AbstractBasedAPI {
             HttpServletRequest request,
             @RequestBody PagingRequestModel pagingRequestModel) {
 
-        List<Comment> comments = commentService.getListComment(pagingRequestModel.getSearchKey());
+        List<Comment> comments = commentService.getListComment(
+                pagingRequestModel.getSearchKey(), Constant.Status.ACTIVE.getValue());
 
         List<CommentResponse> responses = new ArrayList<>();
 
@@ -74,7 +72,7 @@ public class CommentController extends AbstractBasedAPI {
                 response.setCreateDate(parentComment.getCreateDate());
                 response.setContent(parentComment.getContent());
                 List<Comment> childComments = commentService.getListCommentByParentId(
-                        parentComment.getCommentId());
+                        parentComment.getCommentId(), Constant.Status.ACTIVE.getValue());
                 response.setChildComments(childComments);
                 responses.add(response);
             }
@@ -82,6 +80,59 @@ public class CommentController extends AbstractBasedAPI {
 
         return responseUtil.successResponse(responses);
 
+    }
+
+    @RequestMapping(method = RequestMethod.PUT)
+    public ResponseEntity<RestAPIResponse> updateComment(
+            HttpServletRequest request,
+            @RequestBody CommentRequest commentRequest
+    ) {
+
+        if (commentRequest == null) {
+            throw new ApplicationException(APIStatus.ERR_BAD_REQUEST);
+        }
+
+        Comment comment = commentService.findByCommentIdAndStatus(
+                commentRequest.getCommentId(), Constant.Status.ACTIVE.getValue());
+
+        if(comment == null) {
+            throw new ApplicationException(APIStatus.ERR_COMMENT_NOT_FOUND);
+        }
+
+        comment.setContent(commentRequest.getContent());
+
+        return responseUtil.successResponse(commentService.saveComment(comment));
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE)
+    public ResponseEntity<RestAPIResponse> deleteComment(
+            HttpServletRequest request,
+            @RequestParam("comment_id") String commentId
+            ) {
+
+        if (commentId.equals("")) {
+            throw new ApplicationException(APIStatus.ERR_BAD_PARAMS);
+        }
+
+        Comment comment = commentService.findByCommentIdAndStatus(
+                commentId, Constant.Status.ACTIVE.getValue());
+
+        if(comment == null) {
+            throw new ApplicationException(APIStatus.ERR_COMMENT_NOT_FOUND);
+        }
+
+        comment.setStatus(Constant.Status.DELETE.getValue());
+        commentService.saveComment(comment);
+
+        List<Comment> childComments = commentService.getListCommentByParentId(
+                comment.getCommentId(), Constant.Status.ACTIVE.getValue());
+
+        for(Comment childComment : childComments) {
+            childComment.setStatus(Constant.Status.DELETE.getValue());
+            commentService.saveComment(childComment);
+        }
+
+        return responseUtil.successResponse("Delete successfully");
     }
 
 }

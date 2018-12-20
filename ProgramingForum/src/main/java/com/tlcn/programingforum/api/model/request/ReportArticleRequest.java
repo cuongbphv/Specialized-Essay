@@ -17,4 +17,5 @@ public class ReportArticleRequest {
     private String articleId;
     private String userId;
     private String reason;
+    private String commentId;
 }

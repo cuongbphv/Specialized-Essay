@@ -11,7 +11,15 @@
     "main_title_2": "NodeJS, Angular, React, VueJS, Spring Boot, DevOps, ... Give away is to get back!",
     "join": "Join with us now",
     "or": "or",
-    "register": "register member"
+    "register": "register member",
+    "forum": "Forum",
+    "group": "Group",
+    "trending": "Trending",
+    "question": "Question",
+    "bookmark": "Bookmark",
+    "create_post": "Create Post",
+    "top_tag": "Top Tags",
+    "tagged": "times tagged"
   },
   "user": {
     "login": "Login",
@@ -95,7 +103,9 @@
     "post_on": " Posted on",
     "no_toc": "No table of content",
     "no_tag": "No tags",
-    "my_tags": "My tags"
+    "my_tags": "My tags",
+    "update_comment": "UPDATE COMMENT",
+    "same_author": "Article same author"
   },
   "validation": {
     "first_name": {
@@ -158,15 +168,26 @@
       "success": "You reported this post successfully",
       "error": "You can not report your post"
     },
+    "report_comment": {
+      "success": "You reported this comment successfully",
+      "error": "You can not report your comment"
+    },
     "resolved": {
       "existed": "You marked as resolved for right answer",
       "success": "You marked as resolved successfully"
+    },
+    "comment": {
+      "delete_success": "Delete comment successfully",
+      "update_success": "Update comment successfully"
     }
   },
   "api": {
     "status": {
+      "400": "Bad request",
+      "406": "Bad parameters",
       "900": "Article not found",
-      "901": "You reported this post"
+      "901": "You reported before",
+      "1000": "Comment not found"
     }
   }
 }

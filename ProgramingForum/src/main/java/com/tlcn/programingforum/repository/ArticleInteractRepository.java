@@ -16,4 +16,5 @@ import java.util.List;
 public interface ArticleInteractRepository extends CrudRepository<ArticleInteract, String> {
     List<ArticleInteract> findByIdArticleId(String articleId);
     ArticleInteract findByIdArticleIdAndIdUserId(String articleId, String userId);
+    List<ArticleInteract> findByIdUserIdAndAndBookmark(String userID, int bookmark);
 }

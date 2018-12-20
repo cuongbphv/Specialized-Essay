@@ -7,6 +7,7 @@ const BaseURL = {
   TAG_API: '/tag',
   ARTICLE_INTERACT_API: '/interact',
   REPORT_ARTICLE_API: '/report',
+  REPORT_COMMENT_API: '/report-comment',
   COMMENT_API: '/comment'
 };
 
@@ -36,17 +37,23 @@ export const API = {
   VIEW_COUNT: BaseURL.ARTICLE_API + "/view",
   STATS_BY_ARTICLE: BaseURL.ARTICLE_API + "/stats",
   MARK_AS_RESOLVED: BaseURL.ARTICLE_API + "/resolved",
+  GET_RELATED_ARTICLE: BaseURL.ARTICLE_API + "/related",
+  ARTICLE_SAME_AUTHOR: BaseURL.ARTICLE_API + "/same-author",
+  BOOKMARK_LIST: BaseURL.ARTICLE_API + "/bookmark",
 
   // Interact Management
   ADD_INTERACT: BaseURL.ARTICLE_INTERACT_API,
   GET_LIST_ARTICLE_INTERACT: BaseURL.ARTICLE_INTERACT_API,
 
   // Comment Management
-  ADD_COMMENT: BaseURL.COMMENT_API,
+  CRUD_COMMENT: BaseURL.COMMENT_API,
   LIST_COMMENT_IN_ARTICLE: BaseURL.COMMENT_API + "/list",
 
   // Report Article Management
   REPORT_ARTICLE: BaseURL.REPORT_ARTICLE_API,
+
+  //Report Comment Management
+  REPORT_COMMENT: BaseURL.REPORT_COMMENT_API,
 
   // Tag Management
   GET_MOST_TAG_IN_FORUM: BaseURL.TAG_API + "/most",

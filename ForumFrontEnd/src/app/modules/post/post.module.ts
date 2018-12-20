@@ -16,7 +16,7 @@ import {
   CustomToastrService,
   ModalService,
   ProfilesService,
-  ReportArticleService
+  ReportArticleService, ReportCommentService
 } from '../../core/services';
 import {EditPostComponent} from './edit/edit-post.component';
 
@@ -38,6 +38,7 @@ import {EditPostComponent} from './edit/edit-post.component';
     CustomToastrService,
     ModalService,
     ReportArticleService,
+    ReportCommentService,
     ProfilesService,
     CommentService
   ]

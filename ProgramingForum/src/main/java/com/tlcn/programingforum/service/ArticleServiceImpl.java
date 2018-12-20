@@ -32,6 +32,12 @@ public class ArticleServiceImpl extends AbstractBaseService implements ArticleSe
     }
 
     @Override
+    public Article findByArticleIdAndTypeAndStatus(String articleId, int type, int status) {
+        return articleRepository.findByArticleIdAndTypeAndStatus(
+                articleId, type, status);
+    }
+
+    @Override
     public Page<Article> getListArticlePaging(PagingRequestModel pagingRequestModel) {
         ArticleSpecification userSpec = new ArticleSpecification(pagingRequestModel.getSearchKey(),
                 pagingRequestModel.getSortCase(), pagingRequestModel.isAscSort(),
@@ -41,7 +47,12 @@ public class ArticleServiceImpl extends AbstractBaseService implements ArticleSe
     }
 
     @Override
-    public List<Article> findByUserId(String userId) {
-        return articleRepository.findByUserId(userId);
+    public List<Article> findByUserIdAndTypeAndStatus(String userId, int type, int status) {
+        return articleRepository.findByUserIdAndTypeAndStatus(userId, type, status);
+    }
+
+    @Override
+    public List<Article> findByUserIdAndStatus(String userId, int status) {
+        return articleRepository.findByUserIdAndStatus(userId, status);
     }
 }

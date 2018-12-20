@@ -59,7 +59,8 @@ public class TagController extends AbstractBasedAPI {
         }
 
         List<Tag> myTags = new ArrayList<>();
-        List<Article> articles = articleService.findByUserId(userId);
+        List<Article> articles = articleService.findByUserIdAndStatus(
+                userId, Constant.Status.ACTIVE.getValue());
 
         for(Article article : articles) {
             List<TagArticle> tagArticles = tagArticleService.findByArticleId(article.getArticleId());

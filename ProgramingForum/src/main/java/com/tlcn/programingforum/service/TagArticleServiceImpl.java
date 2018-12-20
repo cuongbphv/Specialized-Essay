@@ -27,6 +27,11 @@ public class TagArticleServiceImpl implements TagArticleService {
     }
 
     @Override
+    public List<TagArticle> findByTagId(String tagId) {
+        return tagArticleRepository.findByIdTagId(tagId);
+    }
+
+    @Override
     public void deleteTagArticle(TagArticle tagArticle) {
         tagArticleRepository.delete(tagArticle);
     }

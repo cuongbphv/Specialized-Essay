@@ -55,7 +55,10 @@ public enum APIStatus {
 
     //POST
     ERR_ARTICLE_NOT_FOUND(900, "Article not found"),
-    ERR_REPORTED(901, "Reported");
+    ERR_REPORTED(901, "Reported"),
+
+    // Comment
+    ERR_COMMENT_NOT_FOUND(1000, "Comment not found");
 
     private final int code;
     private final String description;

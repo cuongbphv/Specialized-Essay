@@ -16,4 +16,5 @@ import java.util.List;
 @Repository
 public interface TagArticleRepository extends CrudRepository<TagArticle, String> {
     List<TagArticle> findByIdArticleId(String articleId);
+    List<TagArticle> findByIdTagId(String tagId);
 }

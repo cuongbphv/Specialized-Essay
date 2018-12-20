@@ -17,13 +17,43 @@ export class CommentService {
   }
 
   addComment(comment: Comment): Observable<any> {
-    return this.apiService.post(API.ADD_COMMENT, comment).pipe(map(
+    return this.apiService.post(API.CRUD_COMMENT, comment).pipe(map(
       res => {
         if(res.status === 200){
           console.log(res.data);
           // this.toastrService.showSuccessToastr('message.comment.add_success');
           return res.data;
         }
+        return null;
+      }
+    ));
+  }
+
+  updateComment(commentId: string, content: string): Observable<any> {
+    return this.apiService.put(API.CRUD_COMMENT, {
+      commentId: commentId,
+      content: content
+    }).pipe(map(
+      res => {
+        if(res.status === 200){
+          this.toastrService.showSuccessToastr('message.comment.update_success');
+          return res.data;
+        }
+        this.toastrService.showSuccessToastr('api.status.' + res.status);
+        return null;
+      }
+    ));
+  }
+
+  deleteComment(commentId: string): Observable<any> {
+    return this.apiService.delete(API.CRUD_COMMENT + "?comment_id=" + commentId).pipe(map(
+      res => {
+        if(res.status === 200){
+          console.log(res.data);
+          this.toastrService.showSuccessToastr('message.comment.delete_success');
+          return res.data;
+        }
+        this.toastrService.showSuccessToastr('api.status.' + res.status);
         return null;
       }
     ));
