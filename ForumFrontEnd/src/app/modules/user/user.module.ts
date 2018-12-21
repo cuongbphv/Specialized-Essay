@@ -1,24 +1,23 @@
 import { NgModule } from '@angular/core';
-
-import { SharedModule } from '../../shared';
-import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
-import { TranslateService } from '../../core/services';
-import {GetStartedComponent} from './get-started/get-started.component';
+import {SharedModule} from '../../shared';
+import {ProfileModule} from './profile/profile.module';
+import {PostModule} from './post/post.module';
+import {HomeModule} from './home/home.module';
+import {AuthModule} from './auth/auth.module';
 import {UserRoutingModule} from './user.routing';
 
 @NgModule({
   imports: [
-    SharedModule,
-    BrowserModule,
     CommonModule,
-    UserRoutingModule
+    SharedModule,
+    UserRoutingModule,
+    ProfileModule,
+    PostModule,
+    HomeModule,
+    AuthModule
   ],
   declarations: [
-    GetStartedComponent
-  ],
-  providers: [
-    TranslateService
   ]
 })
-export class UserModule {}
+export class UserModule { }

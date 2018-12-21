@@ -1,17 +1,36 @@
 import {RouterModule, Routes} from '@angular/router';
 
 import {NgModule} from '@angular/core';
-import {GetStartedComponent} from './get-started/get-started.component';
+import {UserLayoutComponent} from '../../_layout/user-layout/user-layout.component';
 
 export const routes: Routes = [
+
   {
-    path: 'get-started',
-    component: GetStartedComponent
+    path: '',
+    component: UserLayoutComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: './home/home.module#HomeModule'
+      },
+      {
+        path: 'profile',
+        loadChildren: './profile/profile.module#ProfileModule'
+      },
+      {
+        path: '',
+        loadChildren: './post/post.module#PostModule'
+      },
+      {
+        path: '',
+        loadChildren: './auth/auth.module#AuthModule'
+      }
+    ]
   }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class UserRoutingModule {}

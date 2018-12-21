@@ -6,7 +6,7 @@ import {DetailPostComponent} from './detail/detail-post.component';
 
 export const routes: Routes = [
   {
-    path: 'list',
+    path: '',
     component: ListPostComponent
   },
   {
