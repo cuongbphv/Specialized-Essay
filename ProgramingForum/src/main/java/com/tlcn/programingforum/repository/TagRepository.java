@@ -22,4 +22,15 @@ public interface TagRepository extends CrudRepository<Tag, String> {
 
     @Query(value = "select t.tagId, t.tagName, t.createDate, t.description, count(t.tagId) as number_of_taged from Tag t, TagArticle ta where t.tagId = ta.id.tagId group by t.tagId order by number_of_taged desc")
     List<Object> findTop5TagMostInForum(Pageable pageable);
+
+    @Query(value = "SELECT t.tag_id, t.tag_name, t.description, t.create_date, " +
+            "count(if(a.type = 1, 1, null)) as number_article, " +
+            "COUNT(IF(a.type = 2, 1, null)) as number_question " +
+            "FROM tag t, tag_article ta, article a " +
+            "WHERE t.tag_id = ta.tag_id " +
+            "and ta.article_id = a.article_id " +
+            "and t.tag_id = ?1 " +
+            "group by t.tag_id",
+            nativeQuery = true)
+    Object getTagInfomation(String tagId);
 }

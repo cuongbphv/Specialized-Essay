@@ -70,6 +70,15 @@ public interface Constant {
     String TAG_CONTROLLER = API_PREFIX + "/tag";
     String MOST_TAG_IN_FORUM = "/most";
     String MY_TAGS = "/my_tags";
+    String FOLLOW_TAG = "/follow";
+    String FOLLOW_STATUS = "/status";
+    String UNFOLLOW_TAG = "/unfollow";
+    String LIST_FOLLOWER_BY_TAG = "/followers";
+    String LIST_ARTICLE_BY_TYPE = "/list";
+
+    // Author Management
+    String AUTHOR_CONTROLLER = API_PREFIX + "/author";
+    String TOP_AUTHOR = "/top";
 
     // Comment management
     String COMMENT_CONTROLLER = API_PREFIX + "/comment";

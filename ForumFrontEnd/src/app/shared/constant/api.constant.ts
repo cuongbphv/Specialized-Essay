@@ -8,7 +8,8 @@ const BaseURL = {
   ARTICLE_INTERACT_API: '/interact',
   REPORT_ARTICLE_API: '/report',
   REPORT_COMMENT_API: '/report-comment',
-  COMMENT_API: '/comment'
+  COMMENT_API: '/comment',
+  AUTHOR_API: '/author'
 };
 
 export const API = {
@@ -58,6 +59,15 @@ export const API = {
 
   // Tag Management
   GET_MOST_TAG_IN_FORUM: BaseURL.TAG_API + "/most",
-  MY_TAGS: BaseURL.TAG_API + "/my_tags"
+  MY_TAGS: BaseURL.TAG_API + "/my_tags",
+  FOLLOW_TAG: BaseURL.TAG_API + "/follow",
+  FOLLOW_STATUS: BaseURL.TAG_API + "/status",
+  UNFOLLOW_TAG: BaseURL.TAG_API + "/unfollow",
+  LIST_TAG_FOLLOWERS: BaseURL.TAG_API + "/followers",
+  LIST_ARTICLE_BY_TYPE_AND_TAG_ID: BaseURL.TAG_API + "/list",
+  TAG_INFORMATION: BaseURL.TAG_API + "/",
+
+  // Author Management
+  TOP_AUTHOR: BaseURL.AUTHOR_API + "/top"
 
 };

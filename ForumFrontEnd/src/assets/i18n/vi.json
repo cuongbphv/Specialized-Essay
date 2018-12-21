@@ -20,7 +20,9 @@
     "bookmark": "Lưu trữ",
     "create_post": "Viết bài",
     "top_tag": "Top Thẻ",
-    "tagged": "lần được sử dụng"
+    "tagged": "lần được sử dụng",
+    "follower": "Người theo dõi",
+    "article": "Bài viết"
   },
   "user": {
     "login": "Đăng nhập",
@@ -37,6 +39,17 @@
     "article": "Bài viết",
     "question": "Câu hỏi",
     "placeholder_tag": "Nhập 5 thẻ cho bài viết"
+  },
+  "tag": {
+    "label": {
+      "follow": "Theo dõi",
+      "following": "Đang theo dõi",
+      "info": "Thông tin thẻ"
+    },
+    "message": {
+      "follow_success": "Theo dõi thẻ thành công",
+      "unfollow_success": "Bỏ theo dõi thẻ thành công"
+    }
   },
   "footer": {
     "introduction": "GIỚI THIỆU",

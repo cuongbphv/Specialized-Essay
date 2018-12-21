@@ -67,4 +67,9 @@ public class UserServiceImpl extends AbstractBaseService implements UserService 
         return null;
     }
 
+    @Override
+    public List<Object[]> getTopAuthors() {
+        return userRepository.getTopAuthors();
+    }
+
 }

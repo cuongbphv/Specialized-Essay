@@ -44,4 +44,14 @@ export class ProfilesService {
     return this.apiService.delete('/profiles/' + username + '/follow');
   }
 
+  getTopAuthor(): Observable<any> {
+    return this.apiService.get(API.TOP_AUTHOR)
+      .pipe(map(res => {
+        if(res.status === 200){
+          return res.data;
+        }
+        return null;
+      }));
+  }
+
 }

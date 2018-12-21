@@ -26,4 +26,6 @@ public interface ArticleService {
     Page<Article> getTrendingArticleToday(PagingRequestModel pagingRequest);
 
     Page<Article> getTrendingArticleWeek(PagingRequestModel pagingRequest);
+
+    Page<Article> getArticleByTagIdAndType(PagingRequestModel pagingRequest);
 }
