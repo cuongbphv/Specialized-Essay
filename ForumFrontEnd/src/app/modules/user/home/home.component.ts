@@ -4,8 +4,8 @@ import {
   ArticleService, ProfilesService,
   TagService, TranslateService,
   UserService
-} from '../../../core/services/index';
-import {User} from '../../../core/models/index';
+} from '../../../core/services';
+import {User} from '../../../core/models';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 declare var $: any;
@@ -42,6 +42,7 @@ export class HomeComponent implements OnInit {
     pageSize: 10
   };
   topTags: any = [];
+  topAuthors: any = [];
   myTags: any = [];
   articles: any = [];
   currentUser: User;
@@ -118,6 +119,12 @@ export class HomeComponent implements OnInit {
         this.topTags = data;
       }
     );
+
+    this.profileService.getTopAuthor().subscribe(
+      authors => {
+        this.topAuthors = authors;
+      }
+    )
 
     this.getListArticleByType(1, 1);
 

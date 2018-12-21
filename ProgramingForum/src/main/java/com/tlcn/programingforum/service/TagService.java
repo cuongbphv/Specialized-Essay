@@ -14,4 +14,5 @@ public interface TagService {
     Tag saveTag(Tag tag);
     Tag findTagById(String tagId);
     List<Object> findMostTagInForum();
+    Object getTagInfomation(String tagId);
 }

@@ -33,7 +33,7 @@ public interface ArticleRepository extends CrudRepository<Article, String>, JpaS
             "AND type = ?1 " +
             "AND a.create_date >= CONCAT(CURDATE(), ' 00:00:00') && a.create_date < CONCAT(CURDATE(), ' 23:59:59') " +
             "GROUP by a.article_id " +
-            "HAVING COUNT(art.rating) > 1 " +
+            "HAVING SUM(art.rating) > 1 " +
             "AND a.view_count > 100 " +
             "ORDER BY ?#{#pageable}",
             countQuery = "SELECT * " +
@@ -42,7 +42,7 @@ public interface ArticleRepository extends CrudRepository<Article, String>, JpaS
                     "AND type = ?1 " +
                     "AND a.create_date >= CONCAT(CURDATE(), ' 00:00:00') && a.create_date < CONCAT(CURDATE(), ' 23:59:59') " +
                     "GROUP by a.article_id " +
-                    "HAVING COUNT(art.rating) > 1 " +
+                    "HAVING SUM(art.rating) > 1 " +
                     "AND a.view_count > 100 ",
             nativeQuery = true)
     Page<Article> getArticleTrendingToday(int type, Pageable pageable);
@@ -53,7 +53,7 @@ public interface ArticleRepository extends CrudRepository<Article, String>, JpaS
             "AND type = ?1 " +
             "AND YEARWEEK(a.create_date, 1) = YEARWEEK(CURDATE(), 1) " +
             "GROUP by a.article_id " +
-            "HAVING COUNT(art.rating) > 1 " +
+            "HAVING SUM(art.rating) > 1 " +
             "AND a.view_count > 100 " +
             "ORDER BY ?#{#pageable}",
             countQuery = "SELECT * " +
@@ -62,8 +62,20 @@ public interface ArticleRepository extends CrudRepository<Article, String>, JpaS
                     "AND type = ?1 " +
                     "AND YEARWEEK(a.create_date, 1) = YEARWEEK(CURDATE(), 1) " +
                     "GROUP by a.article_id " +
-                    "HAVING COUNT(art.rating) > 1 " +
+                    "HAVING SUM(art.rating) > 1 " +
                     "AND a.view_count > 100 ",
             nativeQuery = true)
     Page<Article> getArticleTrendingWeek(int type, Pageable pageable);
+
+    @Query(value = "SELECT * FROM tag_article ta, article a " +
+            "where ta.article_id = a.article_id " +
+            "and ta.tag_id = ?1 " +
+            "and a.type = ?2 " +
+            "ORDER BY ?#{#pageable}",
+            countQuery = "SELECT * FROM tag_article ta, article a " +
+                    "where ta.article_id = a.article_id " +
+                    "and ta.tag_id = ?1 " +
+                    "and a.type = ?2",
+            nativeQuery = true)
+    Page<Article> getArticleByTagIdAndType(String tagId, int type, Pageable pageable);
 }

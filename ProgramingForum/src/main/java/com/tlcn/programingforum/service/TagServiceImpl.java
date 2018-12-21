@@ -39,5 +39,10 @@ public class TagServiceImpl implements TagService {
         return tagRepository.findTop5TagMostInForum(new PageRequest(0, 5));
     }
 
+    @Override
+    public Object getTagInfomation(String tagId) {
+        return tagRepository.getTagInfomation(tagId);
+    }
+
 
 }

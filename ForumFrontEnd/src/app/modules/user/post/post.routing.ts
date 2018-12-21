@@ -18,7 +18,8 @@ export const routes: Routes = [
   },
   {
     path: 'post/edit/:id',
-    component: EditPostComponent
+    component: EditPostComponent,
+    canActivate: [UserGuard]
   }
 ];
 

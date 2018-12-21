@@ -67,4 +67,11 @@ public class ArticleServiceImpl extends AbstractBaseService implements ArticleSe
         return articleRepository.getArticleTrendingWeek(pagingRequest.getType(),
                 new PageRequest(pagingRequest.getPageNumber() - 1, pagingRequest.getPageSize()));
     }
+
+    @Override
+    public Page<Article> getArticleByTagIdAndType(PagingRequestModel pagingRequest) {
+        return articleRepository.getArticleByTagIdAndType(
+                pagingRequest.getSearchKey(), pagingRequest.getType(),
+                new PageRequest(pagingRequest.getPageNumber() -1, pagingRequest.getPageSize()));
+    }
 }

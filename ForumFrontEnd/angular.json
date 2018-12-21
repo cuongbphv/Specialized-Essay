@@ -36,6 +36,7 @@
               "node_modules/popper.js/dist/umd/popper.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "node_modules/ace-builds/src-min/ace.js",
+              "node_modules/ace-builds/src-min/mode-markdown.js",
               "node_modules/marked/marked.min.js",
               "node_modules/highlight.js/lib/highlight.js"
             ]

@@ -30,4 +30,6 @@ public interface UserService {
 
     Page<UserResponse> getListUserPaging(PagingRequestModel pagingRequestModel, String lang);
 
+    List<Object[]> getTopAuthors();
+
 }

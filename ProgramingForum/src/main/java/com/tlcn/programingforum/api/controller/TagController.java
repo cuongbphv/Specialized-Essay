@@ -1,24 +1,23 @@
 package com.tlcn.programingforum.api.controller;
 
 import com.tlcn.programingforum.api.AbstractBasedAPI;
-import com.tlcn.programingforum.api.model.request.ArticleRequest;
-import com.tlcn.programingforum.api.model.response.TopTagResponse;
+import com.tlcn.programingforum.api.model.request.FollowTagRequest;
+import com.tlcn.programingforum.api.model.request.PagingRequestModel;
 import com.tlcn.programingforum.api.response.APIStatus;
 import com.tlcn.programingforum.exception.ApplicationException;
 import com.tlcn.programingforum.model.RestAPIResponse;
-import com.tlcn.programingforum.model.entity.Article;
-import com.tlcn.programingforum.model.entity.Tag;
-import com.tlcn.programingforum.model.entity.TagArticle;
-import com.tlcn.programingforum.service.ArticleService;
-import com.tlcn.programingforum.service.TagArticleService;
-import com.tlcn.programingforum.service.TagService;
+import com.tlcn.programingforum.model.entity.*;
+import com.tlcn.programingforum.model.entity.key.TagUserPK;
+import com.tlcn.programingforum.service.*;
 import com.tlcn.programingforum.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -38,6 +37,21 @@ public class TagController extends AbstractBasedAPI {
     @Autowired
     ArticleService articleService;
 
+    @Autowired
+    FollowTagService followTagService;
+
+    @Autowired
+    UserService userService;
+
+    @RequestMapping(path = Constant.WITHIN_ID, method = RequestMethod.GET)
+    public ResponseEntity<RestAPIResponse> getMostTagUsedInForum(
+            HttpServletRequest request,
+            @PathVariable("id") String tagId
+    ) {
+        Object tagInfo = tagService.getTagInfomation(tagId);
+
+        return responseUtil.successResponse(tagInfo);
+    }
 
     @RequestMapping(path = Constant.MOST_TAG_IN_FORUM, method = RequestMethod.GET)
     public ResponseEntity<RestAPIResponse> getMostTagUsedInForum(
@@ -73,5 +87,76 @@ public class TagController extends AbstractBasedAPI {
         }
 
         return responseUtil.successResponse(myTags);
+    }
+
+    @RequestMapping(path = Constant.LIST_FOLLOWER_BY_TAG, method = RequestMethod.POST)
+    public ResponseEntity<RestAPIResponse> getListFollower(
+            HttpServletRequest request,
+            @RequestBody PagingRequestModel pagingRequestModel
+            ) {
+
+        Page<FollowTag> followers = followTagService.getListFollowers(
+                pagingRequestModel.getSearchKey(), pagingRequestModel);
+
+        return responseUtil.successResponse(followers);
+    }
+
+    @RequestMapping(path = Constant.LIST_ARTICLE_BY_TYPE, method = RequestMethod.POST)
+    public ResponseEntity<RestAPIResponse> getListArticleByType(
+            HttpServletRequest request,
+            @RequestBody PagingRequestModel pagingRequestModel
+    ) {
+
+        Page<Article> articles = articleService.getArticleByTagIdAndType(pagingRequestModel);
+
+        return responseUtil.successResponse(articles);
+    }
+
+    @RequestMapping(path = Constant.FOLLOW_TAG, method = RequestMethod.POST)
+    public ResponseEntity<RestAPIResponse> followTag(
+            HttpServletRequest request,
+            @RequestBody FollowTagRequest followTagRequest
+            ) {
+
+        if (followTagRequest == null) {
+            throw new ApplicationException(APIStatus.ERR_BAD_REQUEST);
+        }
+
+        FollowTag followTag = new FollowTag();
+        followTag.setId(new TagUserPK(followTagRequest.getTagId(), followTagRequest.getUserId()));
+        followTag.setCreateDate(new Date());
+        followTagService.followTag(followTag);
+
+        return responseUtil.successResponse("Follow tag successfully");
+    }
+
+    @RequestMapping(path = Constant.UNFOLLOW_TAG, method = RequestMethod.POST)
+    public ResponseEntity<RestAPIResponse> unfollowTag(
+            HttpServletRequest request,
+            @RequestBody FollowTagRequest followTagRequest
+    ) {
+
+        if (followTagRequest == null) {
+            throw new ApplicationException(APIStatus.ERR_BAD_REQUEST);
+        }
+
+        FollowTag followTag = followTagService.findFollowTag(followTagRequest.getTagId(), followTagRequest.getUserId());
+        if(followTag != null) {
+            followTagService.unfollowTag(followTag);
+        }
+
+        return responseUtil.successResponse("Unfollow tag successfully");
+    }
+
+    @RequestMapping(path = Constant.FOLLOW_STATUS, method = RequestMethod.GET)
+    public ResponseEntity<RestAPIResponse> getFollowStatusTag(
+            HttpServletRequest request,
+            @RequestParam("tag_id") String tagId,
+            @RequestParam("user_id") String userId
+    ) {
+
+        FollowTag followTag = followTagService.findFollowTag(tagId, userId);
+
+        return responseUtil.successResponse(followTag);
     }
 }

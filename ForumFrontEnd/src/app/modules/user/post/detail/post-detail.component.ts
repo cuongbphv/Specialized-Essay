@@ -8,7 +8,8 @@ import {
   UserService
 } from '../../../../core/services/index';
 import {ActivatedRoute, Router} from '@angular/router';
-import marked from 'marked';
+import marked, { Renderer } from 'marked';
+import highlightjs from 'highlight.js';
 import {User,Comment} from '../../../../core/models/index';
 import { NgxSpinnerService } from 'ngx-spinner';
 
@@ -194,7 +195,29 @@ export class PostDetailComponent implements OnInit {
       }
     }
     console.log(this.headingTag);
-    return marked(content, {sanitize: true, tables: true}).replace(/<img/g, '<img style="max-width:100%"');
+
+    // setting for highlight code
+    // Create your custom renderer.
+    const renderer = new Renderer();
+    renderer.code = (code, language) => {
+      // Check whether the given language is valid for highlight.js.
+      const validLang = !!(language && highlightjs.getLanguage(language));
+      // Highlight only if the language is valid.
+      const highlighted = validLang ? highlightjs.highlight(language, code).value : code;
+      // Render the highlighted code with `hljs` class.
+      return `<pre><code class="hljs ${language}">${highlighted}</code></pre>`;
+    };
+
+    return marked(content, {
+      renderer: renderer,
+      gfm: true,
+      tables: true,
+      breaks: false,
+      pedantic: false,
+      sanitize: true,
+      smartLists: true,
+      smartypants: false
+    }).replace(/<img/g, '<img style="max-width:100%"');
   }
 
   countViewOfArticle() {
@@ -218,12 +241,11 @@ export class PostDetailComponent implements OnInit {
     }
 
     if (type === 'rating') {
-      console.log(this.listInteracts);
-      console.log(this.listInteracts.find(obj => obj.id.userId === this.currentUser.userId).rating);
       if(this.listInteracts.find(obj => obj.id.userId === this.currentUser.userId).rating === value) {
         this.toastrService.showErrorToastr('message.interact.before');
         return;
       }
+
       this.myInteract.rating = value;
       if (value === 1) {
         this.toastrService.showSuccessToastr('message.interact.upvote');

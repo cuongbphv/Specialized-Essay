@@ -1,0 +1,200 @@
+<section id="content">
+
+  <div class="container">
+
+    <!-- nav of content -->
+    <div class="nav">
+
+      <div class="nav__menu js-dropdown">
+        <div class="nav__select">
+          <div id="btnMenu" class="btn-select" data-dropdown-btn="menu" textContent="main.option"></div>
+          <div class="dropdown dropdown--design-01" data-dropdown-list="menu">
+            <ul class="dropdown__catalog">
+              <li><a href="javascript:void(0)" textContent="main.article"
+                     (click)="getListArticleByType(1,1)"></a></li>
+              <li><a href="javascript:void(0)" textContent="main.question"
+                     (click)="getListArticleByType(2,2)"></a></li>
+              <li><a href="javascript:void(0)" textContent="main.follower"
+                     (click)="getListFollowers(3)"></a></li>
+            </ul>
+          </div>
+        </div>
+        <ul>
+          <li [ngClass]="{'active' : navType === 1}" class="active">
+            <a href="javascript:void(0)" textContent="main.article" (click)="getListArticleByType(1,1)"></a>
+          </li>
+          <li [ngClass]="{'active' : navType === 2}">
+            <a href="javascript:void(0)" textContent="main.question" (click)="getListArticleByType(2,2)"></a>
+          </li>
+          <li [ngClass]="{'active' : navType === 3}">
+            <a href="javascript:void(0)" textContent="main.follower" (click)="getListFollowers(3)"></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- content -->
+    <div class="row" style="margin-bottom: 20px;">
+
+      <!-- col list article -->
+      <div class="col-xs-12 col-sm-8 col-md-9">
+
+        <div *ngIf="navType === 1 || navType === 2">
+          <div class="posts" *ngFor="let article of articles; let i = index;">
+
+            <div class="post-item">
+
+              <div class="avatar">
+                <img src="https://bootstrapmade.com/wp-content/themefiles/Moderna/400.png"
+                     alt="Squadfree – Free Bootstrap template for creative" class="img-responsive">
+              </div>
+
+              <div class="post-left">
+                <div class="post-author">
+                  <span
+                    class="post-author-name"><b>{{article.firstName}} {{article.lastName}}</b></span>
+                  <span class="post-time">&nbsp; {{article.createDate | date: 'MM/dd/yyyy HH:mm'}}</span>
+                </div>
+
+                <div class="post-detail">
+                  <div class="post-title">
+                    <a href="#" [routerLink]="['/post/' + article.articleId]"
+                       class="wrap">{{article.title}}</a>
+                    <i *ngIf="(article.type === 2 && article.rightAnswerId !== '')"
+                       class="fa fa-check-circle"></i>
+                  </div>
+
+                  <div class="tags">
+                    <a *ngFor="let tag of article.tags; let j = index;" href="javascript:void(0)"
+                       [routerLink]="['/tag/' + tag.tagId]" class="bg-4f80b0">{{tag.tagName}}</a>
+                  </div>
+                </div>
+
+                <div class="post-info clearfix">
+                  <div class="stats">
+                    <span class="stats-item text-muted">
+                      <i aria-hidden="true" class="fa fa-eye"></i>&nbsp;{{article.viewCount}}
+                    </span>
+                    <span class="stats-item text-muted">
+                      <i aria-hidden="true" class="fa fa-bookmark"></i>&nbsp;{{article.bookmarkCount}}
+                    </span>
+                    <span class="stats-item text-muted">
+                      <i aria-hidden="true" class="fa fa-comments"></i>&nbsp;{{article.commentNum}}
+                    </span>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="post-right">
+                <div class="upvote text-muted">
+                  <i class="fa fa-chevron-up"></i>
+                  <p><span *ngIf="article.rating > 0">+</span>{{article.rating}}</p>
+                  <i class="fa fa-chevron-down"></i>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        <div *ngIf="navType === 3">
+          <div class="posts" *ngFor="let follower of followers; let i = index;">
+
+            <div class="post-item">
+
+              <div class="avatar">
+                <img src="https://bootstrapmade.com/wp-content/themefiles/Moderna/400.png"
+                     alt="Squadfree – Free Bootstrap template for creative" class="img-responsive">
+              </div>
+
+              <div class="post-left">
+                <div class="post-author">
+                  <span class="post-author-name" style="float: left;">
+                    <b><a href="javascript:void(0)" [routerLink]="['/profile/' + follower.userId]">
+                      {{follower.firstName}} {{follower.lastName}}
+                    </a></b>
+                  </span>
+                  <h4 [ngClass]="{ 'by-author' : follower.userId === currentUser.userId }"></h4>
+                </div>
+
+
+                <div class="post-info clearfix">
+                  <div class="stats">
+                    <span class="stats-item text-muted">
+                      <i aria-hidden="true" class="fa fa-eye"></i>&nbsp;1
+                    </span>
+                    <span class="stats-item text-muted">
+                      <i aria-hidden="true" class="fa fa-newspaper-o"></i>&nbsp;2
+                    </span>
+                    <span class="stats-item text-muted">
+                      <i aria-hidden="true" class="fa fa-star"></i>&nbsp;3
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        <div class="row" *ngIf="navType === 1 && collectionSize > 10">
+          <ngb-pagination [collectionSize]="collectionSize" [pageSize]="pagingRequestArticle.pageSize"
+                          [(page)]="pagingRequest.pageNumber"
+                          (pageChange)="getListArticleByType(1,1)"
+                          class="pagination-flat pagination-primary col-center-block">
+          </ngb-pagination>
+        </div>
+
+        <div class="row" *ngIf="navType === 2 && collectionSize > 10">
+          <ngb-pagination [collectionSize]="collectionSize" [pageSize]="pagingRequestArticle.pageSize"
+                          [(page)]="pagingRequest.pageNumber"
+                          (pageChange)="getListArticleByType(2,2)"
+                          class="pagination-flat pagination-primary col-center-block">
+          </ngb-pagination>
+        </div>
+
+        <div class="row" *ngIf="navType === 3 && collectionSize > 10">
+          <ngb-pagination [collectionSize]="collectionSize" [pageSize]="pagingRequestArticle.pageSize"
+                          [(page)]="pagingRequest.pageNumber"
+                          (pageChange)="getListFollowers(3)"
+                          class="pagination-flat pagination-primary col-center-block">
+          </ngb-pagination>
+        </div>
+
+      </div>
+
+      <!-- col info -->
+      <div class="col-xs-12 col-sm-4 col-md-3">
+        <div class="sidebar">
+
+          <div class="widget-area"><h3 class="widget-title" textContent="tag.label.info"></h3>
+            <div class="popular-authors clearfix text-center">
+              <h2>{{tagInfo[1]}}</h2>
+              <div class="follow" (click)="followAction()">
+                <i class="fa fa-star" *ngIf="followStatus == false"></i> &nbsp;
+                <span *ngIf="followStatus == false" textContent="tag.label.follow"></span>
+                <i class="fa fa-check" *ngIf="followStatus == true"></i> &nbsp;
+                <span *ngIf="followStatus == true" textContent="tag.label.following"></span>
+              </div>
+              <div class="top-author-stat" style="margin-top: 10px">
+                    <span class="stats-item text-muted">
+                    <i aria-hidden="true" class="fa fa-newspaper-o"></i>&nbsp;{{tagInfo[4]}}</span>
+                <span class="stats-item text-muted">
+                        <i aria-hidden="true" class="fa fa-question-circle"></i>&nbsp;{{tagInfo[5]}}</span>
+                <span class="stats-item text-muted">
+                        <i aria-hidden="true" class="fa fa-star"></i>&nbsp;{{collectionSize}}</span>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>

@@ -20,7 +20,9 @@
     "bookmark": "Bookmark",
     "create_post": "Create Post",
     "top_tag": "Top Tags",
-    "tagged": "times tagged"
+    "tagged": "times tagged",
+    "follower": "Follower",
+    "article": "Article"
   },
   "user": {
     "login": "Login",
@@ -37,6 +39,17 @@
     "article": "Article",
     "question": "Question",
     "placeholder_tag": "Input 5 tags for post"
+  },
+  "tag": {
+    "label": {
+      "follow": "Follow",
+      "following": "Following",
+      "info": "Tag Infomation"
+    },
+    "message": {
+      "follow_success": "Follow tag successfully",
+      "unfollow_success": "Unfollow tag successfully"
+    }
   },
   "footer": {
     "introduction": "INTRODUCTION",

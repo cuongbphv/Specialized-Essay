@@ -23,6 +23,10 @@ export const routes: Routes = [
       },
       {
         path: '',
+        loadChildren: './tag/tag.module#TagModule'
+      },
+      {
+        path: '',
         loadChildren: './auth/auth.module#AuthModule'
       }
     ]

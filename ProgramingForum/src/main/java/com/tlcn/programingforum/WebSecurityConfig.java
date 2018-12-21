@@ -71,7 +71,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/v1/profile",
                         "/api/v1/tag/most",
                         "/api/v1/comment/list",
-                        "/api/v1/profile/{id}").permitAll()
+                        "/api/v1/profile/{id}",
+                        "/api/v1/author/top").permitAll()
                 .antMatchers(HttpMethod.POST,
                         "/api/v1/article/list",
                         "/api/v1/article/related",

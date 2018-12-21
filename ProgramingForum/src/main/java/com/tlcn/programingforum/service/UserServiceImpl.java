@@ -81,4 +81,9 @@ public class UserServiceImpl extends AbstractBaseService implements UserService 
         return userRepository.findAllPaging("%" + pagingRequestModel.getSearchKey().toLowerCase() + "%", pageReq);
     }
 
+    @Override
+    public List<Object[]> getTopAuthors() {
+        return userRepository.getTopAuthors();
+    }
+
 }
