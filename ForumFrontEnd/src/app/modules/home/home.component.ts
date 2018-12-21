@@ -146,12 +146,9 @@ export class HomeComponent implements OnInit {
           this.articleService.getDetailPost(this.articles[i].articleId).subscribe(
             data => {
 
-              console.log(this.articles[i].userId);
-
               // Author
               this.profileService.get(this.articles[i].userId).subscribe(
                 author => {
-                  console.log(author);
                   this.articles[i].firstName = author.firstName;
                   this.articles[i].lastName = author.lastName;
                   this.articles[i].userProfileId = author.userProfileId;

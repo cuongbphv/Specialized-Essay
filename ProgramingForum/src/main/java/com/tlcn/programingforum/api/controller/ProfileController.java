@@ -103,8 +103,8 @@ public class ProfileController extends AbstractBasedAPI {
             HttpServletRequest request,
             @PathVariable("id") String id
     )  {
-        AuthUser authUser = getAuthUserFromSession(request);
-        validatePermission(authUser, Constant.SystemRole.USER.getId());
+//        AuthUser authUser = getAuthUserFromSession(request);
+//        validatePermission(authUser, Constant.SystemRole.USER.getId());
 
         if (id != null && !id.isEmpty()) {
             Profile profile = profileService.getProfileByUserId(id);
