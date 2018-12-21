@@ -1,8 +1,11 @@
 package com.tlcn.programingforum.service;
 
+import com.tlcn.programingforum.api.model.request.PagingRequestModel;
 import com.tlcn.programingforum.model.entity.ArticleInteract;
 import com.tlcn.programingforum.repository.ArticleInteractRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,7 +36,10 @@ public class ArticleInteractServiceImpl implements ArticleInteractService {
     }
 
     @Override
-    public List<ArticleInteract> findByUserIdAndBookmark(String userId) {
-        return articleInteractRepository.findByIdUserIdAndAndBookmark(userId, 1);
+    public Page<ArticleInteract> getListBookmarkByArticleType(PagingRequestModel pageRequest) {
+        return articleInteractRepository.getListBookmarkByArticleType(
+                pageRequest.getSearchKey(), pageRequest.getType(),
+                new PageRequest(pageRequest.getPageNumber() - 1,
+                        pageRequest.getPageSize()));
     }
 }

@@ -154,6 +154,10 @@ ul, ol {
   padding-right: 30px;
 }
 
+.dropdown--design-01 {
+  z-index: 999;
+}
+
 .dropdown.dropdown--design-01:not(.dropdown--reverse-y) {
   border-top: solid 1px #2C4762;
   -webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.08);
@@ -733,8 +737,9 @@ ul, ol {
   padding-right: 20px;
 }
 
-.post-info .fa-check-circle {
+.post-title .fa-check-circle {
   color: green;
+  margin-left: 8px;
 }
 
 .post-author-name, .post-time {
@@ -916,3 +921,15 @@ a {
   }
 }
 
+.panel-group {
+  margin-top: 10px;
+}
+
+.form-row label {
+  margin-top: 3px;
+}
+
+.notActive{
+  color: #000;
+  background-color: #fff;
+}

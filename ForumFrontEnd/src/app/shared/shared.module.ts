@@ -4,7 +4,11 @@ import { FormsModule, FormBuilder } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 
-import {TranslateTextDirective, TranslatePlaceholderDirective, ModalComponent} from './directives';
+import {
+  TranslateTextDirective,
+  TranslatePlaceholderDirective,
+  ModalComponent
+} from './directives';
 import {SafeHtmlPipe, TranslatePipe} from './pipes';
 import {ShowAuthedDirective} from './directives';
 

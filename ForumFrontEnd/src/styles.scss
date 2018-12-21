@@ -76,6 +76,10 @@
   background: #1e5f8d;
 }
 
+.pagination-shared {
+  background: #1e5f8d;
+}
+
 .cursor-disabled {
   cursor: no-drop;
 }
@@ -113,4 +117,10 @@ modal .modal-background {
 
 .modal-open {
   overflow: hidden;
+}
+
+.col-center-block {
+  float: none;
+  display: block;
+  margin: 20px auto 0 auto;
 }

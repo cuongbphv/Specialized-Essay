@@ -1,6 +1,8 @@
 // Core Dependencies
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { SharedModule } from '../../shared';
 import { HomeRoutingModule } from './home.routing';
@@ -13,7 +15,9 @@ import {ArticleInteractService, ArticleService, PagerService, ProfilesService, T
   imports: [
     CommonModule,
     HomeRoutingModule,
-    SharedModule
+    SharedModule,
+    NgbModule,
+    NgxSpinnerModule
   ],
   declarations: [
     HomeComponent

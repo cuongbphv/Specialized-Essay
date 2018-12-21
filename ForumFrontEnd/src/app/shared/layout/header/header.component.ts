@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 import {AuthBaseService, UserService} from '../../../core/services';
 import { ToastrService } from 'ngx-toastr';

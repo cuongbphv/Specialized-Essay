@@ -6,6 +6,7 @@ import { SharedModule } from '../../shared';
 import { PostRoutingModule } from './post.routing';
 
 import { LMarkdownEditorModule } from 'ngx-markdown-editor';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 // Components
 import { CreatePostComponent } from './create/create-post.component';
@@ -25,7 +26,8 @@ import {EditPostComponent} from './edit/edit-post.component';
     CommonModule,
     PostRoutingModule,
     SharedModule,
-    LMarkdownEditorModule
+    LMarkdownEditorModule,
+    NgxSpinnerModule
   ],
   declarations: [
     CreatePostComponent,

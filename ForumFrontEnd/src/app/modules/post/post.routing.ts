@@ -13,7 +13,7 @@ export const routes: Routes = [
     canActivate: [UserGuard]
   },
   {
-    path: ':id',
+    path: 'detail/:id',
     component: PostDetailComponent
   },
   {

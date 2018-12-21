@@ -129,14 +129,36 @@ export class ArticleService {
       }));
   }
 
-  getBookmarkList(userId: string, type: number): Observable<any> {
-    return this.apiService.get(API.BOOKMARK_LIST + "?user_id=" + userId + "&type=" + type)
-      .pipe(map(res => {
+  getBookmarkList(pagingRequest: any): Observable<any> {
+    return this.apiService.post(API.BOOKMARK_LIST, {
+      type: pagingRequest.type,
+      searchKey: pagingRequest.searchKey,
+      sortCase: pagingRequest.sortCase,
+      ascSort: pagingRequest.ascSort,
+      pageNumber: pagingRequest.pageNumber,
+      pageSize: pagingRequest.pageSize
+    }).pipe(map(res => {
         if(res.status === 200){
           return res.data;
         }
         return null;
       }));
+  }
+
+  getTrendingList(pagingRequest: any): Observable<any> {
+    return this.apiService.post(API.TRENDING_LIST, {
+      type: pagingRequest.type,
+      searchKey: pagingRequest.searchKey,
+      sortCase: pagingRequest.sortCase,
+      ascSort: pagingRequest.ascSort,
+      pageNumber: pagingRequest.pageNumber,
+      pageSize: pagingRequest.pageSize
+    }).pipe(map(res => {
+      if(res.status === 200){
+        return res.data;
+      }
+      return null;
+    }));
   }
 
 }

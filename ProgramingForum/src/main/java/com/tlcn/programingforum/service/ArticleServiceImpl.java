@@ -55,4 +55,16 @@ public class ArticleServiceImpl extends AbstractBaseService implements ArticleSe
     public List<Article> findByUserIdAndStatus(String userId, int status) {
         return articleRepository.findByUserIdAndStatus(userId, status);
     }
+
+    @Override
+    public Page<Article> getTrendingArticleToday(PagingRequestModel pagingRequest) {
+        return articleRepository.getArticleTrendingToday(pagingRequest.getType(),
+                new PageRequest(pagingRequest.getPageNumber() - 1, pagingRequest.getPageSize()));
+    }
+
+    @Override
+    public Page<Article> getTrendingArticleWeek(PagingRequestModel pagingRequest) {
+        return articleRepository.getArticleTrendingWeek(pagingRequest.getType(),
+                new PageRequest(pagingRequest.getPageNumber() - 1, pagingRequest.getPageSize()));
+    }
 }

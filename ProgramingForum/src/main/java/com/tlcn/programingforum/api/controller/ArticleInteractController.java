@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -48,13 +49,26 @@ public class ArticleInteractController extends AbstractBasedAPI {
             newArticleInteract.setBookmark(articleInteractRequest.getBookmark());
             newArticleInteract.setShare(articleInteractRequest.getShare());
 
+            if(articleInteractRequest.getBookmark() > 0) {
+                newArticleInteract.setBookmarkDate(new Date());
+            }
+
             return responseUtil.successResponse(
                     articleInteractService.saveArticleInteract(newArticleInteract));
         }
 
-        articleInteract.setRating(articleInteractRequest.getRating());
-        articleInteract.setBookmark(articleInteractRequest.getBookmark());
-        articleInteract.setShare(articleInteractRequest.getShare());
+        if(articleInteractRequest.getRating() != articleInteract.getRating()) {
+            articleInteract.setRating(articleInteractRequest.getRating());
+        }
+        if(articleInteractRequest.getBookmark() != articleInteract.getBookmark()) {
+            articleInteract.setBookmark(articleInteractRequest.getBookmark());
+            if(articleInteractRequest.getBookmark() > 0) {
+                articleInteract.setBookmarkDate(new Date());
+            }
+        }
+        if(articleInteractRequest.getShare() != articleInteract.getShare()) {
+            articleInteract.setShare(articleInteractRequest.getShare());
+        }
 
         return responseUtil.successResponse(
                 articleInteractService.saveArticleInteract(articleInteract));
