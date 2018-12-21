@@ -161,4 +161,14 @@ export class ArticleService {
     }));
   }
 
+  approve(articleId: string, status: number): Observable<number>{
+    return this.apiService.get(API.APPROVE + '?articleId='+articleId + '&status='+status)
+      .pipe(map(res => res.data));
+  }
+
+  delete(articleId: string): Observable<string>{
+    return this.apiService.delete(API.GET_ARTICLE + articleId)
+      .pipe(map(res=> res.data));
+  }
+
 }

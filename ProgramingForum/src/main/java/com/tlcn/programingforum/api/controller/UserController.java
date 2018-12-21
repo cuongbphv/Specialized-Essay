@@ -303,6 +303,33 @@ public class UserController extends AbstractBasedAPI {
 
 
     /**
+     * Disable user
+     * @param request
+     * @param userId
+     * @return
+     */
+    @RequestMapping(path = Constant.WITHIN_ID, method = RequestMethod.DELETE)
+    public ResponseEntity<RestAPIResponse> deletePost(
+            HttpServletRequest request,
+            @PathVariable("id") String userId) {
+
+        AuthUser authUser = getAuthUserFromSession(request);
+        validatePermission(authUser, Constant.SystemRole.SYS_ADMIN.getId());
+
+        User user = userService.getActiveUserByUserId(userId);
+
+        if(user == null){
+            throw new ApplicationException(APIStatus.ERR_USER_NOT_FOUND);
+        }
+
+        user.setStatus(Constant.Status.DELETE.getValue());
+        userService.saveUser(user);
+
+        return responseUtil.successResponse("Deleted");
+    }
+
+
+    /**
      * Admin get list User
      * @param pagingRequestModel
      */
@@ -318,6 +345,8 @@ public class UserController extends AbstractBasedAPI {
         return responseUtil.successResponse(listUsers);
 
     }
+
+
 
     private void validateParam(UserRequest userRequest) {
         try {

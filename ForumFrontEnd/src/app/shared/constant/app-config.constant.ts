@@ -14,5 +14,9 @@ export const AppConfig = {
 
   ROLE_GUEST: 4,
 
-  TOKEN_EXPIRE_DATE: 150
+  TOKEN_EXPIRE_DATE: 150,
+
+  ACTIVE_STATUS: 1,
+
+  DELETE_STATUS: 2
 };

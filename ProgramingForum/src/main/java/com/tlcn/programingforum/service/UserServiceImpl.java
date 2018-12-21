@@ -10,6 +10,8 @@ import com.tlcn.programingforum.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -60,11 +62,23 @@ public class UserServiceImpl extends AbstractBaseService implements UserService 
 
     @Override
     public Page<UserResponse> getListUserPaging(PagingRequestModel pagingRequestModel, String lang) {
-        UserSpecification userSpec = new UserSpecification(pagingRequestModel.getSearchKey(),
-                pagingRequestModel.getSortCase(), pagingRequestModel.isAscSort(),lang);
-        PageRequest pageReq = new PageRequest((pagingRequestModel.getPageNumber() - 1), pagingRequestModel.getPageSize());
-        //return userRepository.findAllPaging(userSpec, pageReq);
-        return null;
+
+        String properties = "";
+        switch (pagingRequestModel.getSortCase()){
+            case 1: properties = "createDate";
+            case 2: properties = "firstName";
+            case 3: properties = "lastName";
+            case 4: properties = "userName";
+            case 5: properties = "role";
+            default: properties = "createDate";
+        }
+
+        Sort sort = new Sort(pagingRequestModel.isAscSort()?Sort.Direction.ASC: Sort.Direction.DESC,
+                properties);
+
+        PageRequest pageReq = new PageRequest((pagingRequestModel.getPageNumber() - 1),
+                pagingRequestModel.getPageSize(),sort);
+        return userRepository.findAllPaging("%" + pagingRequestModel.getSearchKey().toLowerCase() + "%", pageReq);
     }
 
 }

@@ -4,12 +4,12 @@ import { CommonModule } from '@angular/common';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
-import { SharedModule } from '../../../shared/index';
+import { SharedModule } from '../../../shared';
 import { HomeRoutingModule } from './home.routing';
 
 // Components
 import { HomeComponent } from './home.component';
-import {ArticleInteractService, ArticleService, ProfilesService, TagService} from '../../core/services';
+import {ArticleInteractService, ArticleService, ProfilesService, TagService} from '../../../core/services';
 
 @NgModule({
   imports: [

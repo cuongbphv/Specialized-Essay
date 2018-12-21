@@ -41,6 +41,7 @@ export const API = {
   ARTICLE_SAME_AUTHOR: BaseURL.ARTICLE_API + "/same-author",
   BOOKMARK_LIST: BaseURL.ARTICLE_API + "/bookmark",
   TRENDING_LIST: BaseURL.ARTICLE_API + "/trending",
+  APPROVE: BaseURL.ARTICLE_API + "/approve",
 
   // Interact Management
   ADD_INTERACT: BaseURL.ARTICLE_INTERACT_API,

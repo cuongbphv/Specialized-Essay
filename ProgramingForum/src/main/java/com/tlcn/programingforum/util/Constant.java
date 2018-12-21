@@ -55,6 +55,7 @@ public interface Constant {
     String THE_SAME_AUTHOR = "/same-author";
     String BOOKMARK_ARTICLE = "/bookmark";
     String TRENDING_ARTICLE = "trending";
+    String APPROVE_POST = "/approve";
 
     // Article Interact
     String ARTICLE_INTERACT_CONTROLLER = API_PREFIX + "/interact";

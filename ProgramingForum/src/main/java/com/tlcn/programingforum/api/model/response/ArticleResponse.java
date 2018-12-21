@@ -26,7 +26,7 @@ public class ArticleResponse {
     private int type;
     private String rightAnswerId;
     private String thumbnail;
-    private boolean isApproved;
+    private int isApproved;
     private String userId;
     private List<Tag> tagList;
 }

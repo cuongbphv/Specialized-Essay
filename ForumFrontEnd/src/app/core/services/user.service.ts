@@ -75,6 +75,10 @@ export class UserService {
       .pipe(map(res => res.data));
   }
 
+  deleteUser(id: string): Observable<string>{
+    return this.apiService.delete(API.GET_USER + id)
+      .pipe(map(res => res.data));
+  }
 
   isAdmin(): boolean {
       return this.currentUserSubject.value.role <= AppConfig.ROLE_ADMIN;

@@ -8,6 +8,7 @@ import com.tlcn.programingforum.api.model.response.BookmarkData;
 import com.tlcn.programingforum.api.model.response.PagingResponseModel;
 import com.tlcn.programingforum.api.model.response.StatByArticleResponse;
 import com.tlcn.programingforum.api.response.APIStatus;
+import com.tlcn.programingforum.auth.AuthUser;
 import com.tlcn.programingforum.exception.ApplicationException;
 import com.tlcn.programingforum.model.RestAPIResponse;
 import com.tlcn.programingforum.model.entity.*;
@@ -131,6 +132,7 @@ public class ArticleController extends AbstractBasedAPI {
 //
 //        }
         response.setTagList(tagList);
+        response.setIsApproved(article.getIsApproved());
 
         return responseUtil.successResponse(response);
 
@@ -442,6 +444,52 @@ public class ArticleController extends AbstractBasedAPI {
         return responseUtil.successResponse(articles);
     }
 
+
+    @RequestMapping(path = Constant.APPROVE_POST, method = RequestMethod.GET)
+    public ResponseEntity<RestAPIResponse> approvePost(
+            HttpServletRequest request,
+            @RequestParam(value = "articleId", required = true) String articleId,
+            @RequestParam(value = "status", required = true) int status) {
+
+        AuthUser authUser = getAuthUserFromSession(request);
+        validatePermission(authUser, Constant.SystemRole.MODERATOR.getId());
+
+        if(status < 0 || status > 2){
+            throw new ApplicationException(APIStatus.ERR_BAD_PARAMS);
+        }
+
+        Article article = articleService.getDetailArticle(articleId, Constant.Status.ACTIVE.getValue());
+
+        if(article == null){
+            throw new ApplicationException(APIStatus.ERR_ARTICLE_NOT_FOUND);
+        }
+
+        article.setIsApproved(status);
+        articleService.saveArticle(article);
+
+        return responseUtil.successResponse(status);
+    }
+
+    @RequestMapping(path = Constant.WITHIN_ID, method = RequestMethod.DELETE)
+    public ResponseEntity<RestAPIResponse> deletePost(
+            HttpServletRequest request,
+            @PathVariable("id") String articleId) {
+
+        AuthUser authUser = getAuthUserFromSession(request);
+        validatePermission(authUser, Constant.SystemRole.MODERATOR.getId());
+
+        Article article = articleService.getDetailArticle(articleId, Constant.Status.ACTIVE.getValue());
+
+        if(article == null){
+            throw new ApplicationException(APIStatus.ERR_ARTICLE_NOT_FOUND);
+        }
+
+        article.setStatus(Constant.Status.DELETE.getValue());
+        articleService.saveArticle(article);
+
+        return responseUtil.successResponse("Deleted");
+    }
+
     private List<String> addToTagList(List<String> tagNames, List<Tag> tagList) {
         List<String> tagIds = new ArrayList<>();
 
@@ -464,5 +512,10 @@ public class ArticleController extends AbstractBasedAPI {
 
         return tagIds;
     }
+
+
+
+
+
 
 }
