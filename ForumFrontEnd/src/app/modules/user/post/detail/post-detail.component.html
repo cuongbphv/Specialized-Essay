@@ -1,3 +1,10 @@
+<ngx-spinner
+  bdColor = "rgba(51, 51, 51, 0.8)"
+  size = "large"
+  color = "#fff"
+  type = "ball-climbing-dot"
+></ngx-spinner>
+
 <div class="icon-bar">
   <a href="javascript:void(0)" class="back" (click)="backClicked()">
     <i class="fa fa-arrow-left"></i>
@@ -190,8 +197,9 @@
                *ngFor="let sameAuthor of listTheSameAuthorArticle; let i = index;">
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title" style="height: 50px;">
-                  <a href="javascript:void(0)" [routerLink]="['/post/' + sameAuthor.articleId]">{{sameAuthor.title}}</a>
+                <h5 class="card-title" style="height: 65px;">
+                  <a class="wrap" href="javascript:void(0)" [routerLink]="['/post/' + sameAuthor.articleId]">
+                    {{sameAuthor.title}}</a>
                 </h5>
                 <p class="card-text">
                   <a href="javascript:void(0)" [routerLink]="['/profile/' + sameAuthor.userProfileId]">

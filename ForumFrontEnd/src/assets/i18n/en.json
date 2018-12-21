@@ -12,7 +12,8 @@
     "join": "Join with us now",
     "or": "or",
     "register": "register member",
-    "forum": "Forum",
+    "option": "Forum",
+    "forum": "New Article",
     "group": "Group",
     "trending": "Trending",
     "question": "Question",
@@ -159,6 +160,7 @@
     "interact": {
       "upvote": "You upvoted this post",
       "downvote": "You just downvoted this post",
+      "before": "You have the same rating before",
       "bookmark": "You bookmarked this post",
       "unbookmark": "You unmarked this post",
       "share": "You shared this post",

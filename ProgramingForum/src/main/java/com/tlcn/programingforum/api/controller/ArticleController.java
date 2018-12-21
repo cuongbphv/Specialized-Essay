@@ -4,6 +4,8 @@ import com.tlcn.programingforum.api.AbstractBasedAPI;
 import com.tlcn.programingforum.api.model.request.ArticleRequest;
 import com.tlcn.programingforum.api.model.request.PagingRequestModel;
 import com.tlcn.programingforum.api.model.response.ArticleResponse;
+import com.tlcn.programingforum.api.model.response.BookmarkData;
+import com.tlcn.programingforum.api.model.response.PagingResponseModel;
 import com.tlcn.programingforum.api.model.response.StatByArticleResponse;
 import com.tlcn.programingforum.api.response.APIStatus;
 import com.tlcn.programingforum.exception.ApplicationException;
@@ -354,27 +356,88 @@ public class ArticleController extends AbstractBasedAPI {
         return responseUtil.successResponse(sameAuthor);
     }
 
-    @RequestMapping(path = Constant.BOOKMARK_ARTICLE, method = RequestMethod.GET)
-    public ResponseEntity<RestAPIResponse> getArticleTheSameAuthor(
+    @RequestMapping(path = Constant.BOOKMARK_ARTICLE, method = RequestMethod.POST)
+    public ResponseEntity<RestAPIResponse> getBookmarkArticle(
             HttpServletRequest request,
-            @RequestParam("type") int type,
-            @RequestParam("user_id") String userId) {
+            @RequestBody PagingRequestModel pagingRequestModel) {
 
-        if(userId.equals("")) {
+        if(pagingRequestModel == null) {
             throw new ApplicationException(APIStatus.ERR_BAD_REQUEST);
         }
 
-        // get all bookmark by userId
-        List<Article> articles = new ArrayList<>();
-        List<ArticleInteract> bookmarks = articleInteractService.findByUserIdAndBookmark(userId);
+        // get all bookmark by userId with paging
+        List<BookmarkData> data = new ArrayList<>();
+        Page<ArticleInteract> bookmarks = articleInteractService
+                .getListBookmarkByArticleType(pagingRequestModel);
 
         for(ArticleInteract articleInteract : bookmarks) {
+            BookmarkData bookmarkData = new BookmarkData();
             Article article = articleService.findByArticleIdAndTypeAndStatus(
                     articleInteract.getId().getArticleId(),
-                    type,
+                    pagingRequestModel.getType(),
                     Constant.Status.ACTIVE.getValue());
-            articles.add(article);
+
+            bookmarkData.setArticle(article);
+            bookmarkData.setBookmarkDate(articleInteract.getBookmarkDate());
+
+            data.add(bookmarkData);
         }
+
+        Collections.sort(data, new Comparator<BookmarkData>() {
+            public int compare(BookmarkData o1, BookmarkData o2) {
+                switch (pagingRequestModel.getSortCase()) {
+                    case Constant.SORT_BY_BOOKMARK_DATE:
+                        if(pagingRequestModel.isAscSort()) {
+                            return o1.getBookmarkDate().compareTo(o2.getBookmarkDate());
+                        }
+                        return o2.getBookmarkDate().compareTo(o1.getBookmarkDate());
+                    case Constant.SORT_BY_ARTICLE_CREATE_DATE:
+                        if(pagingRequestModel.isAscSort()) {
+                            return o1.getArticle().getCreateDate().compareTo(
+                                    o2.getArticle().getCreateDate());
+                        }
+                        return o2.getArticle().getCreateDate().compareTo(
+                                o1.getArticle().getCreateDate());
+                     default:
+                         if(pagingRequestModel.isAscSort()) {
+                             return o1.getBookmarkDate().compareTo(o2.getBookmarkDate());
+                         }
+                         return o2.getBookmarkDate().compareTo(o1.getBookmarkDate());
+                }
+            }
+        });
+
+        PagingResponseModel response = new PagingResponseModel();
+        response.setData(data);
+        response.setOffset(bookmarks.getNumber() + 1);
+        response.setNumberOfElements(bookmarks.getNumberOfElements());
+        response.setTotalPages(bookmarks.getTotalPages());
+        response.setTotalElements(bookmarks.getTotalElements());
+
+        return responseUtil.successResponse(response);
+    }
+
+
+    @RequestMapping(path = Constant.TRENDING_ARTICLE, method = RequestMethod.POST)
+    public ResponseEntity<RestAPIResponse> getTrendingArticle(
+            HttpServletRequest request,
+            @RequestBody PagingRequestModel pagingRequest) {
+
+        if(pagingRequest == null) {
+            throw new ApplicationException(APIStatus.ERR_BAD_REQUEST);
+        }
+
+        Page<Article> articles = null;
+
+        if (pagingRequest.getSearchKey().equals("today")) {
+            // trending when create today and view > 100 and rating > 1
+            articles = articleService.getTrendingArticleToday(pagingRequest);
+        }
+        else if (pagingRequest.getSearchKey().equals("week")) {
+            // trending week
+            articles = articleService.getTrendingArticleWeek(pagingRequest);
+        }
+
 
         return responseUtil.successResponse(articles);
     }

@@ -58,7 +58,29 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 ).permitAll()
                 // allow CORS option calls
                 .antMatchers(HttpMethod.OPTIONS, "/api/v1/**").permitAll()
-                .antMatchers("/api/v1/auth/login", "/api/v1/auth/admin/login", "/api/v1/user/signup", "/api/v1/auth/**").permitAll()
+                .antMatchers(
+                        "/api/v1/auth/login",
+                        "/api/v1/auth/admin/login",
+                        "/api/v1/user/signup",
+                        "/api/v1/auth/**").permitAll()
+                .antMatchers(HttpMethod.GET,
+                        "/api/v1/article/{id}",
+                        "/api/v1/article/view",
+                        "/api/v1/article/stats",
+                        "/api/v1/interact",
+                        "/api/v1/profile",
+                        "/api/v1/tag/most",
+                        "/api/v1/comment/list",
+                        "/api/v1/profile/{id}").permitAll()
+                .antMatchers(HttpMethod.POST,
+                        "/api/v1/article/list",
+                        "/api/v1/article/related",
+                        "/api/v1/article/same-author",
+                        "/api/v1/article/trending").permitAll()
+//                .antMatchers(HttpMethod.PUT
+//                ).permitAll()
+//                .antMatchers(HttpMethod.DELETE
+//                ).permitAll()
                 // All other request must be specify token
                 .anyRequest().authenticated();
 

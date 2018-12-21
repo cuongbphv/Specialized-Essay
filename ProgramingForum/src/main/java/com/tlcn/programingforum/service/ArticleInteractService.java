@@ -1,5 +1,6 @@
 package com.tlcn.programingforum.service;
 
+import com.tlcn.programingforum.api.model.request.PagingRequestModel;
 import com.tlcn.programingforum.model.entity.ArticleInteract;
 import org.springframework.data.domain.Page;
 
@@ -15,5 +16,5 @@ public interface ArticleInteractService {
 
     List<ArticleInteract> findByArticleId(String articleId);
 
-    List<ArticleInteract> findByUserIdAndBookmark(String userId);
+    Page<ArticleInteract> getListBookmarkByArticleType(PagingRequestModel pageRequest);
 }

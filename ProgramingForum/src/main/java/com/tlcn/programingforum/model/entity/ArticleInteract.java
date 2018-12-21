@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.annotation.CreatedDate;
 
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Date;
 
 /**
  * @author buiph on 18/12/2018
@@ -34,4 +34,9 @@ public class ArticleInteract {
     private int rating;
     private int bookmark;
     private int share;
+
+    @CreatedDate
+    @Column(name = "bookmark_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date bookmarkDate;
 }

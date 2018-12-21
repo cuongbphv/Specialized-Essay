@@ -40,6 +40,7 @@ export const API = {
   GET_RELATED_ARTICLE: BaseURL.ARTICLE_API + "/related",
   ARTICLE_SAME_AUTHOR: BaseURL.ARTICLE_API + "/same-author",
   BOOKMARK_LIST: BaseURL.ARTICLE_API + "/bookmark",
+  TRENDING_LIST: BaseURL.ARTICLE_API + "/trending",
 
   // Interact Management
   ADD_INTERACT: BaseURL.ARTICLE_INTERACT_API,

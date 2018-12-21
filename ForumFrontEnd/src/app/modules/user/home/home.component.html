@@ -1,12 +1,19 @@
+<ngx-spinner
+  bdColor="rgba(51, 51, 51, 0.8)"
+  size="large"
+  color="#fff"
+  type="ball-climbing-dot"
+></ngx-spinner>
+
 <section id="content">
   <div class="container">
-    <div class="row">
+    <div class="row" style="margin-bottom: 20px;">
 
       <div class="col-xs-12 col-sm-8 col-md-9">
 
         <div class="nav">
 
-          <div class="nav__categories js-dropdown">
+          <div *appShowAuthed="true" class="nav__categories js-dropdown">
             <div class="nav__select">
               <div id="btnTags" class="btn-select" data-dropdown-btn="tags" textContent="label.my_tags"></div>
               <div class="dropdown dropdown--design-01" data-dropdown-list="tags">
@@ -21,86 +28,340 @@
 
           <div class="nav__menu js-dropdown">
             <div class="nav__select">
-              <div id="btnMenu" class="btn-select" data-dropdown-btn="menu" textContent="main.forum"></div>
+              <div id="btnMenu" class="btn-select" data-dropdown-btn="menu" textContent="main.option"></div>
               <div class="dropdown dropdown--design-01" data-dropdown-list="menu">
                 <ul class="dropdown__catalog">
-                  <!--<li><a href="#" textContent="main.group"></a></li>-->
-                  <li><a href="#" textContent="main.trending"></a></li>
-                  <li><a href="#" textContent="main.question"></a></li>
-                  <li><a href="javascript:void(0)" (click)="getListBookmarkArticle(1)"
+                  <li><a href="javascript:void(0)" (click)="getListArticleByType(1, 1)"
+                         textContent="main.forum"></a></li>
+                  <li><a href="javascript:void(0)" (click)="getListTrendingArticleByType(1, 5, 'week')"
+                         textContent="main.trending"></a></li>
+                  <li><a href="javascript:void(0)" (click)="getListArticleByType(2, 2)"
+                         textContent="main.question"></a></li>
+                  <li *appShowAuthed="true"><a href="javascript:void(0)" (click)="getListBookmarkArticle(1, 3, 1, false)"
                          textContent="main.bookmark"></a></li>
-                  <li><a class="btn btn-primary" href="#" [routerLink]="['/post/create']"
-                         textContent="main.create_post"></a></li>
+                  <li><a class="btn btn-primary" href="javascript:void(0)" [routerLink]="['/post/create']"
+                         textContent="main.create_post" style="margin-bottom: 15px;"></a></li>
                 </ul>
               </div>
             </div>
             <ul id="post-type">
-              <li class="active"><a href="javascript:void(0)" (click)="getListArticleByType(1)"
+              <li class="active"><a href="javascript:void(0)" (click)="getListArticleByType(1, 1)"
                                     textContent="main.forum"></a></li>
               <!--<li><a href="#">Hội nhóm</a></li>-->
-              <li><a href="#" textContent="main.trending"></a></li>
-              <li><a href="javascript:void(0)" (click)="getListArticleByType(2)"
+              <li><a href="javascript:void(0)" (click)="getListTrendingArticleByType(1, 5, 'week')"
+                     textContent="main.trending"></a></li>
+              <li><a href="javascript:void(0)" (click)="getListArticleByType(2, 2)"
                      textContent="main.question"></a></li>
-              <li><a href="javascript:void(0)" (click)="getListBookmarkArticle(1)"
+              <li *appShowAuthed="true"><a href="javascript:void(0)" (click)="getListBookmarkArticle(1, 3, 1, false)"
                      textContent="main.bookmark"></a></li>
-              <li><a class="btn btn-create-post" href="#" [routerLink]="['/post/create']"
-                     textContent="main.create_post"></a></li>
+              <li><a class="btn btn-create-post" href="javascript:void(0)" [routerLink]="['/post/create']"
+                     textContent="main.create_post" style="margin-bottom: 15px;"></a></li>
             </ul>
           </div>
         </div>
 
-        <div class="posts" *ngFor="let post of articles; let i = index;">
+        <!-- list post by article -->
+        <div *ngIf="navType === 1 || navType === 2">
+          <div class="posts" *ngFor="let post of articles; let i = index;">
 
-          <div class="post-item">
+            <div class="post-item">
 
-            <div class="avatar">
-              <img src="https://bootstrapmade.com/wp-content/themefiles/Moderna/400.png"
-                   alt="Squadfree – Free Bootstrap template for creative" class="img-responsive">
-            </div>
-
-            <div class="post-left">
-              <div class="post-author">
-                <span class="post-author-name"><b>{{post.firstName}} {{post.lastName}}</b></span>
-                <span class="post-time">&nbsp; {{post.createDate | date: 'MM/dd/yyyy HH:mm'}}</span>
-                <!--<span class="text-muted"><i class="fa fa-bookmark float-right"></i></span>-->
+              <div class="avatar">
+                <img src="https://bootstrapmade.com/wp-content/themefiles/Moderna/400.png"
+                     alt="Squadfree – Free Bootstrap template for creative" class="img-responsive">
               </div>
 
-              <div class="post-detail">
-                <div class="post-title">
-                  <a href="#" [routerLink]="['/post/' + post.articleId]">{{post.title}}</a>
+              <div class="post-left">
+                <div class="post-author">
+                  <span class="post-author-name"><b>{{post.firstName}} {{post.lastName}}</b></span>
+                  <span class="post-time">&nbsp; {{post.createDate | date: 'MM/dd/yyyy HH:mm'}}</span>
                 </div>
 
-                <div class="tags">
-                  <a *ngFor="let tag of post.tags; let j = index;" href="javascript:void(0)"
-                     [routerLink]="['/tag/' + tag.tagId]" class="bg-4f80b0">{{tag.tagName}}</a>
-                </div>
-              </div>
+                <div class="post-detail">
+                  <div class="post-title">
+                    <a href="#" [routerLink]="['/post/' + post.articleId]" class="wrap">{{post.title}}</a>
+                    <i *ngIf="(post.type === 2 && post.rightAnswerId !== '')" class="fa fa-check-circle"></i>
+                  </div>
 
-              <div class="post-info clearfix">
-                <div class="stats">
+                  <div class="tags">
+                    <a *ngFor="let tag of post.tags; let j = index;" href="javascript:void(0)"
+                       [routerLink]="['/tag/' + tag.tagId]" class="bg-4f80b0">{{tag.tagName}}</a>
+                  </div>
+                </div>
+
+                <div class="post-info clearfix">
+                  <div class="stats">
                 <span class="stats-item text-muted" data-tippy="" data-original-title="Views"
                       aria-describedby="tippy-285">
                 <i aria-hidden="true" class="fa fa-eye"></i>&nbsp;{{post.viewCount}}</span>
-                  <span class="stats-item text-muted" data-tippy="" data-original-title="Clips">
+                    <span class="stats-item text-muted" data-tippy="" data-original-title="Clips">
                 <i aria-hidden="true" class="fa fa-bookmark"></i>&nbsp;{{post.bookmarkCount}}</span>
-                  <span class="stats-item text-muted" data-tippy="" data-original-title="Comments">
+                    <span class="stats-item text-muted" data-tippy="" data-original-title="Comments">
                 <i aria-hidden="true" class="fa fa-comments"></i>&nbsp;{{post.commentNum}}</span>
-                  <i *ngIf="(post.type === 2 && post.rightAnswerId !== null)" class="fa fa-check-circle"></i>
+                  </div>
+
                 </div>
-
               </div>
-            </div>
 
-            <div class="post-right">
-              <div class="upvote text-muted">
-                <i class="fa fa-chevron-up"></i>
-                <p><span *ngIf="post.rating > 0">+</span>{{post.rating}}</p>
-                <i class="fa fa-chevron-down"></i>
+              <div class="post-right">
+                <div class="upvote text-muted">
+                  <i class="fa fa-chevron-up"></i>
+                  <p><span *ngIf="post.rating > 0">+</span>{{post.rating}}</p>
+                  <i class="fa fa-chevron-down"></i>
+                </div>
               </div>
+
             </div>
 
           </div>
+        </div>
 
+        <!-- paging for article -->
+        <div class="row" *ngIf="(navType === 1 || navType === 2) && collectionSize > 10">
+          <ngb-pagination [collectionSize]="collectionSize" [pageSize]="pagingRequest.pageSize"
+                          [(page)]="pagingRequest.pageNumber"
+                          (pageChange)="getListArticleByType(pagingRequest.type, navType)"
+                          class="pagination-flat pagination-primary col-center-block">
+          </ngb-pagination>
+        </div>
+
+        <!-- list trending article -->
+        <div *ngIf="navType === 5 || navType === 6">
+          <div class="posts" *ngFor="let trending of trendings; let i = index;">
+
+            <div class="post-item">
+
+              <div class="avatar">
+                <img src="https://bootstrapmade.com/wp-content/themefiles/Moderna/400.png"
+                     alt="Squadfree – Free Bootstrap template for creative" class="img-responsive">
+              </div>
+
+              <div class="post-left">
+                <div class="post-author">
+                  <span class="post-author-name"><b>{{trending.firstName}} {{trending.lastName}}</b></span>
+                  <span class="post-time">&nbsp; {{trending.createDate | date: 'MM/dd/yyyy HH:mm'}}</span>
+                </div>
+
+                <div class="post-detail">
+                  <div class="post-title">
+                    <a href="#" [routerLink]="['/post/' + trending.articleId]" class="wrap">{{trending.title}}</a>
+                    <i *ngIf="(trending.type === 2 && trending.rightAnswerId !== '')" class="fa fa-check-circle"></i>
+                  </div>
+
+                  <div class="tags">
+                    <a *ngFor="let tag of trending.tags; let j = index;" href="javascript:void(0)"
+                       [routerLink]="['/tag/' + tag.tagId]" class="bg-4f80b0">{{tag.tagName}}</a>
+                  </div>
+                </div>
+
+                <div class="post-info clearfix">
+                  <div class="stats">
+                <span class="stats-item text-muted" data-tippy="" data-original-title="Views"
+                      aria-describedby="tippy-285">
+                <i aria-hidden="true" class="fa fa-eye"></i>&nbsp;{{trending.viewCount}}</span>
+                    <span class="stats-item text-muted" data-tippy="" data-original-title="Clips">
+                <i aria-hidden="true" class="fa fa-bookmark"></i>&nbsp;{{trending.bookmarkCount}}</span>
+                    <span class="stats-item text-muted" data-tippy="" data-original-title="Comments">
+                <i aria-hidden="true" class="fa fa-comments"></i>&nbsp;{{trending.commentNum}}</span>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="post-right">
+                <div class="upvote text-muted">
+                  <i class="fa fa-chevron-up"></i>
+                  <p><span *ngIf="trending.rating > 0">+</span>{{trending.rating}}</p>
+                  <i class="fa fa-chevron-down"></i>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        <div class="row" *ngIf="(navType === 5 || navType === 6) && collectionSize > 10">
+          <ngb-pagination [collectionSize]="collectionSize" [pageSize]="pagingRequestTrending.pageSize"
+                          [(page)]="pagingRequestTrending.pageNumber"
+                          (pageChange)="getListTrendingArticleByType(
+                                                pagingRequestTrending.type,
+                                                navType,
+                                                pagingRequestTrending.searchKey)"
+                          class="pagination-flat pagination-primary col-center-block">
+          </ngb-pagination>
+        </div>
+
+        <!-- list post by bookmark -->
+        <div *ngIf="navType === 3 || navType === 4">
+
+          <div class="panel-group">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">
+                  <a data-toggle="collapse" href="#filterBookmark">
+                    Filter
+                  </a>
+                  <a id="test" class="pull-right" data-toggle="collapse" href="#filterBookmark">
+                    <span class="fa fa-filter"></span>
+                  </a>
+                </h4>
+              </div>
+
+              <div id="filterBookmark" class="panel-collapse collapse in">
+                <div class="panel-body">
+                  <div class="filter-setting">
+
+                    <div class="form-row">
+                      <label class="col-xs-4">Article Type</label>
+                      <div class="col-xs-8">
+                        <div class="input-group">
+                          <div class="btn-group">
+                            <button class="btn btn-primary btn-sm"
+                                    (click)="getListBookmarkArticle(
+                                                    1,
+                                                    3,
+                                                    pagingRequestBookmark.sortCase,
+                                                    pagingRequestBookmark.ascSort)"
+                                [ngClass]="pagingRequestBookmark.type === 1 ? 'active' :'notActive'">Article</button>
+                            <button class="btn btn-primary btn-sm"
+                                    (click)="getListBookmarkArticle(
+                                                    2,
+                                                    4,
+                                                    pagingRequestBookmark.sortCase,
+                                                    pagingRequestBookmark.ascSort)"
+                                    [ngClass]="pagingRequestBookmark.type === 2 ? 'active' :'notActive'">Question</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <hr class="line"/>
+
+                    <div class="form-row">
+                      <label class="col-xs-4">Date Type</label>
+                      <div class="col-xs-8">
+                        <div class="input-group">
+                          <div class="btn-group">
+                            <a class="btn btn-primary btn-sm"
+                               (click)="getListBookmarkArticle(
+                                                    pagingRequestBookmark.type,
+                                                    navType,
+                                                    1,
+                                                    pagingRequestBookmark.ascSort)"
+                               [ngClass]="pagingRequestBookmark.sortCase === 1 ? 'active' :'notActive'">Bookmark Date</a>
+                            <a class="btn btn-primary btn-sm"
+                               (click)="getListBookmarkArticle(
+                                                    pagingRequestBookmark.type,
+                                                    navType,
+                                                    2,
+                                                    pagingRequestBookmark.ascSort)"
+                               [ngClass]="pagingRequestBookmark.sortCase === 2 ? 'active' :'notActive'">Create Date</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <hr class="line"/>
+
+                    <div class="form-row">
+                      <label class="col-xs-4">Sort Date</label>
+                      <div class="col-xs-8">
+                        <div class="input-group">
+                          <div class="btn-group">
+                            <a class="btn btn-primary btn-sm"
+                               (click)="getListBookmarkArticle(
+                                                    pagingRequestBookmark.type,
+                                                    navType,
+                                                    pagingRequestBookmark.sortCase,
+                                                    false)"
+                               [ngClass]="pagingRequestBookmark.ascSort === false ? 'active' :'notActive'">Latest</a>
+                            <a class="btn btn-primary btn-sm"
+                               (click)="getListBookmarkArticle(
+                                                    pagingRequestBookmark.type,
+                                                    navType,
+                                                    pagingRequestBookmark.sortCase,
+                                                    true)"
+                               [ngClass]="pagingRequestBookmark.ascSort === true ? 'active' :'notActive'">Oldest</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <hr class="line"/>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="posts" *ngFor="let bookmark of bookmarks; let i = index;">
+
+            <div class="post-item">
+
+              <div class="avatar">
+                <img src="https://bootstrapmade.com/wp-content/themefiles/Moderna/400.png"
+                     alt="Squadfree – Free Bootstrap template for creative" class="img-responsive">
+              </div>
+
+              <div class="post-left">
+                <div class="post-author">
+                  <span
+                    class="post-author-name"><b>{{bookmark.article.firstName}} {{bookmark.article.lastName}}</b></span>
+                  <span class="post-time">&nbsp; {{bookmark.article.createDate | date: 'MM/dd/yyyy HH:mm'}}</span>
+                </div>
+
+                <div class="post-detail">
+                  <div class="post-title">
+                    <a href="#" [routerLink]="['/post/' + bookmark.article.articleId]"
+                       class="wrap">{{bookmark.article.title}}</a>
+                    <i *ngIf="(bookmark.article.type === 2 && bookmark.article.rightAnswerId !== '')"
+                       class="fa fa-check-circle"></i>
+                  </div>
+
+                  <div class="tags">
+                    <a *ngFor="let tag of bookmark.article.tags; let j = index;" href="javascript:void(0)"
+                       [routerLink]="['/tag/' + tag.tagId]" class="bg-4f80b0">{{tag.tagName}}</a>
+                  </div>
+                </div>
+
+                <div class="post-info clearfix">
+                  <div class="stats">
+                <span class="stats-item text-muted" data-tippy="" data-original-title="Views"
+                      aria-describedby="tippy-285">
+                <i aria-hidden="true" class="fa fa-eye"></i>&nbsp;{{bookmark.article.viewCount}}</span>
+                    <span class="stats-item text-muted" data-tippy="" data-original-title="Clips">
+                <i aria-hidden="true" class="fa fa-bookmark"></i>&nbsp;{{bookmark.article.bookmarkCount}}</span>
+                    <span class="stats-item text-muted" data-tippy="" data-original-title="Comments">
+                <i aria-hidden="true" class="fa fa-comments"></i>&nbsp;{{bookmark.article.commentNum}}</span>
+                    <span><i>( Bookmark Date: {{bookmark.bookmarkDate | date : 'MM/dd/yyyy HH:mm'}} )</i></span>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="post-right">
+                <div class="upvote text-muted">
+                  <i class="fa fa-chevron-up"></i>
+                  <p><span *ngIf="bookmark.article.rating > 0">+</span>{{bookmark.article.rating}}</p>
+                  <i class="fa fa-chevron-down"></i>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        <!-- paging for bookmark -->
+        <div class="row" *ngIf="(navType === 3 || navType === 4) && collectionSize > 10">
+          <ngb-pagination [collectionSize]="collectionSize" [pageSize]="pagingRequestBookmark.pageSize"
+                          [(page)]="pagingRequestBookmark.pageNumber"
+                          (pageChange)="getListBookmarkArticle(
+                                                      pagingRequestBookmark.type,
+                                                      navType,
+                                                      pagingRequestBookmark.sortCase,
+                                                      pagingRequestBookmark.ascSort)"
+                          class="pagination-flat pagination-primary col-center-block">
+          </ngb-pagination>
         </div>
 
       </div>
@@ -122,7 +383,8 @@
 
           <div class="widget-area"><h3 class="widget-title" textContent="main.top_tag"></h3>
             <div class="popular-authors" *ngFor="let tag of topTags; let i = index">
-              <h4><a [routerLink]="['/tag/' + tag[0]]" href="#" rel="bookmark"><i class="fa fa-tags"></i> {{tag[1]}}</a></h4>
+              <h4><a [routerLink]="['/tag/' + tag[0]]" href="#" rel="bookmark"><i class="fa fa-tags"></i> {{tag[1]}}</a>
+              </h4>
               <div class="info">
                 <div class="downloads">{{tag[4]}} <span textContent="main.tagged"></span></div>
               </div>
@@ -172,17 +434,17 @@
           </div>
 
           <!--<div class="widget-area">-->
-            <!--<h3 class="widget-title">Newsletter</h3>-->
-            <!--<div class="newsletter"><p>Subscribe to get notified when new theme is released</p>-->
-              <!--<form class="clearfix" action="#" method="post">-->
-                <!--<div class="email">-->
-                  <!--<input type="text" name="email" placeholder="Enter your email">-->
-                <!--</div>-->
-                <!--<div class="submit">-->
-                  <!--<input type="submit" value="Subscribe">-->
-                <!--</div>-->
-              <!--</form>-->
-            <!--</div>-->
+          <!--<h3 class="widget-title">Newsletter</h3>-->
+          <!--<div class="newsletter"><p>Subscribe to get notified when new theme is released</p>-->
+          <!--<form class="clearfix" action="#" method="post">-->
+          <!--<div class="email">-->
+          <!--<input type="text" name="email" placeholder="Enter your email">-->
+          <!--</div>-->
+          <!--<div class="submit">-->
+          <!--<input type="submit" value="Subscribe">-->
+          <!--</div>-->
+          <!--</form>-->
+          <!--</div>-->
           <!--</div>-->
 
         </div>

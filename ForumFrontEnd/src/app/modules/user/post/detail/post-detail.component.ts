@@ -10,6 +10,7 @@ import {
 import {ActivatedRoute, Router} from '@angular/router';
 import marked from 'marked';
 import {User,Comment} from '../../../../core/models/index';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 declare var $ : any;
 
@@ -68,26 +69,29 @@ export class PostDetailComponent implements OnInit {
     public translateService: TranslateService,
     private commentService: CommentService,
     private _location: Location,
-    private router: Router
+    private router: Router,
+    private spinner: NgxSpinnerService
   ) {
   }
 
   ngOnInit(): void {
 
-    $(document).ready(function () {
-      window.addEventListener("scroll", function (event) {
+    this.spinner.show();
 
-        // var limit = Math.max( document.body.scrollHeight, document.body.offsetHeight,
-        //   document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight );
-        //
-        // if(this.scrollY > limit - $('#sidebar').height()) {
-        //
-        // }
-        //
-        // console.log(document.documentElement.scrollHeight);
-
-      });
-    });
+    // $(document).ready(function () {
+    //   window.addEventListener("scroll", function (event) {
+    //
+    //     var limit = Math.max( document.body.scrollHeight, document.body.offsetHeight,
+    //       document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight );
+    //
+    //     if(this.scrollY > limit - $('#sidebar').height()) {
+    //
+    //     }
+    //
+    //     console.log(document.documentElement.scrollHeight);
+    //
+    //   });
+    // });
 
     // init commnet
     this.newComment = new class implements Comment {
@@ -170,6 +174,8 @@ export class PostDetailComponent implements OnInit {
 
           // work with view count
           this.countViewOfArticle();
+
+          this.spinner.hide();
         }
       );
     });
@@ -212,6 +218,12 @@ export class PostDetailComponent implements OnInit {
     }
 
     if (type === 'rating') {
+      console.log(this.listInteracts);
+      console.log(this.listInteracts.find(obj => obj.id.userId === this.currentUser.userId).rating);
+      if(this.listInteracts.find(obj => obj.id.userId === this.currentUser.userId).rating === value) {
+        this.toastrService.showErrorToastr('message.interact.before');
+        return;
+      }
       this.myInteract.rating = value;
       if (value === 1) {
         this.toastrService.showSuccessToastr('message.interact.upvote');
@@ -317,72 +329,7 @@ export class PostDetailComponent implements OnInit {
     this.commentService.addComment(this.newComment).subscribe(
       newComment => {
         if(newComment != null){
-          if(newComment.parentId != null){
-            for(let i = 0; i < this.listComments.length; i++) {
-              if(this.listComments[i].commentId === newComment.parentId) {
-                // get profile
-                this.userService.getUser(newComment.userId).subscribe(
-                  author => {
-
-                    let obj = {
-                      userId: newComment.userId,
-                      userName: "",
-                      firstName: "",
-                      lastName: "",
-                      userProfileId: ""
-                    };
-
-                    obj.userName = author.userName;
-
-                    this.profileService.get(newComment.userId).subscribe(
-                      profile => {
-                        obj.firstName = profile.firstName;
-                        obj.lastName = profile.lastName;
-                        obj.userProfileId = profile.userProfileId;
-
-                        newComment.userDetail = obj;
-                        newComment.commentBox = [];
-                        newComment.childComments = [];
-
-
-                        this.listComments[i].childComments.push(newComment);
-                      }
-                    );
-                  }
-                );
-              }
-            }
-          }
-          else {
-            // get profile
-            this.userService.getUser(newComment.userId).subscribe(
-              author => {
-
-                let obj = {
-                  userId: newComment.userId,
-                  userName: "",
-                  firstName: "",
-                  lastName: "",
-                  userProfileId: ""
-                };
-
-                obj.userName = author.userName;
-
-                this.profileService.get(newComment.userId).subscribe(
-                  profile => {
-                    obj.firstName = profile.firstName;
-                    obj.lastName = profile.lastName;
-                    obj.userProfileId = profile.userProfileId;
-
-                    newComment.userDetail = obj;
-                    newComment.commentBox = [];
-                    newComment.childComments = [];
-
-                    this.listComments.push(newComment);
-                  }
-                );
-              });
-          }
+          this.getCommentsInArticle(this.article.articleId,this.pageNumber,this.pageSize);
         }
       }
     );

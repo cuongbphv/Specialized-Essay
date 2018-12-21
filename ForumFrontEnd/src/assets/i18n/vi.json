@@ -12,7 +12,8 @@
     "join": "Tham gia ngay với",
     "or": "hoặc",
     "register": "đăng ký thành viên",
-    "forum": "Diễn đàn",
+    "option": "Diễn đàn",
+    "forum": "Bài mới",
     "group": "Hội nhóm",
     "trending": "Xu hướng",
     "question": "Hỏi đáp",
@@ -159,6 +160,7 @@
     "interact": {
       "upvote": "Bạn đã đánh giá +1 cho bài viết",
       "downvote": "Bạn đã đánh giá -1 cho bài viết",
+      "before": "Bạn đã đánh giá giống lần trước",
       "bookmark": "Bạn đã lưu trữ bài viết",
       "unbookmark": "Bạn đã gỡ lưu trữ bài viết",
       "share": "Bạn đã chia sẻ bài viết",

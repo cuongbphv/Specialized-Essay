@@ -16,7 +16,8 @@ import java.util.List;
 @AllArgsConstructor
 public class PagingResponseModel {
     private List<?> data;
-    private long totalResult;
-    private int totalPage;
-    private int currentPage;
+    private int offset;
+    private int numberOfElements;
+    private long totalElements;
+    private int totalPages;
 }

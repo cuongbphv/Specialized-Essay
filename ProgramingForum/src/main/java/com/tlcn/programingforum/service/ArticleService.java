@@ -22,4 +22,8 @@ public interface ArticleService {
     List<Article> findByUserIdAndTypeAndStatus(String userId, int type, int status);
 
     List<Article> findByUserIdAndStatus(String userId, int status);
+
+    Page<Article> getTrendingArticleToday(PagingRequestModel pagingRequest);
+
+    Page<Article> getTrendingArticleWeek(PagingRequestModel pagingRequest);
 }

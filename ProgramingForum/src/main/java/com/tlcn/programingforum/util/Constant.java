@@ -54,6 +54,7 @@ public interface Constant {
     String RELATED_ARTICLE_TAG = "/related";
     String THE_SAME_AUTHOR = "/same-author";
     String BOOKMARK_ARTICLE = "/bookmark";
+    String TRENDING_ARTICLE = "trending";
 
     // Article Interact
     String ARTICLE_INTERACT_CONTROLLER = API_PREFIX + "/interact";
@@ -111,6 +112,10 @@ public interface Constant {
     int SORT_BY_VIEW = 3;
     int SORT_BY_BOOKMARK = 4;
 
+    //sort case article management
+    int SORT_BY_BOOKMARK_DATE = 1;
+    int SORT_BY_ARTICLE_CREATE_DATE = 2;
+
     //sort case user management
     int SORT_BY_FIRST_NAME = 2;
     int SORT_BY_LAST_NAME = 3;
@@ -150,6 +155,29 @@ public interface Constant {
         private final int value;
 
         ArticleType(String name, int value){
+            this.name = name;
+            this.value = value;
+        }
+
+        public String getName(){
+            return  this.name;
+        }
+
+        public int getValue(){
+            return this.value;
+        }
+    }
+
+    enum ArticleInteractType{
+        BOOKMARK("bookmark", 1),
+        RATING_DOWN("rating",-1),
+        RATING_UP("rating",1),
+        SHARE("share",1);
+
+        private final String name;
+        private final int value;
+
+        ArticleInteractType(String name, int value){
             this.name = name;
             this.value = value;
         }

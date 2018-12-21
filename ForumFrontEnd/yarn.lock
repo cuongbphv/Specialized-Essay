@@ -4665,6 +4665,13 @@ ngx-markdown-editor@^1.1.8:
   dependencies:
     tslib "^1.9.0"
 
+ngx-spinner@^6.1.2:
+  version "6.1.2"
+  resolved "https://registry.yarnpkg.com/ngx-spinner/-/ngx-spinner-6.1.2.tgz#9778dbffbd17b27a7a90c4f0d9d8a7817e6ffb76"
+  integrity sha512-j/R8T5vKvsLLib1pTxKLYK3GYAFXw5VoUJmaTlcocO6Yi4qIypfhmw9PX9triy7hWVGPu6cUzVs7g9cEG9OYBA==
+  dependencies:
+    tslib "^1.9.0"
+
 ngx-toastr@^9.1.1:
   version "9.1.1"
   resolved "https://registry.yarnpkg.com/ngx-toastr/-/ngx-toastr-9.1.1.tgz#c7ec0284d13951422ccf47439a387372ddccc768"
