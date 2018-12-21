@@ -6,7 +6,7 @@ import {DetailTagComponent} from './detail/detail-tag.component';
 
 export const routes: Routes = [
   {
-    path: 'list',
+    path: '',
     component: ListTagComponent
   },
   {
