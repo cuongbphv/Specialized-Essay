@@ -1,7 +1,10 @@
 package com.tlcn.programingforum.service;
 
+import com.tlcn.programingforum.api.model.TagData;
+import com.tlcn.programingforum.api.model.request.PagingRequestModel;
 import com.tlcn.programingforum.api.model.response.TopTagResponse;
 import com.tlcn.programingforum.model.entity.Tag;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -15,4 +18,5 @@ public interface TagService {
     Tag findTagById(String tagId);
     List<Object> findMostTagInForum();
     Object getTagInfomation(String tagId);
+    List<Object[]> getAllTags(PagingRequestModel pagingRequestModel);
 }

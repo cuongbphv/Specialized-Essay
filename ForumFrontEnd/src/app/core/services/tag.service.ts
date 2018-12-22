@@ -123,4 +123,22 @@ export class TagService {
       }));
   }
 
+  getAllTags(pagingRequest: any): Observable<any> {
+    return this.apiService.post(API.ALL_TAGS, {
+      type: pagingRequest.type,
+      searchKey: pagingRequest.searchKey,
+      sortCase: pagingRequest.sortCase,
+      ascSort: pagingRequest.ascSort,
+      pageNumber: pagingRequest.pageNumber,
+      pageSize: pagingRequest.pageSize
+    })
+      .pipe(map(res => {
+        if(res.status === 200){
+          return res.data;
+        }
+        this.toastrService.showErrorToastr("api.status." + res.status);
+        return null;
+      }));
+  }
+
 }

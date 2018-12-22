@@ -6,7 +6,7 @@ import {TagListComponent} from './list/tag-list.component';
 
 export const routes: Routes = [
   {
-    path: 'tag/list',
+    path: 'tag/all',
     component: TagListComponent
   },
   {

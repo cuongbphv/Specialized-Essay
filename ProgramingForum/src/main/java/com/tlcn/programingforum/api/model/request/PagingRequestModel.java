@@ -14,7 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class PagingRequestModel {
     private String searchKey;
-    private String name;
+    private String userId;
     private int sortCase;
     private boolean ascSort;
     private int pageNumber;

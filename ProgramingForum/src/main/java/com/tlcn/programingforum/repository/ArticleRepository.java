@@ -72,7 +72,7 @@ public interface ArticleRepository extends CrudRepository<Article, String>, JpaS
             "and ta.tag_id = ?1 " +
             "and a.type = ?2 " +
             "ORDER BY ?#{#pageable}",
-            countQuery = "SELECT * FROM tag_article ta, article a " +
+            countQuery = "SELECT count(*) FROM tag_article ta, article a " +
                     "where ta.article_id = a.article_id " +
                     "and ta.tag_id = ?1 " +
                     "and a.type = ?2",

@@ -6,11 +6,11 @@ import {
   ArticleService, CommentService,
   CustomToastrService, ModalService, ProfilesService, ReportArticleService, ReportCommentService, TranslateService,
   UserService
-} from '../../../../core/services/index';
+} from '../../../../core/services';
 import {ActivatedRoute, Router} from '@angular/router';
 import marked, { Renderer } from 'marked';
 import highlightjs from 'highlight.js';
-import {User,Comment} from '../../../../core/models/index';
+import {User,Comment} from '../../../../core/models';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 declare var $ : any;
@@ -124,6 +124,11 @@ export class PostDetailComponent implements OnInit {
 
           // Content data
           data.content = this.preRenderMarkdown(data.content);
+
+          $("table").addClass("table table-condensed table-bordered table-hover");
+          $("#table-same-author").removeClass("table-condensed table-bordered table-hover");
+
+
           this.article = data;
 
           // get realted article
@@ -208,6 +213,19 @@ export class PostDetailComponent implements OnInit {
       return `<pre><code class="hljs ${language}">${highlighted}</code></pre>`;
     };
 
+    var toc = []; // your table of contents as a list.
+
+    renderer.heading = function(text, level) {
+      var slug = text.toLowerCase().replace(/[^\w]+/g, '-');
+      toc.push({
+        level: level,
+        slug: slug,
+        title: text
+      });
+
+      return "<h" + level + " id=\"" + slug + "\"><a href=\"#" + slug + "\" class=\"anchor\"></a>" + text + "</h" + level + ">";
+    };
+
     return marked(content, {
       renderer: renderer,
       gfm: true,
@@ -219,6 +237,27 @@ export class PostDetailComponent implements OnInit {
       smartypants: false
     }).replace(/<img/g, '<img style="max-width:100%"');
   }
+
+  // tocToTree(toc) {
+  //   let headlines = [];
+  //
+  //   let last = {};
+  //
+  //   for (let headline in toc) {
+  //     let level = headline.level;
+  //     // or = 1
+  //     if (last[level - 1]) {
+  //       last[level - 1].children;
+  //       // or = []
+  //       last[level - 1].children.push(headline);
+  //     } else {
+  //       headlines.push(headline);
+  //       last[level] = headline;
+  //     }
+  //   }
+  //
+  //   return headlines;
+  // }
 
   countViewOfArticle() {
     let self = this;

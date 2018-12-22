@@ -76,6 +76,7 @@ public interface Constant {
     String UNFOLLOW_TAG = "/unfollow";
     String LIST_FOLLOWER_BY_TAG = "/followers";
     String LIST_ARTICLE_BY_TYPE = "/list";
+    String ALL_TAGS = "/all";
 
     // Author Management
     String AUTHOR_CONTROLLER = API_PREFIX + "/author";

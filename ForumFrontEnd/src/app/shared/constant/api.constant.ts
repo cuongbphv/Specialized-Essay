@@ -67,6 +67,7 @@ export const API = {
   LIST_TAG_FOLLOWERS: BaseURL.TAG_API + "/followers",
   LIST_ARTICLE_BY_TYPE_AND_TAG_ID: BaseURL.TAG_API + "/list",
   TAG_INFORMATION: BaseURL.TAG_API + "/",
+  ALL_TAGS: BaseURL.TAG_API + "/all",
 
   // Author Management
   TOP_AUTHOR: BaseURL.AUTHOR_API + "/top"

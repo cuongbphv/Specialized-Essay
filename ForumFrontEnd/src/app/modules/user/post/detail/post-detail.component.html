@@ -188,41 +188,40 @@
         <!--<hr>-->
       <!--</div>-->
 
-
-      <!-- The same author -->
-      <div *ngIf="listTheSameAuthorArticle.length === 3">
-        <h1 textContent="label.same_author" style="font-size: 36px;color: #283035;font-weight: 400;"></h1>
-        <div class="row">
-          <div style="width: 30%; margin-right: 5px"
-               *ngFor="let sameAuthor of listTheSameAuthorArticle; let i = index;">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title" style="height: 65px;">
-                  <a class="wrap" href="javascript:void(0)" [routerLink]="['/post/' + sameAuthor.articleId]">
-                    {{sameAuthor.title}}</a>
-                </h5>
-                <p class="card-text">
-                  <a href="javascript:void(0)" [routerLink]="['/profile/' + sameAuthor.userProfileId]">
-                    {{sameAuthor?.firstName}} {{sameAuthor?.lastName}}
-                  </a>
-                </p>
-                <div class="stat-related">
+      <h1 textContent="label.same_author" style="font-size: 36px;color: #283035;font-weight: 400;"></h1>
+      <table id="table-same-author" class="table">
+        <tbody>
+          <tr>
+            <td style="vertical-align: top; text-align: left; font-size: 14px; width:33%;"
+                *ngFor="let sameAuthor of listTheSameAuthorArticle; let i = index;">
+              <a class="wrap" href="javascript:void(0)"
+                 [routerLink]="['/post/' + sameAuthor.articleId]">{{sameAuthor.title}}</a>
+            </td>
+          </tr>
+          <tr>
+            <td align="left" width="33%" style="vertical-align: top; text-align: left; font-size: 14px; width:33%;"
+                *ngFor="let sameAuthor of listTheSameAuthorArticle; let i = index;">
+              <p class="card-text">
+                <a href="javascript:void(0)" [routerLink]="['/profile/' + sameAuthor.userProfileId]">
+                  {{sameAuthor?.firstName}} {{sameAuthor?.lastName}}
+                </a>
+              </p>
+              <div class="stat-related">
                   <span class="stats-item text-muted">
                     <i aria-hidden="true" class="fa fa-eye"></i>&nbsp;{{sameAuthor?.viewCount}}
                   </span>
-                  <span class="stats-item text-muted">
+                <span class="stats-item text-muted">
                     <i aria-hidden="true" class="fa fa-bookmark"></i>&nbsp;{{sameAuthor?.bookmark}}
                   </span>
-                  <span class="stats-item text-muted">
+                <span class="stats-item text-muted">
                     <i aria-hidden="true" class="fa fa-comments"></i>&nbsp;{{sameAuthor?.commentNum}}
                   </span>
-                </div>
               </div>
-            </div>
-          </div>
-        </div>
-        <hr>
-      </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <hr>
 
 
       <!-- Blog Comments -->
