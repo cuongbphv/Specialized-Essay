@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 import {ArticleService, TranslateService, UserService} from '../../../../core/services/index';
 import * as $ from 'jquery';
@@ -24,11 +25,13 @@ export class CreatePostComponent implements OnInit {
   };
 
   constructor(
-    public translate: TranslateService,
+    public translateService: TranslateService,
     public articleService: ArticleService,
     private userService: UserService,
-    public router: Router
+    public router: Router,
+    private titleService: Title
   ) {
+    this.titleService.setTitle(this.translateService.translateLanguage('main.create_post'));
   }
 
   ngOnInit() {

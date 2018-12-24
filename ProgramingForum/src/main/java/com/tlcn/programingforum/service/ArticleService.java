@@ -28,4 +28,6 @@ public interface ArticleService {
     Page<Article> getTrendingArticleWeek(PagingRequestModel pagingRequest);
 
     Page<Article> getArticleByTagIdAndType(PagingRequestModel pagingRequest);
+
+    Article findByRightAnswerId(String rightAnswerId);
 }

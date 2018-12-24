@@ -27,6 +27,8 @@ public interface ArticleRepository extends CrudRepository<Article, String>, JpaS
 
     List<Article> findByUserIdAndStatus(String userId, int status);
 
+    Article findByRightAnswerId(String rightAnswerId);
+
     @Query(value = "SELECT * " +
             "FROM article a, article_interact art " +
             "WHERE a.article_id = art.article_id " +
@@ -36,7 +38,7 @@ public interface ArticleRepository extends CrudRepository<Article, String>, JpaS
             "HAVING SUM(art.rating) > 1 " +
             "AND a.view_count > 100 " +
             "ORDER BY ?#{#pageable}",
-            countQuery = "SELECT * " +
+            countQuery = "SELECT count(*) " +
                     "FROM article a, article_interact art " +
                     "WHERE a.article_id = art.article_id " +
                     "AND type = ?1 " +
@@ -56,7 +58,7 @@ public interface ArticleRepository extends CrudRepository<Article, String>, JpaS
             "HAVING SUM(art.rating) > 1 " +
             "AND a.view_count > 100 " +
             "ORDER BY ?#{#pageable}",
-            countQuery = "SELECT * " +
+            countQuery = "SELECT count(*) " +
                     "FROM article a, article_interact art " +
                     "WHERE a.article_id = art.article_id " +
                     "AND type = ?1 " +
@@ -72,7 +74,7 @@ public interface ArticleRepository extends CrudRepository<Article, String>, JpaS
             "and ta.tag_id = ?1 " +
             "and a.type = ?2 " +
             "ORDER BY ?#{#pageable}",
-            countQuery = "SELECT * FROM tag_article ta, article a " +
+            countQuery = "SELECT count(*) FROM tag_article ta, article a " +
                     "where ta.article_id = a.article_id " +
                     "and ta.tag_id = ?1 " +
                     "and a.type = ?2",

@@ -53,6 +53,7 @@ export const API = {
   // Comment Management
   CRUD_COMMENT: BaseURL.COMMENT_API,
   LIST_COMMENT_IN_ARTICLE: BaseURL.COMMENT_API + "/list",
+  COMMENT_INTERACT: BaseURL.COMMENT_API +"/interact",
 
   // Report Article Management
   REPORT_ARTICLE: BaseURL.REPORT_ARTICLE_API,
@@ -71,6 +72,7 @@ export const API = {
   LIST_TAG_DETAIL: BaseURL.TAG_API + "/list-detail",
   TAG_INFORMATION: BaseURL.TAG_API + "/",
   TAG_URL: BaseURL.TAG_API,
+  ALL_TAGS: BaseURL.TAG_API + "/all",
 
   // Author Management
   TOP_AUTHOR: BaseURL.AUTHOR_API + "/top"

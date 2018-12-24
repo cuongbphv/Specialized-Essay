@@ -1,5 +1,7 @@
 package com.tlcn.programingforum.service;
 
+import com.tlcn.programingforum.api.model.TagData;
+import com.tlcn.programingforum.api.model.request.PagingRequestModel;
 import com.tlcn.programingforum.api.model.request.PagingRequestModel;
 import com.tlcn.programingforum.api.model.response.TagResponse;
 import com.tlcn.programingforum.api.model.response.TopTagResponse;
@@ -9,6 +11,7 @@ import com.tlcn.programingforum.repository.specification.TagSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -55,6 +58,20 @@ public class TagServiceImpl implements TagService {
         return tagRepository.getTagInfomation(tagId);
     }
 
+    @Override
+    public List<Object[]> getAllTags(PagingRequestModel pagingRequestModel) {
+        String sortCase = "";
+        switch (pagingRequestModel.getSortCase()) {
+            case 1: sortCase = "create_date";
+            case 2: sortCase = "article_num";
+            case 3: sortCase = "question_num";
+            case 4: sortCase = "follwer_num";
+            default: sortCase = "create_date";
+        }
+        return tagRepository.findAllPaging("%" + pagingRequestModel.getSearchKey().toLowerCase() + "%",
+                sortCase, pagingRequestModel.getPageSize(),
+                (pagingRequestModel.getPageNumber() - 1)*pagingRequestModel.getPageSize());
+    }
     @Override
     public Page<Tag> findAllPaging(PagingRequestModel pagingRequestModel) {
 

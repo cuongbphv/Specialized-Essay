@@ -1,8 +1,10 @@
 package com.tlcn.programingforum.api.controller;
 
 import com.tlcn.programingforum.api.AbstractBasedAPI;
+import com.tlcn.programingforum.api.model.TagData;
 import com.tlcn.programingforum.api.model.request.FollowTagRequest;
 import com.tlcn.programingforum.api.model.request.PagingRequestModel;
+import com.tlcn.programingforum.api.model.response.PagingResponseModel;
 import com.tlcn.programingforum.api.model.response.TagResponse;
 import com.tlcn.programingforum.api.response.APIStatus;
 import com.tlcn.programingforum.auth.AuthUser;
@@ -14,6 +16,7 @@ import com.tlcn.programingforum.service.*;
 import com.tlcn.programingforum.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -220,4 +223,35 @@ public class TagController extends AbstractBasedAPI {
         return responseUtil.successResponse(followTag);
     }
 
+    @RequestMapping(path = Constant.ALL_TAGS, method = RequestMethod.POST)
+    public ResponseEntity<RestAPIResponse> getAllTags(
+            HttpServletRequest request,
+            @RequestBody PagingRequestModel pagingRequestModel
+    ){
+
+        List<Object[]> tags = tagService.getAllTags(pagingRequestModel);
+        List<TagData> data = new ArrayList<>();
+
+        for(Object[] tag : tags) {
+            TagData tagData = new TagData();
+            tagData.setTagId(tag[0].toString());
+            tagData.setTagName(tag[1].toString());
+            tagData.setDescription(tag[2].toString());
+//            if(tag[3] != null) {
+//                tagData.setCreateDate(new Date(tag[3].toString()));
+//            }
+            tagData.setNumOfArticle(Integer.parseInt(tag[4].toString()));
+            tagData.setNumOfQuestion(Integer.parseInt(tag[5].toString()));
+            tagData.setNumOfFollower(Integer.parseInt(tag[6].toString()));
+            if(followTagService.findFollowTag(tag[0].toString(), pagingRequestModel.getUserId()) != null) {
+                tagData.setFollowStatus(true);
+            }
+            else {
+                tagData.setFollowStatus(false);
+            }
+            data.add(tagData);
+        }
+
+        return responseUtil.successResponse(data);
+    }
 }

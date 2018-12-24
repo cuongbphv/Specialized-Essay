@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ArticleService, CustomToastrService, ProfilesService, TagService, TranslateService, UserService} from '../../../../core/services';
 import {PieChartConfig, User} from '../../../../core/models';
 import {ActivatedRoute} from '@angular/router';
+import {Title} from '@angular/platform-browser';
 
 
 declare var $: any;
@@ -37,15 +38,17 @@ export class TagDetailComponent implements OnInit{
   collectionSize: number;
   navType = 1;
   followStatus: boolean = false;
+  numberOfFollower: number;
 
   constructor(
-    public translate: TranslateService,
+    public translateService: TranslateService,
     private tagService: TagService,
     private route: ActivatedRoute,
     private userService: UserService,
     private toastrService: CustomToastrService,
     private profileService: ProfilesService,
-    private articleService: ArticleService
+    private articleService: ArticleService,
+    private titleService: Title
   ) {}
 
   ngOnInit() {
@@ -112,6 +115,9 @@ export class TagDetailComponent implements OnInit{
       // get tag information
       this.tagService.getTagInfomation(params['id']).subscribe(
         info => {
+
+          this.titleService.setTitle(this.translateService.translateLanguage('tag.label.tag_detail') + " : " + info[1]);
+
           this.tagInfo = info;
 
           // get list followers
@@ -190,6 +196,8 @@ export class TagDetailComponent implements OnInit{
         this.followers = data.content;
 
         this.collectionSize = data.totalElements;
+
+        this.numberOfFollower = data.totalElements;
 
         for(let i = 0; i < this.followers.length; i++) {
           this.userService.getUser(this.followers[i].id.userId).subscribe(

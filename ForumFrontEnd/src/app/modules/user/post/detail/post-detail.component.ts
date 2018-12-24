@@ -1,16 +1,17 @@
 import {Component, OnInit} from '@angular/core';
 import {Location} from '@angular/common';
+import {Title} from "@angular/platform-browser";
 
 import {
   ArticleInteractService,
   ArticleService, CommentService,
   CustomToastrService, ModalService, ProfilesService, ReportArticleService, ReportCommentService, TranslateService,
   UserService
-} from '../../../../core/services/index';
+} from '../../../../core/services';
 import {ActivatedRoute, Router} from '@angular/router';
 import marked, { Renderer } from 'marked';
 import highlightjs from 'highlight.js';
-import {User,Comment} from '../../../../core/models/index';
+import {User,Comment} from '../../../../core/models';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 declare var $ : any;
@@ -71,28 +72,14 @@ export class PostDetailComponent implements OnInit {
     private commentService: CommentService,
     private _location: Location,
     private router: Router,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private titleService: Title
   ) {
   }
 
   ngOnInit(): void {
 
     this.spinner.show();
-
-    // $(document).ready(function () {
-    //   window.addEventListener("scroll", function (event) {
-    //
-    //     var limit = Math.max( document.body.scrollHeight, document.body.offsetHeight,
-    //       document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight );
-    //
-    //     if(this.scrollY > limit - $('#sidebar').height()) {
-    //
-    //     }
-    //
-    //     console.log(document.documentElement.scrollHeight);
-    //
-    //   });
-    // });
 
     // init commnet
     this.newComment = new class implements Comment {
@@ -122,8 +109,16 @@ export class PostDetailComponent implements OnInit {
       this.articleService.getDetailPost(params['id']).subscribe(
         data => {
 
+          // set title for post
+          this.titleService.setTitle(data.title);
+
           // Content data
           data.content = this.preRenderMarkdown(data.content);
+
+          $("table").addClass("table table-condensed table-bordered table-hover");
+          $("#table-same-author").removeClass("table-condensed table-bordered table-hover");
+
+
           this.article = data;
 
           // get realted article
@@ -206,6 +201,19 @@ export class PostDetailComponent implements OnInit {
       const highlighted = validLang ? highlightjs.highlight(language, code).value : code;
       // Render the highlighted code with `hljs` class.
       return `<pre><code class="hljs ${language}">${highlighted}</code></pre>`;
+    };
+
+    var toc = []; // your table of contents as a list.
+
+    renderer.heading = function(text, level) {
+      var slug = text.toLowerCase().replace(/[^\w]+/g, '-');
+      toc.push({
+        level: level,
+        slug: slug,
+        title: text
+      });
+
+      return "<h" + level + " id=\"" + slug + "\"><a href=\"#" + slug + "\" class=\"anchor\"></a>" + text + "</h" + level + ">";
     };
 
     return marked(content, {
@@ -398,6 +406,18 @@ export class PostDetailComponent implements OnInit {
             this.commentCount++;
             comments[i].commentBox = [];
 
+            // get list interact to comment
+            this.commentService.getListInteract(comments[i].commentId).subscribe(
+              data => {
+                comments[i].listInteract = data;
+                if(comments[i].listInteract.find(obj => obj.id.userId === this.currentUser.userId)) {
+                  comments[i].myInteract = true;
+                }
+                else {
+                  comments[i].myInteract = false;
+                }
+              });
+
             // get profile
             this.userService.getUser(comments[i].userId).subscribe(
               author => {
@@ -426,6 +446,18 @@ export class PostDetailComponent implements OnInit {
             if(comments[i].childComments !== null) {
               for(let j = 0; j < comments[i].childComments.length; j++) {
                 this.commentCount++;
+
+                // get list interact to comment
+                this.commentService.getListInteract(comments[i].childComments[j].commentId).subscribe(
+                  data => {
+                    comments[i].childComments[j].listInteract = data;
+                    if(comments[i].childComments[j].listInteract.find(obj => obj.id.userId === this.currentUser.userId)) {
+                      comments[i].childComments[j].myInteract = true;
+                    }
+                    else {
+                      comments[i].childComments[j].myInteract = false;
+                    }
+                  });
 
                 // get profile
                 this.userService.getUser(comments[i].childComments[j].userId).subscribe(
@@ -458,9 +490,24 @@ export class PostDetailComponent implements OnInit {
 
           this.listComments = comments;
 
+          console.log(this.listComments);
+
         }
       }
     );
+  }
+
+  interactToComment(commentId: string, interactStatus: boolean) {
+    let heart = 0;
+    if(!interactStatus) {
+      heart = 1;
+    }
+    this.commentService.interactToComment(commentId, this.currentUser.userId, heart).subscribe(
+      data => {
+          console.log(data);
+          this.getCommentsInArticle(this.article.articleId,this.pageNumber,this.pageSize);
+      }
+    )
   }
 
   markAsResolved(rightAnswerId: string){

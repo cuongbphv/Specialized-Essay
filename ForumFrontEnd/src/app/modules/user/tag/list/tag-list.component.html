@@ -1,0 +1,28 @@
+<section id="all-tags" class="container">
+
+  <ul class="cards">
+    <li class="cards__item" *ngFor="let tag of tagList; let i = index;">
+      <div class="card">
+        <div class="card__image card__image--fence"></div>
+        <div class="card__content">
+          <div class="card__title">{{tag.tagName}}</div>
+          <p class="card__text">{{tag.cretateDate | date: 'MM/dd/yyyy'}}</p>
+          <div class="follow" (click)="followAction()">
+            <i class="fa fa-star" *ngIf="tag.followStatus == false"></i> &nbsp;
+            <span *ngIf="tag.followStatus == false" textContent="tag.label.follow"></span>
+            <i class="fa fa-check" *ngIf="tag.followStatus == true"></i> &nbsp;
+            <span *ngIf="tag.followStatus == true" textContent="tag.label.following"></span>
+          </div>
+          <div class="top-author-stat" style="margin-top: 10px">
+                    <span class="stats-item text-muted">
+                    <i aria-hidden="true" class="fa fa-newspaper-o"></i>&nbsp;{{tag.numOfArticle}}</span>
+            <span class="stats-item text-muted">
+                        <i aria-hidden="true" class="fa fa-question-circle"></i>&nbsp;{{tag.numOfQuestion}}</span>
+            <span class="stats-item text-muted">
+                        <i aria-hidden="true" class="fa fa-star"></i>&nbsp;{{tag.numOfFollower}}</span>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+</section>

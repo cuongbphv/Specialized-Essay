@@ -6,18 +6,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * @author Huy Pham
+ * @author buiph on 24/12/2018
  */
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PagingRequestModel {
-    private String searchKey;
+public class CommentInteractRequest {
+    private String commentId;
     private String userId;
-    private int sortCase;
-    private boolean ascSort;
-    private int pageNumber;
-    private int pageSize;
-    private int type;
+    private int rating;
 }
