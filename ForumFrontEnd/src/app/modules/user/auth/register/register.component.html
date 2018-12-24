@@ -161,7 +161,8 @@
           <div class="row">
             <div class="col-md-3 text-center">
               <div class="avatar-container">
-                <img class="img-avatar" src="{{imgUrl}}" alt="avatar">
+                <img class="img-avatar" src="{{imgUrl?imgUrl:'http://localhost:8080/files/default-avatar.png'}}" alt="avatar">
+                <!--<img class="img-avatar" src="http://localhost:8080/files/usr_avt_e5c910b2e0784f0f84c5b2b51ff80564.jpg" alt="avatar">-->
                 <input type="file" accept="image/*" #file [hidden]="true" (change)="readUrl($event)">
                 <button class="btn btnContact" style="margin-top: 0.5rem;width: 70%" (click)="file.click()">
                   {{this.translate.data.button.change | translate}}

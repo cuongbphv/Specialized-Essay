@@ -38,4 +38,9 @@ public class FollowTagServiceImpl implements FollowTagService {
         return followTagRepository.findByIdTagId(tagId,
                 new PageRequest(pageRequest.getPageNumber() - 1, pageRequest.getPageSize()));
     }
+
+    @Override
+    public void deleteByTagId(String tagId) {
+        this.followTagRepository.deleteById_TagId(tagId);
+    }
 }

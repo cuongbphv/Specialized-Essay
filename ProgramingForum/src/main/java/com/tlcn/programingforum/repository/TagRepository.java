@@ -1,11 +1,15 @@
 package com.tlcn.programingforum.repository;
 
+import com.tlcn.programingforum.api.model.response.TagResponse;
 import com.tlcn.programingforum.api.model.response.TopTagResponse;
+import com.tlcn.programingforum.model.entity.Article;
 import com.tlcn.programingforum.model.entity.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +21,7 @@ import java.util.List;
 
 @Transactional
 @Repository
-public interface TagRepository extends CrudRepository<Tag, String> {
+public interface TagRepository extends CrudRepository<Tag, String>, JpaSpecificationExecutor<Tag> {
     Tag findByTagId(String tagId);
 
     @Query(value = "select t.tagId, t.tagName, t.createDate, t.description, count(t.tagId) as number_of_taged from Tag t, TagArticle ta where t.tagId = ta.id.tagId group by t.tagId order by number_of_taged desc")
@@ -33,4 +37,10 @@ public interface TagRepository extends CrudRepository<Tag, String> {
             "group by t.tag_id",
             nativeQuery = true)
     Object getTagInfomation(String tagId);
+
+    @Query("SELECT new com.tlcn.programingforum.api.model.response.TagResponse(t.tagId, t.tagName, t.description, " +
+            "t.createDate,3L , 3L) from Tag t " +
+            "WHERE t.tagName like :search or t.description like :search")
+    Page<TagResponse> findAllPaging(@Param("search") String search, Pageable pageable);
+
 }

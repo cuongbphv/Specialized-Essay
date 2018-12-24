@@ -57,7 +57,6 @@ export class DetailPostComponent implements OnInit {
         this.author.email = author.email;
         this.author.createDate = author.createDate;
         this.author.userName = author.userName;
-        this.author.status = author.status;
       }
     );
 

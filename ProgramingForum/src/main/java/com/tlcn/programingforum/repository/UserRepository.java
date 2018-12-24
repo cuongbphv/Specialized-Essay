@@ -29,6 +29,8 @@ public interface UserRepository extends PagingAndSortingRepository<User,String> 
 
     User findByUserNameAndStatus(String userName, int status);
 
+    User findByUserId(String userId);
+
     @Query(value = "SELECT a.user_id, up.first_name, up.last_name, " +
             "sum(art.rating) as rating, sum(art.bookmark) as bookmark, " +
             "sum(art.share) as share, sum(a.view_count) as view_count " +

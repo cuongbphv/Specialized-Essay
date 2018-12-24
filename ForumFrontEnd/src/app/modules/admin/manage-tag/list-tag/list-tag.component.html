@@ -5,7 +5,7 @@
       <div class="card-body">
         <h4 class="card-title">Total Tag list</h4>
         <div class="table-responsive">
-          <table class="table table-bordered table-hover">
+          <table class="table table-hover">
             <thead>
             <tr>
               <th>
@@ -15,38 +15,27 @@
                 Description
               </th>
               <th>
-                Marked time
-              </th>
-              <th>
                 Created Date
-              </th>
-              <th>
-                Status
               </th>
             </tr>
             </thead>
             <tbody>
-            <tr>
+            <tr *ngFor="let tag of tags" [routerLink]="['/admin/tag/' + tag.tagId]">
               <td>
-                <a>Javascript</a>
+                <a>{{tag.tagName}}</a>
               </td>
               <td>
-                Javascript is JS,   Javascript is JS,   Javascript is JS,
+                {{tag.description}}
               </td>
               <td>
-                5500
-              </td>
-              <td>
-                19/12/2018 4:42 PM
-              </td>
-              <td>
-                <label class="badge badge-success badge-pill">Approved</label>
+                {{tag.createDate | date: 'MM/dd/yyyy HH:mm'}}
               </td>
             </tr>
             </tbody>
           </table>
           <div class="col-lg-12 text-right" style="margin-top: 2rem">
-            <ngb-pagination [collectionSize]="40" [pageSize]="10" [page]="1"
+            <ngb-pagination [collectionSize]="collectionSize" [pageSize]="pagingRequest.pageSize"
+                            [(page)]="pagingRequest.pageNumber" (pageChange)="getListTag()"
                             aria-label="Default pagination"
                             class="pagination-flat pagination-primary pull-right">
             </ngb-pagination>

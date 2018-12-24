@@ -14,7 +14,7 @@ export const routes: Routes = [
         loadChildren: './home/home.module#HomeModule'
       },
       {
-        path: 'profile',
+        path: '',
         loadChildren: './profile/profile.module#ProfileModule'
       },
       {

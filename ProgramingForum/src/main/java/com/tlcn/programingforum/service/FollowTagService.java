@@ -12,4 +12,5 @@ public interface FollowTagService {
     FollowTag followTag(FollowTag followTag);
     void unfollowTag(FollowTag followTag);
     Page<FollowTag> getListFollowers(String tagId, PagingRequestModel pageRequest);
+    void deleteByTagId(String tagId);
 }

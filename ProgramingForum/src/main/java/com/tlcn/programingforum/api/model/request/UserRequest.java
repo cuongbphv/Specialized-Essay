@@ -33,6 +33,7 @@ public class UserRequest {
     private String lastName;
     @JsonIgnore
     private MultipartFile avatar;
+    private String avatarUrl;
     private String description;
     private String websiteLink;
     private String githubLink;

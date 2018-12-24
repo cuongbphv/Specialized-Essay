@@ -37,6 +37,11 @@ public class UserServiceImpl extends AbstractBaseService implements UserService 
     }
 
     @Override
+    public User getUserByUserId(String userId) {
+        return userRepository.findByUserId(userId);
+    }
+
+    @Override
     public void deleteUsers(List<User> users) {
         for (User user : users) {
             userRepository.delete(user);

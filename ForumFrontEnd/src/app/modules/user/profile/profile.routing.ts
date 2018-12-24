@@ -2,13 +2,11 @@ import {RouterModule, Routes} from '@angular/router';
 
 import { ProfileComponent } from './profile.component';
 import {NgModule} from '@angular/core';
-import {UserGuard} from '../../../core/guards/index';
 
 export const routes: Routes = [
   {
-    path: '',
-    component: ProfileComponent,
-    canActivate: [UserGuard]
+    path: 'profile/:id',
+    component: ProfileComponent
   }
 ];
 

@@ -25,6 +25,8 @@ export const API = {
   AUTH_USER_EMAIL: '/auth/check',
 
   GET_USER: BaseURL.USER_API + "/",
+  LIST_USER: BaseURL.USER_API + "/list",
+  GRANT_USER_ACCESS: BaseURL.USER_API + "/grant/",
 
   //Profile API
   GET_PROFILE: '/profile/',
@@ -66,7 +68,9 @@ export const API = {
   UNFOLLOW_TAG: BaseURL.TAG_API + "/unfollow",
   LIST_TAG_FOLLOWERS: BaseURL.TAG_API + "/followers",
   LIST_ARTICLE_BY_TYPE_AND_TAG_ID: BaseURL.TAG_API + "/list",
+  LIST_TAG_DETAIL: BaseURL.TAG_API + "/list-detail",
   TAG_INFORMATION: BaseURL.TAG_API + "/",
+  TAG_URL: BaseURL.TAG_API,
 
   // Author Management
   TOP_AUTHOR: BaseURL.AUTHOR_API + "/top"

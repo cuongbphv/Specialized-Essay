@@ -1,10 +1,15 @@
 package com.tlcn.programingforum.service;
 
+import com.tlcn.programingforum.api.model.request.PagingRequestModel;
+import com.tlcn.programingforum.api.model.response.TagResponse;
 import com.tlcn.programingforum.api.model.response.TopTagResponse;
 import com.tlcn.programingforum.model.entity.Tag;
 import com.tlcn.programingforum.repository.TagRepository;
+import com.tlcn.programingforum.repository.specification.TagSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,6 +35,12 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
+    public void deleteTag(Tag tag) {
+
+        tagRepository.delete(tag);
+    }
+
+    @Override
     public Tag findTagById(String tagId) {
         return tagRepository.findByTagId(tagId);
     }
@@ -42,6 +53,28 @@ public class TagServiceImpl implements TagService {
     @Override
     public Object getTagInfomation(String tagId) {
         return tagRepository.getTagInfomation(tagId);
+    }
+
+    @Override
+    public Page<Tag> findAllPaging(PagingRequestModel pagingRequestModel) {
+
+//        String properties = "";
+//        switch (pagingRequestModel.getSortCase()){
+//            case 1: properties = "createDate";
+//            case 2: properties = "tagName";
+//            default: properties = "createDate";
+//        }
+//        Sort sort = new Sort(pagingRequestModel.isAscSort()?Sort.Direction.ASC: Sort.Direction.DESC,
+//                properties);
+
+        TagSpecification tagSpec = new TagSpecification(pagingRequestModel.getSearchKey(),
+                pagingRequestModel.getSortCase(), pagingRequestModel.isAscSort());
+
+        PageRequest pageReq = new PageRequest((pagingRequestModel.getPageNumber() - 1),
+                pagingRequestModel.getPageSize());
+
+        return tagRepository.findAll(tagSpec, pageReq);
+
     }
 
 

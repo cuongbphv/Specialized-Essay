@@ -17,5 +17,4 @@ export interface User {
   description: string;
   githubLink: string;
   websiteLink: string;
-  status: number;
 }

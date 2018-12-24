@@ -35,4 +35,9 @@ public class TagArticleServiceImpl implements TagArticleService {
     public void deleteTagArticle(TagArticle tagArticle) {
         tagArticleRepository.delete(tagArticle);
     }
+
+    @Override
+    public void deleteByTagId(String tagId) {
+        this.tagArticleRepository.deleteById_TagId(tagId);
+    }
 }

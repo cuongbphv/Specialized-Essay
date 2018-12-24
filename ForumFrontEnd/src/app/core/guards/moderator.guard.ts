@@ -11,15 +11,11 @@ export class ModeratorGuard implements CanActivate {
       return true;
     }
 
-    if (this.userService.isAuthenticated.subscribe(isAuthen => {
+    this.userService.redirectUrl = state.url;
 
-      if (isAuthen) {
+    if(this.userService.isAuthenticated.subscribe(isAuthen => {
+      if(isAuthen){
         this.router.navigate(['no-access']);
-      }
-      else {
-        this.router.navigate(['login'], {
-          queryParams: {returnUrl: state.url}
-        });
       }
     }))
 

@@ -49,6 +49,7 @@ public enum APIStatus {
     ERR_FOLDER_NOT_FOUND(709, "Folder not found"),
     ERR_PROFILE_NOT_FOUND(710, "Profile not found"),
     ERR_OLD_PASS(717, "Old password incorect"),
+    ERR_TAG_NOT_FOUND(718, "Tag not found"),
 
     //Profile
     ERR_USER_PROFILE_NOT_FOUND(800, "User Profile not found"),
@@ -56,6 +57,11 @@ public enum APIStatus {
     //POST
     ERR_ARTICLE_NOT_FOUND(900, "Article not found"),
     ERR_REPORTED(901, "Reported"),
+
+    //FILE
+    ERR_FILE_NOT_FOUND(888, "File not found"),
+    ERR_CANT_STORE(889, "Could not store file"),
+    ERR_FILE_TYPE(890, "Could not determine file type"),
 
     // Comment
     ERR_COMMENT_NOT_FOUND(1000, "Comment not found");

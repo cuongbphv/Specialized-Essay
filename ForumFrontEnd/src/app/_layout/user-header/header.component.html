@@ -50,7 +50,7 @@
             <span class="caret"></span>
           </a>
           <div class="dropdown-menu dropdown dropdown-primary" aria-labelledby="drdAccount" role="menu">
-            <a class="dropdown-item waves-light" [routerLink]="[ '/profile' ]">
+            <a class="dropdown-item waves-light" [routerLink]="[ '/profile/' + currentUser.userId]">
               <i class="fa fa-user mr-1"></i> <span textContent="user.profile"></span></a>
             <a class="dropdown-item waves-light" [routerLink]="[ '/setting' ]">
               <i class="fa fa-cogs mr-1"></i> <span textContent="user.setting"></span></a>

@@ -17,4 +17,6 @@ import java.util.List;
 public interface TagArticleRepository extends CrudRepository<TagArticle, String> {
     List<TagArticle> findByIdArticleId(String articleId);
     List<TagArticle> findByIdTagId(String tagId);
+
+    void deleteById_TagId(String tagId);
 }

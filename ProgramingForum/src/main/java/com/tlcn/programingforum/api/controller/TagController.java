@@ -3,7 +3,9 @@ package com.tlcn.programingforum.api.controller;
 import com.tlcn.programingforum.api.AbstractBasedAPI;
 import com.tlcn.programingforum.api.model.request.FollowTagRequest;
 import com.tlcn.programingforum.api.model.request.PagingRequestModel;
+import com.tlcn.programingforum.api.model.response.TagResponse;
 import com.tlcn.programingforum.api.response.APIStatus;
+import com.tlcn.programingforum.auth.AuthUser;
 import com.tlcn.programingforum.exception.ApplicationException;
 import com.tlcn.programingforum.model.RestAPIResponse;
 import com.tlcn.programingforum.model.entity.*;
@@ -51,6 +53,64 @@ public class TagController extends AbstractBasedAPI {
         Object tagInfo = tagService.getTagInfomation(tagId);
 
         return responseUtil.successResponse(tagInfo);
+    }
+
+
+    @RequestMapping(value = "", method = RequestMethod.PUT)
+    public ResponseEntity<RestAPIResponse> updateTag(
+            HttpServletRequest request,
+            @RequestBody Tag tagReq
+    ) {
+
+        AuthUser authUser = getAuthUserFromSession(request);
+        validatePermission(authUser, Constant.SystemRole.MODERATOR.getId());
+
+        Tag tag = tagService.findTagById(tagReq.getTagId());
+        if(tag == null){
+            throw new ApplicationException(APIStatus.ERR_TAG_NOT_FOUND);
+        }
+
+        tag.setDescription(tagReq.getDescription());
+        tagService.saveTag(tag);
+
+        return responseUtil.successResponse("Updated");
+    }
+
+
+    @RequestMapping(path = Constant.WITHIN_ID, method = RequestMethod.DELETE)
+    public ResponseEntity<RestAPIResponse> deleteTag(
+            HttpServletRequest request,
+            @PathVariable("id") String tagId
+    ) {
+
+        AuthUser authUser = getAuthUserFromSession(request);
+        validatePermission(authUser, Constant.SystemRole.SYS_ADMIN.getId());
+
+        Tag tag = tagService.findTagById(tagId);
+        if(tag == null){
+            throw new ApplicationException(APIStatus.ERR_TAG_NOT_FOUND);
+        }
+
+        tagArticleService.deleteByTagId(tag.getTagId());
+        followTagService.deleteByTagId(tag.getTagId());
+        tagService.deleteTag(tag);
+
+        return responseUtil.successResponse("Deleted");
+    }
+
+
+    @RequestMapping(path = Constant.LIST_TAG, method = RequestMethod.POST)
+    public ResponseEntity<RestAPIResponse> getListTag(
+            HttpServletRequest request,
+            @RequestBody PagingRequestModel pagingRequestModel
+    ) {
+
+        AuthUser authUser = getAuthUserFromSession(request);
+        validatePermission(authUser, Constant.SystemRole.SYS_ADMIN.getId());
+
+        Page<Tag> tags = tagService.findAllPaging(pagingRequestModel);
+
+        return responseUtil.successResponse(tags);
     }
 
     @RequestMapping(path = Constant.MOST_TAG_IN_FORUM, method = RequestMethod.GET)
@@ -159,4 +219,5 @@ public class TagController extends AbstractBasedAPI {
 
         return responseUtil.successResponse(followTag);
     }
+
 }

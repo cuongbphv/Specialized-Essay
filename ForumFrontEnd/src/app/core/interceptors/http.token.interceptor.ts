@@ -9,8 +9,15 @@ export class HttpTokenInterceptor implements HttpInterceptor {
   constructor(private session: SessionService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const headersConfig = {
-      'Content-Type': 'application/json',
+
+    let contentType;
+    let headersConfig;
+
+    if (req.headers.has('Content-Type')) {
+      contentType = req.headers.get('Content-Type');
+    }
+
+     headersConfig = {
       'Accept': 'application/json'
     };
 

@@ -7,8 +7,8 @@
           <div class="cardheader">
 
           </div>
-          <div class="avatar">
-            <img alt="" src="https://png.pngtree.com/element_origin_min_pic/17/02/11/bf3f8c533232b1e8322c34f9731aa9f9.jpg">
+          <div class="avatar" style="margin-top: 1rem">
+            <img alt="" src="{{currentProfile.avatar?currentProfile.avatar:'http://localhost:8080/files/default-avatar.png'}}">
           </div>
           <div class="info">
             <div class="title">
@@ -28,7 +28,8 @@
             </a>
           </div>
           <div class="text-center">
-            <input type="submit" class="profile-edit-btn"  style="width: 30%;"
+            <input *ngIf="currentUser.userId === currentProfile.userId"
+                   type="submit" class="profile-edit-btn"  style="width: 30%;"
                    name="btnUpdateProfile" (click)="forwardToUpdate()"
                    value="{{this.translate.data.button.update | translate}}"/>
           </div>
@@ -117,7 +118,7 @@
     </div>
 
 
-    <div [hidden]="profileMode!==2" class="emp-profile profile-update container">
+    <div *ngIf="currentUser.userId === currentProfile.userId"  [hidden]="profileMode!==2" class="emp-profile profile-update container">
       <form method="post">
         <div class="row">
           <div class="col-md-4">
@@ -286,7 +287,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-12 text-right">
+          <div *ngIf="currentUser.userId === currentProfile.userId" class="col-md-12 text-right">
             <input type="submit" class="profile-edit-btn" name="btnUpdateProfile" (click)="updateProfile()"
                    value="{{this.translate.data.button.update | translate}}"/>
           </div>

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ViewEncapsulation } from '@angular/core';
+import {TagService} from '../../../../core/services';
+import {User} from '../../../../core/models';
 
 @Component({
   selector: 'admin-list-tag',
@@ -9,9 +11,35 @@ import { ViewEncapsulation } from '@angular/core';
 })
 export class ListTagComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private tagService: TagService
+  ) { }
+
+  pagingRequest: any = {
+    searchKey: "",
+    sortCase: 1,
+    ascSort: false,
+    pageNumber: 1,
+    pageSize: 2
+  };
+
+  tags: any = [];
+  collectionSize: number;
 
   ngOnInit() {
+
+    this.getListTag();
+
   }
+
+  getListTag(){
+
+    this.tagService.getListTagPaging(this.pagingRequest).subscribe(data => {
+        this.tags = data.content;
+      this.collectionSize = data.totalElements;
+    });
+
+  }
+
 
 }

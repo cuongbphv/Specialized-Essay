@@ -13,4 +13,5 @@ public interface TagArticleService {
     List<TagArticle> findByArticleId(String articleId);
     List<TagArticle> findByTagId(String tagId);
     void deleteTagArticle(TagArticle tagArticle);
+    void deleteByTagId(String tagId);
 }

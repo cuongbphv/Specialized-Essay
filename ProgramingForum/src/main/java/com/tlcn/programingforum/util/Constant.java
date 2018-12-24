@@ -31,7 +31,7 @@ public interface Constant {
     public static final String ADMIN_API = API_PREFIX + "/admin";
     public static final String ADMIN_SETTING = "/setting";
     public static final String ADMIN_UPDATE_PASS = "/update_password";
-    public static final String UPLOAD = API_PREFIX + "/upload";
+    public static final String FILE = "/files";
 
     //User management
     public static final String USER_API = API_PREFIX + "/user";
@@ -40,6 +40,7 @@ public interface Constant {
     public static final String USER_DETAIL = "/detail";
     public static final String UPDATE_PASS = "/update_password";
     public static final String USER_UPDATE_PASS = "/user_update_password";
+    public static final String USER_GRANT_ACCESS = "/grant";
 
 
     //Profile management
@@ -71,6 +72,7 @@ public interface Constant {
     String TAG_CONTROLLER = API_PREFIX + "/tag";
     String MOST_TAG_IN_FORUM = "/most";
     String MY_TAGS = "/my_tags";
+    String LIST_TAG = "/list-detail";
     String FOLLOW_TAG = "/follow";
     String FOLLOW_STATUS = "/status";
     String UNFOLLOW_TAG = "/unfollow";
@@ -131,6 +133,9 @@ public interface Constant {
     int SORT_BY_LAST_NAME = 3;
     int SORT_BY_USERNAME = 4;
     int SORT_BY_ROLE = 5;
+
+    //sort case tag management
+    int SORT_BY_TAG_NAME = 2;
 
     public enum Status{
 

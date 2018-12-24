@@ -3,6 +3,7 @@ import {TranslateService, GooglePieChartService, UserService, ProfilesService} f
 
 import {PieChartConfig, Profile, User} from '../../../core/models/index';
 import {Pattern} from '../../../shared/constant/index';
+import {ActivatedRoute} from '@angular/router';
 
 declare var $: any;
 
@@ -33,6 +34,8 @@ export class ProfileComponent implements OnInit{
     websiteLink: '',
   };
 
+  userId : string;
+
   profileMode: number = 1; // 1 info, 2 update
 
   namePattern: any = Pattern.NAME_PATTERN;
@@ -41,7 +44,8 @@ export class ProfileComponent implements OnInit{
     public translate: TranslateService,
     private pieChartService: GooglePieChartService,
     private userService:UserService,
-    private profileService: ProfilesService) {}
+    private profileService: ProfilesService,
+    private route: ActivatedRoute) {}
 
   public ngOnInit() {
 
@@ -62,13 +66,16 @@ export class ProfileComponent implements OnInit{
 
     });
 
+    this.userId = this.route.snapshot.params['id'];
+
+    this.profileService.get(this.userId)
+      .subscribe(userProfile => {
+        this.currentProfile = userProfile;
+      });
+
     this.userService.currentUser.subscribe(
       (userData) => {
         this.currentUser = userData;
-        this.profileService.get(userData.userId)
-          .subscribe(userProfile => {
-            this.currentProfile = userProfile;
-          });
       }
     );
 
@@ -85,9 +92,6 @@ export class ProfileComponent implements OnInit{
 
   }
 
-  hihi(){
-    console.log('profile ', this.currentUser);
-  }
 
   forwardToUpdate(){
     this.profileMode = 2;

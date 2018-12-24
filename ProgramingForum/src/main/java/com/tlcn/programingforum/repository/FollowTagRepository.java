@@ -21,4 +21,6 @@ public interface FollowTagRepository extends CrudRepository<FollowTag, String> {
             countQuery = "SELECT * FROM follow_tag ft WHERE ft.tag_id = ?1 ",
             nativeQuery = true)
     Page<FollowTag> findByIdTagId(String tagId, PageRequest pageRequest);
+
+    void deleteById_TagId(String tagId);
 }

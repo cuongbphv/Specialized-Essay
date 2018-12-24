@@ -4,7 +4,9 @@ import {UserService} from '../services';
 
 @Injectable()
 export class AdminGuard implements CanActivate {
-  constructor(private router: Router, private userService: UserService) {}
+  constructor(private router: Router,
+              private userService: UserService
+  ) {}
 
   canActivate(route, state: RouterStateSnapshot) {
 
@@ -12,15 +14,11 @@ export class AdminGuard implements CanActivate {
       return true;
     }
 
-    if(this.userService.isAuthenticated.subscribe(isAuthen => {
+    this.userService.redirectUrl = state.url;
 
+    if(this.userService.isAuthenticated.subscribe(isAuthen => {
       if(isAuthen){
         this.router.navigate(['no-access']);
-      }
-      else{
-        this.router.navigate(['login'], {
-          queryParams: { returnUrl: state.url }
-        });
       }
     }))
 

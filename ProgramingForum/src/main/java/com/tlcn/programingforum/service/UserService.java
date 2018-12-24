@@ -18,6 +18,8 @@ public interface UserService {
 
     User getActiveUserByUserId(String userId);
 
+    User getUserByUserId(String userId);
+
     void deleteUsers(List<User> users);
 
     void deleteUser(User user);

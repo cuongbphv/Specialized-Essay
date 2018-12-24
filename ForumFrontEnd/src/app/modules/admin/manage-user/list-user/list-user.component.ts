@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ViewEncapsulation } from '@angular/core';
 import {NgbPagination} from '@ng-bootstrap/ng-bootstrap';
+import {User} from '../../../../core/models';
+import {UserService} from '../../../../core/services';
 
 @Component({
   selector: 'admin-list-user',
@@ -10,9 +12,33 @@ import {NgbPagination} from '@ng-bootstrap/ng-bootstrap';
 })
 export class ListUserComponent implements OnInit {
 
-  constructor() { }
+  pagingRequest: any = {
+    searchKey: "",
+    sortCase: 1,
+    ascSort: false,
+    pageNumber: 1,
+    pageSize: 2
+  };
+
+  users: Array<User> = [];
+  collectionSize: number;
+
+  constructor(
+    private userService: UserService
+  ) { }
 
   ngOnInit() {
+
+    this.getListUser();
+
+  }
+
+  getListUser(){
+    this.userService.getListUser(this.pagingRequest)
+      .subscribe(data => {
+        this.users = data.content;
+        this.collectionSize = data.totalElements;
+      })
   }
 
 }

@@ -465,6 +465,7 @@ public class ArticleController extends AbstractBasedAPI {
         }
 
         article.setIsApproved(status);
+        article.setApprovedBy(authUser.getId());
         articleService.saveArticle(article);
 
         return responseUtil.successResponse(status);

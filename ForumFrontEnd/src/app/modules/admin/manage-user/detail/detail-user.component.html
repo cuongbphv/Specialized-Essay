@@ -4,66 +4,77 @@
       <div class="card-body">
         <h4 class="card-title">User Detail</h4>
         <div class="row">
-          <div class="col-md-6" style="margin-top: 1rem">
-            <label class="col-3"><b>Title:</b></label>
-            <span class="col-9">I love you babe</span>
+          <div class="col-md-6 col-12" style="margin-top: 1rem">
+            <div class="row">
+              <div class="col-12 text-center">
+                <div class="avatar-container">
+                  <img class="img-avatar"
+                       src="https://yt3.ggpht.com/a-/AN66SAxf2nKQBhNx-A6tUEgnqAB5dmbVeo7_2FePrA=s900-mo-c-c0xffffffff-rj-k-no"
+                       alt="avatar">
+                </div>
+                  <div class="col-12">{{user.company}}</div>
+                  <div class="col-12">{{user.position}}</div>
+                <a class="btn btn-dark btn-sm img-social" rel="publisher">
+                  <i class="fa fa-github"></i>
+                </a>
+                <a class="btn btn-primary btn-sm img-social" rel="publisher">
+                  <i class="fa fa-facebook"></i>
+                </a>
+              </div>
+            </div>
           </div>
-          <div class="col-md-6" style="margin-top: 1rem">
-            <label class="col-3"><b>Marked Tags:</b></label>
-            <span class="col-9 tag-container">
-            <label class="badge badge-pill badge-primary">
-              JS
-            </label>
-            <label class="badge badge-pill badge-primary">
-              AI
-            </label>
-          </span>
+          <div class="col-md-6 col-12" style="margin-top: 1rem">
+            <div class="row">
+              <div class="col-5"><b>First Name:</b></div>
+              <div class="col-7">{{user.firstName}}</div>
+            </div>
+            <div class="row">
+              <div class="col-5"><b>Last Name:</b></div>
+              <div class="col-7">{{user.lastName}}</div>
+            </div>
+            <div class="row">
+              <div class="col-5"><b>Username:</b></div>
+              <div class="col-7">{{user.userName}}</div>
+            </div>
+            <div class="row">
+              <div class="col-5"><b>Email:</b></div>
+              <div class="col-7">{{user.email}}</div>
+            </div>
+            <div class="row">
+              <div class="col-5"><b>Phone:</b></div>
+              <div class="col-7">{{user.phone}}</div>
+            </div>
+            <div class="row">
+              <div class="col-5"><b>Role:</b></div>
+              <div class="col-7"> {{user.role === 1?'Admin':user.role === 2?'Moderator':'User'}}</div>
+            </div>
+            <div class="row">
+              <div class="col-5"><b>Description:</b></div>
+              <div class="col-7">{{user.description}} </div>
+            </div>
+            <div class="row">
+              <div class="col-5"><b>Create Date:</b></div>
+              <div class="col-7">{{user.createDate | date: 'MM/dd/yyyy HH:mm'}}</div>
+            </div>
+            <div class="row">
+              <div class="col-5"><b>Last Activity:</b></div>
+              <div class="col-7">{{user.lastActivity | date: 'MM/dd/yyyy HH:mm'}}</div>
+            </div>
+            <div class="row">
+              <div class="col-5"><b>Language:</b></div>
+              <div class="col-7">{{user.lang === 'en'?'English': 'Vietnamese'}}</div>
+            </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-6" style="margin-top: 1rem">
-            <label class="col-3"><b>Author:</b></label>
-            <span class="col-9">Ngoc Huy Pham</span>
-          </div>
-          <div class="col-md-6" style="margin-top: 1rem">
-            <label class="col-3"><b>Created At:</b></label>
-            <span class="col-9">19/12/2018 10:26 PM</span>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6" style="margin-top: 1rem">
-            <label class="col-3"><b>Type:</b></label>
-            <span class="col-9">
-              <label class="badge badge-pill badge-primary">
-              Question
-            </label>
-            </span>
-          </div>
-          <div class="col-md-6" style="margin-top: 1rem">
-            <label class="col-3"><b>Status:</b></label>
-            <span class="col-9">
-            <label class="badge badge-pill badge-primary">
-              Pending
-            </label>
-          </span>
-          </div>
-        </div>
+
         <div class="row text-right">
           <div class="col-md-12 template-demo" style="display: inline-block; margin-top: 1rem">
-            <button class="btn btn-danger btn-rounded btn-fw" type="button">Ban User</button>
-            <button class="btn btn-danger btn-rounded btn-fw" type="button">Reject Post</button>
-            <button class="btn btn-success btn-rounded btn-fw" type="button">Accept Post</button>
+            <button class="btn btn-danger btn-rounded btn-fw" type="button" (click)="banUser(user.userId)">Ban User</button>
+            <button *ngIf="user.role === 3" class="btn btn-success btn-rounded btn-fw"
+                    (click)="grantAccess(user.userId)" type="button">
+              Grand as Moderator
+            </button>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-lg-12 grid-margin">
-    <div class="card">
-      <div class="card-body">
-        <h4 class="card-title">List user post</h4>
-        <div class="post-content">
-          This is post content
         </div>
       </div>
     </div>

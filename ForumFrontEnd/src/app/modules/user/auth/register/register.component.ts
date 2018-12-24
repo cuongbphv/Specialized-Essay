@@ -55,11 +55,11 @@ export class RegisterComponent implements OnInit {
   emailPattern: any = Pattern.EMAIL_PATTERN;
 
   ngOnInit() {
-    this.userService.isAuthenticated.subscribe( isAuthen => {
-      if(isAuthen){
-        this.router.navigate(["/"]);
-      }
-    })
+    // this.userService.isAuthenticated.subscribe( isAuthen => {
+    //   if(isAuthen){
+    //     this.router.navigate(["/"]);
+    //   }
+    // })
   }
 
   moveStep(value) {
@@ -84,9 +84,9 @@ export class RegisterComponent implements OnInit {
   }
 
   readUrl(event:any) {
-    if (event.target.files && event.target.files[0]) {
+    if (event.target.files && event.target.files.item(0)) {
 
-      this.userInfo.imgFile = event.target.files[0];
+      this.userInfo.imgFile = event.target.files.item(0);
 
       let reader = new FileReader();
 

@@ -1,12 +1,16 @@
 package com.tlcn.programingforum.service;
 
+import com.tlcn.programingforum.api.response.APIStatus;
+import com.tlcn.programingforum.exception.ApplicationException;
 import com.tlcn.programingforum.model.FileStorageProperties;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -47,7 +51,23 @@ public class FileStorageService {
 
         } catch (IOException ex) {
             ex.printStackTrace();
-            return null;
+            throw new ApplicationException(APIStatus.ERR_CANT_STORE);
+        }
+    }
+
+    public Resource loadFileAsResource(String fileName) {
+        try {
+            Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
+            Resource resource = new UrlResource(filePath.toUri());
+
+            if(resource.exists()) {
+                return resource;
+            }
+
+            throw new ApplicationException(APIStatus.ERR_FILE_NOT_FOUND);
+
+        } catch (MalformedURLException ex) {
+            throw new ApplicationException(APIStatus.ERR_FILE_NOT_FOUND);
         }
     }
 

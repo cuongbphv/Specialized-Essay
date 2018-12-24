@@ -9,9 +9,14 @@ import {User} from '../models';
 import {BehaviorSubject, Observable, ReplaySubject} from 'rxjs';
 import {CookieService} from 'ngx-cookie-service';
 import {SessionService} from './session.service';
+import {Router} from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Injectable()
 export class UserService {
+
+  //attempt redirect after CanActive
+  redirectUrl: string;
 
   private currentUserSubject = new BehaviorSubject<User>({} as User);
   public currentUser = this.currentUserSubject.asObservable().pipe(distinctUntilChanged());
@@ -21,7 +26,9 @@ export class UserService {
 
   constructor(
     private apiService: ApiService,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private router: Router,
+    private loading: NgxSpinnerService
   ) {}
 
 
@@ -31,10 +38,19 @@ export class UserService {
     // If Token detected, attempt to get & store user's info
     console.log('polulate');
     if (this.sessionService.getAccessToken()) {
+      this.loading.show();
       this.apiService.get(API.USER_DETAIL).pipe(map(res => res))
         .subscribe(data => {
           if(data.status === 200){
             this.setCurrentUser(data.data);
+            this.loading.hide();
+            if(this.redirectUrl) {
+              this.router.navigate([this.redirectUrl]);
+            }
+          }
+          else{
+            this.purgeUser();
+            this.loading.hide();
           }
         });
     } else {
@@ -57,6 +73,12 @@ export class UserService {
     this.currentUserSubject.next({} as User);
     // Set auth status to false
     this.isAuthenticatedSubject.next(false);
+    //navigate to login
+    if (this.redirectUrl) {
+      this.router.navigate(['login'], {
+        queryParams: {returnUrl: this.redirectUrl}
+      });
+    }
   }
 
   // // Update the user on the server (email, pass, etc)
@@ -70,16 +92,6 @@ export class UserService {
   //     }));
   // }
 
-  getUser(id: string) : Observable<User>{
-    return this.apiService.get(API.GET_USER + id)
-      .pipe(map(res => res.data));
-  }
-
-  deleteUser(id: string): Observable<string>{
-    return this.apiService.delete(API.GET_USER + id)
-      .pipe(map(res => res.data));
-  }
-
   isAdmin(): boolean {
       return this.currentUserSubject.value.role <= AppConfig.ROLE_ADMIN;
   }
@@ -90,5 +102,30 @@ export class UserService {
 
   isUser(): boolean {
     return this.currentUserSubject.value.role <= AppConfig.ROLE_USER;
+  }
+
+  getUser(id: string) : Observable<User>{
+    return this.apiService.get(API.GET_USER + id)
+      .pipe(map(res => res.data));
+  }
+
+  deleteUser(id: string): Observable<string>{
+    return this.apiService.delete(API.GET_USER + id)
+      .pipe(map(res => res.data));
+  }
+
+  getUserDetailById(id: string): Observable<User>{
+    return this.apiService.get(API.USER_DETAIL + "/" +id)
+      .pipe(map(res => res.data));
+  }
+
+  getListUser(pagingModel: Object): Observable<any>{
+    return this.apiService.post(API.LIST_USER, pagingModel)
+      .pipe(map(res => res.data));
+  }
+
+  grantAccess(id: string): Observable<number>{
+    return this.apiService.get(API.GRANT_USER_ACCESS + id)
+      .pipe(map(res => res.data));
   }
 }

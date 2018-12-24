@@ -123,4 +123,37 @@ export class TagService {
       }));
   }
 
+  getListTagPaging(pagingRequest: Object): Observable<any>{
+    return this.apiService.post(API.LIST_TAG_DETAIL, pagingRequest)
+      .pipe(map(res => {
+        if(res.status === 200){
+          return res.data;
+        }
+        this.toastrService.showErrorToastr("api.status." + res.status);
+        return null;
+      }));
+  }
+
+  deleteTag(tagId: string): Observable<any>{
+    return this.apiService.delete(API.TAG_INFORMATION + tagId)
+      .pipe(map(res => {
+        if(res.status === 200){
+          return res.data;
+        }
+        this.toastrService.showErrorToastr("api.status." + res.status);
+        return null;
+      }));
+  }
+
+  updateTag(tag: Object): Observable<any>{
+    return this.apiService.put(API.TAG_URL, tag)
+      .pipe(map(res => {
+        if(res.status === 200){
+          return res.data;
+        }
+        this.toastrService.showErrorToastr("api.status." + res.status);
+        return null;
+      }));
+  }
+
 }

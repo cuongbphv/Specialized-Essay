@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit {
             }
           };
 
-          this.router.navigate(["get-started"],navigationExtras);
+          this.router.navigate(["register"],navigationExtras);
         }
         else {
           this.authBaseService.socialLogin(socialUser.email, socialUser.token, socialUser.provider, this.url);

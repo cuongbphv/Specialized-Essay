@@ -29,6 +29,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.jws.soap.SOAPBinding;
 import javax.servlet.http.HttpServletRequest;
@@ -119,6 +120,51 @@ public class UserController extends AbstractBasedAPI {
 
     }
 
+
+    @RequestMapping(value = Constant.USER_DETAIL + Constant.WITHIN_ID, method = RequestMethod.GET)
+    public ResponseEntity<RestAPIResponse> getDetailUserById(
+            HttpServletRequest request,
+            @PathVariable("id") String userId
+    ) {
+        AuthUser authUser = getAuthUserFromSession(request);
+        validatePermission(authUser,Constant.SystemRole.SYS_ADMIN.getId());
+
+        User user = userService.getUserByUserId(userId);
+        if (user == null) {
+            throw new ApplicationException(APIStatus.ERR_USER_NOT_FOUND);
+        }
+
+        Profile profile = profileService.getProfileByUserId(user.getUserId());
+
+        if(profile == null){
+            throw new ApplicationException(APIStatus.ERR_PROFILE_NOT_FOUND);
+        }
+
+        UserResponse response = new UserResponse();
+
+        response.setUserId(user.getUserId());
+        response.setUserName(user.getUserName());
+        response.setEmail(user.getEmail());
+        response.setPhone(user.getPhone());
+        response.setCreateDate(user.getCreateDate());
+        response.setLastActivity(user.getLastActivity());
+        response.setLang(user.getLang());
+        response.setSetting(user.getSetting());
+        response.setRole(user.getRole());
+
+        response.setFirstName(profile.getFirstName());
+        response.setLastName(profile.getLastName());
+        response.setAvatar(profile.getAvatar());
+        response.setDescription(profile.getDescription());
+        response.setWebsiteLink(profile.getWebsiteLink());
+        response.setGithubLink(profile.getGithubLink());
+        response.setPosition(profile.getPosition());
+        response.setCompany(profile.getCompany());
+
+        return responseUtil.successResponse(response);
+
+    }
+
 //    @RequestMapping(value = Constant.USER_LIST, method = RequestMethod.POST)
 //    public ResponseEntity<RestAPIResponse> getUserListByAdmin(
 //            HttpServletRequest request,
@@ -190,15 +236,17 @@ public class UserController extends AbstractBasedAPI {
 
     @RequestMapping(path = Constant.USER_REGISTER,
             method = RequestMethod.POST)
-//            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<RestAPIResponse> createUser(
-//            @RequestPart("avatar") MultipartFile avatar,
-//            @RequestPart("userInfo") String userName
-            @RequestBody UserRequest userRequest
+            @RequestPart(value = "avatarImg", required = false) MultipartFile avatar,
+            @RequestPart("userRequest") UserRequest userRequest
             ) throws NoSuchAlgorithmException {
 
 
         validateParam(userRequest);
+
+        if(avatar != null){
+            userRequest.setAvatar(avatar);
+        }
 
         //check exist user
         if (userService.findByEmailAndStatus(userRequest.getEmail(), Constant.Status.ACTIVE.getValue()) != null) {
@@ -267,11 +315,22 @@ public class UserController extends AbstractBasedAPI {
             profile.setLastName(userRequest.getLastName());
 
             if(userRequest.getAvatar() != null){
-                String url = fileUploadService.uploadFile(userRequest.getAvatar(),
-                        "usr_avt_"+user.getUserId());
-                profile.setAvatar(url);
+
+                String fileName = "user_avatar_" + user.getUserId() +
+                        CommonUtil.getFileExtension(userRequest.getAvatar());
+
+                String url = fileUploadService.uploadFile(userRequest.getAvatar(), fileName);
+
+                String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                        .path("/files/")
+                        .path(fileName)
+                        .toUriString();
+
+                profile.setAvatar(fileDownloadUri);
             }
-//            profile.setAvatar(userRequest.getAvatar());
+            else if(userRequest.getAvatarUrl() != null){
+                profile.setAvatar(userRequest.getAvatarUrl());
+            }
 
             if(userRequest.getDescription() != null) {
                 profile.setDescription(userRequest.getDescription());
@@ -328,6 +387,32 @@ public class UserController extends AbstractBasedAPI {
         return responseUtil.successResponse("Deleted");
     }
 
+
+    /**
+     * Disable user
+     * @param request
+     * @param userId
+     * @return
+     */
+    @RequestMapping(path = Constant.USER_GRANT_ACCESS + Constant.WITHIN_ID, method = RequestMethod.GET)
+    public ResponseEntity<RestAPIResponse> grantAccess(
+            HttpServletRequest request,
+            @PathVariable("id") String userId) {
+
+        AuthUser authUser = getAuthUserFromSession(request);
+        validatePermission(authUser, Constant.SystemRole.SYS_ADMIN.getId());
+
+        User user = userService.getActiveUserByUserId(userId);
+
+        if(user == null){
+            throw new ApplicationException(APIStatus.ERR_USER_NOT_FOUND);
+        }
+
+        user.setRole(Constant.SystemRole.MODERATOR.getId());
+        userService.saveUser(user);
+
+        return responseUtil.successResponse(Constant.SystemRole.MODERATOR.getId());
+    }
 
     /**
      * Admin get list User

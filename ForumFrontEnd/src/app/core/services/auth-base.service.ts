@@ -28,30 +28,55 @@ export class AuthBaseService {
 
   register(user: any): Observable<any> {
 
-    return this.apiService.post(API.REGISTER_USER, {
-      firstName: user.firstName,
-      lastName: user.lastName,
-      userName: user.userName,
-      email: user.emailAddress,
-      passwordHash: this.security.MD5Hash(user.password),
-      userId: user.userId || null,
-      phone: user.phone || null,
-      lang: user.lang || null,
-      description: user.description || null,
-      setting: user.setting || null
-    }).pipe(map(res => res));
-  }
+   // if (user.imgFile) {
 
-  // isLoggedIn(): boolean {
-  //   this.userService.isAuthenticated.subscribe(isAuthen =>{
-  //       return isAuthen;
-  //   });
-  // }
+      console.log("WTF cac");
+
+      let userRequest = {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        userName: user.userName,
+        email: user.emailAddress,
+        passwordHash: this.security.MD5Hash(user.password),
+        userId: user.userId || null,
+        phone: user.phone || null,
+        avatarUrl: user.image || null,
+        lang: user.lang || null,
+        description: user.description || null,
+        setting: user.setting || null
+      };
+
+      const formdata: FormData = new FormData();
+
+      formdata.append('avatarImg', user.imgFile);
+      formdata.append('userRequest', new Blob([JSON.stringify(userRequest)],
+        {type: 'application/json'}));
+
+      return this.apiService.formData(API.REGISTER_USER, formdata)
+        .pipe(map(res => res));
+   // }
+   //  else{
+   //
+   //    return this.apiService.post(API.REGISTER_USER, {
+   //      firstName: user.firstName,
+   //      lastName: user.lastName,
+   //      userName: user.userName,
+   //      email: user.emailAddress,
+   //      passwordHash: this.security.MD5Hash(user.password),
+   //      userId: user.userId || null,
+   //      phone: user.phone || null,
+   //      avatarUrl: user.image || null,
+   //      lang: user.lang || null,
+   //      description: user.description || null,
+   //      setting: user.setting || null
+   //    }).pipe(map(res => res));
+
+  //  }
+  }
 
   logout() {
     this.userService.purgeUser();
     this.sessionService.destroyAccessToken();
-    this.router.navigate(["login"]);
   }
 
   socialLogin(username: string, token: string, provider: string, url:string){
@@ -102,5 +127,16 @@ export class AuthBaseService {
 
     return this.apiService.get(API.AUTH_USER_EMAIL, params)
       .pipe(map(res => res));
+  }
+
+  test(avatar: File){
+
+    const formdata: FormData = new FormData();
+    formdata.append('avatar', avatar);
+    formdata.append('content', "Content value");
+
+    this.apiService.formData("/admin/test", formdata)
+      .pipe(map(res=>res.data))
+      .subscribe(data => console.log("hihi", data));
   }
 }
