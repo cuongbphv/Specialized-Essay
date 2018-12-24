@@ -85,6 +85,7 @@ public interface Constant {
     // Comment management
     String COMMENT_CONTROLLER = API_PREFIX + "/comment";
     String LIST_COMMENT_IN_ARTICLE = "/list";
+    String COMMENT_INTERACT = "/interact";
 
     // Request Content Type
     public static final String APPLICATION_JSON_CONTENT_TYPE = "application/json";
@@ -133,7 +134,7 @@ public interface Constant {
     int SORT_BY_USERNAME = 4;
     int SORT_BY_ROLE = 5;
 
-    public enum Status{
+    enum Status{
 
         DELETE("DELETE",0),
         ACTIVE("ACTIVE", 1),
@@ -144,6 +145,28 @@ public interface Constant {
         private final int value;
 
         private Status(String name, int value){
+            this.name = name;
+            this.value = value;
+        }
+
+        public String getName(){
+            return  this.name;
+        }
+
+        public int getValue(){
+            return this.value;
+        }
+    }
+
+    enum CommentInteractStatus{
+
+        HEART("HEART", 1),
+        UNHEART("UNHEART",0);
+
+        private final String name;
+        private final int value;
+
+        CommentInteractStatus(String name, int value){
             this.name = name;
             this.value = value;
         }

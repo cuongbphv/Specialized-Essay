@@ -74,4 +74,9 @@ public class ArticleServiceImpl extends AbstractBaseService implements ArticleSe
                 pagingRequest.getSearchKey(), pagingRequest.getType(),
                 new PageRequest(pagingRequest.getPageNumber() -1, pagingRequest.getPageSize()));
     }
+
+    @Override
+    public Article findByRightAnswerId(String rightAnswerId) {
+        return articleRepository.findByRightAnswerId(rightAnswerId);
+    }
 }

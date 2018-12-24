@@ -75,4 +75,30 @@ export class CommentService {
     ));
   }
 
+  interactToComment(commentId: string, userId: string, rating: number): Observable<any> {
+    return this.apiService.post(API.COMMENT_INTERACT, {
+      commentId: commentId,
+      userId: userId,
+      rating: rating
+    }).pipe(map(
+      res => {
+        if(res.status === 200){
+          return res.data;
+        }
+        return null;
+      }
+    ));
+  }
+
+  getListInteract(commentId: string): Observable<any> {
+    return this.apiService.get(API.COMMENT_INTERACT + "?comment_id=" + commentId).pipe(map(
+      res => {
+        if(res.status === 200){
+          return res.data;
+        }
+        return null;
+      }
+    ));
+  }
+
 }

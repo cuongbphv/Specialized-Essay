@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 
-import {ArticleService, TranslateService, UserService} from '../../../../core/services/index';
+import {ArticleService, TranslateService, UserService} from '../../../../core/services';
 import * as $ from 'jquery';
 import {ActivatedRoute, Router} from '@angular/router';
-import {User} from '../../../../core/models/index';
+import {User} from '../../../../core/models';
+import {Title} from '@angular/platform-browser';
 
 @Component({
   selector: 'edit-post',
@@ -25,12 +26,14 @@ export class EditPostComponent implements OnInit {
   };
 
   constructor(
-    public translate: TranslateService,
+    public translateService: TranslateService,
     public articleService: ArticleService,
     private userService: UserService,
     public router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private titleService: Title
   ) {
+    this.titleService.setTitle(this.translateService.translateLanguage('main.update_post'));
   }
 
   ngOnInit() {

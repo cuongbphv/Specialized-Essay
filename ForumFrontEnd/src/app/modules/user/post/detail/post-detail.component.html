@@ -269,7 +269,8 @@
                      role="button" data-toggle="modal" data-target="#modal-report-comment"
                      (click)="passData(comment.commentId, comment.userId);"></i>
                   <i class="fa fa-reply" (click)="addCommentBox(parentIndex, comment.commentId)"></i>
-                  <i class="fa fa-heart"></i>
+                  <i class="fa fa-heart" [ngClass]="{'text-red' : comment.myInteract === true}"
+                     (click)="interactToComment(comment.commentId, comment.myInteract)"></i>
                   <i *ngIf="(article.type === 2 && article.rightAnswerId === null)" class="fa fa-check"
                      (click)="markAsResolved(comment.commentId)"></i>
                   <i *ngIf="(article.type === 2 && article.rightAnswerId === comment.commentId)"
@@ -308,7 +309,8 @@
                     <i class="fa fa-exclamation-circle"
                        role="button" data-toggle="modal" data-target="#modal-report-comment"
                        (click)="passData(childComment.commentId, childComment.userId);"></i>
-                    <i class="fa fa-heart"></i>
+                    <i class="fa fa-heart" [ngClass]="{'text-red' : childComment.myInteract === true}"
+                       (click)="interactToComment(childComment.commentId, childComment.myInteract)"></i>
                     <i *ngIf="(article.type === 2 && article.rightAnswerId === null)" class="fa fa-check"
                        (click)="markAsResolved(childComment.commentId)"></i>
                     <i *ngIf="(article.type === 2 && article.rightAnswerId === childComment.commentId)"

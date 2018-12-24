@@ -1,13 +1,19 @@
 package com.tlcn.programingforum.api.controller;
 
 import com.tlcn.programingforum.api.AbstractBasedAPI;
+import com.tlcn.programingforum.api.model.request.CommentInteractRequest;
 import com.tlcn.programingforum.api.model.request.CommentRequest;
 import com.tlcn.programingforum.api.model.request.PagingRequestModel;
 import com.tlcn.programingforum.api.model.response.CommentResponse;
 import com.tlcn.programingforum.api.response.APIStatus;
 import com.tlcn.programingforum.exception.ApplicationException;
 import com.tlcn.programingforum.model.RestAPIResponse;
+import com.tlcn.programingforum.model.entity.Article;
 import com.tlcn.programingforum.model.entity.Comment;
+import com.tlcn.programingforum.model.entity.CommentInteract;
+import com.tlcn.programingforum.model.entity.key.CommentUserPK;
+import com.tlcn.programingforum.service.ArticleService;
+import com.tlcn.programingforum.service.CommentInteractService;
 import com.tlcn.programingforum.service.CommentService;
 import com.tlcn.programingforum.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +35,12 @@ public class CommentController extends AbstractBasedAPI {
 
     @Autowired
     CommentService commentService;
+
+    @Autowired
+    ArticleService articleService;
+
+    @Autowired
+    CommentInteractService commentInteractService;
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<RestAPIResponse> addComment(
@@ -117,6 +129,13 @@ public class CommentController extends AbstractBasedAPI {
         Comment comment = commentService.findByCommentIdAndStatus(
                 commentId, Constant.Status.ACTIVE.getValue());
 
+        // delete right answer id
+        Article article = articleService.findByRightAnswerId(commentId);
+        if(article != null) {
+            article.setRightAnswerId(null);
+            articleService.saveArticle(article);
+        }
+
         if(comment == null) {
             throw new ApplicationException(APIStatus.ERR_COMMENT_NOT_FOUND);
         }
@@ -128,11 +147,63 @@ public class CommentController extends AbstractBasedAPI {
                 comment.getCommentId(), Constant.Status.ACTIVE.getValue());
 
         for(Comment childComment : childComments) {
+            // delete right answer id
+            Article articleWithChildComment = articleService.findByRightAnswerId(childComment.getCommentId());
+            if(articleWithChildComment != null) {
+                articleWithChildComment.setRightAnswerId(null);
+                articleService.saveArticle(articleWithChildComment);
+            }
             childComment.setStatus(Constant.Status.DELETE.getValue());
             commentService.saveComment(childComment);
         }
 
         return responseUtil.successResponse("Delete successfully");
+    }
+
+    @RequestMapping(path = Constant.COMMENT_INTERACT, method = RequestMethod.POST)
+    public ResponseEntity<RestAPIResponse> interactToComment(
+            HttpServletRequest request,
+            @RequestBody CommentInteractRequest commentRequest
+    ) {
+
+        if(commentRequest == null) {
+            throw new ApplicationException(APIStatus.ERR_BAD_REQUEST);
+        }
+
+        if(commentRequest.getRating() == Constant.CommentInteractStatus.HEART.getValue()) {
+            CommentInteract heart = new CommentInteract();
+            heart.setId(new CommentUserPK(commentRequest.getCommentId(), commentRequest.getUserId()));
+            heart.setCreateDate(new Date());
+            heart.setRating(Constant.CommentInteractStatus.HEART.getValue());
+            commentInteractService.saveInteract(heart);
+            return responseUtil.successResponse(heart);
+        }
+        else if (commentRequest.getRating() == Constant.CommentInteractStatus.UNHEART.getValue()) {
+            CommentInteract comInteract = commentInteractService.findByCommentIdAndUserId(
+                    commentRequest.getCommentId(), commentRequest.getUserId());
+
+            if(comInteract != null) {
+                commentInteractService.removeHeartToComment(comInteract);
+
+                return responseUtil.successResponse("Unheart Successfully");
+            }
+
+        }
+
+        throw new ApplicationException(APIStatus.ERR_COMMENT_NOT_FOUND);
+    }
+
+
+    @RequestMapping(path = Constant.COMMENT_INTERACT, method = RequestMethod.GET)
+    public ResponseEntity<RestAPIResponse> getListInteractComment(
+            HttpServletRequest request,
+            @RequestParam("comment_id") String commentId
+    ) {
+
+        List<CommentInteract> listInteract = commentInteractService.listCommentInteract(commentId);
+
+        return responseUtil.successResponse(listInteract);
+
     }
 
 }

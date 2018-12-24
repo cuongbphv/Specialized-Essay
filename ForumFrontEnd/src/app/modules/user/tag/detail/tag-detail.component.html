@@ -111,7 +111,7 @@
 
               <div class="post-left">
                 <div class="post-author">
-                  <span class="post-author-name" style="float: left;">
+                  <span class="post-author-name" [ngClass]="{'float-left' : follower.userId === currentUser.userId}">
                     <b><a href="javascript:void(0)" [routerLink]="['/profile/' + follower.userId]">
                       {{follower.firstName}} {{follower.lastName}}
                     </a></b>
@@ -185,7 +185,7 @@
                 <span class="stats-item text-muted">
                         <i aria-hidden="true" class="fa fa-question-circle"></i>&nbsp;{{tagInfo[5]}}</span>
                 <span class="stats-item text-muted">
-                        <i aria-hidden="true" class="fa fa-star"></i>&nbsp;{{collectionSize}}</span>
+                        <i aria-hidden="true" class="fa fa-star"></i>&nbsp;{{numberOfFollower}}</span>
               </div>
             </div>
           </div>

@@ -51,6 +51,7 @@ export const API = {
   // Comment Management
   CRUD_COMMENT: BaseURL.COMMENT_API,
   LIST_COMMENT_IN_ARTICLE: BaseURL.COMMENT_API + "/list",
+  COMMENT_INTERACT: BaseURL.COMMENT_API +"/interact",
 
   // Report Article Management
   REPORT_ARTICLE: BaseURL.REPORT_ARTICLE_API,

@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Location} from '@angular/common';
+import {Title} from "@angular/platform-browser";
 
 import {
   ArticleInteractService,
@@ -71,28 +72,14 @@ export class PostDetailComponent implements OnInit {
     private commentService: CommentService,
     private _location: Location,
     private router: Router,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private titleService: Title
   ) {
   }
 
   ngOnInit(): void {
 
     this.spinner.show();
-
-    // $(document).ready(function () {
-    //   window.addEventListener("scroll", function (event) {
-    //
-    //     var limit = Math.max( document.body.scrollHeight, document.body.offsetHeight,
-    //       document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight );
-    //
-    //     if(this.scrollY > limit - $('#sidebar').height()) {
-    //
-    //     }
-    //
-    //     console.log(document.documentElement.scrollHeight);
-    //
-    //   });
-    // });
 
     // init commnet
     this.newComment = new class implements Comment {
@@ -121,6 +108,9 @@ export class PostDetailComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.articleService.getDetailPost(params['id']).subscribe(
         data => {
+
+          // set title for post
+          this.titleService.setTitle(data.title);
 
           // Content data
           data.content = this.preRenderMarkdown(data.content);
@@ -237,27 +227,6 @@ export class PostDetailComponent implements OnInit {
       smartypants: false
     }).replace(/<img/g, '<img style="max-width:100%"');
   }
-
-  // tocToTree(toc) {
-  //   let headlines = [];
-  //
-  //   let last = {};
-  //
-  //   for (let headline in toc) {
-  //     let level = headline.level;
-  //     // or = 1
-  //     if (last[level - 1]) {
-  //       last[level - 1].children;
-  //       // or = []
-  //       last[level - 1].children.push(headline);
-  //     } else {
-  //       headlines.push(headline);
-  //       last[level] = headline;
-  //     }
-  //   }
-  //
-  //   return headlines;
-  // }
 
   countViewOfArticle() {
     let self = this;
@@ -437,6 +406,18 @@ export class PostDetailComponent implements OnInit {
             this.commentCount++;
             comments[i].commentBox = [];
 
+            // get list interact to comment
+            this.commentService.getListInteract(comments[i].commentId).subscribe(
+              data => {
+                comments[i].listInteract = data;
+                if(comments[i].listInteract.find(obj => obj.id.userId === this.currentUser.userId)) {
+                  comments[i].myInteract = true;
+                }
+                else {
+                  comments[i].myInteract = false;
+                }
+              });
+
             // get profile
             this.userService.getUser(comments[i].userId).subscribe(
               author => {
@@ -465,6 +446,18 @@ export class PostDetailComponent implements OnInit {
             if(comments[i].childComments !== null) {
               for(let j = 0; j < comments[i].childComments.length; j++) {
                 this.commentCount++;
+
+                // get list interact to comment
+                this.commentService.getListInteract(comments[i].childComments[j].commentId).subscribe(
+                  data => {
+                    comments[i].childComments[j].listInteract = data;
+                    if(comments[i].childComments[j].listInteract.find(obj => obj.id.userId === this.currentUser.userId)) {
+                      comments[i].childComments[j].myInteract = true;
+                    }
+                    else {
+                      comments[i].childComments[j].myInteract = false;
+                    }
+                  });
 
                 // get profile
                 this.userService.getUser(comments[i].childComments[j].userId).subscribe(
@@ -497,9 +490,24 @@ export class PostDetailComponent implements OnInit {
 
           this.listComments = comments;
 
+          console.log(this.listComments);
+
         }
       }
     );
+  }
+
+  interactToComment(commentId: string, interactStatus: boolean) {
+    let heart = 0;
+    if(!interactStatus) {
+      heart = 1;
+    }
+    this.commentService.interactToComment(commentId, this.currentUser.userId, heart).subscribe(
+      data => {
+          console.log(data);
+          this.getCommentsInArticle(this.article.articleId,this.pageNumber,this.pageSize);
+      }
+    )
   }
 
   markAsResolved(rightAnswerId: string){

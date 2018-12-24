@@ -35,4 +35,10 @@ export class TranslateService {
       );
     });
   }
+
+  translateLanguage(key) {
+    return key.split('.').reduce((prev, current) => {
+      return prev[current];
+    }, this.data);
+  }
 }
