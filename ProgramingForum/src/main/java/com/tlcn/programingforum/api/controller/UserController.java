@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -58,6 +59,10 @@ public class UserController extends AbstractBasedAPI {
 
     @Autowired
     FileUploadService fileUploadService;
+
+    @Autowired
+    private SimpMessagingTemplate webSocket;
+
 
     @RequestMapping(value = Constant.WITHIN_ID, method = RequestMethod.GET)
     public ResponseEntity<RestAPIResponse> getDetailUserByAdmin(

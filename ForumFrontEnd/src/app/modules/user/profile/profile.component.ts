@@ -29,12 +29,15 @@ export class ProfileComponent implements OnInit{
     avatar: '',
     company: '',
     position: '',
+    avatarImg: null,
     description: '',
     githubLink: '',
     websiteLink: '',
   };
 
   userId : string;
+
+  imgUrl: string = null;
 
   profileMode: number = 1; // 1 info, 2 update
 
@@ -71,6 +74,7 @@ export class ProfileComponent implements OnInit{
     this.profileService.get(this.userId)
       .subscribe(userProfile => {
         this.currentProfile = userProfile;
+        this.imgUrl = userProfile.avatar;
       });
 
     this.userService.currentUser.subscribe(
@@ -106,6 +110,21 @@ export class ProfileComponent implements OnInit{
         this.profileMode = 1;
       })
 
+  }
+
+  readUrl(event:any) {
+    if (event.target.files && event.target.files.item(0)) {
+
+      this.currentProfile.avatarImg = event.target.files.item(0);
+
+      let reader = new FileReader();
+
+      reader.onload = (event: ProgressEvent) => {
+        this.imgUrl = (<FileReader>event.target).result;
+      };
+
+      reader.readAsDataURL(event.target.files[0]);
+    }
   }
 
 }

@@ -26,7 +26,28 @@ export class ProfilesService {
   }
 
   update(profile: Profile): Observable<Profile>{
-    return this.apiService.put(API.UPDATE_PROFILE, profile)
+
+
+    let profileRequest = {
+      userId: profile.userId,
+      userProfileId: profile.userProfileId,
+      lastName: profile.lastName,
+      firstName: profile.firstName,
+      avatar: profile.avatar,
+      company: profile.company,
+      position: profile.position,
+      description: profile.description,
+      githubLink: profile.githubLink,
+      websiteLink: profile.websiteLink
+    };
+
+    const formdata: FormData = new FormData();
+
+    formdata.append('avatarImg', profile.avatarImg);
+    formdata.append('profileRequest', new Blob([JSON.stringify(profileRequest)],
+      {type: 'application/json'}));
+
+    return this.apiService.putFormData(API.UPDATE_PROFILE, formdata)
       .pipe(map(res => {
 
         if(res.status === 200){
@@ -34,6 +55,15 @@ export class ProfilesService {
         }
         return null;
       }));
+
+    // return this.apiService.put(API.UPDATE_PROFILE, profile)
+    //   .pipe(map(res => {
+    //
+    //     if(res.status === 200){
+    //       return res.data;
+    //     }
+    //     return null;
+    //   }));
   }
 
   follow(username: string): Observable<Profile> {

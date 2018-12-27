@@ -28,10 +28,6 @@ export class AuthBaseService {
 
   register(user: any): Observable<any> {
 
-   // if (user.imgFile) {
-
-      console.log("WTF cac");
-
       let userRequest = {
         firstName: user.firstName,
         lastName: user.lastName,

@@ -9,12 +9,16 @@ import com.tlcn.programingforum.exception.ApplicationException;
 import com.tlcn.programingforum.model.RestAPIResponse;
 import com.tlcn.programingforum.model.entity.Profile;
 import com.tlcn.programingforum.model.entity.User;
+import com.tlcn.programingforum.service.FileUploadService;
 import com.tlcn.programingforum.service.ProfileService;
 import com.tlcn.programingforum.service.UserService;
+import com.tlcn.programingforum.util.CommonUtil;
 import com.tlcn.programingforum.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.NoSuchAlgorithmException;
@@ -32,6 +36,9 @@ public class ProfileController extends AbstractBasedAPI {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    FileUploadService fileUploadService;
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<RestAPIResponse> createUserProfile(
@@ -68,7 +75,8 @@ public class ProfileController extends AbstractBasedAPI {
     @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity<RestAPIResponse> updateUserProfile(
             HttpServletRequest request,
-            @RequestBody ProfileRequest profileRequest
+            @RequestPart(value = "avatarImg",required = false) MultipartFile avatarImg,
+            @RequestPart(value="profileRequest") ProfileRequest profileRequest
     ) {
 
         AuthUser authUser = getAuthUserFromSession(request);
@@ -90,6 +98,24 @@ public class ProfileController extends AbstractBasedAPI {
             profile.setPosition(profileRequest.getPosition());
             profile.setCompany(profileRequest.getCompany());
             profile.setAvatar(profile.getAvatar());
+
+            if(avatarImg != null){
+
+                String fileName = "user_avatar_" + profileRequest.getUserId() +
+                        CommonUtil.getFileExtension(avatarImg);
+
+                String url = fileUploadService.uploadFile(avatarImg, fileName);
+
+                String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                        .path("/files/")
+                        .path(fileName)
+                        .toUriString();
+
+                profile.setAvatar(fileDownloadUri);
+            }
+            else if(profileRequest.getAvatar() != null){
+                profile.setAvatar(profileRequest.getAvatar());
+            }
 
             profileService.saveProfile(profile);
 

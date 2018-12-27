@@ -50,4 +50,12 @@ export class ApiService {
       formData
     ).pipe(catchError(this.formatErrors));
   }
+
+  putFormData(path: string, formData: FormData): Observable<any> {
+    return this.http.put(
+      `${environment.api_url}${path}`,
+      formData
+    ).pipe(catchError(this.formatErrors));
+  }
+
 }

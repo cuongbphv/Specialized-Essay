@@ -17,6 +17,10 @@ export class CustomToastrService implements OnInit{
   ngOnInit(): void {
   }
 
+  showSuccess(message: string ,key: string) {
+    this.toastService.success(message, key);
+  }
+
   showSuccessToastr(key: string) {
     this.toastService.success('', this.translateContentToastr(key));
   }

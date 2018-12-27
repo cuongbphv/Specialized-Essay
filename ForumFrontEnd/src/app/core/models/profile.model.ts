@@ -4,6 +4,7 @@ export interface Profile {
   lastName: string;
   firstName: string;
   avatar: string;
+  avatarImg: File;
   company: string;
   position: string;
   description: string;

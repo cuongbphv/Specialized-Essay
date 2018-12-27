@@ -6,15 +6,19 @@ import com.tlcn.programingforum.api.model.request.CommentRequest;
 import com.tlcn.programingforum.api.model.request.PagingRequestModel;
 import com.tlcn.programingforum.api.model.response.CommentResponse;
 import com.tlcn.programingforum.api.response.APIStatus;
+import com.tlcn.programingforum.auth.AuthUser;
 import com.tlcn.programingforum.exception.ApplicationException;
 import com.tlcn.programingforum.model.RestAPIResponse;
 import com.tlcn.programingforum.model.entity.Article;
 import com.tlcn.programingforum.model.entity.Comment;
 import com.tlcn.programingforum.model.entity.CommentInteract;
+import com.tlcn.programingforum.model.entity.Notification;
 import com.tlcn.programingforum.model.entity.key.CommentUserPK;
+import com.tlcn.programingforum.model.entity.key.NotificationPK;
 import com.tlcn.programingforum.service.ArticleService;
 import com.tlcn.programingforum.service.CommentInteractService;
 import com.tlcn.programingforum.service.CommentService;
+import com.tlcn.programingforum.service.NotificationService;
 import com.tlcn.programingforum.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -42,11 +46,16 @@ public class CommentController extends AbstractBasedAPI {
     @Autowired
     CommentInteractService commentInteractService;
 
+    @Autowired
+    NotificationService notificationService;
+
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<RestAPIResponse> addComment(
             HttpServletRequest request,
             @RequestBody CommentRequest commentRequest
             ) {
+
+        AuthUser currentUser = getAuthUserFromSession(request);
 
         if (commentRequest == null) {
             throw new ApplicationException(APIStatus.ERR_BAD_REQUEST);
@@ -62,7 +71,31 @@ public class CommentController extends AbstractBasedAPI {
         comment.setCreateDate(new Date());
         comment.setStatus(Constant.Status.ACTIVE.getValue());
 
-        return responseUtil.successResponse(commentService.saveComment(comment));
+        Comment savedComment = commentService.saveComment(comment);
+        if(savedComment!= null){
+            List<Comment> commentList = commentService.getListComment(comment.getArticleId(),
+                    Constant.Status.ACTIVE.getValue());
+
+            for(Comment cmt : commentList){
+                //Not send notification to current user
+                if(!cmt.getUserId().equals(currentUser.getId())){
+
+                    Notification notification = new Notification();
+                    NotificationPK id = new NotificationPK();
+                    id.setFromUserId(currentUser.getId());
+                    id.setToUserId(cmt.getUserId());
+                    notification.setNotificationPK(id);
+                    notification.setCreateDate(new Date());
+                    notification.setStatus(Constant.Status.ACTIVE.getValue());
+                    notification.setType(1); // 1 Comment
+                    notification.setData(cmt.getArticleId());
+
+                    notificationService.save(notification);
+                }
+            }
+        }
+
+        return responseUtil.successResponse(savedComment);
     }
 
     @RequestMapping(path = Constant.LIST_COMMENT_IN_ARTICLE, method = RequestMethod.POST)

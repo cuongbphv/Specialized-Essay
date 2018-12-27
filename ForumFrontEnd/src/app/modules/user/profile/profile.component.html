@@ -8,7 +8,7 @@
 
           </div>
           <div class="avatar" style="margin-top: 1rem">
-            <img alt="" src="{{currentProfile.avatar?currentProfile.avatar:'http://localhost:8080/files/default-avatar.png'}}">
+            <img alt="" src="{{imgUrl?imgUrl:'http://localhost:8080/files/default-avatar.png'}}">
           </div>
           <div class="info">
             <div class="title">
@@ -39,7 +39,7 @@
       <div class="col-lg-4 col-xs-12">
         <div class="follow">
           <div class="btn-follow">
-            <button class="btn-follow btn-primary" (click)="hihi()">Follow <i class="fa fa-rss"></i></button>
+            <button class="btn-follow btn-primary">Follow <i class="fa fa-rss"></i></button>
           </div>
           <div class="follower">
             <p>1708 users follow Script Eden:</p>
@@ -124,25 +124,25 @@
           <div class="col-md-4">
             <div class="profile-img">
               <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog"
-                alt=""/>
-              <div class="file btn btn-primary">
+                src="{{imgUrl?imgUrl:'http://localhost:8080/files/default-avatar.png'}}"
+                alt="avatar"/>
+              <div class="file btn btn-primary" (click)="file.click()">
                 {{this.translate.data.button.change | translate}}
-                <input type="file" name="file"/>
+                <input type="file" accept="image/*" #file [hidden]="true" (change)="readUrl($event)">
               </div>
             </div>
 
             <div class="profile-work">
               <p class="text-center">{{this.translate.data.label.link | translate}}</p>
               <div class="form-row">
-                <label class="form-group col-md-3">{{this.translate.data.label.github | translate}}</label>
+                <label style="font-size: 12px; font-weight: 600" class="form-group col-md-3">{{this.translate.data.label.github | translate}}</label>
                 <div class="form-group col-md-9 cross-validation">
                   <input type="text" class="form-control" name="github"
                          [(ngModel)]="currentProfile.githubLink">
                 </div>
               </div>
               <div class="form-row">
-                <label class="form-group col-md-3">{{this.translate.data.label.website | translate}}</label>
+                <label style="font-size: 12px; font-weight: 600" class="form-group col-md-3">{{this.translate.data.label.website | translate}}</label>
                 <div class="form-group col-md-9 cross-validation">
                   <input type="text" class="form-control" name="website"
                          [(ngModel)]="currentProfile.websiteLink">
@@ -159,10 +159,10 @@
                   <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
                      aria-controls="home" aria-selected="true">{{this.translate.data.label.about | translate}}</a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
-                     aria-controls="profile" aria-selected="false">Timeline</a>
-                </li>
+                <!--<li class="nav-item">-->
+                  <!--<a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"-->
+                     <!--aria-controls="profile" aria-selected="false">Timeline</a>-->
+                <!--</li>-->
               </ul>
 
               <div class="tab-content profile-tab" id="myTabContent">
