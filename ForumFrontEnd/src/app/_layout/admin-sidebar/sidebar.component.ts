@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {User} from '../../core/models';
+import {UserService} from '../../core/services';
 
 @Component({
   selector: 'admin-sidebar',
@@ -7,9 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminSidebarComponent implements OnInit {
   public samplePagesCollapsed = true;
-  constructor() { }
+  constructor(
+    private userService:UserService
+  ) { }
+
+  currentUser: User;
 
   ngOnInit() {
+
+    this.userService.currentUser.subscribe(
+      (userData) => {
+        this.currentUser = userData;
+      }
+    );
+
   }
 
 }

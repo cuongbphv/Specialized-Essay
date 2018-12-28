@@ -141,6 +141,7 @@ export class PostDetailComponent implements OnInit {
                     data[i].firstName = profile.firstName;
                     data[i].lastName = profile.lastName;
                     data[i].userProfileId = profile.userProfileId;
+                    data[i].avatar = profile.avatar;
 
                     this.articleService.statByArticle(data[i].articleId).subscribe(
                       stat => {
@@ -343,6 +344,7 @@ export class PostDetailComponent implements OnInit {
         this.author.firstName = author.firstName;
         this.author.lastName = author.lastName;
         this.author.userProfileId = author.userProfileId;
+        this.author.avatar = author.avatar;
       }
     );
   }
@@ -427,7 +429,8 @@ export class PostDetailComponent implements OnInit {
                   userName: "",
                   firstName: "",
                   lastName: "",
-                  userProfileId: ""
+                  userProfileId: "",
+                  avatar: ""
                 };
 
                 obj.userName = author.userName;
@@ -437,6 +440,7 @@ export class PostDetailComponent implements OnInit {
                     obj.firstName = profile.firstName;
                     obj.lastName = profile.lastName;
                     obj.userProfileId = profile.userProfileId;
+                    obj.avatar = profile.avatar;
                     comments[i].userDetail = obj;
                   }
                 );
@@ -468,7 +472,8 @@ export class PostDetailComponent implements OnInit {
                       userName: "",
                       firstName: "",
                       lastName: "",
-                      userProfileId: ""
+                      userProfileId: "",
+                      avatar: ""
                     };
 
                     obj.userName = author.userName;
@@ -478,6 +483,7 @@ export class PostDetailComponent implements OnInit {
                         obj.firstName = profile.firstName;
                         obj.lastName = profile.lastName;
                         obj.userProfileId = profile.userProfileId;
+                        obj.avatar = profile.avatar;
                         comments[i].childComments[j].userDetail = obj;
                       }
                     );

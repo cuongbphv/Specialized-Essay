@@ -18,7 +18,7 @@
             </thead>
             <tbody *ngFor="let user of users">
             <tr [routerLink]="['/admin/user/' + user.userId]">
-              <td class="py-1"><img alt="image" src="assets/images/faces-clipart/pic-1.png"></td>
+              <td class="py-1"><img alt="image" src="{{user.avatar}}"></td>
               <td>{{user.firstName}}</td>
               <td>{{user.lastName}}</td>
               <td>{{user.userName}}</td>

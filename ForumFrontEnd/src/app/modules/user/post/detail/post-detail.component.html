@@ -136,7 +136,7 @@
       <!-- Author -->
       <div class="author-biografia">
         <img class="avatar-author img-fluid rounded"
-             src="https://bootstrapmade.com/wp-content/themefiles/Moderna/400.png">
+             src="{{author.avatar}}">
 
         <div class="author-info">
           <h5><span textContent="label.author"></span>: <a href="javascript:void(0)"
@@ -247,7 +247,7 @@
             <div class="comment-main-level">
 
               <div class="comment-avatar">
-                <img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt="">
+                <img src="{{comment.userDetail?.avatar}}" alt="">
               </div>
 
               <div class="comment-box">
@@ -290,7 +290,7 @@
                   *ngFor="let childComment of comment.childComments; let childIndex = index;">
                 <!-- Avatar -->
                 <div class="comment-avatar">
-                  <img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_2_zps7de12f8b.jpg" alt="">
+                  <img src="{{childComment.userDetail?.avatar}}" alt="">
                 </div>
                 <div class="comment-box">
                   <div class="comment-head">

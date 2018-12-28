@@ -4,10 +4,10 @@
       <div class="nav-link">
         <div class="user-wrapper">
           <div class="profile-image">
-            <img src="assets/images/faces/face1.jpg" alt="profile image">
+            <img src="{{currentUser.avatar}}" alt="profile image">
           </div>
           <div class="text-wrapper">
-            <p class="profile-name">Huy Pham</p>
+            <p class="profile-name">{{currentUser.firstName + ' ' + currentUser.lastName}}</p>
             <div>
               <small class="designation text-muted">Admin</small>
               <span class="status-indicator online"></span>
@@ -35,12 +35,12 @@
           <li class="nav-item">
             <a class="nav-link" routerLink="/admin/post" routerLinkActive="active">List Post</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/dashboard">Unapproved Post</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/dashboard">Reported Post</a>
-          </li>
+          <!--<li class="nav-item">-->
+            <!--<a class="nav-link" routerLink="/dashboard">Unapproved Post</a>-->
+          <!--</li>-->
+          <!--<li class="nav-item">-->
+            <!--<a class="nav-link" routerLink="/dashboard">Reported Post</a>-->
+          <!--</li>-->
         </ul>
       </div>
     </li>
@@ -56,9 +56,9 @@
           <li class="nav-item">
             <a class="nav-link" routerLink="/admin/user" routerLinkActive="active">List User</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/dashboard">Banned User</a>
-          </li>
+          <!--<li class="nav-item">-->
+            <!--<a class="nav-link" routerLink="/dashboard">Banned User</a>-->
+          <!--</li>-->
         </ul>
       </div>
     </li>
@@ -74,17 +74,17 @@
           <li class="nav-item">
             <a class="nav-link" routerLink="/admin/tag" routerLinkActive="active">List Tag</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/dashboard">Unapproved Tag</a>
-          </li>
+          <!--<li class="nav-item">-->
+            <!--<a class="nav-link" routerLink="/dashboard">Unapproved Tag</a>-->
+          <!--</li>-->
         </ul>
       </div>
     </li>
-    <li class="nav-item">
-      <a class="nav-link">
-        <i class="menu-icon mdi mdi-archive"></i>
-        <span class="menu-title">Manage Achievement</span>
-      </a>
-    </li>
+    <!--<li class="nav-item">-->
+      <!--<a class="nav-link">-->
+        <!--<i class="menu-icon mdi mdi-archive"></i>-->
+        <!--<span class="menu-title">Manage Achievement</span>-->
+      <!--</a>-->
+    <!--</li>-->
   </ul>
 </nav>

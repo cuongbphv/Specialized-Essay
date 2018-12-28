@@ -16,7 +16,7 @@ export class ListPostComponent implements OnInit {
     sortCase: 1,
     ascSort: true,
     pageNumber: 1,
-    pageSize: 1
+    pageSize: 10
   };
 
   articles: any = [];

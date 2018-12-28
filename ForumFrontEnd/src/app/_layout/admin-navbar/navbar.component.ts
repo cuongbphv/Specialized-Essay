@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
+import {User} from '../../core/models';
+import {UserService} from '../../core/services';
 
 @Component({
   selector: 'admin-navbar',
@@ -18,10 +20,20 @@ export class AdminNavbarComponent implements OnInit {
       document.querySelector('.sidebar-offcanvas').classList.remove('active');
     }
   }
-  constructor(config: NgbDropdownConfig) {
+  constructor(config: NgbDropdownConfig, private userService: UserService) {
     config.placement = 'bottom-right';
   }
+
+  currentUser: User;
+
   ngOnInit() {
+
+    this.userService.currentUser.subscribe(
+      (userData) => {
+        this.currentUser = userData;
+      }
+    );
+
   }
 
 }

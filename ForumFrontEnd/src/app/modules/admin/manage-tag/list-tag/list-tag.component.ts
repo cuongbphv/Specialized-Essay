@@ -20,7 +20,7 @@ export class ListTagComponent implements OnInit {
     sortCase: 1,
     ascSort: false,
     pageNumber: 1,
-    pageSize: 2
+    pageSize: 10
   };
 
   tags: any = [];
