@@ -79,6 +79,18 @@ export class PostDetailComponent implements OnInit {
 
   ngOnInit(): void {
 
+    $(document).scroll(function() {
+
+      if ($('body').innerWidth() > 800){
+        let y = $(this).scrollTop();
+        if (y < ( $('#article-area').height() - $('#sidebar').height() ) ) {
+          $('#sidebar').fadeIn();
+        } else {
+          $('#sidebar').fadeOut();
+        }
+      }
+    });
+
     this.spinner.show();
 
     // init commnet
@@ -179,18 +191,6 @@ export class PostDetailComponent implements OnInit {
   }
 
   preRenderMarkdown(content: string) {
-    let htmlTag = marked(content, {sanitize: true, tables: true}).split('\n');
-    for (let i = 0; i < htmlTag.length; i++) {
-      if (htmlTag[i].includes('</h1>') || htmlTag[i].includes('</h2>')
-        || htmlTag[i].includes('</h3>') || htmlTag[i].includes('</h4>')
-        || htmlTag[i].includes('</h5>') || htmlTag[i].includes('</h6>')) {
-        this.headingTag.push({
-          id: window.location.href + '#' + htmlTag[i].substring(8, htmlTag[i].indexOf('>') - 1),
-          base: htmlTag[i].substring(htmlTag[i].indexOf('>') + 1, htmlTag[i].lastIndexOf('<'))
-        });
-      }
-    }
-    console.log(this.headingTag);
 
     // setting for highlight code
     // Create your custom renderer.
@@ -204,11 +204,11 @@ export class PostDetailComponent implements OnInit {
       return `<pre><code class="hljs ${language}">${highlighted}</code></pre>`;
     };
 
-    var toc = []; // your table of contents as a list.
+    let self = this;
 
     renderer.heading = function(text, level) {
       var slug = text.toLowerCase().replace(/[^\w]+/g, '-');
-      toc.push({
+      self.headingTag.push({
         level: level,
         slug: slug,
         title: text
@@ -250,9 +250,13 @@ export class PostDetailComponent implements OnInit {
     }
 
     if (type === 'rating') {
-      if(this.listInteracts.find(obj => obj.id.userId === this.currentUser.userId).rating === value) {
-        this.toastrService.showErrorToastr('message.interact.before');
-        return;
+      for(let i = 0; i < this.listInteracts.length; i++) {
+        if(this.listInteracts[i].id.userId === this.currentUser.userId){
+          if(this.listInteracts[i].rating === value) {
+            this.toastrService.showErrorToastr('message.interact.before');
+            return;
+          }
+        }
       }
 
       this.myInteract.rating = value;
@@ -539,4 +543,12 @@ export class PostDetailComponent implements OnInit {
     this.listComments[index].commentBox = [];
   }
 
+  scrollToHeading(slug: string) {
+
+    $('.clickable').click(function () {
+      $('html, body').animate({
+        scrollTop: $('#' + slug).offset().top - 60
+      }, 0);
+    });
+  }
 }

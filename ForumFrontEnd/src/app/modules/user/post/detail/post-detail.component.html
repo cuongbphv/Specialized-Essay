@@ -103,247 +103,252 @@
     <!-- Blog Post Content Column -->
     <div class="col-md-9">
 
-      <!-- Title -->
-      <h2 class="article__title">{{article.title}}
-        <span *ngIf="article.userId === currentUser.userId">
-        <a href="javascript:void(0)" [routerLink]="['/post/edit/' + article.articleId]">
-          <i class="fa fa-pencil"></i>
-        </a>
-      </span>
-      </h2>
-      <hr>
+      <div id="article-area">
 
-      <!-- Info Date/Time and Stats -->
-      <div class="clearfix" style="margin-bottom: -15px;">
-        <div class="time__div"><p><span class="fa fa-clock-o"></span>
-          <span textContent="label.post_on"></span> {{article.createDate | date: 'MM/dd/yyyy HH:mm'}}</p></div>
-        <div class="stat__div">
-        <span class="stats-item text-muted" data-tippy="" data-original-title="Views"
-              aria-describedby="tippy-285">
-                <i aria-hidden="true" class="fa fa-eye"></i>&nbsp;{{article.viewCount}}</span>
-          <span class="stats-item text-muted" data-tippy="" data-original-title="Clips">
-                <i aria-hidden="true" class="fa fa-bookmark"></i>&nbsp;{{bookmarkCount}}</span>
-          <span class="stats-item text-muted" data-tippy="" data-original-title="Comments">
-                <i aria-hidden="true" class="fa fa-comments"></i>&nbsp;{{commentCount}}</span>
+        <!-- Title -->
+        <h2 class="article__title">{{article.title}}
+          <span *ngIf="article.userId === currentUser.userId">
+          <a href="javascript:void(0)" [routerLink]="['/post/edit/' + article.articleId]">
+            <i class="fa fa-pencil"></i>
+          </a>
+        </span>
+        </h2>
+        <hr>
+
+        <!-- Info Date/Time and Stats -->
+        <div class="clearfix" style="margin-bottom: -15px;">
+          <div class="time__div"><p><span class="fa fa-clock-o"></span>
+            <span textContent="label.post_on"></span> {{article.createDate | date: 'MM/dd/yyyy HH:mm'}}</p></div>
+          <div class="stat__div">
+          <span class="stats-item text-muted" data-tippy="" data-original-title="Views"
+                aria-describedby="tippy-285">
+                  <i aria-hidden="true" class="fa fa-eye"></i>&nbsp;{{article.viewCount}}</span>
+            <span class="stats-item text-muted" data-tippy="" data-original-title="Clips">
+                  <i aria-hidden="true" class="fa fa-bookmark"></i>&nbsp;{{bookmarkCount}}</span>
+            <span class="stats-item text-muted" data-tippy="" data-original-title="Comments">
+                  <i aria-hidden="true" class="fa fa-comments"></i>&nbsp;{{commentCount}}</span>
+          </div>
         </div>
-      </div>
-      <hr>
+        <hr>
 
-      <!-- Content of Post -->
-      <div [innerHTML]="this.article.content | safeHtml"></div>
-      <hr>
+        <!-- Content of Post -->
+        <div [innerHTML]="this.article.content | safeHtml"></div>
+        <hr>
 
-      <!-- Author -->
-      <div class="author-biografia">
-        <img class="avatar-author img-fluid rounded"
-             src="{{author.avatar}}">
+        <!-- Author -->
+        <div class="author-biografia">
+          <img class="avatar-author img-fluid rounded"
+               src="{{author.avatar}}">
 
-        <div class="author-info">
-          <h5><span textContent="label.author"></span>: <a href="javascript:void(0)"
-                                                           [routerLink]="['/profile/' + author.userName]"
-                                                           target="_blank">
-            <span *ngIf="lang === 'vi'">{{author.lastName}} {{author.firstName}}</span>
-            <span *ngIf="lang === 'en'">{{author.firstName}} {{author.lastName}}</span>
-          </a></h5>
-          <p class="alert alert-success">
-            <span textContent="label.join_date"></span><span> {{article.createDate | date:'MM/dd/yyyy'}}</span>
-          </p>
+          <div class="author-info">
+            <h5><span textContent="label.author"></span>: <a href="javascript:void(0)"
+                                                             [routerLink]="['/profile/' + author.userName]"
+                                                             target="_blank">
+              <span *ngIf="lang === 'vi'">{{author.lastName}} {{author.firstName}}</span>
+              <span *ngIf="lang === 'en'">{{author.firstName}} {{author.lastName}}</span>
+            </a></h5>
+            <p class="alert alert-success">
+              <span textContent="label.join_date"></span><span> {{article.createDate | date:'MM/dd/yyyy'}}</span>
+            </p>
 
-          <ul class="list-group">
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              Follow
-              <span class="badge badge-primary badge-pill">25</span>
-            </li>
+            <ul class="list-group">
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                Follow
+                <span class="badge badge-primary badge-pill">25</span>
+              </li>
 
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              Posts
-              <span class="badge badge-primary badge-pill">3</span>
-            </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                Posts
+                <span class="badge badge-primary badge-pill">3</span>
+              </li>
 
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              Award
-              <span class="badge badge-primary badge-pill">100</span>
-            </li>
-          </ul>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                Award
+                <span class="badge badge-primary badge-pill">100</span>
+              </li>
+            </ul>
 
+          </div>
         </div>
-      </div>
-      <hr>
+        <hr>
 
 
-      <!-- Realted Post-->
-      <!--<div *ngIf="listRelatedArticle.length === 3">-->
-        <!--<h1>Related Article</h1>-->
-        <!--<div class="row">-->
-          <!--<div style="width: 30%; margin-right: 5px" *ngFor="let realtedPost of listRelatedArticle; let i = index;">-->
-            <!--<div class="card">-->
-              <!--<div class="card-body">-->
-                <!--<h5 class="card-title">Special title treatment</h5>-->
-                <!--<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>-->
-                <!--<a href="#" class="btn btn-primary">Go somewhere</a>-->
+        <!-- Realted Post-->
+        <!--<div *ngIf="listRelatedArticle.length === 3">-->
+          <!--<h1>Related Article</h1>-->
+          <!--<div class="row">-->
+            <!--<div style="width: 30%; margin-right: 5px" *ngFor="let realtedPost of listRelatedArticle; let i = index;">-->
+              <!--<div class="card">-->
+                <!--<div class="card-body">-->
+                  <!--<h5 class="card-title">Special title treatment</h5>-->
+                  <!--<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>-->
+                  <!--<a href="#" class="btn btn-primary">Go somewhere</a>-->
+                <!--</div>-->
               <!--</div>-->
             <!--</div>-->
           <!--</div>-->
+          <!--<hr>-->
         <!--</div>-->
-        <!--<hr>-->
-      <!--</div>-->
 
-      <h1 textContent="label.same_author" style="font-size: 36px;color: #283035;font-weight: 400;"></h1>
-      <table id="table-same-author" class="table">
-        <tbody>
-          <tr>
-            <td style="vertical-align: top; text-align: left; font-size: 14px; width:33%;"
-                *ngFor="let sameAuthor of listTheSameAuthorArticle; let i = index;">
-              <a class="wrap" href="javascript:void(0)"
-                 [routerLink]="['/post/' + sameAuthor.articleId]">{{sameAuthor.title}}</a>
-            </td>
-          </tr>
-          <tr>
-            <td align="left" width="33%" style="vertical-align: top; text-align: left; font-size: 14px; width:33%;"
-                *ngFor="let sameAuthor of listTheSameAuthorArticle; let i = index;">
-              <p class="card-text">
-                <a href="javascript:void(0)" [routerLink]="['/profile/' + sameAuthor.userProfileId]">
-                  {{sameAuthor?.firstName}} {{sameAuthor?.lastName}}
-                </a>
-              </p>
-              <div class="stat-related">
+        <h1 textContent="label.same_author" style="font-size: 36px;color: #283035;font-weight: 400;"></h1>
+        <table id="table-same-author" class="table">
+          <tbody>
+            <tr>
+              <td style="vertical-align: top; text-align: left; font-size: 14px; width:33%;"
+                  *ngFor="let sameAuthor of listTheSameAuthorArticle; let i = index;">
+                <a class="wrap" href="javascript:void(0)"
+                   [routerLink]="['/post/' + sameAuthor.articleId]">{{sameAuthor.title}}</a>
+              </td>
+            </tr>
+            <tr>
+              <td align="left" width="33%" style="vertical-align: top; text-align: left; font-size: 14px; width:33%;"
+                  *ngFor="let sameAuthor of listTheSameAuthorArticle; let i = index;">
+                <p class="card-text">
+                  <a href="javascript:void(0)" [routerLink]="['/profile/' + sameAuthor.userProfileId]">
+                    {{sameAuthor?.firstName}} {{sameAuthor?.lastName}}
+                  </a>
+                </p>
+                <div class="stat-related">
+                    <span class="stats-item text-muted">
+                      <i aria-hidden="true" class="fa fa-eye"></i>&nbsp;{{sameAuthor?.viewCount}}
+                    </span>
                   <span class="stats-item text-muted">
-                    <i aria-hidden="true" class="fa fa-eye"></i>&nbsp;{{sameAuthor?.viewCount}}
-                  </span>
-                <span class="stats-item text-muted">
-                    <i aria-hidden="true" class="fa fa-bookmark"></i>&nbsp;{{sameAuthor?.bookmark}}
-                  </span>
-                <span class="stats-item text-muted">
-                    <i aria-hidden="true" class="fa fa-comments"></i>&nbsp;{{sameAuthor?.commentNum}}
-                  </span>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <hr>
+                      <i aria-hidden="true" class="fa fa-bookmark"></i>&nbsp;{{sameAuthor?.bookmark}}
+                    </span>
+                  <span class="stats-item text-muted">
+                      <i aria-hidden="true" class="fa fa-comments"></i>&nbsp;{{sameAuthor?.commentNum}}
+                    </span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <hr>
 
+      </div>
 
-      <!-- Blog Comments -->
-      <!-- Comments Form -->
-      <div class="widget-area-comment no-padding blank">
-        <div class="status-upload">
-          <form>
+      <div class="comment-area">
+
+        <!-- Comments Form -->
+        <div class="widget-area-comment no-padding blank">
+          <div class="status-upload">
+            <form>
             <textarea name="txtNewComment" [(ngModel)]="newComment.content"
                       textPlaceHolder="label.share_now"></textarea>
-            <button type="submit" class="btn btn-shared green" (click)="addComment(null,false,null)">
-              <i class="fa fa-share"></i> <span textContent="button.comment"></span>
-            </button>
-          </form>
+              <button type="submit" class="btn btn-shared green" (click)="addComment(null,false,null)">
+                <i class="fa fa-share"></i> <span textContent="button.comment"></span>
+              </button>
+            </form>
+          </div>
         </div>
-      </div>
-      <hr>
+        <hr>
 
-      <div class="comments-container">
-        <h1 textContent="label.comment"></h1>
+        <div class="comments-container">
+          <h1 textContent="label.comment"></h1>
 
-        <ul id="comments-list" class="comments-list" style="padding: 0;">
-          <li id="{{comment.commentId}}" *ngFor="let comment of listComments; let parentIndex = index;">
-            <div class="comment-main-level">
+          <ul id="comments-list" class="comments-list" style="padding: 0;">
+            <li id="{{comment.commentId}}" *ngFor="let comment of listComments; let parentIndex = index;">
+              <div class="comment-main-level">
 
-              <div class="comment-avatar">
-                <img src="{{comment.userDetail?.avatar}}" alt="">
-              </div>
-
-              <div class="comment-box">
-
-                <div class="comment-head">
-                  <h6 class="comment-name" [ngClass]="{ 'by-author' : comment.userId === currentUser.userId }">
-                    <a href="javascript:void(0)">
-                      {{comment.userDetail?.firstName}} {{comment?.userDetail?.lastName}}
-                    </a>
-                  </h6>
-                  <span textContent="label.comment_at" style="padding-right: 5px;"></span>
-                  <span>{{comment.createDate | date: 'MM/dd/yyyy HH:mm'}}</span>
-                  <i class="fa fa-trash" *ngIf="comment.userId === currentUser.userId"
-                     (click)="deleteComment(comment.commentId)"></i>
-                  <i class="fa fa-pencil" *ngIf="comment.userId === currentUser.userId"
-                     role="button" data-toggle="modal" data-target="#modal-update-comment"
-                     (click)="openModalUpdateComment(comment.commentId, comment.content)"></i>
-                  <i class="fa fa-exclamation-circle"
-                     role="button" data-toggle="modal" data-target="#modal-report-comment"
-                     (click)="passData(comment.commentId, comment.userId);"></i>
-                  <i class="fa fa-reply" (click)="addCommentBox(parentIndex, comment.commentId)"></i>
-                  <i class="fa fa-heart" [ngClass]="{'text-red' : comment.myInteract === true}"
-                     (click)="interactToComment(comment.commentId, comment.myInteract)"></i>
-                  <i *ngIf="(article.type === 2 && article.rightAnswerId === null)" class="fa fa-check"
-                     (click)="markAsResolved(comment.commentId)"></i>
-                  <i *ngIf="(article.type === 2 && article.rightAnswerId === comment.commentId)"
-                     class="fa fa-check-circle"></i>
-                </div>
-
-                <div class="comment-content">
-                  {{comment.content}}
-                </div>
-
-              </div>
-
-            </div>
-            <!-- Respuestas de los comentarios -->
-            <ul class="comments-list reply-list">
-              <li id="{{childComment.commentId}}"
-                  *ngFor="let childComment of comment.childComments; let childIndex = index;">
-                <!-- Avatar -->
                 <div class="comment-avatar">
-                  <img src="{{childComment.userDetail?.avatar}}" alt="">
+                  <img src="{{comment.userDetail?.avatar}}" alt="">
                 </div>
+
                 <div class="comment-box">
+
                   <div class="comment-head">
-                    <h6 class="comment-name" [ngClass]="{ 'by-author' : childComment.userId === currentUser.userId }">
+                    <h6 class="comment-name" [ngClass]="{ 'by-author' : comment.userId === currentUser.userId }">
                       <a href="javascript:void(0)">
-                        {{childComment.userDetail?.firstName}} {{childComment.userDetail?.lastName}}
+                        {{comment.userDetail?.firstName}} {{comment?.userDetail?.lastName}}
                       </a>
                     </h6>
                     <span textContent="label.comment_at" style="padding-right: 5px;"></span>
-                    <span>{{childComment.createDate | date: 'MM/dd/yyyy HH:mm'}}</span>
-                    <i class="fa fa-trash" *ngIf="childComment.userId === currentUser.userId"
-                       (click)="deleteComment(childComment.commentId)"></i>
-                    <i class="fa fa-pencil" *ngIf="childComment.userId === currentUser.userId"
+                    <span>{{comment.createDate | date: 'MM/dd/yyyy HH:mm'}}</span>
+                    <i class="fa fa-trash" *ngIf="comment.userId === currentUser.userId"
+                       (click)="deleteComment(comment.commentId)"></i>
+                    <i class="fa fa-pencil" *ngIf="comment.userId === currentUser.userId"
                        role="button" data-toggle="modal" data-target="#modal-update-comment"
-                       (click)="openModalUpdateComment(childComment.commentId, childComment.content)"></i>
+                       (click)="openModalUpdateComment(comment.commentId, comment.content)"></i>
                     <i class="fa fa-exclamation-circle"
                        role="button" data-toggle="modal" data-target="#modal-report-comment"
-                       (click)="passData(childComment.commentId, childComment.userId);"></i>
-                    <i class="fa fa-heart" [ngClass]="{'text-red' : childComment.myInteract === true}"
-                       (click)="interactToComment(childComment.commentId, childComment.myInteract)"></i>
+                       (click)="passData(comment.commentId, comment.userId);"></i>
+                    <i class="fa fa-reply" (click)="addCommentBox(parentIndex, comment.commentId)"></i>
+                    <i class="fa fa-heart" [ngClass]="{'text-red' : comment.myInteract === true}"
+                       (click)="interactToComment(comment.commentId, comment.myInteract)"></i>
                     <i *ngIf="(article.type === 2 && article.rightAnswerId === null)" class="fa fa-check"
-                       (click)="markAsResolved(childComment.commentId)"></i>
-                    <i *ngIf="(article.type === 2 && article.rightAnswerId === childComment.commentId)"
+                       (click)="markAsResolved(comment.commentId)"></i>
+                    <i *ngIf="(article.type === 2 && article.rightAnswerId === comment.commentId)"
                        class="fa fa-check-circle"></i>
                   </div>
+
                   <div class="comment-content">
-                    {{childComment.content}}
+                    {{comment.content}}
                   </div>
+
                 </div>
-              </li>
 
-              <li>
-                <div *ngFor="let box of comment.commentBox" class="widget-area-comment no-padding blank comment-box">
-                  <div class="status-upload">
-                    <form>
-                      <textarea id="{{box}}" name="txtNewComment" textPlaceHolder="label.share_now"></textarea>
-                      <button class="btn btn-shared green" (click)="addComment(comment.commentId,true,'#' + box)">
-                        <i class="fa fa-share"></i> <span textContent="button.comment"></span>
-                      </button>
-
-                      <button class="btn btn-warning green" (click)="removeCommentBox(parentIndex)">
-                        <span textContent="button.close"></span>
-                      </button>
-                    </form>
+              </div>
+              <!-- Respuestas de los comentarios -->
+              <ul class="comments-list reply-list">
+                <li id="{{childComment.commentId}}"
+                    *ngFor="let childComment of comment.childComments; let childIndex = index;">
+                  <!-- Avatar -->
+                  <div class="comment-avatar">
+                    <img src="{{childComment.userDetail?.avatar}}" alt="">
                   </div>
-                </div>
-              </li>
+                  <div class="comment-box">
+                    <div class="comment-head">
+                      <h6 class="comment-name" [ngClass]="{ 'by-author' : childComment.userId === currentUser.userId }">
+                        <a href="javascript:void(0)">
+                          {{childComment.userDetail?.firstName}} {{childComment.userDetail?.lastName}}
+                        </a>
+                      </h6>
+                      <span textContent="label.comment_at" style="padding-right: 5px;"></span>
+                      <span>{{childComment.createDate | date: 'MM/dd/yyyy HH:mm'}}</span>
+                      <i class="fa fa-trash" *ngIf="childComment.userId === currentUser.userId"
+                         (click)="deleteComment(childComment.commentId)"></i>
+                      <i class="fa fa-pencil" *ngIf="childComment.userId === currentUser.userId"
+                         role="button" data-toggle="modal" data-target="#modal-update-comment"
+                         (click)="openModalUpdateComment(childComment.commentId, childComment.content)"></i>
+                      <i class="fa fa-exclamation-circle"
+                         role="button" data-toggle="modal" data-target="#modal-report-comment"
+                         (click)="passData(childComment.commentId, childComment.userId);"></i>
+                      <i class="fa fa-heart" [ngClass]="{'text-red' : childComment.myInteract === true}"
+                         (click)="interactToComment(childComment.commentId, childComment.myInteract)"></i>
+                      <i *ngIf="(article.type === 2 && article.rightAnswerId === null)" class="fa fa-check"
+                         (click)="markAsResolved(childComment.commentId)"></i>
+                      <i *ngIf="(article.type === 2 && article.rightAnswerId === childComment.commentId)"
+                         class="fa fa-check-circle"></i>
+                    </div>
+                    <div class="comment-content">
+                      {{childComment.content}}
+                    </div>
+                  </div>
+                </li>
 
-            </ul>
-          </li>
-        </ul>
+                <li>
+                  <div *ngFor="let box of comment.commentBox" class="widget-area-comment no-padding blank comment-box">
+                    <div class="status-upload">
+                      <form>
+                        <textarea id="{{box}}" name="txtNewComment" textPlaceHolder="label.share_now"></textarea>
+                        <button class="btn btn-shared green" (click)="addComment(comment.commentId,true,'#' + box)">
+                          <i class="fa fa-share"></i> <span textContent="button.comment"></span>
+                        </button>
+
+                        <button class="btn btn-warning green" (click)="removeCommentBox(parentIndex)">
+                          <span textContent="button.close"></span>
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </li>
+
+              </ul>
+            </li>
+          </ul>
+        </div>
+
       </div>
-
 
     </div>
 
@@ -356,7 +361,7 @@
           <hr>
           <ul>
             <li *ngFor="let heading of this.headingTag; let i = index;">
-              <a href="{{heading.id}}">{{heading.base}}</a>
+              <a (click)="scrollToHeading(heading.slug)" class="clickable">{{heading.title}}</a>
             </li>
           </ul>
           <p *ngIf="this.headingTag.length === 0" textContent="label.no_toc"></p>

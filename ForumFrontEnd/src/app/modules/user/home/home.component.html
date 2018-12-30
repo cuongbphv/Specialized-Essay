@@ -390,13 +390,17 @@
             </div>
           </div>
 
-          <div class="widget-area"><h3 class="widget-title" textContent="main.top_tag"></h3>
+          <div class="widget-area">
+            <h4 class="widget-title" textContent="main.top_tag"></h4>
             <div class="popular-authors" *ngFor="let tag of topTags; let i = index">
               <h4><a [routerLink]="['/tag/' + tag[0]]" href="#" rel="bookmark"><i class="fa fa-tags"></i> {{tag[1]}}</a>
               </h4>
               <div class="info">
                 <div class="downloads">{{tag[4]}} <span textContent="main.tagged"></span></div>
               </div>
+            </div>
+            <div class="popular-authors">
+              <a href="javascript:void(0)" [routerLink]="['/tag/all']"><i class="fa fa-tags"></i> All tags</a>
             </div>
           </div>
 

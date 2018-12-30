@@ -9,14 +9,9 @@ import com.tlcn.programingforum.api.response.APIStatus;
 import com.tlcn.programingforum.auth.AuthUser;
 import com.tlcn.programingforum.exception.ApplicationException;
 import com.tlcn.programingforum.model.RestAPIResponse;
-import com.tlcn.programingforum.model.entity.Article;
-import com.tlcn.programingforum.model.entity.Profile;
-import com.tlcn.programingforum.model.entity.Session;
-import com.tlcn.programingforum.model.entity.User;
-import com.tlcn.programingforum.service.AuthService;
-import com.tlcn.programingforum.service.FileUploadService;
-import com.tlcn.programingforum.service.ProfileService;
-import com.tlcn.programingforum.service.UserService;
+import com.tlcn.programingforum.model.entity.*;
+import com.tlcn.programingforum.model.entity.key.TagUserPK;
+import com.tlcn.programingforum.service.*;
 import com.tlcn.programingforum.util.CommonUtil;
 import com.tlcn.programingforum.util.Constant;
 import com.tlcn.programingforum.util.MD5Hash;
@@ -59,6 +54,9 @@ public class UserController extends AbstractBasedAPI {
 
     @Autowired
     FileUploadService fileUploadService;
+
+    @Autowired
+    FollowTagService followTagService;
 
     @Autowired
     private SimpMessagingTemplate webSocket;
@@ -265,6 +263,17 @@ public class UserController extends AbstractBasedAPI {
         User createdUser = doCreateUser(userRequest);
 
         if (createdUser != null) {
+
+            // created user successfully
+            for(String tagId : userRequest.getTagIds()) {
+                FollowTag followTag = followTagService.findFollowTag(tagId, createdUser.getUserId());
+                if(followTag == null) {
+                    FollowTag newFollow = new FollowTag();
+                    newFollow.setCreateDate(new Date());
+                    newFollow.setId(new TagUserPK(tagId, createdUser.getUserId()));
+                    followTagService.followTag(newFollow);
+                }
+            }
 
             Session userSession = authService.createUserToken(createdUser);
             // Create Auth User -> Set to filter config

@@ -8,6 +8,7 @@ import com.tlcn.programingforum.model.entity.Article;
 import com.tlcn.programingforum.model.entity.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -40,7 +41,7 @@ public interface TagRepository extends CrudRepository<Tag, String>, JpaSpecifica
             nativeQuery = true)
     Object getTagInfomation(String tagId);
 
-    @Query(value = "SELECT t.tag_id, t.tag_name, t.description, t.create_date as create_date, " +
+    @Query(value = "SELECT t.tag_id, t.tag_name, t.description, t.create_date, " +
             "count(IF(a.type = 1,1,null)) as article_num, " +
             "count(IF(a.type=2,1,null)) as question_num, " +
             "(SELECT count(*) as follower_num from follow_tag ft where ft.tag_id = t.tag_id) as follower_num " +
@@ -48,7 +49,12 @@ public interface TagRepository extends CrudRepository<Tag, String>, JpaSpecifica
             "where t.tag_id = ta.tag_id and ta.article_id = a.article_id " +
             "group by t.tag_id " +
             "having t.tag_name like ?1 " +
-            "ORDER BY ?2 desc limit ?3 " +
+            "ORDER BY CASE WHEN ?2 = 'tag_name' THEN tag_name END ASC, " +
+            "CASE WHEN ?2 = 'article_num' THEN article_num END DESC, " +
+            "CASE WHEN ?2 = 'question_num' THEN question_num END DESC, " +
+            "CASE WHEN ?2 = 'follower_num' THEN follower_num END DESC, " +
+            "CASE WHEN ?2 = 'create_date' THEN t.create_date END ASC " +
+            "limit ?3 " +
             "offset ?4",
             nativeQuery = true)
     List<Object[]> findAllPaging(String tagName, String sortCase, int limit, int offset);
