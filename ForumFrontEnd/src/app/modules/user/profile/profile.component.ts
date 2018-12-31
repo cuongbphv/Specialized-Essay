@@ -1,9 +1,19 @@
 import {Component, OnInit} from '@angular/core';
-import {TranslateService, GooglePieChartService, UserService, ProfilesService} from '../../../core/services/index';
+import {
+  TranslateService,
+  GooglePieChartService,
+  UserService,
+  ProfilesService,
+  ArticleService,
+  CommentService
+} from '../../../core/services';
 
-import {PieChartConfig, Profile, User} from '../../../core/models/index';
-import {Pattern} from '../../../shared/constant/index';
+import {PieChartConfig, Profile, User} from '../../../core/models';
+import {Pattern} from '../../../shared/constant';
 import {ActivatedRoute} from '@angular/router';
+
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 declare var $: any;
 
@@ -35,6 +45,33 @@ export class ProfileComponent implements OnInit{
     websiteLink: '',
   };
 
+  pagingRequest: any = {
+    type: 1,
+    userId: '',
+    sortCase: 1,
+    ascSort: true,
+    pageNumber: 1,
+    pageSize: 10
+  };
+
+  pagingRequestComment: any = {
+    type: 1,
+    userId: '',
+    sortCase: 1,
+    ascSort: true,
+    pageNumber: 1,
+    pageSize: 10
+  };
+
+  pagingRequestBookmark: any = {
+    type: 1,
+    userId: '',
+    sortCase: 1,
+    ascSort: true,
+    pageNumber: 1,
+    pageSize: 10
+  };
+
   userId : string;
 
   imgUrl: string = null;
@@ -43,11 +80,18 @@ export class ProfileComponent implements OnInit{
 
   namePattern: any = Pattern.NAME_PATTERN;
 
+  articles = [];
+  comments = [];
+  bookmarks = [];
+  collectionSize: number;
+
   constructor(
     public translate: TranslateService,
     private pieChartService: GooglePieChartService,
     private userService:UserService,
     private profileService: ProfilesService,
+    private articleService: ArticleService,
+    private commentService: CommentService,
     private route: ActivatedRoute) {}
 
   public ngOnInit() {
@@ -83,6 +127,8 @@ export class ProfileComponent implements OnInit{
       }
     );
 
+    this.getUserArticle(1);
+
     this.data = [['Post', 'Posts per Tag'],
       ['Javascript', 2],
       ['NodeJS',  4],
@@ -94,6 +140,137 @@ export class ProfileComponent implements OnInit{
 
     this.pieChartService.BuildPieChart(this.elementId, this.data, this.config);
 
+  }
+
+  getListBookmarkArticle(type: number, sortCase: number, ascSort: boolean) {
+
+    // set type
+    this.pagingRequestBookmark.type = type;
+    this.pagingRequestBookmark.searchKey = this.currentUser.userId;
+    this.pagingRequestBookmark.sortCase = sortCase;
+    this.pagingRequestBookmark.ascSort = ascSort;
+
+    this.articleService.getBookmarkList(this.pagingRequestBookmark).subscribe(
+      bookmarks => {
+
+        this.bookmarks = bookmarks.data;
+
+        this.collectionSize = bookmarks.data.totalElements;
+
+        for (let i = 0; i < this.bookmarks.length; i++) {
+          // Author
+          this.profileService.get(this.bookmarks[i].article.userId).subscribe(
+            author => {
+              this.bookmarks[i].article.firstName = author.firstName;
+              this.bookmarks[i].article.lastName = author.lastName;
+              this.bookmarks[i].article.userProfileId = author.userProfileId;
+            }
+          );
+
+          // Stats
+          this.articleService.statByArticle(this.bookmarks[i].article.articleId).subscribe(
+            data => {
+              this.bookmarks[i].article.rating = data.rating;
+              this.bookmarks[i].article.bookmarkCount = data.bookmark;
+              this.bookmarks[i].article.share = data.share;
+              this.bookmarks[i].article.commentNum = data.commentNum;
+              this.bookmarks[i].article.tags = data.tags;
+            }
+          );
+        }
+      }
+    );
+
+  }
+
+  getUserComment(){
+
+    this.pagingRequestComment.userId = this.userId;
+
+    this.profileService.getUserComment(this.pagingRequestComment).subscribe(
+      data => {
+        this.comments = data.content;
+        this.collectionSize = data.totalElements;
+
+        for (let i = 0; i < this.comments.length; i++) {
+
+          // Author
+          this.profileService.get(this.comments[i].userId).subscribe(
+            author => {
+              this.comments[i].firstName = author.firstName;
+              this.comments[i].lastName = author.lastName;
+              this.comments[i].userProfileId = author.userProfileId;
+              this.comments[i].avatar = author.avatar;
+            }
+          );
+
+          // get article title
+          this.articleService.getDetailPost(this.comments[i].articleId).subscribe(
+            article => {
+              this.comments[i].articleTitle = article.title;
+              this.comments[i].articleType = article.type;
+            }
+          );
+
+          // get stat comment
+          this.commentService.getStatByCommentId(this.comments[i].commentId).subscribe(
+            stat => {
+              this.comments[i].numOfHeart = stat.numOfHeart;
+              this.comments[i].numOfReply = stat.numOfReply;
+              this.comments[i].rightAnswer = stat.rightAnswer;
+            });
+
+        }
+
+      });
+  }
+
+  getUserArticle(type: number) {
+    // get default article by userId
+    this.pagingRequest.userId = this.userId;
+    this.pagingRequest.type = type;
+
+    this.profileService.getUserArticle(this.pagingRequest).subscribe(
+      data => {
+        this.articles = data.content;
+        this.collectionSize = data.totalElements;
+
+        for (let i = 0; i < this.articles.length; i++) {
+
+          if(this.articles[i].rightAnswerId == undefined) {
+            this.articles[i].rightAnswerId = '';
+          }
+
+          this.articleService.getDetailPost(this.articles[i].articleId).subscribe(
+            data => {
+
+              // Author
+              this.profileService.get(this.articles[i].userId).subscribe(
+                author => {
+                  this.articles[i].firstName = author.firstName;
+                  this.articles[i].lastName = author.lastName;
+                  this.articles[i].userProfileId = author.userProfileId;
+                  this.articles[i].avatar = author.avatar;
+                }
+              );
+
+              // Stats
+              this.articleService.statByArticle(this.articles[i].articleId).subscribe(
+                data => {
+                  this.articles[i].rating = data.rating;
+                  this.articles[i].bookmarkCount = data.bookmark;
+                  this.articles[i].share = data.share;
+                  this.articles[i].commentNum = data.commentNum;
+                  this.articles[i].tags = data.tags;
+                }
+              );
+
+            }
+          );
+        }
+
+      }
+    );
   }
 
 

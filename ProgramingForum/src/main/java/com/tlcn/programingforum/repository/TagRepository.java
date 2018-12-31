@@ -42,22 +42,23 @@ public interface TagRepository extends CrudRepository<Tag, String>, JpaSpecifica
     Object getTagInfomation(String tagId);
 
     @Query(value = "SELECT t.tag_id, t.tag_name, t.description, t.create_date, " +
-            "count(IF(a.type = 1,1,null)) as article_num, " +
-            "count(IF(a.type=2,1,null)) as question_num, " +
-            "(SELECT count(*) as follower_num from follow_tag ft where ft.tag_id = t.tag_id) as follower_num " +
+            "(COUNT(IF(a.type = 1,1,NULL))) AS article_num, " +
+            "(COUNT(IF(a.type=2,1,NULL))) AS question_num, " +
+            "(SELECT COUNT(*) AS follower_num FROM follow_tag ft WHERE ft.tag_id = t.tag_id) AS follower_num " +
             "FROM tag t, tag_article ta, article a " +
-            "where t.tag_id = ta.tag_id and ta.article_id = a.article_id " +
-            "group by t.tag_id " +
-            "having t.tag_name like ?1 " +
-            "ORDER BY CASE WHEN ?2 = 'tag_name' THEN tag_name END ASC, " +
-            "CASE WHEN ?2 = 'article_num' THEN article_num END DESC, " +
-            "CASE WHEN ?2 = 'question_num' THEN question_num END DESC, " +
-            "CASE WHEN ?2 = 'follower_num' THEN follower_num END DESC, " +
-            "CASE WHEN ?2 = 'create_date' THEN t.create_date END ASC " +
+            "WHERE t.tag_id = ta.tag_id AND ta.article_id = a.article_id " +
+            "GROUP BY t.tag_id " +
+            "HAVING t.tag_name LIKE ?1 " +
+            "ORDER BY " +
+            "(CASE WHEN ?2 = 5 THEN tag_name END) ASC," +
+            "(CASE WHEN ?2 = 2 THEN article_num END) DESC," +
+            "(CASE WHEN ?2 = 3 THEN question_num END) DESC," +
+            "(CASE WHEN ?2 = 4 THEN follower_num END) DESC," +
+            "(CASE WHEN ?2 = 1 THEN t.create_date END) ASC " +
             "limit ?3 " +
             "offset ?4",
             nativeQuery = true)
-    List<Object[]> findAllPaging(String tagName, String sortCase, int limit, int offset);
+    List<Object[]> findAllPaging(String tagName, int sortCase, int limit, int offset);
 
     @Query("SELECT new com.tlcn.programingforum.api.model.response.TagResponse(t.tagId, t.tagName, t.description, " +
             "t.createDate,3L , 3L) from Tag t " +

@@ -6,9 +6,7 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <h4 class="panel-title">
-            <a data-toggle="collapse" href="#filterBookmark">
-              Filter
-            </a>
+            <a data-toggle="collapse" href="#filterBookmark" textContent="label.sort.filter"></a>
             <a id="test" class="pull-right" data-toggle="collapse" href="#filterBookmark">
               <span class="fa fa-filter"></span>
             </a>
@@ -20,25 +18,30 @@
             <div class="filter-setting">
 
               <div class="form-row">
-                <label class="col-xs-4">Sort Type</label>
+                <label class="col-xs-4" textContent="label.sort.sort_type"></label>
                 <div class="col-xs-8">
                   <div class="input-group">
                     <div class="btn-group">
                       <button class="btn btn-primary btn-sm"
                               (click)="getAllTag(pagingRequest.searchKey,2,pagingRequest.ascSort,pagingRequest.pageNumber)"
-                              [ngClass]="pagingRequest.sortCase === 2 ? 'active' :'notActive'">No.Article</button>
+                              [ngClass]="pagingRequest.sortCase === 2 ? 'active' :'notActive'"
+                              textContent="label.sort.no_article"></button>
                       <button class="btn btn-primary btn-sm"
                               (click)="getAllTag(pagingRequest.searchKey,3,pagingRequest.ascSort,pagingRequest.pageNumber)"
-                              [ngClass]="pagingRequest.sortCase === 3 ? 'active' :'notActive'">No.Question</button>
+                              [ngClass]="pagingRequest.sortCase === 3 ? 'active' :'notActive'"
+                              textContent="label.sort.no_question"></button>
                       <button class="btn btn-primary btn-sm"
                               (click)="getAllTag(pagingRequest.searchKey,4,pagingRequest.ascSort,pagingRequest.pageNumber)"
-                              [ngClass]="pagingRequest.sortCase === 4 ? 'active' :'notActive'">No.Follower</button>
+                              [ngClass]="pagingRequest.sortCase === 4 ? 'active' :'notActive'"
+                              textContent="label.sort.no_follower"></button>
                       <button class="btn btn-primary btn-sm"
                               (click)="getAllTag(pagingRequest.searchKey,5,pagingRequest.ascSort,pagingRequest.pageNumber)"
-                              [ngClass]="pagingRequest.sortCase === 5 ? 'active' :'notActive'">Tag Name</button>
+                              [ngClass]="pagingRequest.sortCase === 5 ? 'active' :'notActive'"
+                              textContent="label.sort.tag_name"></button>
                       <button class="btn btn-primary btn-sm"
                               (click)="getAllTag(pagingRequest.searchKey,1,pagingRequest.ascSort,pagingRequest.pageNumber)"
-                              [ngClass]="pagingRequest.sortCase === 1 ? 'active' :'notActive'">Create Date</button>
+                              [ngClass]="pagingRequest.sortCase === 1 ? 'active' :'notActive'"
+                              textContent="label.sort.create_date"></button>
                     </div>
                   </div>
                 </div>
@@ -72,6 +75,21 @@
             <span *ngIf="tag.followStatus == true" textContent="tag.label.following"></span>
           </div>
         </div>
+      </div>
+    </div>
+
+    <div class="row mt-5rem">
+      <div class="col-6 m-auto">
+        <a href="javascript:void(0)" *ngIf="pagingRequest.pageNumber !== 1"
+           (click)="getAllTag(pagingRequest.searchKey,pagingRequest.sortCase,
+                                      pagingRequest.ascSort,pagingRequest.pageNumber - 1)"
+           class="previous float-right">&laquo; <span textContent="label.previous"></span></a>
+      </div>
+      <div class="col-6 m-auto">
+        <a href="javascript:void(0)" *ngIf="tagList.length === 20"
+           (click)="getAllTag(pagingRequest.searchKey,pagingRequest.sortCase,
+                                      pagingRequest.ascSort,pagingRequest.pageNumber + 1)"
+           class="next float-left"><span textContent="label.next"></span> &raquo;</a>
       </div>
     </div>
   </form>

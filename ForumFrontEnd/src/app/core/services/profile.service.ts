@@ -84,4 +84,36 @@ export class ProfilesService {
       }));
   }
 
+  getUserArticle(pagingRequest: any): Observable<any> {
+    return this.apiService.post(API.MY_ARTICLE, {
+      type: pagingRequest.type,
+      userId: pagingRequest.userId,
+      sortCase: pagingRequest.sortCase,
+      ascSort: pagingRequest.ascSort,
+      pageNumber: pagingRequest.pageNumber,
+      pageSize: pagingRequest.pageSize
+    }).pipe(map(res => {
+      if(res.status === 200){
+        return res.data;
+      }
+      return null;
+    }));
+  }
+
+  getUserComment(pagingRequest: any): Observable<any> {
+    return this.apiService.post(API.MY_COMMENT, {
+      type: pagingRequest.type,
+      userId: pagingRequest.userId,
+      sortCase: pagingRequest.sortCase,
+      ascSort: pagingRequest.ascSort,
+      pageNumber: pagingRequest.pageNumber,
+      pageSize: pagingRequest.pageSize
+    }).pipe(map(res => {
+      if(res.status === 200){
+        return res.data;
+      }
+      return null;
+    }));
+  }
+
 }

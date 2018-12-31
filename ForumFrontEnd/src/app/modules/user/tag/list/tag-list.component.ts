@@ -62,7 +62,16 @@ export class TagListComponent implements OnInit{
     this.tagService.getAllTags(this.pagingRequest).subscribe(
       tags => {
         this.tagList = tags;
-        console.log(this.tagList);
+        if(this.pagingRequest.sortCase === 2) {
+          this.tagList.sort((a,b) => {
+            return b.numOfArticle - a.numOfArticle;
+          });
+        }
+        else if (this.pagingRequest.sortCase === 3) {
+          this.tagList.sort((a,b) => {
+            return b.numOfQuestion - a.numOfQuestion;
+          });
+        }
       }
     )
   }

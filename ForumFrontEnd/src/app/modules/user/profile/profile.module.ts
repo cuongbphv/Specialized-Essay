@@ -9,12 +9,16 @@ import { ProfileComponent } from './profile.component';
 import { PieChartComponent } from './pie-chart/piechart.component';
 import {GooglePieChartService, ProfilesService} from '../../../core/services/index';
 import {SharedModule} from '../../../shared/index';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgxSpinnerModule} from 'ngx-spinner';
 
 @NgModule({
   imports: [
     CommonModule,
     ProfileRoutingModule,
-    SharedModule
+    SharedModule,
+    NgbModule,
+    NgxSpinnerModule
   ],
   declarations: [
     ProfileComponent,

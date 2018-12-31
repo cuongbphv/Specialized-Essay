@@ -57,6 +57,8 @@ public interface Constant {
     String BOOKMARK_ARTICLE = "/bookmark";
     String TRENDING_ARTICLE = "trending";
     String APPROVE_POST = "/approve";
+    String MY_ARTICLE = "/my-article";
+    String MY_BOOKMARK = "/my-bookmark";
 
     // Article Interact
     String ARTICLE_INTERACT_CONTROLLER = API_PREFIX + "/interact";
@@ -88,6 +90,8 @@ public interface Constant {
     String COMMENT_CONTROLLER = API_PREFIX + "/comment";
     String LIST_COMMENT_IN_ARTICLE = "/list";
     String COMMENT_INTERACT = "/interact";
+    String MY_COMMENT= "/my-comment";
+    String STAT_BY_COMMENT_ID = "/stats";
 
     // Request Content Type
     public static final String APPLICATION_JSON_CONTENT_TYPE = "application/json";

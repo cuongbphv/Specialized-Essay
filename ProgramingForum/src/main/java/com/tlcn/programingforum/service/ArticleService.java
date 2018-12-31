@@ -30,4 +30,6 @@ public interface ArticleService {
     Page<Article> getArticleByTagIdAndType(PagingRequestModel pagingRequest);
 
     Article findByRightAnswerId(String rightAnswerId);
+
+    Page<Article> getListUserArticle(PagingRequestModel pagingRequestModel);
 }

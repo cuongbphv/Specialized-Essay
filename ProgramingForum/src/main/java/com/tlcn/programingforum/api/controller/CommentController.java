@@ -5,6 +5,7 @@ import com.tlcn.programingforum.api.model.request.CommentInteractRequest;
 import com.tlcn.programingforum.api.model.request.CommentRequest;
 import com.tlcn.programingforum.api.model.request.PagingRequestModel;
 import com.tlcn.programingforum.api.model.response.CommentResponse;
+import com.tlcn.programingforum.api.model.response.CommentStat;
 import com.tlcn.programingforum.api.response.APIStatus;
 import com.tlcn.programingforum.auth.AuthUser;
 import com.tlcn.programingforum.exception.ApplicationException;
@@ -21,6 +22,7 @@ import com.tlcn.programingforum.service.CommentService;
 import com.tlcn.programingforum.service.NotificationService;
 import com.tlcn.programingforum.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -236,6 +238,48 @@ public class CommentController extends AbstractBasedAPI {
         List<CommentInteract> listInteract = commentInteractService.listCommentInteract(commentId);
 
         return responseUtil.successResponse(listInteract);
+
+    }
+
+    @RequestMapping(path = Constant.MY_COMMENT, method = RequestMethod.POST)
+    public ResponseEntity<RestAPIResponse> getUserComment(
+            HttpServletRequest request,
+            @RequestBody PagingRequestModel pagingRequestModel) {
+
+        if(pagingRequestModel == null) {
+            throw new ApplicationException(APIStatus.ERR_BAD_REQUEST);
+        }
+
+        Page<Comment> comments = commentService.getListUserComment(pagingRequestModel);
+
+        return responseUtil.successResponse(comments);
+    }
+
+    @RequestMapping(path = Constant.STAT_BY_COMMENT_ID, method = RequestMethod.GET)
+    public ResponseEntity<RestAPIResponse> statByCommentId(
+            HttpServletRequest request,
+            @RequestParam("comment_id") String commentId
+    ) {
+
+        CommentStat stat = new CommentStat();
+
+        List<CommentInteract> listInteract = commentInteractService.listCommentInteract(commentId);
+        stat.setNumOfHeart(listInteract.size());
+
+        // delete right answer id
+        Article article = articleService.findByRightAnswerId(commentId);
+        if(article != null) {
+            stat.setRightAnswer(true);
+        }
+        else {
+            stat.setRightAnswer(false);
+        }
+
+        List<Comment> childComments = commentService.getListCommentByParentId(
+                commentId, Constant.Status.ACTIVE.getValue());
+        stat.setNumOfReply(childComments.size());
+
+        return responseUtil.successResponse(stat);
 
     }
 

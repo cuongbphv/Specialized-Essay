@@ -475,6 +475,20 @@ public class ArticleController extends AbstractBasedAPI {
         return responseUtil.successResponse(status);
     }
 
+    @RequestMapping(path = Constant.MY_ARTICLE, method = RequestMethod.POST)
+    public ResponseEntity<RestAPIResponse> getUserArticle(
+            HttpServletRequest request,
+            @RequestBody PagingRequestModel pagingRequestModel) {
+
+        if(pagingRequestModel == null) {
+            throw new ApplicationException(APIStatus.ERR_BAD_REQUEST);
+        }
+
+        Page<Article> articles = articleService.getListUserArticle(pagingRequestModel);
+
+        return responseUtil.successResponse(articles);
+    }
+
     @RequestMapping(path = Constant.WITHIN_ID, method = RequestMethod.DELETE)
     public ResponseEntity<RestAPIResponse> deletePost(
             HttpServletRequest request,
@@ -534,10 +548,5 @@ public class ArticleController extends AbstractBasedAPI {
 
         return tagIds;
     }
-
-
-
-
-
 
 }
