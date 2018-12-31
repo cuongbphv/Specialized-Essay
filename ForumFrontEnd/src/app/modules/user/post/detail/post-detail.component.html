@@ -251,7 +251,7 @@
               <div class="comment-main-level">
 
                 <div class="comment-avatar">
-                  <img src="{{comment.userDetail?.avatar}}" alt="">
+                  <img src="{{comment.userDetail?.avatar}}" alt="No avatar">
                 </div>
 
                 <div class="comment-box">
@@ -259,7 +259,7 @@
                   <div class="comment-head">
                     <h6 class="comment-name" [ngClass]="{ 'by-author' : comment.userId === currentUser.userId }">
                       <a href="javascript:void(0)">
-                        {{comment.userDetail?.firstName}} {{comment?.userDetail?.lastName}}
+                        {{comment.userDetail?.firstName}} {{comment.userDetail?.lastName}}
                       </a>
                     </h6>
                     <span textContent="label.comment_at" style="padding-right: 5px;"></span>
@@ -274,7 +274,9 @@
                        (click)="passData(comment.commentId, comment.userId);"></i>
                     <i class="fa fa-reply" (click)="addCommentBox(parentIndex, comment.commentId)"></i>
                     <i class="fa fa-heart" [ngClass]="{'text-red' : comment.myInteract === true}"
-                       (click)="interactToComment(comment.commentId, comment.myInteract)"></i>
+                       (click)="interactToComment(comment.commentId, comment.myInteract)">
+                      <span style="float: right;margin-left: 3px;margin-top: -2px;">+{{comment.listInteract?.length}}</span>
+                    </i>
                     <i *ngIf="(article.type === 2 && article.rightAnswerId === null)" class="fa fa-check"
                        (click)="markAsResolved(comment.commentId)"></i>
                     <i *ngIf="(article.type === 2 && article.rightAnswerId === comment.commentId)"
@@ -294,7 +296,7 @@
                     *ngFor="let childComment of comment.childComments; let childIndex = index;">
                   <!-- Avatar -->
                   <div class="comment-avatar">
-                    <img src="{{childComment.userDetail?.avatar}}" alt="">
+                    <img src="{{childComment.userDetail?.avatar}}" alt="No avatar">
                   </div>
                   <div class="comment-box">
                     <div class="comment-head">
@@ -314,7 +316,9 @@
                          role="button" data-toggle="modal" data-target="#modal-report-comment"
                          (click)="passData(childComment.commentId, childComment.userId);"></i>
                       <i class="fa fa-heart" [ngClass]="{'text-red' : childComment.myInteract === true}"
-                         (click)="interactToComment(childComment.commentId, childComment.myInteract)"></i>
+                         (click)="interactToComment(childComment.commentId, childComment.myInteract)">
+                        <span style="float: right;margin-left: 3px;margin-top: -2px;">+{{childComment.listInteract?.length}}</span>
+                      </i>
                       <i *ngIf="(article.type === 2 && article.rightAnswerId === null)" class="fa fa-check"
                          (click)="markAsResolved(childComment.commentId)"></i>
                       <i *ngIf="(article.type === 2 && article.rightAnswerId === childComment.commentId)"

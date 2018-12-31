@@ -30,7 +30,7 @@ export class RegisterOldComponent implements OnInit {
   ngOnInit() {}
 
   userRegister() {
-    this.authBaseService.register(this.user)
-      .subscribe(data => console.log(data));
+    // this.authBaseService.register(this.user)
+    //   .subscribe(data => console.log(data));
   }
 }
