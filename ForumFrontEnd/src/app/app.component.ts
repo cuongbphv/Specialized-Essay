@@ -5,6 +5,7 @@ import {CustomToastrService, TranslateService, UserService} from './core/service
 import {Stomp} from '@stomp/stompjs';
 import * as SockJS from 'sockjs-client';
 import {ToastrService} from 'ngx-toastr';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +21,8 @@ export class AppComponent implements OnInit{
 
   constructor(public translate: TranslateService,
               private userService : UserService,
-              private toastr: CustomToastrService) {
+              private toastr: ToastrService,
+              private router: Router) {
     this.initializeWebSocketConnection();
   }
 
@@ -39,18 +41,23 @@ export class AppComponent implements OnInit{
         that.stompClient.subscribe("/notification/"+ userData.userId, (message) => {
 
           if (message.body) {
-            console.log(message.body);
+            var body = message.body;
+            console.log('message body', message);
+            console.log("url ", body['data']);
           }
 
           let mes = "There is new comment in your following post ";
 
-          that.toastr.showSuccess(mes, "Notification");
+          that.toastr.info('Notification', 'asdasd12312')
+            .onTap.subscribe( toast => {
+                that.router.navigateByUrl("/");
+            });
         });
       });
 
     })
 
-  }
+  };
 
   sendMessage() {
 

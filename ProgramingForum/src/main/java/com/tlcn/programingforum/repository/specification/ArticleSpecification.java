@@ -22,12 +22,22 @@ public class ArticleSpecification implements Specification<Article> {
     private final int sortCase;
     private final boolean ascSort;
     private int type;
+    private int approvedStatus;
 
     public ArticleSpecification(String searchKey, int sortCase, boolean ascSort, int type) {
         this.searchKey = searchKey;
         this.sortCase = sortCase;
         this.ascSort = ascSort;
         this.type = type;
+        this.approvedStatus = -1;
+    }
+
+    public ArticleSpecification(String searchKey, int sortCase, boolean ascSort, int type, int approvedStatus) {
+        this.searchKey = searchKey;
+        this.sortCase = sortCase;
+        this.ascSort = ascSort;
+        this.type = type;
+        this.approvedStatus = approvedStatus;
     }
 
     @Override
@@ -36,6 +46,11 @@ public class ArticleSpecification implements Specification<Article> {
 
         Predicate status = cb.notEqual(root.get("status"), Constant.Status.DELETE.getValue());
         predicates.add(status);
+
+        if(approvedStatus != -1){
+            Predicate approvedPre = cb.equal(root.get("isApproved"), approvedStatus);
+            predicates.add(approvedPre);
+        }
 
         if(type != 0) {
             Predicate typeCr = cb.equal(root.get("type"), type);

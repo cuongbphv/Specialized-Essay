@@ -69,6 +69,30 @@ export class ArticleService {
     }).pipe(map(res => res.data));
   }
 
+
+  getListUnapprovedArticle(pagingRequest: any): Observable<any> {
+    return this.apiService.post(API.GET_LIST_UNAPPROVED_ARTICLE, {
+      type: pagingRequest.type,
+      searchKey: pagingRequest.searchKey,
+      sortCase: pagingRequest.sortCase,
+      ascSort: pagingRequest.ascSort,
+      pageNumber: pagingRequest.pageNumber,
+      pageSize: pagingRequest.pageSize
+    }).pipe(map(res => res.data));
+  }
+
+
+  getReportedListArticle(pagingRequest: any): Observable<any> {
+    return this.apiService.post(API.GET_REPORTED_LIST_ARTICLE, {
+      type: pagingRequest.type,
+      searchKey: pagingRequest.searchKey,
+      sortCase: pagingRequest.sortCase,
+      ascSort: pagingRequest.ascSort,
+      pageNumber: pagingRequest.pageNumber,
+      pageSize: pagingRequest.pageSize
+    }).pipe(map(res => res.data));
+  }
+
   viewCount(articleId: string): Observable<any> {
     return this.apiService.get(API.VIEW_COUNT + "?article_id=" + articleId)
       .pipe(map(res => {

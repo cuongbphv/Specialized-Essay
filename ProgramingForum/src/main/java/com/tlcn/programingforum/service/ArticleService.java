@@ -19,6 +19,8 @@ public interface ArticleService {
 
     Page<Article> getListArticlePaging(PagingRequestModel pagingRequestModel);
 
+    Page<Article> getListArticlePagingByApproveStatus(PagingRequestModel pagingRequestModel, int status);
+
     List<Article> findByUserIdAndTypeAndStatus(String userId, int type, int status);
 
     List<Article> findByUserIdAndStatus(String userId, int status);

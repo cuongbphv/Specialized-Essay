@@ -4,9 +4,8 @@ import {Title} from "@angular/platform-browser";
 
 import {
   ArticleInteractService,
-  ArticleService, CommentService,
-  CustomToastrService, ModalService, ProfilesService, ReportArticleService, ReportCommentService, TranslateService,
-  UserService
+  ArticleService, CommentService, CustomToastrService, ModalService, ProfilesService,
+  ReportArticleService, ReportCommentService, TranslateService, UserService
 } from '../../../../core/services';
 import {ActivatedRoute, Router} from '@angular/router';
 import marked, { Renderer } from 'marked';

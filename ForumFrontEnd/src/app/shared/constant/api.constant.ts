@@ -26,6 +26,7 @@ export const API = {
 
   GET_USER: BaseURL.USER_API + "/",
   LIST_USER: BaseURL.USER_API + "/list",
+  LIST_BANNED_USER: BaseURL.USER_API + "/list/banned",
   GRANT_USER_ACCESS: BaseURL.USER_API + "/grant/",
 
   //Profile API
@@ -37,6 +38,8 @@ export const API = {
   UPDATE_ARTICLE: BaseURL.ARTICLE_API,
   GET_ARTICLE: BaseURL.ARTICLE_API + "/",
   GET_LIST_ARTICLE: BaseURL.ARTICLE_API + "/list",
+  GET_LIST_UNAPPROVED_ARTICLE: BaseURL.ARTICLE_API + "/list/unapproved",
+  GET_REPORTED_LIST_ARTICLE: BaseURL.ARTICLE_API + "/list/reported",
   VIEW_COUNT: BaseURL.ARTICLE_API + "/view",
   STATS_BY_ARTICLE: BaseURL.ARTICLE_API + "/stats",
   MARK_AS_RESOLVED: BaseURL.ARTICLE_API + "/resolved",
@@ -70,6 +73,7 @@ export const API = {
   LIST_TAG_FOLLOWERS: BaseURL.TAG_API + "/followers",
   LIST_ARTICLE_BY_TYPE_AND_TAG_ID: BaseURL.TAG_API + "/list",
   LIST_TAG_DETAIL: BaseURL.TAG_API + "/list-detail",
+  LIST_BANNED_TAG: BaseURL.TAG_API + "/list/banned",
   TAG_INFORMATION: BaseURL.TAG_API + "/",
   TAG_URL: BaseURL.TAG_API,
   ALL_TAGS: BaseURL.TAG_API + "/all",

@@ -1,0 +1,46 @@
+
+<div class="row">
+  <div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body"><h4 class="card-title">Total User</h4>
+        <!--<p class="card-description"> Add class <code>.table-striped</code></p>-->
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th> User</th>
+              <th> First name</th>
+              <th> Last name</th>
+              <th> Username</th>
+              <th> Created Date</th>
+              <th> Role</th>
+            </tr>
+            </thead>
+            <tbody *ngFor="let user of users">
+            <tr [routerLink]="['/admin/user/' + user.userId]">
+              <td class="py-1"><img alt="image" src="{{user.avatar}}"></td>
+              <td>{{user.firstName}}</td>
+              <td>{{user.lastName}}</td>
+              <td>{{user.userName}}</td>
+              <td>{{user.createDate | date: 'MM/dd/yyyy HH:mm'}}</td>
+              <td>
+                <label class="badge badge-pill badge-primary">
+                  {{user.role === 1?'Admin':user.role === 2?'Moderator':'User'}}
+                </label>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+          <div class="col-lg-12 text-right" style="margin-top: 2rem">
+              <ngb-pagination [collectionSize]="collectionSize" [pageSize]="pagingRequest.pageSize"
+                              [(page)]="pagingRequest.pageNumber" (pageChange)="getListUser()"
+                              aria-label="Default pagination"
+                              class="pagination-flat pagination-primary pull-right">
+              </ngb-pagination>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

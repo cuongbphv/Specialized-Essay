@@ -1,5 +1,7 @@
 package com.tlcn.programingforum.api.controller;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.tlcn.programingforum.api.AbstractBasedAPI;
 import com.tlcn.programingforum.api.model.request.CommentInteractRequest;
 import com.tlcn.programingforum.api.model.request.CommentRequest;
@@ -9,20 +11,17 @@ import com.tlcn.programingforum.api.response.APIStatus;
 import com.tlcn.programingforum.auth.AuthUser;
 import com.tlcn.programingforum.exception.ApplicationException;
 import com.tlcn.programingforum.model.RestAPIResponse;
-import com.tlcn.programingforum.model.entity.Article;
-import com.tlcn.programingforum.model.entity.Comment;
-import com.tlcn.programingforum.model.entity.CommentInteract;
-import com.tlcn.programingforum.model.entity.Notification;
+import com.tlcn.programingforum.model.entity.*;
 import com.tlcn.programingforum.model.entity.key.CommentUserPK;
 import com.tlcn.programingforum.model.entity.key.NotificationPK;
-import com.tlcn.programingforum.service.ArticleService;
-import com.tlcn.programingforum.service.CommentInteractService;
-import com.tlcn.programingforum.service.CommentService;
-import com.tlcn.programingforum.service.NotificationService;
+import com.tlcn.programingforum.repository.CommentRepository;
+import com.tlcn.programingforum.repository.NotificationRepository;
+import com.tlcn.programingforum.service.*;
 import com.tlcn.programingforum.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sun.plugin.util.UserProfile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -49,6 +48,12 @@ public class CommentController extends AbstractBasedAPI {
     @Autowired
     NotificationService notificationService;
 
+    @Autowired
+    CommentRepository commentRepository;
+
+    @Autowired
+    ProfileService profileService;
+
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<RestAPIResponse> addComment(
             HttpServletRequest request,
@@ -73,22 +78,32 @@ public class CommentController extends AbstractBasedAPI {
 
         Comment savedComment = commentService.saveComment(comment);
         if(savedComment!= null){
-            List<Comment> commentList = commentService.getListComment(comment.getArticleId(),
-                    Constant.Status.ACTIVE.getValue());
 
-            for(Comment cmt : commentList){
+            List<String> userList = commentRepository.findUserIdByArticleId(comment.getArticleId());
+
+            for(String userId : userList){
                 //Not send notification to current user
-                if(!cmt.getUserId().equals(currentUser.getId())){
+                if(!userId.equals(currentUser.getId())){
 
                     Notification notification = new Notification();
                     NotificationPK id = new NotificationPK();
                     id.setFromUserId(currentUser.getId());
-                    id.setToUserId(cmt.getUserId());
+                    id.setToUserId(userId);
                     notification.setNotificationPK(id);
                     notification.setCreateDate(new Date());
                     notification.setStatus(Constant.Status.ACTIVE.getValue());
-                    notification.setType(1); // 1 Comment
-                    notification.setData(cmt.getArticleId());
+                    notification.setType(Constant.NotificationType.COMMENT.getValue()); // 1 Comment
+
+                    Article article = articleService.getDetailArticle(comment.getArticleId(),
+                            Constant.Status.ACTIVE.getValue());
+
+                    Profile profile = profileService.getProfileByUserId(currentUser.getId());
+
+                    String data = "{\"articleId\":\"" + article.getArticleId() + "\""
+                            + ",\"articleTitle\":" + "\"" + article.getTitle() + "\"" +  ",\"firstName\":\""
+                            + profile.getFirstName() + "\"" + ",\"lastName\":\"" + profile.getLastName() + "\"" + "}";
+
+                    notification.setData(data);
 
                     notificationService.save(notification);
                 }

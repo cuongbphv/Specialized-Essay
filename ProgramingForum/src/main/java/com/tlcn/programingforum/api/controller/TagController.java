@@ -111,7 +111,21 @@ public class TagController extends AbstractBasedAPI {
         AuthUser authUser = getAuthUserFromSession(request);
         validatePermission(authUser, Constant.SystemRole.SYS_ADMIN.getId());
 
-        Page<Tag> tags = tagService.findAllPaging(pagingRequestModel);
+        Page<Tag> tags = tagService.findAllPaging(pagingRequestModel, Constant.Status.ACTIVE.getValue());
+
+        return responseUtil.successResponse(tags);
+    }
+
+    @RequestMapping(path = Constant.LIST_BANNED_TAG, method = RequestMethod.POST)
+    public ResponseEntity<RestAPIResponse> getListBannedTag(
+            HttpServletRequest request,
+            @RequestBody PagingRequestModel pagingRequestModel
+    ) {
+
+        AuthUser authUser = getAuthUserFromSession(request);
+        validatePermission(authUser, Constant.SystemRole.SYS_ADMIN.getId());
+
+        Page<Tag> tags = tagService.findAllPaging(pagingRequestModel, Constant.Status.DELETE.getValue());
 
         return responseUtil.successResponse(tags);
     }

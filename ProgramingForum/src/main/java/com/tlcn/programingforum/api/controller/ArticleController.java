@@ -152,6 +152,32 @@ public class ArticleController extends AbstractBasedAPI {
 
     }
 
+    @RequestMapping(value= Constant.LIST_UNAPPROVED_ARTICLE, method = RequestMethod.POST)
+    public ResponseEntity<RestAPIResponse> getListUnapprovedArticle(
+            HttpServletRequest request,
+            @RequestBody PagingRequestModel pagingRequestModel
+    ) {
+
+        Page<Article> articlePage = articleService.getListArticlePagingByApproveStatus(pagingRequestModel,
+                Constant.ApproveStatus.UNAPPROVED_STATUS.getValue()); //0 pending
+
+        return responseUtil.successResponse(articlePage);
+
+    }
+
+    @RequestMapping(value= Constant.LIST_REPORTED_ARTICLE, method = RequestMethod.POST)
+    public ResponseEntity<RestAPIResponse> getListReportedArticle(
+            HttpServletRequest request,
+            @RequestBody PagingRequestModel pagingRequestModel
+    ) {
+
+        Page<Article> articlePage = articleService.getListArticlePagingByApproveStatus(pagingRequestModel,
+                Constant.ApproveStatus.REPORTED_STATUS.getValue()); //3 reported
+
+        return responseUtil.successResponse(articlePage);
+
+    }
+
     @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity<RestAPIResponse> updateArticle(
             HttpServletRequest request,
@@ -192,6 +218,10 @@ public class ArticleController extends AbstractBasedAPI {
         return responseUtil.successResponse(article);
 
     }
+
+
+
+
 
     @RequestMapping(path = Constant.MARK_AS_RESOLVED, method = RequestMethod.PUT)
     public ResponseEntity<RestAPIResponse> markAsResolvedArticle(

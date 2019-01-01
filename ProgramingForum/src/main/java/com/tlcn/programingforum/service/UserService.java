@@ -30,7 +30,7 @@ public interface UserService {
 
     User findByUserNameAndStatus(String userName, int status);
 
-    Page<UserResponse> getListUserPaging(PagingRequestModel pagingRequestModel, String lang);
+    Page<UserResponse> getListUserPaging(PagingRequestModel pagingRequestModel, String lang, int status);
 
     List<Object[]> getTopAuthors();
 

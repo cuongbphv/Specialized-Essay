@@ -124,6 +124,11 @@ export class UserService {
       .pipe(map(res => res.data));
   }
 
+  getListBannedUser(pagingModel: Object): Observable<any>{
+    return this.apiService.post(API.LIST_BANNED_USER, pagingModel)
+      .pipe(map(res => res.data));
+  }
+
   grantAccess(id: string): Observable<number>{
     return this.apiService.get(API.GRANT_USER_ACCESS + id)
       .pipe(map(res => res.data));

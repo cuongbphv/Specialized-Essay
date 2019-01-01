@@ -40,4 +40,6 @@ public class Tag {
     @Column(name = "create_date")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date createDate;
+
+    private int status;
 }

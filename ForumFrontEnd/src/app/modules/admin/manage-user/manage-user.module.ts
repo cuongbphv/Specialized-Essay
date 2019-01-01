@@ -5,6 +5,7 @@ import {ManageUserRouting} from './manage-user.routing';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {DetailUserComponent} from './detail/detail-user.component';
 import {FormsModule} from '@angular/forms';
+import {ListBannedUserComponent} from './list-banned-user/list-banned-user.component';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import {FormsModule} from '@angular/forms';
   ],
   declarations: [
     ListUserComponent,
-    DetailUserComponent
+    DetailUserComponent,
+    ListBannedUserComponent
   ]
 })
 export class ManageUserModule { }

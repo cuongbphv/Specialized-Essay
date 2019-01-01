@@ -8,6 +8,8 @@ import {FormsModule} from '@angular/forms';
 import {LMarkdownEditorModule} from 'ngx-markdown-editor';
 import {NgxSpinnerModule} from 'ngx-spinner';
 import {SharedModule} from '../../../shared';
+import {ListReportedPostComponent} from './list-reported-post/list-reported-post.component';
+import {ListUnapprovedPostComponent} from './list-unapproved-post/list-unapproved-post.component';
 
 @NgModule({
   imports: [
@@ -21,7 +23,9 @@ import {SharedModule} from '../../../shared';
   ],
   declarations: [
     ListPostComponent,
-    DetailPostComponent
+    DetailPostComponent,
+    ListReportedPostComponent,
+    ListUnapprovedPostComponent
   ]
 })
 export class ManagePostModule { }

@@ -73,7 +73,7 @@ public class TagServiceImpl implements TagService {
                 (pagingRequestModel.getPageNumber() - 1)*pagingRequestModel.getPageSize());
     }
     @Override
-    public Page<Tag> findAllPaging(PagingRequestModel pagingRequestModel) {
+    public Page<Tag> findAllPaging(PagingRequestModel pagingRequestModel, int status) {
 
 //        String properties = "";
 //        switch (pagingRequestModel.getSortCase()){
@@ -85,7 +85,7 @@ public class TagServiceImpl implements TagService {
 //                properties);
 
         TagSpecification tagSpec = new TagSpecification(pagingRequestModel.getSearchKey(),
-                pagingRequestModel.getSortCase(), pagingRequestModel.isAscSort());
+                pagingRequestModel.getSortCase(), pagingRequestModel.isAscSort(), status);
 
         PageRequest pageReq = new PageRequest((pagingRequestModel.getPageNumber() - 1),
                 pagingRequestModel.getPageSize());

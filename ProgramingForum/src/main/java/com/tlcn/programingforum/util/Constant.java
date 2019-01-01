@@ -37,6 +37,7 @@ public interface Constant {
     public static final String USER_API = API_PREFIX + "/user";
     public static final String USER_REGISTER = "/signup";
     public static final String USER_LIST = "/list";
+    public static final String USER_BANNED_LIST = "/list/banned";
     public static final String USER_DETAIL = "/detail";
     public static final String UPDATE_PASS = "/update_password";
     public static final String USER_UPDATE_PASS = "/user_update_password";
@@ -49,6 +50,8 @@ public interface Constant {
     //Post management
     String ARTICLE_CONTROLLER = API_PREFIX + "/article";
     String LIST_ARTICLE = "/list";
+    String LIST_UNAPPROVED_ARTICLE = "/list/unapproved";
+    String LIST_REPORTED_ARTICLE = "/list/reported";
     String VIEW_COUNT = "/view";
     String STATS_BY_ARTICLE = "/stats";
     String MARK_AS_RESOLVED = "/resolved";
@@ -73,6 +76,7 @@ public interface Constant {
     String MOST_TAG_IN_FORUM = "/most";
     String MY_TAGS = "/my_tags";
     String LIST_TAG = "/list-detail";
+    String LIST_BANNED_TAG = "/list/banned";
     String FOLLOW_TAG = "/follow";
     String FOLLOW_STATUS = "/status";
     String UNFOLLOW_TAG = "/unfollow";
@@ -88,6 +92,7 @@ public interface Constant {
     String COMMENT_CONTROLLER = API_PREFIX + "/comment";
     String LIST_COMMENT_IN_ARTICLE = "/list";
     String COMMENT_INTERACT = "/interact";
+
 
     // Request Content Type
     public static final String APPLICATION_JSON_CONTENT_TYPE = "application/json";
@@ -230,6 +235,53 @@ public interface Constant {
         }
     }
 
+    enum ApproveStatus{
+
+        UNAPPROVED_STATUS("Unapproved Status", 0),
+        APPROVED_STATUS("Approved Status", 1),
+        REJECTED_STATUS("Rejected Status", 2),
+        REPORTED_STATUS("Reported Status", 3)
+        ;
+
+        private final String name;
+        private final int value;
+
+        ApproveStatus(String name, int value){
+            this.name = name;
+            this.value = value;
+        }
+
+        public String getName(){
+            return  this.name;
+        }
+
+        public int getValue(){
+            return this.value;
+        }
+    }
+
+
+    enum NotificationType{
+
+        COMMENT("Comment", 1)
+        ;
+
+        private final String name;
+        private final int value;
+
+        NotificationType(String name, int value){
+            this.name = name;
+            this.value = value;
+        }
+
+        public String getName(){
+            return  this.name;
+        }
+
+        public int getValue(){
+            return this.value;
+        }
+    }
 
     public enum SystemRole {
 

@@ -22,6 +22,6 @@ public interface CommentRepository extends CrudRepository<Comment, String> {
     List<Comment> findByParentIdAndStatus(String parentId, int status);
     Comment findByCommentIdAndStatus(String commentId, int status);
 
-//    @Query("SELECT DISTINCT c.userId from Comment c where c.articleId = :articleId")
-//    List<String> findUserIdByArticleId(@Param("articleId") String articleId);
+    @Query("SELECT DISTINCT c.userId from Comment c where c.articleId = :articleId")
+    List<String> findUserIdByArticleId(@Param("articleId") String articleId);
 }

@@ -66,7 +66,7 @@ public class UserServiceImpl extends AbstractBaseService implements UserService 
     }
 
     @Override
-    public Page<UserResponse> getListUserPaging(PagingRequestModel pagingRequestModel, String lang) {
+    public Page<UserResponse> getListUserPaging(PagingRequestModel pagingRequestModel, String lang, int status) {
 
         String properties = "";
         switch (pagingRequestModel.getSortCase()){
@@ -83,7 +83,8 @@ public class UserServiceImpl extends AbstractBaseService implements UserService 
 
         PageRequest pageReq = new PageRequest((pagingRequestModel.getPageNumber() - 1),
                 pagingRequestModel.getPageSize(),sort);
-        return userRepository.findAllPaging("%" + pagingRequestModel.getSearchKey().toLowerCase() + "%", pageReq);
+        return userRepository.findAllPagingAndStatus("%" + pagingRequestModel.getSearchKey().toLowerCase() + "%",
+                status ,pageReq);
     }
 
     @Override

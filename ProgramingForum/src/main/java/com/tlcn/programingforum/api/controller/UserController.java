@@ -424,18 +424,33 @@ public class UserController extends AbstractBasedAPI {
      * @param pagingRequestModel
      */
     @RequestMapping(value= Constant.USER_LIST, method = RequestMethod.POST)
-    public ResponseEntity<RestAPIResponse> getListArticle(
+    public ResponseEntity<RestAPIResponse> getListUser(
             HttpServletRequest request,
             @RequestBody PagingRequestModel pagingRequestModel
     ) {
 
 
-        Page<UserResponse> listUsers = userService.getListUserPaging(pagingRequestModel, "en");
+        Page<UserResponse> listUsers = userService.getListUserPaging(pagingRequestModel, "en",
+                Constant.Status.ACTIVE.getValue());
 
         return responseUtil.successResponse(listUsers);
 
     }
 
+
+    @RequestMapping(value= Constant.USER_BANNED_LIST, method = RequestMethod.POST)
+    public ResponseEntity<RestAPIResponse> getListBannedUser(
+            HttpServletRequest request,
+            @RequestBody PagingRequestModel pagingRequestModel
+    ) {
+
+
+        Page<UserResponse> listUsers = userService.getListUserPaging(pagingRequestModel, "en",
+                Constant.Status.DELETE.getValue());
+
+        return responseUtil.successResponse(listUsers);
+
+    }
 
 
     private void validateParam(UserRequest userRequest) {

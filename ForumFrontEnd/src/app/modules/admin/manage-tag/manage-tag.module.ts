@@ -5,6 +5,7 @@ import {ManageTagRouting} from './manage-tag.routing';
 import {ListTagComponent} from './list-tag/list-tag.component';
 import {DetailTagComponent} from './detail/detail-tag.component';
 import {FormsModule} from '@angular/forms';
+import {ListBannedTagComponent} from './list-banned-tag/list-banned-tag.component';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import {FormsModule} from '@angular/forms';
   ],
   declarations: [
     ListTagComponent,
-    DetailTagComponent
+    DetailTagComponent,
+    ListBannedTagComponent
   ]
 })
 export class ManageTagModule { }

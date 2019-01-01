@@ -47,6 +47,17 @@ public class ArticleServiceImpl extends AbstractBaseService implements ArticleSe
     }
 
     @Override
+    public Page<Article> getListArticlePagingByApproveStatus(PagingRequestModel pagingRequestModel, int status) {
+
+        ArticleSpecification userSpec = new ArticleSpecification(pagingRequestModel.getSearchKey(),
+                pagingRequestModel.getSortCase(), pagingRequestModel.isAscSort(),
+                pagingRequestModel.getType(), status);
+        PageRequest pageReq = new PageRequest((pagingRequestModel.getPageNumber() - 1), pagingRequestModel.getPageSize());
+        return articleRepository.findAll(userSpec, pageReq);
+
+    }
+
+    @Override
     public List<Article> findByUserIdAndTypeAndStatus(String userId, int type, int status) {
         return articleRepository.findByUserIdAndTypeAndStatus(userId, type, status);
     }

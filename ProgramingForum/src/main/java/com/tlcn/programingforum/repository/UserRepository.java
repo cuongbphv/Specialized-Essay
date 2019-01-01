@@ -50,8 +50,9 @@ public interface UserRepository extends PagingAndSortingRepository<User,String> 
             "u.role,up.userProfileId, up.firstName, up.lastName, " +
             "up.avatar, up.description, up.websiteLink,up.githubLink, up.position, up.company) " +
             "FROM User u , Profile up " +
-            "WHERE u.userId = up.userId AND (u.email LIKE :search or u.userName like :search " +
+            "WHERE u.userId = up.userId AND u.status = :status AND (u.email LIKE :search or u.userName like :search " +
             "or (u.lang = 'en' AND LOWER(CONCAT(up.firstName, ' ',up.lastName)) like :search) " +
             "or (u.lang = 'vi' AND LOWER(CONCAT(up.lastName, ' ',up.firstName)) like :search)) ")
-    Page<UserResponse> findAllPaging(@Param("search") String search, Pageable pageable);
+    Page<UserResponse> findAllPagingAndStatus(@Param("search") String search, @Param("status") int status,
+                                              Pageable pageable);
 }

@@ -20,17 +20,32 @@ public class TagSpecification implements Specification<Tag> {
     private final String searchKey;
     private final int sortCase;
     private final boolean ascSort;
+    private int status;
 
     public TagSpecification(String searchKey, int sortCase, boolean ascSort) {
         this.searchKey = searchKey;
         this.sortCase = sortCase;
         this.ascSort = ascSort;
+        this.status = -1;
     }
+
+    public TagSpecification(String searchKey, int sortCase, boolean ascSort, int status) {
+        this.searchKey = searchKey;
+        this.sortCase = sortCase;
+        this.ascSort = ascSort;
+        this.status = status;
+    }
+
 
     @Override
     public Predicate toPredicate(Root<Tag> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
 
         List<Predicate> predicates = new LinkedList<>();
+
+        if(status != -1){
+            Predicate statusPre = cb.equal(root.get("status"), status);
+            predicates.add(statusPre);
+        }
 
         if (searchKey != null && !searchKey.trim().isEmpty()) {
             String wrapSearch = "%" + searchKey.trim() + "%";
