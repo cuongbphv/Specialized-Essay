@@ -60,16 +60,8 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public List<Object[]> getAllTags(PagingRequestModel pagingRequestModel) {
-        String sortCase = "";
-        switch (pagingRequestModel.getSortCase()) {
-            case 1: sortCase = "create_date";
-            case 2: sortCase = "article_num";
-            case 3: sortCase = "question_num";
-            case 4: sortCase = "follwer_num";
-            default: sortCase = "create_date";
-        }
         return tagRepository.findAllPaging("%" + pagingRequestModel.getSearchKey().toLowerCase() + "%",
-                sortCase, pagingRequestModel.getPageSize(),
+                pagingRequestModel.getSortCase(), pagingRequestModel.getPageSize(),
                 (pagingRequestModel.getPageNumber() - 1)*pagingRequestModel.getPageSize());
     }
     @Override

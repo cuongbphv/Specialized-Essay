@@ -121,7 +121,19 @@
     "no_tag": "No tags",
     "my_tags": "My tags",
     "update_comment": "UPDATE COMMENT",
-    "same_author": "Article same author"
+    "same_author": "Article same author",
+    "next": "Next",
+    "previous": "Previous",
+    "article_info_user": "Article User Information",
+    "sort": {
+      "filter": "Filter",
+      "sort_type": "Sort Type",
+      "no_article": "No.Article",
+      "no_question": "No.Question",
+      "no_follower": "No.Follower",
+      "tag_name": "Tag Name",
+      "create_date": "Create Date"
+    }
   },
   "validation": {
     "first_name": {
@@ -191,7 +203,8 @@
     },
     "resolved": {
       "existed": "You marked as resolved for right answer",
-      "success": "You marked as resolved successfully"
+      "success": "You marked as resolved successfully",
+      "not_author": "Only author of question can mark as resolved"
     },
     "comment": {
       "delete_success": "Delete comment successfully",

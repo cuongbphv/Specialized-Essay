@@ -101,4 +101,15 @@ export class CommentService {
     ));
   }
 
+  getStatByCommentId(commentId: string): Observable<any> {
+    return this.apiService.get(API.STAT_BY_COMMENT_ID + "?comment_id=" + commentId).pipe(map(
+      res => {
+        if(res.status === 200){
+          return res.data;
+        }
+        return null;
+      }
+    ));
+  }
+
 }

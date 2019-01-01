@@ -79,9 +79,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/v1/author/top").permitAll()
                 .antMatchers(HttpMethod.POST,
                         "/api/v1/article/list",
+                        "/api/v1/article/my-article",
                         "/api/v1/article/related",
                         "/api/v1/article/same-author",
-                        "/api/v1/article/trending").permitAll()
+                        "/api/v1/article/trending",
+                        "/api/v1/tag/all").permitAll()
 //                .antMatchers(HttpMethod.PUT
 //                ).permitAll()
 //                .antMatchers(HttpMethod.DELETE

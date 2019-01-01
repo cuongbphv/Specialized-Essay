@@ -48,6 +48,7 @@ export const API = {
   BOOKMARK_LIST: BaseURL.ARTICLE_API + "/bookmark",
   TRENDING_LIST: BaseURL.ARTICLE_API + "/trending",
   APPROVE: BaseURL.ARTICLE_API + "/approve",
+  MY_ARTICLE: BaseURL.ARTICLE_API + "/my-article",
 
   // Interact Management
   ADD_INTERACT: BaseURL.ARTICLE_INTERACT_API,
@@ -57,6 +58,8 @@ export const API = {
   CRUD_COMMENT: BaseURL.COMMENT_API,
   LIST_COMMENT_IN_ARTICLE: BaseURL.COMMENT_API + "/list",
   COMMENT_INTERACT: BaseURL.COMMENT_API +"/interact",
+  MY_COMMENT: BaseURL.COMMENT_API +"/my-comment",
+  STAT_BY_COMMENT_ID: BaseURL.COMMENT_API +"/stats",
 
   // Report Article Management
   REPORT_ARTICLE: BaseURL.REPORT_ARTICLE_API,

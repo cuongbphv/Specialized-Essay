@@ -170,6 +170,7 @@ export class TagService {
   getAllTags(pagingRequest: any): Observable<any> {
     return this.apiService.post(API.ALL_TAGS, {
       type: pagingRequest.type,
+      userId: pagingRequest.userId,
       searchKey: pagingRequest.searchKey,
       sortCase: pagingRequest.sortCase,
       ascSort: pagingRequest.ascSort,

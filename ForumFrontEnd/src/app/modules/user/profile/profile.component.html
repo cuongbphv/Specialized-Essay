@@ -29,7 +29,7 @@
           </div>
           <div class="text-center">
             <input *ngIf="currentUser.userId === currentProfile.userId"
-                   type="submit" class="profile-edit-btn"  style="width: 30%;"
+                   type="submit" class="profile-edit-btn" style="width: 30%;"
                    name="btnUpdateProfile" (click)="forwardToUpdate()"
                    value="{{this.translate.data.button.update | translate}}"/>
           </div>
@@ -118,7 +118,8 @@
     </div>
 
 
-    <div *ngIf="currentUser.userId === currentProfile.userId"  [hidden]="profileMode!==2" class="emp-profile profile-update container">
+    <div *ngIf="currentUser.userId === currentProfile.userId" [hidden]="profileMode!==2"
+         class="emp-profile profile-update container">
       <form method="post">
         <div class="row">
           <div class="col-md-4">
@@ -135,14 +136,16 @@
             <div class="profile-work">
               <p class="text-center">{{this.translate.data.label.link | translate}}</p>
               <div class="form-row">
-                <label style="font-size: 12px; font-weight: 600" class="form-group col-md-3">{{this.translate.data.label.github | translate}}</label>
+                <label style="font-size: 12px; font-weight: 600"
+                       class="form-group col-md-3">{{this.translate.data.label.github | translate}}</label>
                 <div class="form-group col-md-9 cross-validation">
                   <input type="text" class="form-control" name="github"
                          [(ngModel)]="currentProfile.githubLink">
                 </div>
               </div>
               <div class="form-row">
-                <label style="font-size: 12px; font-weight: 600" class="form-group col-md-3">{{this.translate.data.label.website | translate}}</label>
+                <label style="font-size: 12px; font-weight: 600"
+                       class="form-group col-md-3">{{this.translate.data.label.website | translate}}</label>
                 <div class="form-group col-md-9 cross-validation">
                   <input type="text" class="form-control" name="website"
                          [(ngModel)]="currentProfile.websiteLink">
@@ -160,8 +163,8 @@
                      aria-controls="home" aria-selected="true">{{this.translate.data.label.about | translate}}</a>
                 </li>
                 <!--<li class="nav-item">-->
-                  <!--<a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"-->
-                     <!--aria-controls="profile" aria-selected="false">Timeline</a>-->
+                <!--<a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"-->
+                <!--aria-controls="profile" aria-selected="false">Timeline</a>-->
                 <!--</li>-->
               </ul>
 
@@ -184,7 +187,7 @@
                         <span class="help-block" *ngIf="firstName.value === ''">
                           {{this.translate.data.validation.first_name.required | translate}}
                         </span>
-                                <span class="help-block" *ngIf="firstName.errors?.pattern">
+                        <span class="help-block" *ngIf="firstName.errors?.pattern">
                           {{this.translate.data.validation.first_name.pattern | translate}}
                         </span>
                       </div>
@@ -202,7 +205,7 @@
                         <span class="help-block" *ngIf="lastName.value === ''">
                           {{this.translate.data.validation.last_name.required | translate}}
                         </span>
-                                <span class="help-block" *ngIf="lastName.errors?.pattern">
+                        <span class="help-block" *ngIf="lastName.errors?.pattern">
                           {{this.translate.data.validation.last_name.pattern | translate}}
                         </span>
                       </div>
@@ -301,44 +304,383 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bhoechie-tab-container">
           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bhoechie-tab-menu">
             <div class="list-group col-lg-12 col-md-12">
-              <a href="#" class="list-group-item active text-center col-lg-3">
-                <h4 class="fa fa-newspaper-o"></h4><br/>Post
+              <a href="#" class="list-group-item active text-center col-lg-3" (click)="getUserArticle(1)">
+                <h4 class="fa fa-newspaper-o"></h4><br/>Article
               </a>
-              <a href="#" class="list-group-item text-center col-lg-3">
+              <a href="#" class="list-group-item text-center col-lg-3" (click)="getUserArticle(2)">
                 <h4 class="fa fa-question"></h4><br/>Question
               </a>
-              <a href="#" class="list-group-item text-center col-lg-3">
+              <a href="#" class="list-group-item text-center col-lg-3" (click)="getUserComment()">
                 <h4 class="fa fa-reply"></h4><br/>Answer
               </a>
-              <a href="#" class="list-group-item text-center col-lg-3">
+              <a href="#" class="list-group-item text-center col-lg-3"
+                 (click)="getListBookmarkArticle(1,pagingRequestBookmark.sortCase,pagingRequestBookmark.ascSort)">
                 <h4 class="fa fa-paperclip"></h4><br/>Bookmark
               </a>
             </div>
           </div>
           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bhoechie-tab">
             <!-- flight section -->
-            <div class="bhoechie-tab-content text-center active">
-                <h1 class="fa fa-newspaper-o" style="font-size:14em;color:#55518a"></h1>
-                <h2 style="margin-top: 0;color:#55518a">Cooming Soon</h2>
-                <h3 style="margin-top: 0;color:#55518a">Most Popular Post</h3>
+            <div class="bhoechie-tab-content active post-area">
+
+              <h3 class="nothing" *ngIf="articles.length === 0">There is nothing here.</h3>
+
+              <div class="posts" *ngFor="let post of articles; let i = index;">
+
+                <div class="post-item">
+
+                  <div class="avatar">
+                    <img src="{{post.avatar}}"
+                         alt="No avt" class="img-responsive">
+                  </div>
+
+                  <div class="post-left">
+                    <div class="post-author">
+                      <span class="post-author-name"><b>{{post.firstName}} {{post.lastName}}</b></span>
+                      <span class="post-time">&nbsp; {{post.createDate | date: 'MM/dd/yyyy HH:mm'}}</span>
+                    </div>
+
+                    <div class="post-detail">
+                      <div class="post-title">
+                        <a href="#" [routerLink]="['/post/' + post.articleId]" class="wrap">{{post.title}}</a>
+                        <i *ngIf="(post.type === 2 && post.rightAnswerId !== '')" class="fa fa-check-circle"></i>
+                      </div>
+
+                      <div class="tags">
+                        <a *ngFor="let tag of post.tags; let j = index;" href="javascript:void(0)"
+                           [routerLink]="['/tag/' + tag.tagId]" class="bg-4f80b0">{{tag.tagName}}</a>
+                      </div>
+                    </div>
+
+                    <div class="post-info clearfix">
+                      <div class="stats">
+                <span class="stats-item text-muted" data-tippy="" data-original-title="Views"
+                      aria-describedby="tippy-285">
+                <i aria-hidden="true" class="fa fa-eye"></i>&nbsp;{{post.viewCount}}</span>
+                        <span class="stats-item text-muted" data-tippy="" data-original-title="Clips">
+                <i aria-hidden="true" class="fa fa-bookmark"></i>&nbsp;{{post.bookmarkCount}}</span>
+                        <span class="stats-item text-muted" data-tippy="" data-original-title="Comments">
+                <i aria-hidden="true" class="fa fa-comments"></i>&nbsp;{{post.commentNum}}</span>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <div class="post-right">
+                    <div class="upvote text-muted">
+                      <i class="fa fa-chevron-up"></i>
+                      <p><span *ngIf="post.rating > 0">+</span>{{post.rating}}</p>
+                      <i class="fa fa-chevron-down"></i>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+
+              <!-- paging for article -->
+              <div class="row" *ngIf="collectionSize > 10">
+                <ngb-pagination [collectionSize]="collectionSize" [pageSize]="pagingRequest.pageSize"
+                                [(page)]="pagingRequest.pageNumber"
+                                (pageChange)="getUserArticle(pagingRequest.type)"
+                                class="pagination-flat pagination-primary col-center-block">
+                </ngb-pagination>
+              </div>
             </div>
             <!-- train section -->
-            <div class="bhoechie-tab-content text-center">
-                <h1 class="fa fa-question" style="font-size:12em;color:#55518a"></h1>
-                <h2 style="margin-top: 0;color:#55518a">Cooming Soon</h2>
-                <h3 style="margin-top: 0;color:#55518a">Top Question</h3>
+            <div class="bhoechie-tab-content post-area">
+
+              <h3 class="nothing" *ngIf="articles.length === 0">There is nothing here.</h3>
+
+              <div class="posts" *ngFor="let post of articles; let i = index;">
+
+                <div class="post-item">
+
+                  <div class="avatar">
+                    <img src="{{post.avatar}}"
+                         alt="No avt" class="img-responsive">
+                  </div>
+
+                  <div class="post-left">
+                    <div class="post-author">
+                      <span class="post-author-name"><b>{{post.firstName}} {{post.lastName}}</b></span>
+                      <span class="post-time">&nbsp; {{post.createDate | date: 'MM/dd/yyyy HH:mm'}}</span>
+                    </div>
+
+                    <div class="post-detail">
+                      <div class="post-title">
+                        <a href="#" [routerLink]="['/post/' + post.articleId]" class="wrap">{{post.title}}</a>
+                        <i *ngIf="(post.type === 2 && post.rightAnswerId !== '')" class="fa fa-check-circle"></i>
+                      </div>
+
+                      <div class="tags">
+                        <a *ngFor="let tag of post.tags; let j = index;" href="javascript:void(0)"
+                           [routerLink]="['/tag/' + tag.tagId]" class="bg-4f80b0">{{tag.tagName}}</a>
+                      </div>
+                    </div>
+
+                    <div class="post-info clearfix">
+                      <div class="stats">
+                <span class="stats-item text-muted" data-tippy="" data-original-title="Views"
+                      aria-describedby="tippy-285">
+                <i aria-hidden="true" class="fa fa-eye"></i>&nbsp;{{post.viewCount}}</span>
+                        <span class="stats-item text-muted" data-tippy="" data-original-title="Clips">
+                <i aria-hidden="true" class="fa fa-bookmark"></i>&nbsp;{{post.bookmarkCount}}</span>
+                        <span class="stats-item text-muted" data-tippy="" data-original-title="Comments">
+                <i aria-hidden="true" class="fa fa-comments"></i>&nbsp;{{post.commentNum}}</span>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <div class="post-right">
+                    <div class="upvote text-muted">
+                      <i class="fa fa-chevron-up"></i>
+                      <p><span *ngIf="post.rating > 0">+</span>{{post.rating}}</p>
+                      <i class="fa fa-chevron-down"></i>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+
+              <!-- paging for article -->
+              <div class="row" *ngIf="collectionSize > 10">
+                <ngb-pagination [collectionSize]="collectionSize" [pageSize]="pagingRequest.pageSize"
+                                [(page)]="pagingRequest.pageNumber"
+                                (pageChange)="getUserArticle(pagingRequest.type)"
+                                class="pagination-flat pagination-primary col-center-block">
+                </ngb-pagination>
+              </div>
+
             </div>
 
             <!-- hotel search -->
-            <div class="bhoechie-tab-content text-center">
-                <h1 class="fa fa-reply" style="font-size:12em;color:#55518a"></h1>
-                <h2 style="margin-top: 0;color:#55518a">Cooming Soon</h2>
-                <h3 style="margin-top: 0;color:#55518a">Top Answer</h3>
+            <div class="bhoechie-tab-content post-area">
+
+              <h3 class="nothing" *ngIf="comments.length === 0">There is nothing here.</h3>
+
+              <div class="posts" *ngFor="let comment of comments; let i = index;">
+
+                <div class="post-item">
+
+                  <div class="avatar">
+                    <img src="{{comment.avatar}}"
+                         alt="No avt" class="img-responsive">
+                  </div>
+
+                  <div class="post-left">
+                    <div class="post-author">
+                      <span class="post-author-name"><b>{{comment.firstName}} {{comment.lastName}}</b></span>
+                      <span class="post-time">&nbsp; comment on </span>
+                      <a class="post-time" href="javascript:void(0)"
+                         [routerLink]="['/post/' + comment.articleId]">&nbsp;
+                        <b>{{comment.articleTitle}}</b> </a>
+                      <span class="post-time">&nbsp; {{comment.createDate | date: 'MM/dd/yyyy HH:mm'}}</span>
+                    </div>
+
+                    <div class="post-detail">
+                      <div class="post-title">
+                        <span>{{ (comment.content.length > 250) ? (comment.content | slice:0:250)+'...' : (comment.content) }}</span>
+                      </div>
+                    </div>
+
+                    <div class="post-info clearfix">
+                      <div class="stats">
+                        <span class="stats-item text-muted">
+                          <i aria-hidden="true" class="fa fa-heart"></i>&nbsp;{{comment.numOfHeart}}
+                        </span>
+                        <span class="stats-item text-muted">
+                          <i aria-hidden="true" class="fa fa-reply"></i>&nbsp;{{comment.numOfReply}}
+                        </span>
+                        <span class="stats-item text-muted">
+                          <i *ngIf="(comment.articleType === 2 && comment.rightAnswer)" class="fa fa-check-circle"></i>
+                        </span>
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+              <!-- paging for article -->
+              <div class="row" *ngIf="collectionSize > 10">
+                <ngb-pagination [collectionSize]="collectionSize" [pageSize]="pagingRequestComment.pageSize"
+                                [(page)]="pagingRequestComment.pageNumber"
+                                (pageChange)="getUserComment()"
+                                class="pagination-flat pagination-primary col-center-block">
+                </ngb-pagination>
+              </div>
+
             </div>
-            <div class="bhoechie-tab-content text-center">
-                <h1 class="fa fa-paperclip" style="font-size:12em;color:#55518a"></h1>
-                <h2 style="margin-top: 0;color:#55518a">Cooming Soon</h2>
-                <h3 style="margin-top: 0;color:#55518a">Bookmark</h3>
+            <div class="bhoechie-tab-content post-area">
+
+              <h3 class="nothing" *ngIf="bookmarks.length === 0">There is nothing here.</h3>
+
+              <!-- list post by bookmark -->
+              <div>
+
+                <div class="panel-group">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#filterBookmark">
+                          Filter
+                        </a>
+                        <a id="test" class="pull-right" data-toggle="collapse" href="#filterBookmark">
+                          <span class="fa fa-filter"></span>
+                        </a>
+                      </h4>
+                    </div>
+
+                    <div id="filterBookmark" class="panel-collapse collapse in">
+                      <div class="panel-body">
+                        <div class="filter-setting">
+
+                          <div class="form-row">
+                            <label class="col-xs-4">Article Type</label>
+                            <div class="col-xs-8">
+                              <div class="input-group">
+                                <div class="btn-group">
+                                  <button class="btn btn-primary btn-sm"
+                                          (click)="getListBookmarkArticle(1,pagingRequestBookmark.sortCase,
+                                                    pagingRequestBookmark.ascSort)"
+                                          [ngClass]="pagingRequestBookmark.type === 1 ? 'active' :'notActive'">Article</button>
+                                  <button class="btn btn-primary btn-sm"
+                                          (click)="getListBookmarkArticle(2,pagingRequestBookmark.sortCase,
+                                                    pagingRequestBookmark.ascSort)"
+                                          [ngClass]="pagingRequestBookmark.type === 2 ? 'active' :'notActive'">Question</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <hr class="line"/>
+
+                          <div class="form-row">
+                            <label class="col-xs-4">Date Type</label>
+                            <div class="col-xs-8">
+                              <div class="input-group">
+                                <div class="btn-group">
+                                  <a class="btn btn-primary btn-sm"
+                                     (click)="getListBookmarkArticle(
+                                                    pagingRequestBookmark.type,
+                                                    1,
+                                                    pagingRequestBookmark.ascSort)"
+                                     [ngClass]="pagingRequestBookmark.sortCase === 1 ? 'active' :'notActive'">Bookmark Date</a>
+                                  <a class="btn btn-primary btn-sm"
+                                     (click)="getListBookmarkArticle(
+                                                    pagingRequestBookmark.type,
+                                                    2,
+                                                    pagingRequestBookmark.ascSort)"
+                                     [ngClass]="pagingRequestBookmark.sortCase === 2 ? 'active' :'notActive'">Create Date</a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <hr class="line"/>
+
+                          <div class="form-row">
+                            <label class="col-xs-4">Sort Date</label>
+                            <div class="col-xs-8">
+                              <div class="input-group">
+                                <div class="btn-group">
+                                  <a class="btn btn-primary btn-sm"
+                                     (click)="getListBookmarkArticle(
+                                                    pagingRequestBookmark.type,
+                                                    pagingRequestBookmark.sortCase,
+                                                    false)"
+                                     [ngClass]="pagingRequestBookmark.ascSort === false ? 'active' :'notActive'">Latest</a>
+                                  <a class="btn btn-primary btn-sm"
+                                     (click)="getListBookmarkArticle(
+                                                    pagingRequestBookmark.type,
+                                                    pagingRequestBookmark.sortCase,
+                                                    true)"
+                                     [ngClass]="pagingRequestBookmark.ascSort === true ? 'active' :'notActive'">Oldest</a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <hr class="line"/>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="posts" *ngFor="let bookmark of bookmarks; let i = index;">
+
+                  <div class="post-item">
+
+                    <div class="avatar">
+                      <img src="https://bootstrapmade.com/wp-content/themefiles/Moderna/400.png"
+                           alt="no avt" class="img-responsive">
+                    </div>
+
+                    <div class="post-left">
+                      <div class="post-author">
+                  <span
+                    class="post-author-name"><b>{{bookmark.article.firstName}} {{bookmark.article.lastName}}</b></span>
+                        <span class="post-time">&nbsp; {{bookmark.article.createDate | date: 'MM/dd/yyyy HH:mm'}}</span>
+                      </div>
+
+                      <div class="post-detail">
+                        <div class="post-title">
+                          <a href="#" [routerLink]="['/post/' + bookmark.article.articleId]"
+                             class="wrap">{{bookmark.article.title}}</a>
+                          <i *ngIf="(bookmark.article.type === 2 && bookmark.article.rightAnswerId !== '')"
+                             class="fa fa-check-circle"></i>
+                        </div>
+
+                        <div class="tags">
+                          <a *ngFor="let tag of bookmark.article.tags; let j = index;" href="javascript:void(0)"
+                             [routerLink]="['/tag/' + tag.tagId]" class="bg-4f80b0">{{tag.tagName}}</a>
+                        </div>
+                      </div>
+
+                      <div class="post-info clearfix">
+                        <div class="stats">
+                <span class="stats-item text-muted" data-tippy="" data-original-title="Views"
+                      aria-describedby="tippy-285">
+                <i aria-hidden="true" class="fa fa-eye"></i>&nbsp;{{bookmark.article.viewCount}}</span>
+                          <span class="stats-item text-muted" data-tippy="" data-original-title="Clips">
+                <i aria-hidden="true" class="fa fa-bookmark"></i>&nbsp;{{bookmark.article.bookmarkCount}}</span>
+                          <span class="stats-item text-muted" data-tippy="" data-original-title="Comments">
+                <i aria-hidden="true" class="fa fa-comments"></i>&nbsp;{{bookmark.article.commentNum}}</span>
+                          <span><i>( Bookmark Date: {{bookmark.bookmarkDate | date : 'MM/dd/yyyy HH:mm'}} )</i></span>
+                        </div>
+
+                      </div>
+                    </div>
+
+                    <div class="post-right">
+                      <div class="upvote text-muted">
+                        <i class="fa fa-chevron-up"></i>
+                        <p><span *ngIf="bookmark.article.rating > 0">+</span>{{bookmark.article.rating}}</p>
+                        <i class="fa fa-chevron-down"></i>
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- paging for bookmark -->
+              <div class="row" *ngIf="collectionSize > 10">
+                <ngb-pagination [collectionSize]="collectionSize" [pageSize]="pagingRequestBookmark.pageSize"
+                                [(page)]="pagingRequestBookmark.pageNumber"
+                                (pageChange)="getListBookmarkArticle(
+                                                      pagingRequestBookmark.type,
+                                                      pagingRequestBookmark.sortCase,
+                                                      pagingRequestBookmark.ascSort)"
+                                class="pagination-flat pagination-primary col-center-block">
+                </ngb-pagination>
+              </div>
+
             </div>
           </div>
         </div>

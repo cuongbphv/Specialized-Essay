@@ -18,7 +18,7 @@ public interface FollowTagRepository extends CrudRepository<FollowTag, String> {
     FollowTag findByIdTagIdAndIdUserId(String tagId, String userId);
 
     @Query(value = "SELECT * FROM follow_tag ft WHERE ft.tag_id = ?1 ORDER BY ?#{#pageable}",
-            countQuery = "SELECT * FROM follow_tag ft WHERE ft.tag_id = ?1 ",
+            countQuery = "SELECT COUNT(*) FROM follow_tag ft WHERE ft.tag_id = ?1 ",
             nativeQuery = true)
     Page<FollowTag> findByIdTagId(String tagId, PageRequest pageRequest);
 

@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 /**
  * @author Huy Pham
  */
@@ -39,4 +41,7 @@ public class UserRequest {
     private String githubLink;
     private String position;
     private String company;
+
+    // follow tag id
+    private List<String> tagIds;
 }

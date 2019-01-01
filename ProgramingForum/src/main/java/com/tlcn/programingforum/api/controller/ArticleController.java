@@ -13,6 +13,7 @@ import com.tlcn.programingforum.exception.ApplicationException;
 import com.tlcn.programingforum.model.RestAPIResponse;
 import com.tlcn.programingforum.model.entity.*;
 import com.tlcn.programingforum.model.entity.key.TagArticlePK;
+import com.tlcn.programingforum.model.entity.key.TagUserPK;
 import com.tlcn.programingforum.service.*;
 import com.tlcn.programingforum.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,9 @@ public class ArticleController extends AbstractBasedAPI {
     @Autowired
     ArticleInteractService articleInteractService;
 
+    @Autowired
+    FollowTagService followTagService;
+
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<RestAPIResponse> createArticle(
             HttpServletRequest request,
@@ -56,7 +60,7 @@ public class ArticleController extends AbstractBasedAPI {
 
         // add tag to list tag
         List<Tag> tagList = tagService.findAllTags();
-        List<String> tagIds = addToTagList(articleRequest.getTags(), tagList);
+        List<String> tagIds = addToTagList(articleRequest.getTags(), tagList, articleRequest.getUserId());
 
         Article article = new Article();
         article.setTitle(articleRequest.getTitle());
@@ -190,7 +194,7 @@ public class ArticleController extends AbstractBasedAPI {
 
         // add tag to list tag
         List<Tag> tagList = tagService.findAllTags();
-        List<String> tagIds = addToTagList(articleRequest.getTags(), tagList);
+        List<String> tagIds = addToTagList(articleRequest.getTags(), tagList, articleRequest.getUserId());
 
         Article article = articleService.getDetailArticle(articleRequest.getArticleId(),
                 Constant.Status.ACTIVE.getValue());
@@ -501,6 +505,20 @@ public class ArticleController extends AbstractBasedAPI {
         return responseUtil.successResponse(status);
     }
 
+    @RequestMapping(path = Constant.MY_ARTICLE, method = RequestMethod.POST)
+    public ResponseEntity<RestAPIResponse> getUserArticle(
+            HttpServletRequest request,
+            @RequestBody PagingRequestModel pagingRequestModel) {
+
+        if(pagingRequestModel == null) {
+            throw new ApplicationException(APIStatus.ERR_BAD_REQUEST);
+        }
+
+        Page<Article> articles = articleService.getListUserArticle(pagingRequestModel);
+
+        return responseUtil.successResponse(articles);
+    }
+
     @RequestMapping(path = Constant.WITHIN_ID, method = RequestMethod.DELETE)
     public ResponseEntity<RestAPIResponse> deletePost(
             HttpServletRequest request,
@@ -521,13 +539,23 @@ public class ArticleController extends AbstractBasedAPI {
         return responseUtil.successResponse("Deleted");
     }
 
-    private List<String> addToTagList(List<String> tagNames, List<Tag> tagList) {
+    private List<String> addToTagList(List<String> tagNames, List<Tag> tagList, String userId) {
         List<String> tagIds = new ArrayList<>();
 
         for(String tagOfArticle : tagNames) {
             boolean existed = false;
             for(Tag tag : tagList) {
+
                 if(tag.getTagName().equals(tagOfArticle)) {
+
+                    FollowTag followTag = followTagService.findFollowTag(tag.getTagId(), userId);
+                    if(followTag == null) {
+                        FollowTag newFollow = new FollowTag();
+                        newFollow.setCreateDate(new Date());
+                        newFollow.setId(new TagUserPK(tag.getTagId(), userId));
+                        followTagService.followTag(newFollow);
+                    }
+
                     tagIds.add(tag.getTagId());
                     existed = true;
                 }
@@ -537,16 +565,18 @@ public class ArticleController extends AbstractBasedAPI {
                 newTag.setTagName(tagOfArticle);
                 newTag.setDescription("");
                 newTag.setCreateDate(new Date());
-                tagIds.add(tagService.saveTag(newTag).getTagId());
+
+                String tagId = tagService.saveTag(newTag).getTagId();
+                FollowTag newFollow = new FollowTag();
+                newFollow.setCreateDate(new Date());
+                newFollow.setId(new TagUserPK(tagId, userId));
+                followTagService.followTag(newFollow);
+                
+                tagIds.add(tagId);
             }
         }
 
         return tagIds;
     }
-
-
-
-
-
 
 }

@@ -121,7 +121,19 @@
     "no_tag": "Không có thẻ",
     "my_tags": "Thẻ của tôi",
     "update_comment": "CẬP NHẬT BÌNH LUẬN",
-    "same_author": "Bài viết cùng tác giả"
+    "same_author": "Bài viết cùng tác giả",
+    "next": "Trang sau",
+    "previous": "Trang trước",
+    "article_info_user": "Thông tin người dùng trong bài viết",
+    "sort": {
+      "filter": "Bộ lọc",
+      "sort_type": "Sắp xếp theo",
+      "no_article": "Số bài viết",
+      "no_question": "Số câu hỏi",
+      "no_follower": "Người theo dõi",
+      "tag_name": "Tên thẻ",
+      "create_date": "Ngày tạo"
+    }
   },
   "validation": {
     "first_name": {
@@ -191,7 +203,8 @@
     },
     "resolved": {
       "existed": "Bạn đã đánh dấu câu trả lời đúng trước đó",
-      "success": "Bạn đã đánh dấu câu trả lời đúng thành công"
+      "success": "Bạn đã đánh dấu câu trả lời đúng thành công",
+      "not_author": "Chỉ có tác giả câu hỏi mới chọn câu trả lời đúng"
     },
     "comment": {
       "delete_success": "Xóa bình luận thành công",

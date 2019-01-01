@@ -4,6 +4,7 @@ import com.tlcn.programingforum.api.model.request.PagingRequestModel;
 import com.tlcn.programingforum.model.entity.Article;
 import com.tlcn.programingforum.repository.ArticleRepository;
 import com.tlcn.programingforum.repository.specification.ArticleSpecification;
+import com.tlcn.programingforum.repository.specification.MyArticleSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -89,5 +90,15 @@ public class ArticleServiceImpl extends AbstractBaseService implements ArticleSe
     @Override
     public Article findByRightAnswerId(String rightAnswerId) {
         return articleRepository.findByRightAnswerId(rightAnswerId);
+    }
+
+    @Override
+    public Page<Article> getListUserArticle(PagingRequestModel pagingRequestModel) {
+        MyArticleSpecification articleSpecification = new MyArticleSpecification(pagingRequestModel.getUserId(),
+                pagingRequestModel.getSortCase(), pagingRequestModel.isAscSort(),
+                pagingRequestModel.getType());
+        PageRequest pageReq = new PageRequest((pagingRequestModel.getPageNumber() - 1),
+                pagingRequestModel.getPageSize());
+        return articleRepository.findAll(articleSpecification, pageReq);
     }
 }

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 
-import {AuthBaseService, SessionService, TranslateService, UserService} from '../../../../core/services';
+import {AuthBaseService, SessionService, TagService, TranslateService, UserService} from '../../../../core/services';
 // import * as $ from 'jquery';
 import {Pattern} from '../../../../shared/constant/index';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
@@ -21,12 +21,25 @@ export class RegisterComponent implements OnInit {
     lastName: '',
     password: '',
     phone: '',
-    description: '',
+    description: ''
   };
 
   imgUrl : string;
   isSocialUser: boolean = false;
   step:number = 1;
+
+  tagList = [];
+  followTagId = [];
+
+  pagingRequest: any = {
+    type: 1,
+    userId: '',
+    searchKey: '',
+    sortCase: 1,
+    ascSort: true,
+    pageNumber: 1,
+    pageSize: 20
+  };
 
   constructor(
     public translate: TranslateService,
@@ -34,7 +47,8 @@ export class RegisterComponent implements OnInit {
     private router: Router,
     private authBaseService: AuthBaseService,
     private userService: UserService,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private tagService: TagService
   ) {
     this.route.queryParams.subscribe(params => {
       this.userInfo.firstName = params["firstName"];
@@ -66,12 +80,18 @@ export class RegisterComponent implements OnInit {
 
     if (this.step + value >= 1 && this.step + value <= 4) {
       this.step += value;
+
+      if(this.step === 3) {
+        // get my follow status with tag
+        this.getAllTag('',5,true,1);
+      }
+
     }
   }
 
   doRegister(){
 
-    this.authBaseService.register(this.userInfo)
+    this.authBaseService.register(this.userInfo, this.followTagId)
       .subscribe(res => {
       if(res.status === 200){
           console.log("do create profile");
@@ -96,6 +116,49 @@ export class RegisterComponent implements OnInit {
 
       reader.readAsDataURL(event.target.files[0]);
     }
+  }
+
+  getAllTag(searchKey: string, sortCase: number, ascSort: boolean, pageNumber: number) {
+
+    this.pagingRequest.searchKey = searchKey;
+    this.pagingRequest.sortCase = sortCase;
+    this.pagingRequest.ascSort = ascSort;
+    this.pagingRequest.pageNumber = pageNumber;
+
+    this.tagService.getAllTags(this.pagingRequest).subscribe(
+      tags => {
+        this.tagList = tags;
+        console.log(this.tagList);
+      }
+    )
+  }
+
+  followAction(tagId: string, followStatus: boolean) {
+    if (followStatus === false) {
+      let followed = false;
+      for(let i = 0; i < this.followTagId.length; i++) {
+        if (this.followTagId[i] === tagId) {
+          followed = true;
+        }
+      }
+      if (!followed) {
+        this.followTagId.push(tagId);
+        let obj = this.tagList.find(obj => obj.tagId === tagId);
+        obj.followStatus = true;
+      }
+    }
+    else {
+      let obj = this.tagList.find(obj => obj.tagId === tagId);
+      obj.followStatus = false;
+      for(let i = 0; i < this.followTagId.length; i++) {
+        if (this.followTagId[i] === tagId) {
+          this.followTagId.splice(i,1);
+        }
+      }
+    }
+
+    console.log(this.followTagId);
+
   }
 
 }

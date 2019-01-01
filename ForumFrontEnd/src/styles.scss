@@ -84,6 +84,10 @@
   cursor: no-drop;
 }
 
+.clickable {
+  cursor: pointer;
+}
+
 modal {
   display: none;
 }
@@ -137,6 +141,24 @@ modal .modal-background {
   white-space: nowrap;
   text-align: center;
   background-color: #d9534f;
+  border-radius: 10px;
+  position: absolute;
+  margin-top: -5px;
+  margin-left: -15px
+}
+
+.badgeNumber {
+  display: inline-block;
+  min-width: 10px;
+  padding: 3px 7px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff !important;
+  line-height: 1;
+  vertical-align: baseline;
+  white-space: nowrap;
+  text-align: center;
+  background-color: #1e5f8d !important;
   border-radius: 10px;
   position: absolute;
   margin-top: -5px;

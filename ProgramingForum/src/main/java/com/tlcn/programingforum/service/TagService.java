@@ -22,6 +22,5 @@ public interface TagService {
     List<Object> findMostTagInForum();
     Object getTagInfomation(String tagId);
     List<Object[]> getAllTags(PagingRequestModel pagingRequestModel);
-
     Page<Tag> findAllPaging(PagingRequestModel pagingRequestModel, int status);
 }

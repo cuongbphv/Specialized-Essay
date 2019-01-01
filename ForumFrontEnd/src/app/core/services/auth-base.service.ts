@@ -26,7 +26,7 @@ export class AuthBaseService {
   ) {
   }
 
-  register(user: any): Observable<any> {
+  register(user: any, followTagId: any): Observable<any> {
 
       let userRequest = {
         firstName: user.firstName,
@@ -39,7 +39,8 @@ export class AuthBaseService {
         avatarUrl: user.image || null,
         lang: user.lang || null,
         description: user.description || null,
-        setting: user.setting || null
+        setting: user.setting || null,
+        tagIds: followTagId || null
       };
 
       const formdata: FormData = new FormData();
