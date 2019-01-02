@@ -215,6 +215,7 @@ export class TagDetailComponent implements OnInit{
               this.followers[i].firstName = author.firstName;
               this.followers[i].lastName = author.lastName;
               this.followers[i].userProfileId = author.userProfileId;
+              this.followers[i].avatar = author.avatar;
             }
           );
         }

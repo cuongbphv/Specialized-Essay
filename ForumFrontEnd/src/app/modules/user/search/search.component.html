@@ -1,0 +1,135 @@
+<section id="content">
+
+  <div class="container">
+
+    <!-- content -->
+    <div class="row" style="margin-bottom: 20px;">
+
+      <!-- col list article -->
+      <div class="col-xs-12 col-sm-8 col-md-9" style="margin-top: 16px;">
+
+        <div id="search-lg" class="searchform clearfix">
+          <span class="sfield">
+              <input type="text" class="s" textPlaceHolder="main.keywords"
+                     (keyup)="searchByType(pagingRequest.type)" [(ngModel)]="keyword">
+            </span>
+          <button type="submit" class="sbutton" (click)="searchByType(pagingRequest.type);">
+            <i class="fa fa-search sicon"></i>
+          </button>
+        </div>
+
+        <!-- nav of content -->
+        <div class="nav">
+          <div class="nav__menu">
+            <ul>
+              <li [ngClass]="{'active' : pagingRequest.type === 1}" class="active">
+                <a href="javascript:void(0)" textContent="main.article" (click)="searchByType(1)"></a>
+              </li>
+              <li [ngClass]="{'active' : pagingRequest.type === 2}">
+                <a href="javascript:void(0)" textContent="main.question" (click)="searchByType(2)"></a>
+              </li>
+            </ul>
+
+          </div>
+        </div>
+
+        <div>
+
+          <h3 class="text-center mt-2" *ngIf="articles.length === 0">There is nothing here.</h3>
+
+          <div class="posts" *ngFor="let article of articles; let i = index;">
+
+            <div class="post-item">
+
+              <div class="avatar">
+                <img src="{{article.avatar}}"
+                     alt="No avatar" class="img-responsive">
+              </div>
+
+              <div class="post-left">
+                <div class="post-author">
+                  <a href="javascrip:void(0)" [routerLink]="['/profile/' + article.userId]"
+                    class="post-author-name"><b>{{article.firstName}} {{article.lastName}}</b></a>
+                  <span class="post-time">&nbsp; {{article.createDate | date: 'MM/dd/yyyy HH:mm'}}</span>
+                </div>
+
+                <div class="post-detail">
+                  <div class="post-title">
+                    <a href="javascript:void(0)" [routerLink]="['/post/' + article.articleId]"
+                       class="wrap">{{article.title}}</a>
+                    <i *ngIf="(article.type === 2 && article.rightAnswer)"
+                       class="fa fa-check-circle"></i>
+                  </div>
+
+                  <div class="tags">
+                    <a *ngFor="let tag of article.tags; let j = index;" href="javascript:void(0)"
+                       [routerLink]="['/tag/' + tag.tagId]" class="bg-4f80b0">{{tag.tagName}}</a>
+                  </div>
+                </div>
+
+                <div class="post-info clearfix">
+                  <div class="stats">
+                    <span class="stats-item text-muted">
+                      <i aria-hidden="true" class="fa fa-eye"></i>&nbsp;{{article.viewCount}}
+                    </span>
+                    <span class="stats-item text-muted">
+                      <i aria-hidden="true" class="fa fa-bookmark"></i>&nbsp;{{article.bookmark}}
+                    </span>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="post-right">
+                <div class="upvote text-muted">
+                  <i class="fa fa-chevron-up"></i>
+                  <p><span *ngIf="article.rating > 0">+</span>{{article.rating}}</p>
+                  <i class="fa fa-chevron-down"></i>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        <div class="row" *ngIf="collectionSize > 10">
+          <ngb-pagination [collectionSize]="collectionSize" [pageSize]="pagingRequest.pageSize"
+                          [(page)]="pagingRequest.pageNumber"
+                          (pageChange)="searchByType(pagingRequest.type)"
+                          class="pagination-flat pagination-primary col-center-block">
+          </ngb-pagination>
+        </div>
+
+      </div>
+
+      <!-- col info -->
+      <div class="col-xs-12 col-sm-4 col-md-3">
+        <div class="sidebar">
+
+          <div class="widget-area"><h3 class="widget-title">SEARCH SYNTAX</h3>
+            <div class="popular-authors clearfix">
+              <h5 class="badge badge-success text-white"
+                  style="font-size: 0.75rem;line-height: 1.5;">keyword</h5>
+              <h5>Tìm kiếm với từ khóa cả trong tiêu đề và nội dung bài viết</h5>
+            </div>
+            <div class="popular-authors clearfix">
+              <h5 class="badge badge-success text-white"
+                  style="font-size: 0.75rem;line-height: 1.5;">title:keyword</h5>
+              <h5>Tìm kiếm với từ khóa trong tiêu đề bài viết</h5>
+            </div>
+            <div class="popular-authors clearfix">
+              <h5 class="badge badge-success text-white"
+                  style="font-size: 0.75rem;line-height: 1.5;">content:keyword</h5>
+              <h5>Tìm kiếm với từ khóa trong nội dung bài viết</h5>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>

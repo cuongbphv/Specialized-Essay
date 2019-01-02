@@ -9,7 +9,8 @@ const BaseURL = {
   REPORT_ARTICLE_API: '/report',
   REPORT_COMMENT_API: '/report-comment',
   COMMENT_API: '/comment',
-  AUTHOR_API: '/author'
+  AUTHOR_API: '/author',
+  SEARCH_API: '/search'
 };
 
 export const API = {
@@ -83,6 +84,10 @@ export const API = {
 
   // Author Management
   TOP_AUTHOR: BaseURL.AUTHOR_API + "/top",
+
+  // Search
+  TOP_RESULT_SEARCH: BaseURL.SEARCH_API + "/top",
+  SEARCH_BY_TYPE: BaseURL.SEARCH_API + "/type",
 
   //Follow
   FOLLOW_USER: BaseURL.USER_API + "/follow/",

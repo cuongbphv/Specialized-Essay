@@ -8,6 +8,7 @@ import com.tlcn.programingforum.repository.specification.MyArticleSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -100,5 +101,32 @@ public class ArticleServiceImpl extends AbstractBaseService implements ArticleSe
         PageRequest pageReq = new PageRequest((pagingRequestModel.getPageNumber() - 1),
                 pagingRequestModel.getPageSize());
         return articleRepository.findAll(articleSpecification, pageReq);
+    }
+
+    @Override
+    public Page<Article> searchArticleByType(int type, PagingRequestModel pagingRequestModel) {
+        return articleRepository.searchFullText(pagingRequestModel.getSearchKey(), type,
+        new PageRequest(pagingRequestModel.getPageNumber() - 1, pagingRequestModel.getPageSize()));
+    }
+
+    @Override
+    public Page<Object[]> searchArticleByTypeAndSort(String searchColumn, PagingRequestModel pagingRequest) {
+
+        String properties = "";
+
+        switch (pagingRequest.getSortCase()){
+            case 1: properties = "create_date";
+            case 2: properties = "view_count";
+            case 3: properties = "bookmark";
+            case 4: properties = "rating";
+            default: properties = "view_count";
+        }
+
+        Sort sort = new Sort(pagingRequest.isAscSort()?Sort.Direction.ASC: Sort.Direction.DESC,
+                properties);
+
+        return articleRepository.searchFullTextAndSort(pagingRequest.getSearchKey(), pagingRequest.getType(),
+                searchColumn, // fake for column search (sorry because i'm lazy :)) )
+                new PageRequest(pagingRequest.getPageNumber() - 1, pagingRequest.getPageSize(),sort));
     }
 }

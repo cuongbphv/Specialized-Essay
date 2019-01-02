@@ -34,4 +34,8 @@ public interface ArticleService {
     Article findByRightAnswerId(String rightAnswerId);
 
     Page<Article> getListUserArticle(PagingRequestModel pagingRequestModel);
+
+    Page<Article> searchArticleByType(int type, PagingRequestModel pagingRequestModel);
+
+    Page<Object[]> searchArticleByTypeAndSort(String searchColumn, PagingRequestModel pagingRequestModel);
 }

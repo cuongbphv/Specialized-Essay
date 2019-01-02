@@ -67,17 +67,9 @@ public class TagServiceImpl implements TagService {
     @Override
     public Page<Tag> findAllPaging(PagingRequestModel pagingRequestModel, int status) {
 
-//        String properties = "";
-//        switch (pagingRequestModel.getSortCase()){
-//            case 1: properties = "createDate";
-//            case 2: properties = "tagName";
-//            default: properties = "createDate";
-//        }
-//        Sort sort = new Sort(pagingRequestModel.isAscSort()?Sort.Direction.ASC: Sort.Direction.DESC,
-//                properties);
-
         TagSpecification tagSpec = new TagSpecification(pagingRequestModel.getSearchKey(),
-                pagingRequestModel.getSortCase(), pagingRequestModel.isAscSort(), status);
+                pagingRequestModel.getSortCase(), pagingRequestModel.isAscSort(),
+                status, pagingRequestModel.getType());
 
         PageRequest pageReq = new PageRequest((pagingRequestModel.getPageNumber() - 1),
                 pagingRequestModel.getPageSize());

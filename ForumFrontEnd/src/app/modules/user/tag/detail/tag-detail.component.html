@@ -142,7 +142,7 @@
 
         <div class="row" *ngIf="navType === 1 && collectionSize > 10">
           <ngb-pagination [collectionSize]="collectionSize" [pageSize]="pagingRequestArticle.pageSize"
-                          [(page)]="pagingRequest.pageNumber"
+                          [(page)]="pagingRequestArticle.pageNumber"
                           (pageChange)="getListArticleByType(1,1)"
                           class="pagination-flat pagination-primary col-center-block">
           </ngb-pagination>
@@ -150,14 +150,14 @@
 
         <div class="row" *ngIf="navType === 2 && collectionSize > 10">
           <ngb-pagination [collectionSize]="collectionSize" [pageSize]="pagingRequestArticle.pageSize"
-                          [(page)]="pagingRequest.pageNumber"
+                          [(page)]="pagingRequestArticle.pageNumber"
                           (pageChange)="getListArticleByType(2,2)"
                           class="pagination-flat pagination-primary col-center-block">
           </ngb-pagination>
         </div>
 
         <div class="row" *ngIf="navType === 3 && collectionSize > 10">
-          <ngb-pagination [collectionSize]="collectionSize" [pageSize]="pagingRequestArticle.pageSize"
+          <ngb-pagination [collectionSize]="collectionSize" [pageSize]="pagingRequest.pageSize"
                           [(page)]="pagingRequest.pageNumber"
                           (pageChange)="getListFollowers(3)"
                           class="pagination-flat pagination-primary col-center-block">

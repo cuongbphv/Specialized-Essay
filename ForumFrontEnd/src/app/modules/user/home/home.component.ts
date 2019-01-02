@@ -63,36 +63,37 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
 
+    let $menu = $('[data-dropdown-list=\'menu\']');
+
     $(document).ready(function () {
 
       $('#btnMenu').click(function () {
-        if ($('[data-dropdown-list=\'menu\']').hasClass('dropdown--open')) {
-          $('[data-dropdown-list=\'menu\']').slideUp('slow').removeClass('dropdown--open');
+        if ($menu.hasClass('dropdown--open')) {
+          $menu.slideUp('slow').removeClass('dropdown--open');
         } else {
-          $('[data-dropdown-list=\'menu\']').slideDown('slow').addClass('dropdown--open');
+          $menu.slideDown('slow').addClass('dropdown--open');
         }
-      });
-
-      $('#btnTags').click(function () {
-        if ($('[data-dropdown-list=\'tags\']').hasClass('dropdown--open')) {
-          $('[data-dropdown-list=\'tags\']').slideUp('slow').removeClass('dropdown--open');
-        } else {
-          $('[data-dropdown-list=\'tags\']').slideDown('slow').addClass('dropdown--open');
-        }
-      });
-
-      $('[data-dropdown-list=\'menu\']').mouseleave(function () {
-        $('[data-dropdown-list=\'menu\']').slideUp('slow').removeClass('dropdown--open');
-      });
-
-      $('[data-dropdown-list=\'tags\']').mouseleave(function () {
-        $('[data-dropdown-list=\'tags\']').slideUp('slow').removeClass('dropdown--open');
       });
 
       $('#post-type li').click(function () {
         $(this).parent().children('li').not(this).removeClass('active', 1000);
         $(this).addClass('active', 1000);
       });
+
+    });
+
+    let $tag = $('.fake__tag');
+
+    $(document).mouseup(function (e) {
+      if (!$tag.is(e.target) && $tag.has(e.target).length === 0)
+      {
+        $tag.slideUp('slow').removeClass('dropdown--open');
+      }
+
+      if (!$menu.is(e.target) && $menu.has(e.target).length === 0)
+      {
+        $menu.slideUp('slow').removeClass('dropdown--open');
+      }
 
     });
 
@@ -219,6 +220,7 @@ export class HomeComponent implements OnInit {
               this.bookmarks[i].article.firstName = author.firstName;
               this.bookmarks[i].article.lastName = author.lastName;
               this.bookmarks[i].article.userProfileId = author.userProfileId;
+              this.bookmarks[i].article.avatar = author.avatar;
             }
           );
 
@@ -290,4 +292,14 @@ export class HomeComponent implements OnInit {
 
   }
 
+  eventOpenDropdown() {
+
+    let $tag = $('[data-dropdown-list=\'tags\']');
+
+    if ($tag.hasClass('dropdown--open')) {
+      $tag.slideUp('slow').removeClass('dropdown--open');
+    } else {
+      $tag.slideDown('slow').addClass('dropdown--open');
+    }
+  }
 }

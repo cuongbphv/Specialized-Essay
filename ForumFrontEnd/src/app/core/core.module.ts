@@ -14,7 +14,8 @@ import {
   SecurityService,
   SessionService,
   TranslateService,
-  UserService
+  UserService,
+  SearchService
 } from './services';
 import {AdminGuard, ModeratorGuard, UserGuard} from './guards';
 
@@ -43,7 +44,8 @@ import {AdminGuard, ModeratorGuard, UserGuard} from './guards';
     AdminGuard,
     ModeratorGuard,
     UserGuard,
-    CustomToastrService
+    CustomToastrService,
+    SearchService
   ],
   declarations: []
 })
