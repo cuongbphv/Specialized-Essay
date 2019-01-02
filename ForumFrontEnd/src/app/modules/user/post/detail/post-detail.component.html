@@ -272,10 +272,11 @@
         <!-- Comments Form -->
         <div class="widget-area-comment no-padding blank">
           <div class="status-upload">
-            <form>
-            <textarea name="txtNewComment" [(ngModel)]="newComment.content"
+            <form #f="ngForm">
+            <textarea name="txtNewComment" [(ngModel)]="newComment.content" [required]="true"
                       textPlaceHolder="label.share_now"></textarea>
-              <button type="submit" class="btn btn-shared green" (click)="addComment(null,false,null)">
+              <button type="submit" class="btn btn-shared green"
+                      (click)="addComment(null,false,null)" [disabled]="f.invalid">
                 <i class="fa fa-share"></i> <span textContent="button.comment"></span>
               </button>
             </form>
@@ -381,9 +382,11 @@
                 <li>
                   <div *ngFor="let box of comment.commentBox" class="widget-area-comment no-padding blank comment-box">
                     <div class="status-upload">
-                      <form>
-                        <textarea id="{{box}}" name="txtNewComment" textPlaceHolder="label.share_now"></textarea>
-                        <button class="btn btn-shared green" (click)="addComment(comment.commentId,true,'#' + box)">
+                      <form #fChild="ngForm">
+                        <textarea id="{{box}}" name="txtNewComment" [required]="true" [(ngModel)]="box.content"
+                                  textPlaceHolder="label.share_now"></textarea>
+                        <button class="btn btn-shared green" [disabled]="fChild.invalid"
+                                (click)="addComment(comment.commentId,true,'#' + box)">
                           <i class="fa fa-share"></i> <span textContent="button.comment"></span>
                         </button>
 

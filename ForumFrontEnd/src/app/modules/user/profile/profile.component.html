@@ -18,11 +18,11 @@
             <div class="desc">{{currentProfile.company}}</div>
           </div>
           <div class="bottom">
-            <a class="btn btn-dark btn-sm" rel="publisher"
+            <a class="btn btn-dark btn-sm btn-social" rel="publisher"
                href="{{currentProfile.githubLink}}">
               <i class="fa fa-github"></i>
             </a>
-            <a class="btn btn-primary btn-sm" rel="publisher"
+            <a class="btn btn-primary btn-sm btn-social" rel="publisher"
                href="{{currentProfile.websiteLink}}">
               <i class="fa fa-facebook"></i>
             </a>
@@ -518,8 +518,6 @@
             </div>
             <div class="bhoechie-tab-content post-area">
 
-              <h3 class="nothing" *ngIf="bookmarks.length === 0">There is nothing here.</h3>
-
               <!-- list post by bookmark -->
               <div>
 
@@ -610,6 +608,8 @@
                     </div>
                   </div>
                 </div>
+
+                <h3 class="nothing" *ngIf="bookmarks.length === 0">There is nothing here.</h3>
 
                 <div class="posts" *ngFor="let bookmark of bookmarks; let i = index;">
 

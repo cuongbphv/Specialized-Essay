@@ -123,8 +123,18 @@ export class HomeComponent implements OnInit {
     this.profileService.getTopAuthor().subscribe(
       authors => {
         this.topAuthors = authors;
+
+        for(let i = 0; i < this.topAuthors.length; i++) {
+          // Author
+          this.profileService.get(this.topAuthors[i].userId).subscribe(
+            author => {
+              this.topAuthors[i].userProfileId = author.userProfileId;
+              this.topAuthors[i].avatar = author.avatar;
+            }
+          );
+        }
       }
-    )
+    );
 
     this.getListArticleByType(1, 1);
 

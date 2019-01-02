@@ -20,10 +20,13 @@
     "bookmark": "Lưu trữ",
     "create_post": "Viết bài",
     "update_post": "Cập nhật bài viết của bạn",
-    "top_tag": "Top Thẻ",
+    "top_tag": "Thẻ hàng đầu",
     "tagged": "lần được sử dụng",
     "follower": "Người theo dõi",
-    "article": "Bài viết"
+    "article": "Bài viết",
+    "top_author": "Tác giả hàng đầu",
+    "search": "Tìm kiếm",
+    "keywords": "Nhập từ khóa..."
   },
   "user": {
     "login": "Đăng nhập",
@@ -132,7 +135,15 @@
       "no_question": "Số câu hỏi",
       "no_follower": "Người theo dõi",
       "tag_name": "Tên thẻ",
-      "create_date": "Ngày tạo"
+      "create_date": "Ngày tạo",
+      "article_type": "Loại bài viết",
+      "article": "Bài đăng",
+      "question": "Câu hỏi",
+      "date_type": "Loại ngày",
+      "bookmark_date": "Ngày đánh dấu",
+      "sort_date": "Sắp xếp theo",
+      "latest": "Mới nhất",
+      "oldest": "Cũ nhất"
     }
   },
   "validation": {
@@ -181,7 +192,8 @@
     "update": "CẬP NHẬT",
     "close": "Đóng",
     "report": "Báo cáo",
-    "comment": "BÌNH LUẬN"
+    "comment": "BÌNH LUẬN",
+    "search": "Tìm kiếm"
   },
   "message": {
     "interact": {

@@ -23,7 +23,10 @@
     "top_tag": "Top Tags",
     "tagged": "times tagged",
     "follower": "Follower",
-    "article": "Article"
+    "article": "Article",
+    "top_author": "Top Author",
+    "search": "Search",
+    "keywords": "Enter keyword..."
   },
   "user": {
     "login": "Login",
@@ -132,7 +135,15 @@
       "no_question": "No.Question",
       "no_follower": "No.Follower",
       "tag_name": "Tag Name",
-      "create_date": "Create Date"
+      "create_date": "Create Date",
+      "article_type": "Article Type",
+      "article": "Article",
+      "question": "Question",
+      "date_type": "Date Type",
+      "bookmark_date": "Bookmark Date",
+      "sort_date": "Sort Date",
+      "latest": "Latest",
+      "oldest": "Oldest"
     }
   },
   "validation": {
@@ -181,7 +192,8 @@
     "update": "UPDATE",
     "close": "CLOSE",
     "report": "REPORT",
-    "comment": "COMMENT"
+    "comment": "COMMENT",
+    "search": "Search"
   },
   "message": {
     "interact": {

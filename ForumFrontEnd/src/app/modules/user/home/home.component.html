@@ -208,9 +208,7 @@
             <div class="panel panel-default">
               <div class="panel-heading">
                 <h4 class="panel-title">
-                  <a data-toggle="collapse" href="#filterBookmark">
-                    Filter
-                  </a>
+                  <a data-toggle="collapse" href="#filterBookmark" textContent="label.sort.filter"></a>
                   <a id="test" class="pull-right" data-toggle="collapse" href="#filterBookmark">
                     <span class="fa fa-filter"></span>
                   </a>
@@ -222,7 +220,7 @@
                   <div class="filter-setting">
 
                     <div class="form-row">
-                      <label class="col-xs-4">Article Type</label>
+                      <label class="col-xs-4" textContent="label.sort.article_type"></label>
                       <div class="col-xs-8">
                         <div class="input-group">
                           <div class="btn-group">
@@ -232,14 +230,16 @@
                                                     3,
                                                     pagingRequestBookmark.sortCase,
                                                     pagingRequestBookmark.ascSort)"
-                                [ngClass]="pagingRequestBookmark.type === 1 ? 'active' :'notActive'">Article</button>
+                                [ngClass]="pagingRequestBookmark.type === 1 ? 'active' :'notActive'"
+                                textContent="label.sort.article"></button>
                             <button class="btn btn-primary btn-sm"
                                     (click)="getListBookmarkArticle(
                                                     2,
                                                     4,
                                                     pagingRequestBookmark.sortCase,
                                                     pagingRequestBookmark.ascSort)"
-                                    [ngClass]="pagingRequestBookmark.type === 2 ? 'active' :'notActive'">Question</button>
+                                    [ngClass]="pagingRequestBookmark.type === 2 ? 'active' :'notActive'"
+                                    textContent="label.sort.question"></button>
                           </div>
                         </div>
                       </div>
@@ -247,7 +247,7 @@
                     <hr class="line"/>
 
                     <div class="form-row">
-                      <label class="col-xs-4">Date Type</label>
+                      <label class="col-xs-4" textContent="label.sort.date_type"></label>
                       <div class="col-xs-8">
                         <div class="input-group">
                           <div class="btn-group">
@@ -257,14 +257,16 @@
                                                     navType,
                                                     1,
                                                     pagingRequestBookmark.ascSort)"
-                               [ngClass]="pagingRequestBookmark.sortCase === 1 ? 'active' :'notActive'">Bookmark Date</a>
+                               [ngClass]="pagingRequestBookmark.sortCase === 1 ? 'active' :'notActive'"
+                               textContent="label.sort.bookmark_date"></a>
                             <a class="btn btn-primary btn-sm"
                                (click)="getListBookmarkArticle(
                                                     pagingRequestBookmark.type,
                                                     navType,
                                                     2,
                                                     pagingRequestBookmark.ascSort)"
-                               [ngClass]="pagingRequestBookmark.sortCase === 2 ? 'active' :'notActive'">Create Date</a>
+                               [ngClass]="pagingRequestBookmark.sortCase === 2 ? 'active' :'notActive'"
+                               textContent="label.sort.create_date"></a>
                           </div>
                         </div>
                       </div>
@@ -272,7 +274,7 @@
                     <hr class="line"/>
 
                     <div class="form-row">
-                      <label class="col-xs-4">Sort Date</label>
+                      <label class="col-xs-4" textContent="label.sort.sort_date"></label>
                       <div class="col-xs-8">
                         <div class="input-group">
                           <div class="btn-group">
@@ -282,14 +284,16 @@
                                                     navType,
                                                     pagingRequestBookmark.sortCase,
                                                     false)"
-                               [ngClass]="pagingRequestBookmark.ascSort === false ? 'active' :'notActive'">Latest</a>
+                               [ngClass]="pagingRequestBookmark.ascSort === false ? 'active' :'notActive'"
+                               textContent="label.sort.latest"></a>
                             <a class="btn btn-primary btn-sm"
                                (click)="getListBookmarkArticle(
                                                     pagingRequestBookmark.type,
                                                     navType,
                                                     pagingRequestBookmark.sortCase,
                                                     true)"
-                               [ngClass]="pagingRequestBookmark.ascSort === true ? 'active' :'notActive'">Oldest</a>
+                               [ngClass]="pagingRequestBookmark.ascSort === true ? 'active' :'notActive'"
+                               textContent="label.sort.oldest"></a>
                           </div>
                         </div>
                       </div>
@@ -377,14 +381,14 @@
 
       <div class="col-xs-12 col-sm-4 col-md-3">
         <div class="sidebar">
-          <div class="widget-area"><h3 class="widget-title">Tìm kiếm</h3>
+          <div class="widget-area"><h3 class="widget-title" textContent="main.search"></h3>
             <div title="Search" class="searchform clearfix">
-              <form method="get" action="https://bootstrapmade.com/">
+              <form>
                   <span class="sfield">
-                    <input type="text" value="" name="s" class="s" placeholder="Enter keyword...">
+                    <input type="text" value="" name="s" class="s" textPlaceHolder="main.keywords">
                   </span>
                 <button type="submit" class="sbutton">
-                  <i class="fa fa-search sicon" title="Search"></i>
+                  <i class="fa fa-search sicon"></i>
                 </button>
               </form>
             </div>
@@ -404,46 +408,33 @@
             </div>
           </div>
 
-          <div class="widget-area"><h3 class="widget-title">Top Author</h3>
+          <div class="widget-area"><h3 class="widget-title" textContent="main.top_author"></h3>
             <div class="popular-authors clearfix" *ngFor="let author of topAuthors; let i = index;">
               <div class="screen">
-                <a href="#" rel="bookmark">
-                  <img src="https://bootstrapmade.com/wp-content/themefiles/Squadfree/400.png"
+                <a href="javascript:void(0)" [routerLink]="['/profile/'+author.userId]" rel="bookmark">
+                  <img src="{{author.avatar}}"
                        alt="No avt" class="img-responsive rounded-circle">
                 </a>
               </div>
-              <h4><a href="javascript:void(0)" rel="bookmark">{{author.firstName}} {{author.lastName}}</a></h4>
+              <h4>{{author.firstName}} {{author.lastName}}</h4>
               <div class="buttons">
-                <a href="#" rel="nofollow" target="_blank"><i class="fa fa-eye"></i> &nbsp;View Profile</a>
-                <a href="#" rel="nofollow" target="_blank"><i class="fa fa-star"></i> &nbsp;Follow</a>
+                <a href="javascript:void(0)" [routerLink]="['/profile/'+author.userId]" rel="nofollow"
+                   target="_blank"><i class="fa fa-eye"></i> &nbsp;View Profile</a>
+                <a href="javascript:void(0)" rel="nofollow"
+                   target="_blank"><i class="fa fa-star"></i> &nbsp;Follow</a>
               </div>
               <div class="top-author-stat">
-                    <span class="stats-item text-muted" data-tippy="" data-original-title="Views"
-                          aria-describedby="tippy-285">
+                    <span class="stats-item text-muted">
                     <i aria-hidden="true" class="fa fa-eye"></i>&nbsp;{{author.viewCount}}</span>
-                    <span class="stats-item text-muted" data-tippy="" data-original-title="Clips">
+                    <span class="stats-item text-muted">
                         <i aria-hidden="true" class="fa fa-bookmark"></i>&nbsp;{{author.bookmark}}</span>
-                    <span class="stats-item text-muted" data-tippy="" data-original-title="Comments">
+                    <span class="stats-item text-muted">
                         <i aria-hidden="true" class="fa fa-share"></i>&nbsp;{{author.share}}</span>
-                    <span class="stats-item text-muted" data-tippy="" data-original-title="Comments">
+                    <span class="stats-item text-muted">
                         <i aria-hidden="true" class="fa fa-star"></i>&nbsp;{{author.rating}}</span>
               </div>
             </div>
           </div>
-
-          <!--<div class="widget-area">-->
-          <!--<h3 class="widget-title">Newsletter</h3>-->
-          <!--<div class="newsletter"><p>Subscribe to get notified when new theme is released</p>-->
-          <!--<form class="clearfix" action="#" method="post">-->
-          <!--<div class="email">-->
-          <!--<input type="text" name="email" placeholder="Enter your email">-->
-          <!--</div>-->
-          <!--<div class="submit">-->
-          <!--<input type="submit" value="Subscribe">-->
-          <!--</div>-->
-          <!--</form>-->
-          <!--</div>-->
-          <!--</div>-->
 
         </div>
       </div>
