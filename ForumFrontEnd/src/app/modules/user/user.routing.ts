@@ -28,6 +28,10 @@ export const routes: Routes = [
       {
         path: '',
         loadChildren: './auth/auth.module#AuthModule'
+      },
+      {
+        path: '',
+        loadChildren: './search/search.module#SearchModule'
       }
     ]
   }

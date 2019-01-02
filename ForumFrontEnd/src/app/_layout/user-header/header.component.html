@@ -2,6 +2,105 @@
   <div class="container">
     <!-- Navbar brand -->
     <a class="navbar-brand" href="javascript:void(0)" [routerLink]="['/']">Shared</a>
+
+    <div id="search-lg" class="searchform clearfix">
+      <span class="sfield">
+          <input type="text" class="s" textPlaceHolder="main.keywords"
+                 (keyup)="searchByKeyword()" [(ngModel)]="pagingRequest.searchKey">
+        </span>
+      <button type="submit" class="sbutton" (click)="searchWithKeyword();">
+        <i class="fa fa-search sicon"></i>
+      </button>
+      <div class="sb__suggestions" style="">
+        <div>
+          <div class="sb__suggestions-group">
+            <header class="sb__suggestions-group__name">Posts</header>
+            <ul class="sb__suggestions-list">
+
+              <li class="sb__suggestions-item" *ngIf="articleResults.length === 0">
+                <h6 class="font-weight-bold mb-0 suggestion-identifier text-center">
+                  There is nothing here.
+                </h6>
+              </li>
+
+              <li class="sb__suggestions-item" *ngFor="let article of articleResults; let i = index">
+                <a href="javascript:void(0)" [routerLink]="['/post/' + article.articleId]" class="link d-block">
+                  <div>
+                    <h6 class="font-weight-bold mb-0 suggestion-identifier">
+                      <div>{{article.title}}</div>
+                    </h6>
+                    <div>
+                      <span class="text-primary">Nguyen Van Giang </span>
+                      <span class="text-muted">posted {{article.createDate | date: 'MM/dd/yyyy HH:mm'}}</span>
+                    </div>
+                    <div class="text-dark">
+                      <div>...**I. Chuẩn bị**
+                        - Tạo project laravel **lara-<b>vue</b>-auth** bằng câu lệnh sau:
+                        `
+                        composer create-project laravel/laravel lara-<b>vue</b>-auth --prefer-dist
+                        `
+                        - Sau khi tạo được project **lara-<b>vue</b>-auth** ta di chuyển...
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="sb__suggestions-group">
+            <header class="sb__suggestions-group__name">Questions</header>
+            <ul class="sb__suggestions-list">
+
+              <li class="sb__suggestions-item" *ngIf="questionResults.length === 0">
+                <h6 class="font-weight-bold mb-0 suggestion-identifier text-center">
+                  There is nothing here.
+                </h6>
+              </li>
+
+              <li class="sb__suggestions-item" *ngFor="let question of questionResults; let i = index">
+                <a href="javascript:void(0)" [routerLink]="['/post/' + question.articleId]" class="link d-block">
+                  <div>
+                    <h6 class="font-weight-bold mb-0 suggestion-identifier">
+                      <div>{{question.title}}</div>
+                    </h6>
+                    <div><span class="text-primary">Nguyễn Ngọc Vịnh </span><span
+                      class="text-muted">asked {{question.createDate | date: 'MM/dd/yyyy HH:mm'}}</span></div>
+                    <div class="text-dark">
+                      <div>Trong phiên bản Vue.js 2.1.0 trở lên mình thấy có một chút thay đổi về Slot với việc giới thiệu
+                        Scoped Slot ngoài Single...
+                      </div>
+                    </div>
+                  </div>
+                </a></li>
+            </ul>
+          </div>
+          <div class="sb__suggestions-group">
+            <header class="sb__suggestions-group__name">Tags</header>
+            <ul class="sb__suggestions-list">
+
+              <li class="sb__suggestions-item" *ngIf="tagResults.length === 0">
+                <h6 class="font-weight-bold mb-0 suggestion-identifier text-center">
+                  There is nothing here.
+                </h6>
+              </li>
+
+              <li class="sb__suggestions-item" *ngFor="let tag of tagResults; let i = index">
+                <a href="javascript:void(0)" [routerLink]="['/tag/' + tag.tagId]" class="link d-block">
+                <div class="suggestion-has-image">
+                  <div class="suggestion-image"><img alt="VueJS" src="http://placehold.it/45x45"></div>
+                  <div><h6 class="font-weight-bold mb-0 suggestion-identifier">{{tag.tagName}}</h6>
+                    <div class="suggestion-stats text-muted">
+                      <p class="mr-1 mb-0">Followers <strong>68</strong></p>
+                      <p class="mb-0">Posts <strong>178</strong></p></div>
+                  </div>
+                </div>
+              </a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Collapse button -->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNav"
             aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -11,6 +110,15 @@
     <div class="collapse navbar-collapse" id="mainNav">
       <!-- Links -->
       <ul class="navbar-nav mr-auto">
+        <div id="search-xs" class="searchform clearfix">
+      <span class="sfield">
+          <input type="text" id="searchKey" class="s" textPlaceHolder="main.keywords"
+                 [(ngModel)]="pagingRequest.searchKey">
+        </span>
+          <button type="submit" class="sbutton" (click)="searchWithKeyword();">
+            <i class="fa fa-search sicon"></i>
+          </button>
+        </div>
       </ul>
       <!-- Links -->
       <ul class="navbar-nav ml-auto">

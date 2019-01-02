@@ -15,8 +15,9 @@
 
           <div *appShowAuthed="true" class="nav__categories js-dropdown">
             <div class="nav__select">
-              <div id="btnTags" class="btn-select" data-dropdown-btn="tags" textContent="label.my_tags"></div>
-              <div class="dropdown dropdown--design-01" data-dropdown-list="tags">
+              <div id="btnTags" class="btn-select" data-dropdown-btn="tags" textContent="label.my_tags"
+                    (click)="eventOpenDropdown()"></div>
+              <div class="dropdown dropdown--design-01 fake__tag" data-dropdown-list="tags">
                 <div class="tags">
                   <span textContent="label.no_tags" *ngIf="myTags.length === 0"></span>
                   <a href="javascript:void(0)" *ngFor="let tag of myTags; let i = index;"
@@ -311,7 +312,7 @@
             <div class="post-item">
 
               <div class="avatar">
-                <img src="https://bootstrapmade.com/wp-content/themefiles/Moderna/400.png"
+                <img src="{{bookmark.article.avatar}}"
                      alt="no avt" class="img-responsive">
               </div>
 
@@ -381,18 +382,6 @@
 
       <div class="col-xs-12 col-sm-4 col-md-3">
         <div class="sidebar">
-          <div class="widget-area"><h3 class="widget-title" textContent="main.search"></h3>
-            <div title="Search" class="searchform clearfix">
-              <form>
-                  <span class="sfield">
-                    <input type="text" value="" name="s" class="s" textPlaceHolder="main.keywords">
-                  </span>
-                <button type="submit" class="sbutton">
-                  <i class="fa fa-search sicon"></i>
-                </button>
-              </form>
-            </div>
-          </div>
 
           <div class="widget-area">
             <h4 class="widget-title" textContent="main.top_tag"></h4>

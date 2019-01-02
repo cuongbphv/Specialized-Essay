@@ -80,4 +80,39 @@ public interface ArticleRepository extends CrudRepository<Article, String>, JpaS
                     "and a.type = ?2",
             nativeQuery = true)
     Page<Article> getArticleByTagIdAndType(String tagId, int type, Pageable pageable);
+
+    @Query(value = "SELECT * FROM article " +
+            "WHERE type = ?2 AND MATCH (title,content) AGAINST (?1 IN NATURAL LANGUAGE MODE)",
+            countQuery = "SELECT COUNT(*) FROM article " +
+                    "WHERE type = ?2 AND MATCH (title,content) AGAINST (?1 IN NATURAL LANGUAGE MODE)",
+            nativeQuery = true)
+    Page<Article> searchFullText(String searchKey, int type, Pageable pageable);
+
+    @Query(value = "SELECT a.article_id, a.title, a.content, a.view_count, a.create_date, a.right_answer_id, " +
+            "SUM(ai.rating) AS rating, SUM(ai.bookmark) AS bookmark, a.user_id " +
+            "FROM article a, article_interact ai " +
+            "WHERE " +
+            "CASE " +
+            "WHEN ?3 = 'title' THEN MATCH (title) AGAINST (?1 IN NATURAL LANGUAGE MODE) " +
+            "WHEN ?3 = 'content' THEN MATCH (content) AGAINST (?1 IN NATURAL LANGUAGE MODE) " +
+            "WHEN ?3 = 'all' THEN MATCH (title,content) AGAINST (?1 IN NATURAL LANGUAGE MODE) " +
+            "END " +
+            "AND type = ?2 " +
+            "AND a.article_id = ai.article_id " +
+            "GROUP BY a.article_id " +
+            "ORDER BY ?#{#pageable}",
+            countQuery = "SELECT count(*) " +
+                    "FROM article a, article_interact ai " +
+                    "WHERE " +
+                    "CASE " +
+                    "WHEN ?3 = 'title' THEN MATCH (title) AGAINST (?1 IN NATURAL LANGUAGE MODE) " +
+                    "WHEN ?3 = 'content' THEN MATCH (content) AGAINST (?1 IN NATURAL LANGUAGE MODE) " +
+                    "WHEN ?3 = 'all' THEN MATCH (title,content) AGAINST (?1 IN NATURAL LANGUAGE MODE) " +
+                    "END " +
+                    "AND type = ?2 " +
+                    "AND a.article_id = ai.article_id " +
+                    "GROUP BY a.article_id " +
+                    "ORDER BY ?#{#pageable}",
+            nativeQuery = true)
+    Page<Object[]> searchFullTextAndSort(String searchKey, int type, String columnSearch, Pageable pageable);
 }

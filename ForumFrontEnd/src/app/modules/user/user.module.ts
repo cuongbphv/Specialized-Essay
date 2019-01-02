@@ -7,6 +7,7 @@ import {HomeModule} from './home/home.module';
 import {AuthModule} from './auth/auth.module';
 import {UserRoutingModule} from './user.routing';
 import {TagModule} from './tag/tag.module';
+import {SearchModule} from './search/search.module';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import {TagModule} from './tag/tag.module';
     PostModule,
     HomeModule,
     AuthModule,
-    TagModule
+    TagModule,
+    SearchModule
   ],
   declarations: [
   ]

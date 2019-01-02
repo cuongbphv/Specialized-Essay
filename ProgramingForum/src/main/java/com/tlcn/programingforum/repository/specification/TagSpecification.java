@@ -21,19 +21,14 @@ public class TagSpecification implements Specification<Tag> {
     private final int sortCase;
     private final boolean ascSort;
     private int status;
+    private int type;
 
-    public TagSpecification(String searchKey, int sortCase, boolean ascSort) {
-        this.searchKey = searchKey;
-        this.sortCase = sortCase;
-        this.ascSort = ascSort;
-        this.status = -1;
-    }
-
-    public TagSpecification(String searchKey, int sortCase, boolean ascSort, int status) {
+    public TagSpecification(String searchKey, int sortCase, boolean ascSort, int status, int type) {
         this.searchKey = searchKey;
         this.sortCase = sortCase;
         this.ascSort = ascSort;
         this.status = status;
+        this.type = type;
     }
 
 
@@ -50,9 +45,17 @@ public class TagSpecification implements Specification<Tag> {
         if (searchKey != null && !searchKey.trim().isEmpty()) {
             String wrapSearch = "%" + searchKey.trim() + "%";
             Predicate tagName = cb.like(root.get("tagName"), wrapSearch);
-            Predicate description = cb.like(root.get("description"), wrapSearch);
 
-            Predicate search = cb.or(tagName, description);
+            Predicate search;
+
+            if(type != 5) {
+                Predicate description = cb.like(root.get("description"), wrapSearch);
+                search = cb.or(tagName, description);
+            }
+            else {
+                search = cb.or(tagName);
+            }
+
             predicates.add(search);
         }
 

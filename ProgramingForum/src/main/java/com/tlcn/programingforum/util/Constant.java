@@ -97,6 +97,11 @@ public interface Constant {
     String MY_COMMENT= "/my-comment";
     String STAT_BY_COMMENT_ID = "/stats";
 
+    // Search
+    String SEARCH_CONTROLLER = API_PREFIX + "/search";
+    String SEARCH_TOP_RESULT = "/top";
+    String SEARCH_BY_TYPE = "/type";
+
     //Follow User
     public static final String FOLLOW_USER = "/follow";
     public static final String LLST_FOLLOW_USER = "/follow/list";
