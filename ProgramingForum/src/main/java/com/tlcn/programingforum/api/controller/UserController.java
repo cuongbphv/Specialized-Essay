@@ -10,6 +10,7 @@ import com.tlcn.programingforum.auth.AuthUser;
 import com.tlcn.programingforum.exception.ApplicationException;
 import com.tlcn.programingforum.model.RestAPIResponse;
 import com.tlcn.programingforum.model.entity.*;
+import com.tlcn.programingforum.model.entity.key.FollowUserPK;
 import com.tlcn.programingforum.model.entity.key.TagUserPK;
 import com.tlcn.programingforum.service.*;
 import com.tlcn.programingforum.util.CommonUtil;
@@ -23,6 +24,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.comparator.ComparableComparator;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -31,9 +33,7 @@ import javax.jws.soap.SOAPBinding;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Huy Pham
@@ -59,7 +59,11 @@ public class UserController extends AbstractBasedAPI {
     FollowTagService followTagService;
 
     @Autowired
+    FollowUserService followUserService;
+
+    @Autowired
     private SimpMessagingTemplate webSocket;
+
 
 
     @RequestMapping(value = Constant.WITHIN_ID, method = RequestMethod.GET)
@@ -460,6 +464,64 @@ public class UserController extends AbstractBasedAPI {
         return responseUtil.successResponse(listUsers);
 
     }
+
+    @RequestMapping(value= Constant.FOLLOW_USER + Constant.WITHIN_ID, method = RequestMethod.POST)
+    public ResponseEntity<RestAPIResponse> followUser(
+            HttpServletRequest request,
+            @PathVariable("id") String followUserId
+    ) {
+
+
+        AuthUser authUser = getAuthUserFromSession(request);
+        validatePermission(authUser, Constant.SystemRole.USER.getId());
+
+        User followedUser = userService.getUserByUserId(followUserId);
+        if(followedUser == null){
+            throw new ApplicationException(APIStatus.ERR_USER_NOT_FOUND);
+        }
+
+        FollowUser followUser = new FollowUser();
+        FollowUserPK followUserPK = new FollowUserPK(authUser.getId(), followUserId);
+
+        followUser.setId(followUserPK);
+        followUser.setCreateDate(new Date());
+
+        return responseUtil.successResponse(followUserService.save(followUser));
+    }
+
+    @RequestMapping(value= Constant.LLST_FOLLOW_USER, method = RequestMethod.POST)
+    public ResponseEntity<RestAPIResponse> getListFollowUser(
+            HttpServletRequest request,
+            @RequestBody PagingRequestModel pagingRequestModel
+    ) {
+
+        AuthUser authUser = getAuthUserFromSession(request);
+        validatePermission(authUser, Constant.SystemRole.USER.getId());
+
+        List<FollowUser> followUserList = followUserService.getAllByUserId(authUser.getId());
+
+        List<Profile> usersProfile = new ArrayList<>();
+
+        for (FollowUser user: followUserList) {
+
+            Profile profile = profileService.getProfileByUserId(user.getId().getFollowUserId());
+            usersProfile.add(profile);
+        }
+
+        // Sorting
+        Collections.sort(usersProfile, new Comparator<Profile>() {
+            @Override
+            public int compare(Profile profile1, Profile profile2)
+            {
+
+                return profile1.getFirstName().compareTo(profile2.getFirstName());
+            }
+        });
+
+        return responseUtil.successResponse(usersProfile);
+
+    }
+
 
 
     private void validateParam(UserRequest userRequest) {

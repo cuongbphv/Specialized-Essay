@@ -41,13 +41,18 @@ export class CustomToastrService implements OnInit{
     }, this.translateService.data);
   }
 
-  routerToast(title: string, message: string, data: any){
+  routerToast(type: number, body: any){
 
-    let mes = "There is new comment in your following post ";
+    //type: 1 comment
 
-    this.toastService.info('Notification', 'asdasd12312')
+    let data = JSON.parse(body.data);
+
+    let mes = data.firstName + " " + data.lastName + " has commented in " +
+      data.articleTitle;
+
+    this.toastService.info(mes, 'Notification')
       .onTap.subscribe( toast => {
-      this.router.navigateByUrl("/");
+      this.router.navigateByUrl("/post/" + data.articleId);
     });
   }
 

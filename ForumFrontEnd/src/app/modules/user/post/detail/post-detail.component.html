@@ -182,7 +182,7 @@
 
           <div class="author-info">
             <h5><span textContent="label.author"></span>: <a href="javascript:void(0)"
-                                                             [routerLink]="['/profile/' + author.userName]"
+                                                             [routerLink]="['/profile/' + author.userId]"
                                                              target="_blank">
               <span *ngIf="lang === 'vi'">{{author.lastName}} {{author.firstName}}</span>
               <span *ngIf="lang === 'en'">{{author.firstName}} {{author.lastName}}</span>
@@ -244,7 +244,7 @@
               <td align="left" width="33%" style="vertical-align: top; text-align: left; font-size: 14px; width:33%;"
                   *ngFor="let sameAuthor of listTheSameAuthorArticle; let i = index;">
                 <p class="card-text">
-                  <a href="javascript:void(0)" [routerLink]="['/profile/' + sameAuthor.userProfileId]">
+                  <a href="javascript:void(0)" [routerLink]="['/profile/' + sameAuthor.userId]">
                     {{sameAuthor?.firstName}} {{sameAuthor?.lastName}}
                   </a>
                 </p>

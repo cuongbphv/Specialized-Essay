@@ -1,7 +1,5 @@
 package com.tlcn.programingforum.api.controller;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.tlcn.programingforum.api.AbstractBasedAPI;
 import com.tlcn.programingforum.api.model.request.CommentInteractRequest;
 import com.tlcn.programingforum.api.model.request.CommentRequest;
@@ -51,9 +49,6 @@ public class CommentController extends AbstractBasedAPI {
     NotificationService notificationService;
 
     @Autowired
-    CommentRepository commentRepository;
-
-    @Autowired
     ProfileService profileService;
 
     @RequestMapping(method = RequestMethod.POST)
@@ -81,7 +76,14 @@ public class CommentController extends AbstractBasedAPI {
         Comment savedComment = commentService.saveComment(comment);
         if(savedComment!= null){
 
-            List<String> userList = commentRepository.findUserIdByArticleId(comment.getArticleId());
+            List<String> userList = commentService.getUserCommentedByArticleId(comment.getArticleId());
+
+            Article article = articleService.getDetailArticle(comment.getArticleId(),
+                    Constant.Status.ACTIVE.getValue());
+
+            if(!userList.contains(article.getUserId())) {
+                userList.add(article.getUserId());
+            }
 
             for(String userId : userList){
                 //Not send notification to current user
@@ -95,9 +97,6 @@ public class CommentController extends AbstractBasedAPI {
                     notification.setCreateDate(new Date());
                     notification.setStatus(Constant.Status.ACTIVE.getValue());
                     notification.setType(Constant.NotificationType.COMMENT.getValue()); // 1 Comment
-
-                    Article article = articleService.getDetailArticle(comment.getArticleId(),
-                            Constant.Status.ACTIVE.getValue());
 
                     Profile profile = profileService.getProfileByUserId(currentUser.getId());
 

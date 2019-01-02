@@ -21,7 +21,7 @@ export class AppComponent implements OnInit{
 
   constructor(public translate: TranslateService,
               private userService : UserService,
-              private toastr: ToastrService,
+              private toastr: CustomToastrService,
               private router: Router) {
     this.initializeWebSocketConnection();
   }
@@ -41,18 +41,11 @@ export class AppComponent implements OnInit{
         that.stompClient.subscribe("/notification/"+ userData.userId, (message) => {
 
           if (message.body) {
-            var body = message.body;
-            console.log('message body', message);
-            console.log("url ", body['data']);
+            let body = JSON.parse(message.body);
+            console.log('message body', JSON.parse(message.body));
+            that.toastr.routerToast(1, body);
           }
-
-          let mes = "There is new comment in your following post ";
-
-          that.toastr.info('Notification', 'asdasd12312')
-            .onTap.subscribe( toast => {
-                that.router.navigateByUrl("/");
-            });
-        });
+      });
       });
 
     })

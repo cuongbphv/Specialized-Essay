@@ -16,4 +16,5 @@ public interface CommentService {
     List<Comment> getListCommentByParentId(String parentId, int status);
     Comment findByCommentIdAndStatus(String commentId, int status);
     Page<Comment> getListUserComment(PagingRequestModel pagingRequestModel);
+    List<String> getUserCommentedByArticleId(String articleId);
 }

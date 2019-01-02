@@ -49,4 +49,9 @@ public class CommentServiceImpl implements CommentService {
                 pagingRequestModel.getPageSize());
         return commentRepository.findAll(commentSpecification, pageReq);
     }
+
+    @Override
+    public List<String> getUserCommentedByArticleId(String articleId) {
+        return commentRepository.findUserIdByArticleId(articleId);
+    }
 }

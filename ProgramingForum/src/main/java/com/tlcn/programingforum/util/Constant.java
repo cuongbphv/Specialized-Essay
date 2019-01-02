@@ -97,6 +97,10 @@ public interface Constant {
     String MY_COMMENT= "/my-comment";
     String STAT_BY_COMMENT_ID = "/stats";
 
+    //Follow User
+    public static final String FOLLOW_USER = "/follow";
+    public static final String LLST_FOLLOW_USER = "/follow/list";
+
 
     // Request Content Type
     public static final String APPLICATION_JSON_CONTENT_TYPE = "application/json";
