@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 
-import {AuthBaseService, SessionService, TagService, TranslateService, UserService} from '../../../../core/services';
+import {AuthBaseService, ProfilesService, SessionService, TagService, TranslateService, UserService} from '../../../../core/services';
 // import * as $ from 'jquery';
 import {Pattern} from '../../../../shared/constant/index';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
@@ -29,6 +29,7 @@ export class RegisterComponent implements OnInit {
   step:number = 1;
 
   tagList = [];
+  topAuthor = [];
   followTagId = [];
 
   pagingRequest: any = {
@@ -48,7 +49,8 @@ export class RegisterComponent implements OnInit {
     private authBaseService: AuthBaseService,
     private userService: UserService,
     private sessionService: SessionService,
-    private tagService: TagService
+    private tagService: TagService,
+    private profileService: ProfilesService
   ) {
     this.route.queryParams.subscribe(params => {
       this.userInfo.firstName = params["firstName"];
@@ -69,11 +71,22 @@ export class RegisterComponent implements OnInit {
   emailPattern: any = Pattern.EMAIL_PATTERN;
 
   ngOnInit() {
-    // this.userService.isAuthenticated.subscribe( isAuthen => {
-    //   if(isAuthen){
-    //     this.router.navigate(["/"]);
-    //   }
-    // })
+    this.userService.isAuthenticated.subscribe( isAuthen => {
+      if(isAuthen){
+        this.router.navigate(["/"]);
+      }
+    });
+
+    this.profileService.getTopAuthor()
+      .subscribe(data => {
+        this.topAuthor = data;
+
+        for(let i = 0 ; i < this.topAuthor.length ; i++){
+          this.topAuthor[i].isFollow = false;
+        }
+
+      })
+
   }
 
   moveStep(value) {
@@ -91,7 +104,13 @@ export class RegisterComponent implements OnInit {
 
   doRegister(){
 
-    this.authBaseService.register(this.userInfo, this.followTagId)
+    let listAuthor = this.topAuthor.filter(obj => obj.isFollow === true);
+
+    let listAuthorId = listAuthor.map(obj => obj.userId);
+
+    console.log('list author ',listAuthorId);
+
+    this.authBaseService.register(this.userInfo, this.followTagId, listAuthorId)
       .subscribe(res => {
       if(res.status === 200){
           console.log("do create profile");
@@ -161,4 +180,9 @@ export class RegisterComponent implements OnInit {
 
   }
 
+  followUser(index : number){
+
+    this.topAuthor[index].isFollow = this.topAuthor[index].isFollow === false;
+
+  }
 }

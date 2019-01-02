@@ -7,6 +7,7 @@ export interface User {
   phone: string;
   lang: string;
   role: number;
+  status:number,
   createDate: Date;
   lastActivity: Date;
   setting: String;

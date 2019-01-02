@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ViewEncapsulation } from '@angular/core';
-import {TagService} from '../../../../core/services';
+import {TagService, UserService} from '../../../../core/services';
 import {User} from '../../../../core/models';
 
 @Component({
@@ -12,7 +12,8 @@ import {User} from '../../../../core/models';
 export class ListTagComponent implements OnInit {
 
   constructor(
-    private tagService: TagService
+    private tagService: TagService,
+    private userService: UserService
   ) { }
 
   pagingRequest: any = {
@@ -26,7 +27,15 @@ export class ListTagComponent implements OnInit {
   tags: any = [];
   collectionSize: number;
 
+  currentUser: User;
+
   ngOnInit() {
+
+    this.userService.currentUser.subscribe(
+      (userData) => {
+        this.currentUser = userData;
+      }
+    );
 
     this.getListTag();
 

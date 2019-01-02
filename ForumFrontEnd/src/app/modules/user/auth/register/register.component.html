@@ -43,7 +43,7 @@
           <!--<div class="contact-image">-->
             <!--<img src="https://image.ibb.co/kUagtU/rocket_contact.png" alt="rocket_contact"/>-->
           <!--</div>-->
-          <form>
+          <form #f1="ngForm">
             <h3>{{this.translate.data.label.get_started.your_account_info | translate}}</h3>
             <div class="row">
               <div class="col-xs-12 col-md-12" style="display: inline">
@@ -156,7 +156,7 @@
         <!--<div class="contact-image">-->
           <!--<img src="https://image.ibb.co/kUagtU/rocket_contact.png" alt="rocket_contact"/>-->
         <!--</div>-->
-        <form method="post" name="profile" enctype="multipart/form-data">
+        <form #f2="ngForm" method="post" name="profile" enctype="multipart/form-data">
           <h3>{{this.translate.data.label.get_started.your_profile | translate}}</h3>
           <div class="row">
             <div class="col-md-3 text-center">
@@ -304,54 +304,14 @@
         <form method="post">
           <h3>{{this.translate.data.label.get_started.top_author | translate}}</h3>
           <div class="row">
-            <div class="col-md-3 col-sm-4 col-6">
+            <div class="col-md-3 col-sm-4 col-6" *ngFor="let author of topAuthor; index as i;">
               <div class="avatar-container text-center">
-                <img class="img-avatar" src="http://thuthuatphanmem.vn/uploads/2018/04/10/avatar-doi-dep-7_015655528.jpg" alt="avatar">
-                <p style="margin: 5px">This is position</p>
-                <button class="btn btnContact">Follow</button>
+                <img class="img-avatar" src="{{author.avatar}}" alt="avatar">
+                <p style="margin: 5px">{{i + ' ' + author.firstName + ' ' + author.lastName}}</p>
+                <button *ngIf="author.isFollow === false" class="btn btnContact" (click)="followUser(i)">Follow</button>
+                <button *ngIf="author.isFollow === true" class="btn btnContact" (click)="followUser(i)">Unfollow</button>
               </div>
             </div>
-
-            <div class="col-md-3 col-sm-4 col-6">
-              <div class="avatar-container text-center">
-                <img class="img-avatar" src="http://thuthuatphanmem.vn/uploads/2018/04/10/avatar-doi-dep-7_015655528.jpg" alt="avatar">
-                <p style="margin: 5px">This is position</p>
-                <button class="btn btnContact">Follow</button>
-              </div>
-            </div>
-
-            <div class="col-md-3 col-sm-4 col-6">
-              <div class="avatar-container text-center">
-                <img class="img-avatar" src="http://thuthuatphanmem.vn/uploads/2018/04/10/avatar-doi-dep-7_015655528.jpg" alt="avatar">
-                <p style="margin: 5px">This is position</p>
-                <button class="btn btnContact">Follow</button>
-              </div>
-            </div>
-
-            <div class="col-md-3 col-sm-4 col-6">
-              <div class="avatar-container text-center">
-                <img class="img-avatar" src="http://thuthuatphanmem.vn/uploads/2018/04/10/avatar-doi-dep-7_015655528.jpg" alt="avatar">
-                <p style="margin: 5px">This is position</p>
-                <button class="btn btnContact">Follow</button>
-              </div>
-            </div>
-
-            <div class="col-md-3 col-sm-4 col-6">
-              <div class="avatar-container text-center">
-                <img class="img-avatar" src="http://thuthuatphanmem.vn/uploads/2018/04/10/avatar-doi-dep-7_015655528.jpg" alt="avatar">
-                <p style="margin: 5px">This is position</p>
-                <button class="btn btnContact">Follow</button>
-              </div>
-            </div>
-
-            <div class="col-md-3 col-sm-4 col-6">
-              <div class="avatar-container text-center">
-                <img class="img-avatar" src="http://thuthuatphanmem.vn/uploads/2018/04/10/avatar-doi-dep-7_015655528.jpg" alt="avatar">
-                <p style="margin: 5px">This is position</p>
-                <button class="btn btnContact">Follow</button>
-              </div>
-            </div>
-
           </div>
         </form>
       </div>
@@ -366,7 +326,8 @@
         </button>
       </div>
       <div class="col-md-6 col-6 text-right">
-        <button *ngIf="step < 4" class="btn btn-navi" (click)="moveStep(1)">
+        <button [disabled]="(step === 1 && f1.invalid) || (step === 2 && f2.invalid)"
+                *ngIf="step < 4" class="btn btn-navi" (click)="moveStep(1)">
           <i class="fa fa-angle-right" aria-hidden="true"></i>
         </button>
         <button *ngIf="step === 4" class="btn btn-success" (click)="doRegister()"  style="margin-top: 20px">

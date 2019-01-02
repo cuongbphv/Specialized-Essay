@@ -44,4 +44,7 @@ public class UserRequest {
 
     // follow tag id
     private List<String> tagIds;
+
+    //follow author
+    private List<String> authorIds;
 }

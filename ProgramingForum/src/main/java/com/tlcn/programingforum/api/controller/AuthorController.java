@@ -44,9 +44,9 @@ public class AuthorController extends AbstractBasedAPI {
             tar.setBookmark(Integer.parseInt(author[4].toString()));
             tar.setShare(Integer.parseInt(author[5].toString()));
             tar.setViewCount(Integer.parseInt(author[6].toString()));
+            tar.setAvatar(author[7].toString());
             responses.add(tar);
         }
-
 
         return responseUtil.successResponse(responses);
     }

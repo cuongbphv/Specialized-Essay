@@ -13,7 +13,7 @@ import {Pattern} from '../../../shared/constant';
 import {ActivatedRoute} from '@angular/router';
 
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import { NgxSpinnerModule } from 'ngx-spinner';
+import {NgxSpinnerModule, NgxSpinnerService} from 'ngx-spinner';
 
 declare var $: any;
 
@@ -28,6 +28,10 @@ export class ProfileComponent implements OnInit{
   data: any[];
   config: PieChartConfig;
   elementId: string;
+  followStatus: number;
+
+  listFollow: Profile[];
+  listFollowByOther: Profile[];
 
   currentUser: User;
 
@@ -92,7 +96,8 @@ export class ProfileComponent implements OnInit{
     private profileService: ProfilesService,
     private articleService: ArticleService,
     private commentService: CommentService,
-    private route: ActivatedRoute) {}
+    private route: ActivatedRoute,
+    private spinner: NgxSpinnerService) {}
 
   public ngOnInit() {
 
@@ -113,32 +118,43 @@ export class ProfileComponent implements OnInit{
 
     });
 
-    this.userId = this.route.snapshot.params['id'];
+    //this.userId = this.route.snapshot.params['id'];
+    this.spinner.show();
 
-    this.profileService.get(this.userId)
-      .subscribe(userProfile => {
-        this.currentProfile = userProfile;
-        this.imgUrl = userProfile.avatar;
-      });
+    this.route.params.subscribe(params => {
+      this.userId = params['id'];
 
-    this.userService.currentUser.subscribe(
-      (userData) => {
-        this.currentUser = userData;
-      }
-    );
+      this.profileService.get(this.userId)
+        .subscribe(userProfile => {
+          this.currentProfile = userProfile;
+          this.imgUrl = userProfile.avatar;
 
-    this.getUserArticle(1);
+          this.getFollowStatus();
+          this.getListFollowUser();
+          this.getListFollowByOther();
 
-    this.data = [['Post', 'Posts per Tag'],
-      ['Javascript', 2],
-      ['NodeJS',  4],
-      ['Spring', 10],
-      ['AI', 7]];
+          this.spinner.hide();
+        });
 
-    this.config = new PieChartConfig(null, 0.7, 'none', 'none');
-    this.elementId = 'myPieChart';
+      this.userService.currentUser.subscribe(
+        (userData) => {
+          this.currentUser = userData;
+        }
+      );
 
-    this.pieChartService.BuildPieChart(this.elementId, this.data, this.config);
+      this.getUserArticle(1);
+
+      this.data = [['Post', 'Posts per Tag'],
+        ['Javascript', 2],
+        ['NodeJS',  4],
+        ['Spring', 10],
+        ['AI', 7]];
+
+      this.config = new PieChartConfig(null, 0.7, 'none', 'none');
+      this.elementId = 'myPieChart';
+
+      this.pieChartService.BuildPieChart(this.elementId, this.data, this.config);
+    });
 
   }
 
@@ -302,6 +318,43 @@ export class ProfileComponent implements OnInit{
 
       reader.readAsDataURL(event.target.files[0]);
     }
+  }
+
+  getFollowStatus(){
+    this.profileService.getFollow(this.currentProfile.userId)
+      .subscribe(data => {
+        this.followStatus = data;
+      });
+  }
+
+  follow(){
+    this.profileService.follow(this.currentProfile.userId)
+      .subscribe(data => {
+        this.getFollowStatus()
+      });
+  }
+
+  unfollow(){
+    this.profileService.unfollow(this.currentProfile.userId)
+      .subscribe(data => {
+        this.getFollowStatus()
+      });
+  }
+
+  getListFollowUser(){
+    this.profileService.getListFollowUser(this.currentProfile.userId)
+      .subscribe(data => {
+        this.listFollow = data;
+        console.log("list follow ", this.listFollow);
+      })
+  }
+
+  getListFollowByOther(){
+    this.profileService.getListFollowByOther(this.currentProfile.userId)
+      .subscribe(data => {
+        this.listFollowByOther = data;
+        console.log("list follow by other ", this.listFollowByOther);
+      })
   }
 
 }

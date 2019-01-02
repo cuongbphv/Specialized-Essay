@@ -99,7 +99,8 @@ public interface Constant {
 
     //Follow User
     public static final String FOLLOW_USER = "/follow";
-    public static final String LLST_FOLLOW_USER = "/follow/list";
+    public static final String LIST_FOLLOW_USER = "/follow/list";
+    public static final String LIST_FOLLOW_BY_OTHER = "/follow/list-followed";
 
 
     // Request Content Type

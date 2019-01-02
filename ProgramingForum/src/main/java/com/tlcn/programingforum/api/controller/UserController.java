@@ -58,6 +58,7 @@ public class UserController extends AbstractBasedAPI {
     @Autowired
     FollowTagService followTagService;
 
+
     @Autowired
     FollowUserService followUserService;
 
@@ -113,6 +114,7 @@ public class UserController extends AbstractBasedAPI {
         response.setLang(response.getLang());
         response.setSetting(user.getSetting());
         response.setRole(user.getRole());
+        response.setStatus(user.getStatus());
 
         response.setFirstName(profile.getFirstName());
         response.setLastName(profile.getLastName());
@@ -158,6 +160,7 @@ public class UserController extends AbstractBasedAPI {
         response.setLang(user.getLang());
         response.setSetting(user.getSetting());
         response.setRole(user.getRole());
+        response.setStatus(user.getStatus());
 
         response.setFirstName(profile.getFirstName());
         response.setLastName(profile.getLastName());
@@ -277,6 +280,15 @@ public class UserController extends AbstractBasedAPI {
                     newFollow.setId(new TagUserPK(tagId, createdUser.getUserId()));
                     followTagService.followTag(newFollow);
                 }
+            }
+
+            for(String authorId : userRequest.getAuthorIds()){
+
+                FollowUser followUser = new FollowUser();
+
+                followUser.setId(new FollowUserPK(createdUser.getUserId(), authorId));
+                followUser.setCreateDate(new Date());
+                followUserService.save(followUser);
             }
 
             Session userSession = authService.createUserToken(createdUser);
@@ -465,12 +477,31 @@ public class UserController extends AbstractBasedAPI {
 
     }
 
+    @RequestMapping(value= Constant.FOLLOW_USER + Constant.WITHIN_ID, method = RequestMethod.GET)
+    public ResponseEntity<RestAPIResponse> getFollowStatus(
+            HttpServletRequest request,
+            @PathVariable("id") String followUserId
+    ) {
+
+        AuthUser authUser = getAuthUserFromSession(request);
+        validatePermission(authUser, Constant.SystemRole.USER.getId());
+
+        int follow = 0;
+
+        FollowUser  followUser = followUserService.getByUserIdAndFollowUserId(authUser.getId(), followUserId);
+        if(followUser != null){
+            follow = 1;
+        }
+
+        return responseUtil.successResponse(follow);
+    }
+
+
     @RequestMapping(value= Constant.FOLLOW_USER + Constant.WITHIN_ID, method = RequestMethod.POST)
     public ResponseEntity<RestAPIResponse> followUser(
             HttpServletRequest request,
             @PathVariable("id") String followUserId
     ) {
-
 
         AuthUser authUser = getAuthUserFromSession(request);
         validatePermission(authUser, Constant.SystemRole.USER.getId());
@@ -489,40 +520,81 @@ public class UserController extends AbstractBasedAPI {
         return responseUtil.successResponse(followUserService.save(followUser));
     }
 
-    @RequestMapping(value= Constant.LLST_FOLLOW_USER, method = RequestMethod.POST)
-    public ResponseEntity<RestAPIResponse> getListFollowUser(
+    @RequestMapping(value= Constant.FOLLOW_USER + Constant.WITHIN_ID, method = RequestMethod.DELETE)
+    public ResponseEntity<RestAPIResponse> unfollowUser(
             HttpServletRequest request,
-            @RequestBody PagingRequestModel pagingRequestModel
+            @PathVariable("id") String followUserId
     ) {
 
         AuthUser authUser = getAuthUserFromSession(request);
         validatePermission(authUser, Constant.SystemRole.USER.getId());
 
-        List<FollowUser> followUserList = followUserService.getAllByUserId(authUser.getId());
+        User followedUser = userService.getUserByUserId(followUserId);
+        if(followedUser == null){
+            throw new ApplicationException(APIStatus.ERR_USER_NOT_FOUND);
+        }
+
+        followUserService.delete(followUserId);
+
+        return responseUtil.successResponse("Deleted");
+    }
+
+    @RequestMapping(value= Constant.LIST_FOLLOW_USER + Constant.WITHIN_ID , method = RequestMethod.POST)
+    public ResponseEntity<RestAPIResponse> getListFollowUser(
+            HttpServletRequest request,
+            @PathVariable("id") String userId
+    ) {
+
+        AuthUser authUser = getAuthUserFromSession(request);
+        validatePermission(authUser, Constant.SystemRole.USER.getId());
+
+        List<FollowUser> followUserList = followUserService.getAllByUserId(userId);
 
         List<Profile> usersProfile = new ArrayList<>();
 
         for (FollowUser user: followUserList) {
 
             Profile profile = profileService.getProfileByUserId(user.getId().getFollowUserId());
-            usersProfile.add(profile);
+
+            if(profile != null){
+                usersProfile.add(profile);
+            }
         }
 
         // Sorting
-        Collections.sort(usersProfile, new Comparator<Profile>() {
-            @Override
-            public int compare(Profile profile1, Profile profile2)
-            {
-
-                return profile1.getFirstName().compareTo(profile2.getFirstName());
-            }
-        });
+        usersProfile.sort(Comparator.comparing(Profile::getFirstName));
 
         return responseUtil.successResponse(usersProfile);
-
     }
 
 
+    @RequestMapping(value= Constant.LIST_FOLLOW_BY_OTHER + Constant.WITHIN_ID , method = RequestMethod.POST)
+    public ResponseEntity<RestAPIResponse> getListFollowByOther(
+            HttpServletRequest request,
+            @PathVariable("id") String userId
+    ) {
+
+        AuthUser authUser = getAuthUserFromSession(request);
+        validatePermission(authUser, Constant.SystemRole.USER.getId());
+
+        List<FollowUser> followUserList = followUserService.getAllByFollowUserId(userId);
+
+        List<Profile> usersProfile = new ArrayList<>();
+
+        for (FollowUser user: followUserList) {
+
+            Profile profile = profileService.getProfileByUserId(user.getId().getUserId());
+
+            if(profile != null){
+                usersProfile.add(profile);
+            }
+        }
+
+        // Sorting
+        usersProfile.sort(Comparator.comparing(Profile::getFirstName));
+
+        return responseUtil.successResponse(usersProfile);
+    }
 
     private void validateParam(UserRequest userRequest) {
         try {

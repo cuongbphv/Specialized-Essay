@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ViewEncapsulation } from '@angular/core';
-import {ArticleService, ProfilesService} from '../../../../core/services';
+import {ArticleService, ProfilesService, UserService} from '../../../../core/services';
+import {User} from '../../../../core/models';
 
 
 @Component({
@@ -22,14 +23,23 @@ export class ListPostComponent implements OnInit {
   articles: any = [];
   collectionSize: number;
 
+  currentUser: User;
 
   constructor(
     private profileService: ProfilesService,
-    private articleService: ArticleService,) {
+    private articleService: ArticleService,
+    private userService: UserService) {
 
   }
 
   ngOnInit() {
+
+    this.userService.currentUser.subscribe(
+      (userData) => {
+        this.currentUser = userData;
+      }
+    );
+
     this.getListPost();
   }
 

@@ -298,7 +298,7 @@
                 <div class="comment-box">
 
                   <div class="comment-head">
-                    <h6 class="comment-name" [ngClass]="{ 'by-author' : comment.userId === currentUser.userId }">
+                    <h6 [routerLink]="['/profile/' + comment.userDetail?.userId]" class="comment-name" [ngClass]="{ 'by-author' : comment.userId === currentUser.userId }">
                       <a href="javascript:void(0)">
                         {{comment.userDetail?.firstName}} {{comment.userDetail?.lastName}}
                       </a>

@@ -48,6 +48,18 @@ export class TagService {
       }));
   }
 
+  getTagInfo(tagId: string): Observable<any> {
+    return this.apiService.post(API.TAG_INFORMATION + tagId)
+      .pipe(map(res => {
+        if(res.status === 200){
+          return res.data;
+        }
+        this.toastrService.showErrorToastr("api.status." + res.status);
+        return null;
+      }));
+  }
+
+
   getFollowStatus(userId: string, tagId: any): Observable<any> {
     return this.apiService.get(API.FOLLOW_STATUS + "?tag_id=" + tagId + "&user_id=" + userId)
       .pipe(map(res => {

@@ -21,8 +21,18 @@ public class FollowUserServiceImpl  implements FollowUserService {
 
 
     @Override
+    public FollowUser getByUserIdAndFollowUserId(String userId, String followUserId) {
+        return followUserRepository.findById_UserIdAndId_FollowUserId(userId, followUserId);
+    }
+
+    @Override
     public List<FollowUser> getAllByUserId(String userId) {
         return followUserRepository.findById_UserId(userId);
+    }
+
+    @Override
+    public List<FollowUser> getAllByFollowUserId(String followUserId) {
+        return followUserRepository.findById_FollowUserId(followUserId);
     }
 
     @Override

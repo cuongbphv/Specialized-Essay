@@ -82,6 +82,11 @@ export const API = {
   ALL_TAGS: BaseURL.TAG_API + "/all",
 
   // Author Management
-  TOP_AUTHOR: BaseURL.AUTHOR_API + "/top"
+  TOP_AUTHOR: BaseURL.AUTHOR_API + "/top",
+
+  //Follow
+  FOLLOW_USER: BaseURL.USER_API + "/follow/",
+  LIST_FOLLOW_USER: BaseURL.USER_API + "/follow/list/",
+  LIST_FOLLOW_BY_OTHER: BaseURL.USER_API + "/follow/list-followed/"
 
 };

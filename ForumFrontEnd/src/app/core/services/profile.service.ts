@@ -5,13 +5,14 @@ import {Profile} from '../models/profile.model';
 import {map} from 'rxjs/operators';
 import {API} from '../../shared/constant';
 import {ToastrService} from 'ngx-toastr';
+import {CustomToastrService} from './custom-toastr.service';
 
 
 @Injectable()
 export class ProfilesService {
   constructor (
     private apiService: ApiService,
-    private toastr: ToastrService
+    private toastr: CustomToastrService
   ) {}
 
   get(userId: string): Observable<Profile> {
@@ -66,12 +67,64 @@ export class ProfilesService {
     //   }));
   }
 
-  follow(username: string): Observable<Profile> {
-    return this.apiService.post('/profiles/' + username + '/follow');
+  getFollow(userId: string): Observable<any> {
+    return this.apiService.get(API.FOLLOW_USER + userId)
+      .pipe(map(res => {
+        if(res.status === 200){
+          return res.data;
+        }
+
+        this.toastr.showErrorToastr("api.status." + res.status);
+        return null;
+      }));
   }
 
-  unfollow(username: string): Observable<Profile> {
-    return this.apiService.delete('/profiles/' + username + '/follow');
+  follow(userId: string): Observable<any> {
+    return this.apiService.post(API.FOLLOW_USER + userId)
+      .pipe(map(res => {
+        if(res.status === 200){
+          return res.data;
+        }
+
+        this.toastr.showErrorToastr("api.status." + res.status);
+        return null;
+      }));
+  }
+
+  unfollow(userId: string): Observable<any> {
+    return this.apiService.delete(API.FOLLOW_USER + userId)
+      .pipe(map(res => {
+        if(res.status === 200){
+          return res.data;
+        }
+
+        this.toastr.showErrorToastr("api.status." + res.status);
+        return null;
+      }));
+  }
+
+  getListFollowUser(userId: string): Observable<any> {
+    return this.apiService.post(API.LIST_FOLLOW_USER + userId)
+      .pipe(map(res => {
+        if(res.status === 200){
+          return res.data;
+        }
+
+        this.toastr.showErrorToastr("api.status." + res.status);
+        return null;
+      }));
+  }
+
+  getListFollowByOther(userId: string): Observable<any> {
+    return this.apiService.post(API.LIST_FOLLOW_BY_OTHER + userId)
+      .pipe(map(res => {
+        if(res.status === 200){
+          return res.data;
+        }
+
+        this.toastr.showErrorToastr("api.status." + res.status);
+        return null;
+      }));
   }
 
   getTopAuthor(): Observable<any> {

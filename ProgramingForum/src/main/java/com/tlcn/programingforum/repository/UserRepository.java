@@ -33,7 +33,7 @@ public interface UserRepository extends PagingAndSortingRepository<User,String> 
 
     @Query(value = "SELECT a.user_id, up.first_name, up.last_name, " +
             "sum(art.rating) as rating, sum(art.bookmark) as bookmark, " +
-            "sum(art.share) as share, sum(a.view_count) as view_count " +
+            "sum(art.share) as share, sum(a.view_count) as view_count, up.avatar " +
             "FROM article a, article_interact art, user u, user_profile up " +
             "where a.article_id = art.article_id " +
             "and a.user_id = u.user_id " +
@@ -47,7 +47,7 @@ public interface UserRepository extends PagingAndSortingRepository<User,String> 
 
     @Query(value = "SELECT new com.tlcn.programingforum.api.model.response.UserResponse (u.userId, u.userName, u" +
             ".email, u.phone, u.lang, u.setting, u.createDate, u.lastActivity," +
-            "u.role,up.userProfileId, up.firstName, up.lastName, " +
+            "u.role, u.status ,up.userProfileId, up.firstName, up.lastName, " +
             "up.avatar, up.description, up.websiteLink,up.githubLink, up.position, up.company) " +
             "FROM User u , Profile up " +
             "WHERE u.userId = up.userId AND u.status = :status AND (u.email LIKE :search or u.userName like :search " +

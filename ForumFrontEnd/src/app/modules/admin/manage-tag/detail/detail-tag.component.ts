@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ViewEncapsulation } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {TagService} from '../../../../core/services';
 import {CustomToastrService} from '../../../../core/services/custom-toastr.service';
+import {ConfirmationDialogService} from '../../confirmation-dialog/confirmation-dialog.service';
 
 @Component({
   selector: 'admin-detail-tag',
@@ -15,7 +16,9 @@ export class DetailTagComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private tagService: TagService,
-    private toastrService: CustomToastrService
+    private toastrService: CustomToastrService,
+    private router: Router,
+    private confirmationDialogService: ConfirmationDialogService
   ) { }
 
   tagId : any = {};
@@ -31,16 +34,17 @@ export class DetailTagComponent implements OnInit {
   }
 
   getTagDetail(){
-    this.tagService.getTagInfomation(this.tagId)
+    this.tagService.getTagInfo(this.tagId)
       .subscribe(data => {
 
-        console.log(data);
-
-        this.tag.tagId = data[0];
-        this.tag.tagName = data[1];
-        this.tag.description = data[2];
-        this.tag.createDate = data[3];
+        this.tag = data;
       })
+  }
+
+  public openDeleteConfirmationDialog() {
+    this.confirmationDialogService.confirm('Confirm Deletion', 'Do you really want to delete this tag?')
+      .then((confirmed) => confirmed && this.deleteTag())
+      .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
   }
 
   deleteTag(){
@@ -48,6 +52,7 @@ export class DetailTagComponent implements OnInit {
       .subscribe(data => {
         if(data === "Deleted"){
           this.toastrService.showSuccessToastr("Deleted");
+          this.router.navigateByUrl("/admin/tag/list");
         }
       })
   }
@@ -59,6 +64,11 @@ export class DetailTagComponent implements OnInit {
             this.toastrService.showSuccessToastr("Updated");
         }
       })
+  }
+
+  reactiveTag(){
+    this.tag.status = 1;
+    this.updateTag();
   }
 
 

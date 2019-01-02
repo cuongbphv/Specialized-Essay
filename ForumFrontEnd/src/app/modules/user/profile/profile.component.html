@@ -36,51 +36,29 @@
         </div>
       </div>
 
-      <div class="col-lg-4 col-xs-12">
+      <div class="col-lg-4 col-xs-12" style="margin-top: 1rem">
         <div class="follow">
-          <div class="btn-follow">
-            <button class="btn-follow btn-primary">Follow <i class="fa fa-rss"></i></button>
+          <div *ngIf="(currentUser.userId !== currentProfile.userId) && followStatus === 0" class="btn-follow">
+            <button class="btn btn-follow btn-primary" (click)="follow()">Follow <i class="fa fa-rss"></i></button>
+          </div>
+          <div *ngIf="(currentUser.userId !== currentProfile.userId) && followStatus === 1" class="btn-follow">
+            <button class="btn btn-follow btn-success" (click)="unfollow()">Following <i class="fa fa-rss"></i></button>
           </div>
           <div class="follower">
-            <p>1708 users follow Script Eden:</p>
+            <p>{{listFollowByOther.length}} users follow {{currentProfile.firstName + " " + currentProfile.lastName}}</p>
             <div class="follower-image">
-              <img src="https://pbs.twimg.com/media/C1OsxXCWgAEy1F_.png" data-toggle="tooltip" data-placement="top"
-                   title="Hihi">
-              <img src="https://pbs.twimg.com/media/C1OsxXCWgAEy1F_.png" data-toggle="tooltip" data-placement="top"
-                   title="Hihi">
-              <img src="https://pbs.twimg.com/media/C1OsxXCWgAEy1F_.png" data-toggle="tooltip" data-placement="top"
-                   title="Hihi">
-              <img src="https://pbs.twimg.com/media/C1OsxXCWgAEy1F_.png" data-toggle="tooltip" data-placement="top"
-                   title="Hihi">
-              <img src="https://pbs.twimg.com/media/C1OsxXCWgAEy1F_.png" data-toggle="tooltip" data-placement="top"
-                   title="Hihi">
-              <img src="https://pbs.twimg.com/media/C1OsxXCWgAEy1F_.png" data-toggle="tooltip" data-placement="top"
-                   title="Hihi">
-              <img src="https://pbs.twimg.com/media/C1OsxXCWgAEy1F_.png" data-toggle="tooltip" data-placement="top"
-                   title="Hihi">
-              <img src="https://pbs.twimg.com/media/C1OsxXCWgAEy1F_.png" data-toggle="tooltip" data-placement="top"
-                   title="Hihi">
-              <img src="https://pbs.twimg.com/media/C1OsxXCWgAEy1F_.png" data-toggle="tooltip" data-placement="top"
-                   title="Hihi">
-              <img src="https://pbs.twimg.com/media/C1OsxXCWgAEy1F_.png" data-toggle="tooltip" data-placement="top"
-                   title="Hihi">
-              <img src="https://pbs.twimg.com/media/C1OsxXCWgAEy1F_.png" data-toggle="tooltip" data-placement="top"
-                   title="Hihi">
-              <img src="https://pbs.twimg.com/media/C1OsxXCWgAEy1F_.png" data-toggle="tooltip" data-placement="top"
-                   title="Hihi">
+              <img *ngFor="let user of listFollowByOther"
+                   src="{{user.avatar}}" alt="no-img" data-toggle="tooltip" data-placement="top"
+                   title="{{user.firstName + ' ' + user.lastName}}"
+                   [routerLink]="['/profile/' + user.userId]">
             </div>
           </div>
           <div class="follower">
-            <p>4 users is followed by Script Eden:</p>
+            <p>{{listFollow.length}} users is followed by {{currentProfile.firstName + " " + currentProfile.lastName}}</p>
             <div class="follower-image">
-              <img src="https://pbs.twimg.com/media/C1OsxXCWgAEy1F_.png" data-toggle="tooltip" data-placement="top"
-                   title="Hihi">
-              <img src="https://pbs.twimg.com/media/C1OsxXCWgAEy1F_.png" data-toggle="tooltip" data-placement="top"
-                   title="Hihi">
-              <img src="https://pbs.twimg.com/media/C1OsxXCWgAEy1F_.png" data-toggle="tooltip" data-placement="top"
-                   title="Hihi">
-              <img src="https://pbs.twimg.com/media/C1OsxXCWgAEy1F_.png" data-toggle="tooltip" data-placement="top"
-                   title="Hihi">
+              <img *ngFor="let user of listFollow"
+                   src="{{user.avatar}}" alt="no-img" data-toggle="tooltip" data-placement="top"
+                   title="{{user.firstName + ' ' + user.lastName}}">
             </div>
           </div>
           <div class="follower">

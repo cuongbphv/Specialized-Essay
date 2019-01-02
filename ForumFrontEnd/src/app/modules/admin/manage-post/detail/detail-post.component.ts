@@ -6,6 +6,7 @@ import {ArticleService, ProfilesService, UserService} from '../../../../core/ser
 import marked from 'marked';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {AppConfig} from '../../../../shared/constant';
+import {ConfirmationDialogService} from '../../confirmation-dialog/confirmation-dialog.service';
 
 @Component({
   selector: 'admin-detail-post',
@@ -23,6 +24,7 @@ export class DetailPostComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private profileService: ProfilesService,
     private router: Router,
+    private confirmationDialogService: ConfirmationDialogService
   ) { }
 
   article: any = {};
@@ -78,6 +80,12 @@ export class DetailPostComponent implements OnInit {
       })
   }
 
+  public openDeleteConfirmationDialog() {
+    this.confirmationDialogService.confirm('Confirm Deletion', 'Do you really want to delete this article?')
+      .then((confirmed) => confirmed && this.deletePost())
+      .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
+  }
+
   approvePost(status:number){
     this.articleService.approve(this.article.articleId, status)
       .subscribe(data => {
@@ -89,7 +97,7 @@ export class DetailPostComponent implements OnInit {
     this.articleService.delete(this.article.articleId)
       .subscribe(data => {
         if(data === 'Deleted'){
-          this.router.navigateByUrl("/admin/post");
+          this.router.navigateByUrl("/admin/post/list");
         }
       })
   }
@@ -98,5 +106,6 @@ export class DetailPostComponent implements OnInit {
 
     return marked(content, {sanitize: true, tables: true}).replace(/<img/g, '<img style="max-width:100%"');
   }
+
 
 }

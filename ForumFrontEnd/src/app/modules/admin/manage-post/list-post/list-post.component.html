@@ -36,7 +36,7 @@
             </tr>
             </thead>
             <tbody *ngFor="let post of articles">
-            <tr [routerLink]="['/admin/post/' + post.articleId]">
+            <tr [routerLink]="currentUser.role === 1?(['/admin/post/' + post.articleId]):(['/moderator/post/' + post.articleId])">
               <td>
                 <a>{{post.title}}</a>
               </td>

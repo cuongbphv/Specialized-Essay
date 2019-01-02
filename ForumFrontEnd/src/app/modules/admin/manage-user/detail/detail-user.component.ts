@@ -4,6 +4,7 @@ import {User} from '../../../../core/models';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UserService} from '../../../../core/services';
 import {AppConfig} from '../../../../shared/constant';
+import {ConfirmationDialogService} from '../../confirmation-dialog/confirmation-dialog.service';
 
 @Component({
   selector: 'admin-detail-user',
@@ -17,6 +18,7 @@ export class DetailUserComponent implements OnInit {
     private route: ActivatedRoute,
     private userService: UserService,
     private router: Router,
+    private confirmationDialogService: ConfirmationDialogService
   ) { }
 
   user : User = null;
@@ -35,6 +37,7 @@ export class DetailUserComponent implements OnInit {
     this.userService.getUserDetailById(id)
       .subscribe(data => {
         this.user = data;
+        console.log('user', data);
       })
   }
 
@@ -45,11 +48,17 @@ export class DetailUserComponent implements OnInit {
       })
   }
 
+  public openDeleteConfirmationDialog() {
+    this.confirmationDialogService.confirm('Please confirm', 'Do you really want to ban this user?')
+      .then((confirmed) => confirmed && this.banUser(this.user.userId))
+      .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
+  }
+
   banUser(id){
     this.userService.deleteUser(id)
       .subscribe(data => {
         if(data === 'Deleted'){
-          this.router.navigateByUrl("admin/user");
+          this.router.navigateByUrl("admin/user/list");
         }
       })
   }

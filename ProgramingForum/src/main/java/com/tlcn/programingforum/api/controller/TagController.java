@@ -58,6 +58,16 @@ public class TagController extends AbstractBasedAPI {
         return responseUtil.successResponse(tagInfo);
     }
 
+    @RequestMapping(path = Constant.WITHIN_ID, method = RequestMethod.POST)
+    public ResponseEntity<RestAPIResponse> getTag(
+            HttpServletRequest request,
+            @PathVariable("id") String tagId
+    ) {
+        Tag tag = tagService.findTagById(tagId);
+
+        return responseUtil.successResponse(tag);
+    }
+
 
     @RequestMapping(value = "", method = RequestMethod.PUT)
     public ResponseEntity<RestAPIResponse> updateTag(
@@ -74,6 +84,7 @@ public class TagController extends AbstractBasedAPI {
         }
 
         tag.setDescription(tagReq.getDescription());
+        tag.setStatus(tagReq.getStatus());
         tagService.saveTag(tag);
 
         return responseUtil.successResponse("Updated");
@@ -87,16 +98,15 @@ public class TagController extends AbstractBasedAPI {
     ) {
 
         AuthUser authUser = getAuthUserFromSession(request);
-        validatePermission(authUser, Constant.SystemRole.SYS_ADMIN.getId());
+        validatePermission(authUser, Constant.SystemRole.MODERATOR.getId());
 
         Tag tag = tagService.findTagById(tagId);
         if(tag == null){
             throw new ApplicationException(APIStatus.ERR_TAG_NOT_FOUND);
         }
 
-        tagArticleService.deleteByTagId(tag.getTagId());
-        followTagService.deleteByTagId(tag.getTagId());
-        tagService.deleteTag(tag);
+        tag.setStatus(Constant.Status.DELETE.getValue());
+        tagService.saveTag(tag);
 
         return responseUtil.successResponse("Deleted");
     }
@@ -109,7 +119,7 @@ public class TagController extends AbstractBasedAPI {
     ) {
 
         AuthUser authUser = getAuthUserFromSession(request);
-        validatePermission(authUser, Constant.SystemRole.SYS_ADMIN.getId());
+        validatePermission(authUser, Constant.SystemRole.MODERATOR.getId());
 
         Page<Tag> tags = tagService.findAllPaging(pagingRequestModel, Constant.Status.ACTIVE.getValue());
 
@@ -123,7 +133,7 @@ public class TagController extends AbstractBasedAPI {
     ) {
 
         AuthUser authUser = getAuthUserFromSession(request);
-        validatePermission(authUser, Constant.SystemRole.SYS_ADMIN.getId());
+        validatePermission(authUser, Constant.SystemRole.MODERATOR.getId());
 
         Page<Tag> tags = tagService.findAllPaging(pagingRequestModel, Constant.Status.DELETE.getValue());
 

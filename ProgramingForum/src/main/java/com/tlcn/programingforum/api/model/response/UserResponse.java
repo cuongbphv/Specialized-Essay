@@ -28,6 +28,7 @@ public class UserResponse {
     private Date createDate;
     private Date lastActivity;
     private int role;
+    private int status;
 
     //profile section
     private String userProfileId;

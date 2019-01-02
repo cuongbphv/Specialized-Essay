@@ -11,7 +11,7 @@ export const routes: Routes = [
     component: AdminLayoutComponent,
     canActivate: [AdminGuard],
     children: [
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full'},
+      { path: '', redirectTo: 'post/list', pathMatch: 'full'},
       {
         path: 'dashboard',
         component: DashboardComponent
@@ -36,7 +36,7 @@ export const routes: Routes = [
     component: AdminLayoutComponent,
     canActivate: [ModeratorGuard],
     children: [
-      { path: '', redirectTo: 'post', pathMatch: 'full'},
+      { path: '', redirectTo: 'post/list', pathMatch: 'full'},
       {
         path: 'post',
         loadChildren: './manage-post/manage-post.module#ManagePostModule'

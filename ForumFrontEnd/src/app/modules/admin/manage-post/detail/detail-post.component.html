@@ -51,7 +51,7 @@
             <button class="btn btn-danger btn-rounded btn-fw" type="button"
                     *ngIf="author.status === 1" (click)="banUser()">Ban User</button>
             <button *ngIf="article.isApproved !==0" class="btn btn-danger btn-rounded btn-fw"
-                    type="button" (click)="deletePost()">Delete Post</button>
+                    type="button" (click)="openDeleteConfirmationDialog()">Delete Post</button>
             <button *ngIf="article.isApproved ===0"  class="btn btn-danger btn-rounded btn-fw"
                     type="button" (click)="approvePost(2)">Reject Post</button>
             <button *ngIf="article.isApproved ===0" class="btn btn-success btn-rounded btn-fw"

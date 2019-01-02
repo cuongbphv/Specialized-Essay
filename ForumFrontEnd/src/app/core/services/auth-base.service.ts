@@ -26,7 +26,7 @@ export class AuthBaseService {
   ) {
   }
 
-  register(user: any, followTagId: any): Observable<any> {
+  register(user: any, followTagId: any, authorId: any): Observable<any> {
 
       let userRequest = {
         firstName: user.firstName,
@@ -40,7 +40,8 @@ export class AuthBaseService {
         lang: user.lang || null,
         description: user.description || null,
         setting: user.setting || null,
-        tagIds: followTagId || null
+        tagIds: followTagId || null,
+        authorIds: authorId || null
       };
 
       const formdata: FormData = new FormData();
@@ -74,6 +75,7 @@ export class AuthBaseService {
   logout() {
     this.userService.purgeUser();
     this.sessionService.destroyAccessToken();
+    this.router.navigateByUrl('/login');
   }
 
   socialLogin(username: string, token: string, provider: string, url:string){

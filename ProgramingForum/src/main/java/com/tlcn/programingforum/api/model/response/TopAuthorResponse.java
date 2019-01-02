@@ -21,4 +21,5 @@ public class TopAuthorResponse {
     private int bookmark;
     private int share;
     private int viewCount;
+    private String avatar;
 }

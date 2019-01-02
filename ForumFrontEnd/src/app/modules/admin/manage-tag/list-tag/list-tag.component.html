@@ -4,6 +4,16 @@
     <div class="card">
       <div class="card-body">
         <h4 class="card-title">Total Tag list</h4>
+        <div class="form-group row">
+          <div class="input-group col-12 col-md-3 col-sm-6">
+                <span class="input-group-addon bg-primary border-primary" id="colored-addon2">
+                  <i class="mdi mdi-magnify text-white"></i>
+                </span>
+            <input type="text" class="form-control" placeholder="Search"
+                   [(ngModel)]="pagingRequest.searchKey" (keyup.enter)="getListTag()"
+                   aria-label="Search" aria-describedby="colored-addon2">
+          </div>
+        </div>
         <div class="table-responsive">
           <table class="table table-hover">
             <thead>
@@ -20,7 +30,8 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let tag of tags" [routerLink]="['/admin/tag/' + tag.tagId]">
+            <tr *ngFor="let tag of tags"
+                [routerLink]="currentUser.role === 1?(['/admin/tag/' + tag.tagId]):(['/moderator/tag/' + tag.tagId])">
               <td>
                 <a>{{tag.tagName}}</a>
               </td>

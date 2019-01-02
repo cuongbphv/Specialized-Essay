@@ -25,7 +25,13 @@
         </div>
         <div class="row text-right">
           <div class="col-md-12 template-demo" style="display: inline-block; margin-top: 1rem">
-            <button class="btn btn-danger btn-rounded btn-fw" type="button" (click)="deleteTag()">Delete Tag</button>
+            <button
+              *ngIf="tag.status !== 0"
+              class="btn btn-danger btn-rounded btn-fw" type="button"
+                    (click)="openDeleteConfirmationDialog()">Ban Tag</button>
+            <button
+              *ngIf="tag.status === 0"
+              class="btn btn-primary btn-rounded btn-fw" type="button" (click)="reactiveTag()">Reactive Tag</button>
             <button class="btn btn-success btn-rounded btn-fw" type="button" (click)="updateTag()">Update Tag</button>
           </div>
         </div>
