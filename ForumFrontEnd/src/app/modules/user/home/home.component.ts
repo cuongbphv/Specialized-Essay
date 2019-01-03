@@ -267,6 +267,7 @@ export class HomeComponent implements OnInit {
                   this.trendings[i].firstName = author.firstName;
                   this.trendings[i].lastName = author.lastName;
                   this.trendings[i].userProfileId = author.userProfileId;
+                  this.trendings[i].avatar = author.avatar;
                 }
               );
 

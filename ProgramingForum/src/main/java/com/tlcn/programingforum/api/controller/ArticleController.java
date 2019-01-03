@@ -565,6 +565,7 @@ public class ArticleController extends AbstractBasedAPI {
                 newTag.setTagName(tagOfArticle);
                 newTag.setDescription("");
                 newTag.setCreateDate(new Date());
+                newTag.setStatus(Constant.Status.ACTIVE.getValue());
 
                 String tagId = tagService.saveTag(newTag).getTagId();
                 FollowTag newFollow = new FollowTag();
