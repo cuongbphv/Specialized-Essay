@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Location} from '@angular/common';
-import {Title} from "@angular/platform-browser";
+import {Title} from '@angular/platform-browser';
 
 import {
   ArticleInteractService,
@@ -8,12 +8,12 @@ import {
   ReportArticleService, ReportCommentService, TranslateService, UserService
 } from '../../../../core/services';
 import {ActivatedRoute, Router} from '@angular/router';
-import marked, { Renderer } from 'marked';
+import marked, {Renderer} from 'marked';
 import highlightjs from 'highlight.js';
-import {User,Comment} from '../../../../core/models';
-import { NgxSpinnerService } from 'ngx-spinner';
+import {User, Comment} from '../../../../core/models';
+import {NgxSpinnerService} from 'ngx-spinner';
 
-declare var $ : any;
+declare var $: any;
 
 @Component({
   selector: 'post-detail',
@@ -22,7 +22,7 @@ declare var $ : any;
 })
 export class PostDetailComponent implements OnInit {
 
-  lang: string = "";
+  lang: string = '';
   rating: number = 0;
   bookmarkCount: number = 0;
   commentCount: number = 0;
@@ -52,8 +52,8 @@ export class PostDetailComponent implements OnInit {
   listComments = [];
   pageNumber: number = 1;
   pageSize: number = 10;
-  contentComment = "";
-  commentId = "";
+  contentComment = '';
+  commentId = '';
   listRelatedArticle = [];
   listTheSameAuthorArticle = [];
   listUserInModal = [];
@@ -79,11 +79,11 @@ export class PostDetailComponent implements OnInit {
 
   ngOnInit(): void {
 
-    $(document).scroll(function() {
+    $(document).scroll(function () {
 
-      if ($('body').innerWidth() > 800){
+      if ($('body').innerWidth() > 800) {
         let y = $(this).scrollTop();
-        if (y < ( $('#article-area').height() - $('#sidebar').height() ) ) {
+        if (y < ($('#article-area').height() - $('#sidebar').height())) {
           $('#sidebar').fadeIn();
         } else {
           $('#sidebar').fadeOut();
@@ -127,15 +127,14 @@ export class PostDetailComponent implements OnInit {
           // Content data
           data.content = this.preRenderMarkdown(data.content);
 
-          $("table").addClass("table table-condensed table-bordered table-hover");
-          $("#table-same-author").removeClass("table-condensed table-bordered table-hover");
+          $('#table-same-author').removeClass('table-condensed table-bordered table-hover');
 
 
           this.article = data;
 
           // get realted article
           let tagIds = [];
-          for(let i = 0; i < this.article.tagList; i++) {
+          for (let i = 0; i < this.article.tagList; i++) {
             tagIds.push(this.article.tagList[i].tagId);
           }
           this.articleService.getRelatedArticle(tagIds, this.article.type).subscribe(
@@ -147,7 +146,7 @@ export class PostDetailComponent implements OnInit {
           // get article by the same author
           this.articleService.getArticleSameAuthor(this.article.userId, this.article.type).subscribe(
             data => {
-              for(let i = 0; i < data.length; i++) {
+              for (let i = 0; i < data.length; i++) {
                 this.profileService.get(data[i].userId).subscribe(
                   profile => {
                     data[i].firstName = profile.firstName;
@@ -179,7 +178,7 @@ export class PostDetailComponent implements OnInit {
           this.getListInteract();
 
           // Comment
-          this.getCommentsInArticle(this.article.articleId,this.pageNumber,this.pageSize);
+          this.getCommentsInArticle(this.article.articleId, this.pageNumber, this.pageSize);
 
           // work with view count
           this.countViewOfArticle();
@@ -206,7 +205,7 @@ export class PostDetailComponent implements OnInit {
 
     let self = this;
 
-    renderer.heading = function(text, level) {
+    renderer.heading = function (text, level) {
       var slug = text.toLowerCase().replace(/[^\w]+/g, '-');
       self.headingTag.push({
         level: level,
@@ -214,7 +213,7 @@ export class PostDetailComponent implements OnInit {
         title: text
       });
 
-      return "<h" + level + " id=\"" + slug + "\"><a href=\"#" + slug + "\" class=\"anchor\"></a>" + text + "</h" + level + ">";
+      return '<h' + level + ' id="' + slug + '"><a href="#' + slug + '" class="anchor"></a>' + text + '</h' + level + '>';
     };
 
     return marked(content, {
@@ -226,17 +225,18 @@ export class PostDetailComponent implements OnInit {
       sanitize: true,
       smartLists: true,
       smartypants: false
-    }).replace(/<img/g, '<img style="max-width:100%"');
+    }).replace(/<img/g, '<img style="max-width:100%"')
+      .replace(/<table/g, '<table class="table table-condensed table-bordered table-hover"');
   }
 
   countViewOfArticle() {
     let self = this;
-    setTimeout(function(){
+    setTimeout(function () {
       self.articleService.viewCount(self.article.articleId).subscribe(
         article => {
           self.article.viewCount = article.viewCount;
         });
-      }, 20000);
+    }, 20000);
   }
 
   backClicked() {
@@ -250,9 +250,9 @@ export class PostDetailComponent implements OnInit {
     }
 
     if (type === 'rating') {
-      for(let i = 0; i < this.listInteracts.length; i++) {
-        if(this.listInteracts[i].id.userId === this.currentUser.userId){
-          if(this.listInteracts[i].rating === value) {
+      for (let i = 0; i < this.listInteracts.length; i++) {
+        if (this.listInteracts[i].id.userId === this.currentUser.userId) {
+          if (this.listInteracts[i].rating === value) {
             this.toastrService.showErrorToastr('message.interact.before');
             return;
           }
@@ -353,9 +353,9 @@ export class PostDetailComponent implements OnInit {
     );
   }
 
-  addComment(parentId: string, reply: boolean, id: string){
+  addComment(parentId: string, reply: boolean, id: string) {
 
-    if(reply) {
+    if (reply) {
       this.newComment.content = $(id).val();
     }
 
@@ -364,14 +364,14 @@ export class PostDetailComponent implements OnInit {
     this.newComment.parentId = parentId;
     this.commentService.addComment(this.newComment).subscribe(
       newComment => {
-        if(newComment != null){
-          this.getCommentsInArticle(this.article.articleId,this.pageNumber,this.pageSize);
+        if (newComment != null) {
+          this.getCommentsInArticle(this.article.articleId, this.pageNumber, this.pageSize);
         }
       }
     );
 
-    $('#txtNewComment').val("");
-    $(id).val("");
+    $('#txtNewComment').val('');
+    $(id).val('');
 
     // this.getCommentsInArticle(this.article, this.pageNumber, this.pageSize);
   }
@@ -386,43 +386,49 @@ export class PostDetailComponent implements OnInit {
     this.commentService.updateComment(commentId, content).subscribe(
       data => {
         if (data != null) {
-          this.getCommentsInArticle(this.article.articleId,this.pageNumber,this.pageSize);
+          this.getCommentsInArticle(this.article.articleId, this.pageNumber, this.pageSize);
           $('#modal-update-comment').modal('hide');
         }
       }
-    )
+    );
   }
 
   deleteComment(commentId: string) {
     this.commentService.deleteComment(commentId).subscribe(
       data => {
         if (data != null) {
-          this.getCommentsInArticle(this.article.articleId,this.pageNumber,this.pageSize);
+          this.getCommentsInArticle(this.article.articleId, this.pageNumber, this.pageSize);
         }
       }
-    )
+    );
   }
 
-  getCommentsInArticle(articleId: string, pageNumber: number, pageSize: number){
-    this.commentService.getListComment(articleId,pageNumber,pageSize).subscribe(
+  getCommentsInArticle(articleId: string, pageNumber: number, pageSize: number) {
+    this.commentService.getListComment(articleId, pageNumber, pageSize).subscribe(
       comments => {
-        if(comments != null) {
+        if (comments != null) {
           this.commentCount = 0;
-          for(let i = 0; i < comments.length; i++) {
+          for (let i = 0; i < comments.length; i++) {
             this.commentCount++;
             comments[i].commentBox = [];
 
             // get list interact to comment
+
             this.commentService.getListInteract(comments[i].commentId).subscribe(
               data => {
                 comments[i].listInteract = data;
-                if(comments[i].listInteract.find(obj => obj.id.userId === this.currentUser.userId)) {
-                  comments[i].myInteract = true;
-                }
-                else {
+                if (Object.keys(this.currentUser).length !== 0) {
+                  if (comments[i].listInteract.find(obj => obj.id.userId === this.currentUser.userId)) {
+                    comments[i].myInteract = true;
+                  } else {
+                    comments[i].myInteract = false;
+                  }
+                } else {
                   comments[i].myInteract = false;
                 }
+
               });
+
 
             // get profile
             this.userService.getUser(comments[i].userId).subscribe(
@@ -430,11 +436,11 @@ export class PostDetailComponent implements OnInit {
 
                 let obj = {
                   userId: comments[i].userId,
-                  userName: "",
-                  firstName: "",
-                  lastName: "",
-                  userProfileId: "",
-                  avatar: ""
+                  userName: '',
+                  firstName: '',
+                  lastName: '',
+                  userProfileId: '',
+                  avatar: ''
                 };
 
                 obj.userName = author.userName;
@@ -451,20 +457,26 @@ export class PostDetailComponent implements OnInit {
               }
             );
 
-            if(comments[i].childComments !== null) {
-              for(let j = 0; j < comments[i].childComments.length; j++) {
+            if (comments[i].childComments !== null) {
+              for (let j = 0; j < comments[i].childComments.length; j++) {
                 this.commentCount++;
 
                 // get list interact to comment
                 this.commentService.getListInteract(comments[i].childComments[j].commentId).subscribe(
                   data => {
                     comments[i].childComments[j].listInteract = data;
-                    if(comments[i].childComments[j].listInteract.find(obj => obj.id.userId === this.currentUser.userId)) {
-                      comments[i].childComments[j].myInteract = true;
+
+                    if (Object.keys(this.currentUser).length !== 0) {
+                      if (comments[i].childComments[j].listInteract.find(obj => obj.id.userId === this.currentUser.userId)) {
+                        comments[i].childComments[j].myInteract = true;
+                      } else {
+                        comments[i].childComments[j].myInteract = false;
+                      }
                     }
                     else {
                       comments[i].childComments[j].myInteract = false;
                     }
+
                   });
 
                 // get profile
@@ -473,11 +485,11 @@ export class PostDetailComponent implements OnInit {
 
                     let obj = {
                       userId: comments[i].childComments[j].userId,
-                      userName: "",
-                      firstName: "",
-                      lastName: "",
-                      userProfileId: "",
-                      avatar: ""
+                      userName: '',
+                      firstName: '',
+                      lastName: '',
+                      userProfileId: '',
+                      avatar: ''
                     };
 
                     obj.userName = author.userName;
@@ -507,42 +519,41 @@ export class PostDetailComponent implements OnInit {
 
   interactToComment(commentId: string, interactStatus: boolean) {
     let heart = 0;
-    if(!interactStatus) {
+    if (!interactStatus) {
       heart = 1;
     }
     this.commentService.interactToComment(commentId, this.currentUser.userId, heart).subscribe(
       data => {
-          this.getCommentsInArticle(this.article.articleId,this.pageNumber,this.pageSize);
+        this.getCommentsInArticle(this.article.articleId, this.pageNumber, this.pageSize);
       }
-    )
+    );
   }
 
-  markAsResolved(rightAnswerId: string){
+  markAsResolved(rightAnswerId: string) {
 
-    if(this.currentUser.userId !== this.article.userId) {
+    if (this.currentUser.userId !== this.article.userId) {
       this.toastrService.showWarningToastr('message.resolved.not_author');
       return;
     }
-    
-    if(this.article.rightAnswerId === null) {
+
+    if (this.article.rightAnswerId === null) {
       this.articleService.markAsResolved(this.article.articleId, rightAnswerId).subscribe(
         data => {
           this.article.rightAnswerId = data.rightAnswerId;
         }
       );
-    }
-    else {
+    } else {
       this.toastrService.showWarningToastr('message.resolved.existed');
     }
   }
 
-  addCommentBox(index: number, parentId: string){
-    if(this.listComments[index].commentBox.length === 0) {
-      this.listComments[index].commentBox.push("comment-box-"+parentId);
+  addCommentBox(index: number, parentId: string) {
+    if (this.listComments[index].commentBox.length === 0) {
+      this.listComments[index].commentBox.push('comment-box-' + parentId);
     }
   }
 
-  removeCommentBox(index){
+  removeCommentBox(index) {
     this.listComments[index].commentBox = [];
   }
 
@@ -555,12 +566,12 @@ export class PostDetailComponent implements OnInit {
     });
   }
 
-  passDataToUserModal(type: number, commentId?:string){
+  passDataToUserModal(type: number, commentId?: string) {
 
     this.listUserInModal = []; // reset if use the same modal box
 
-    if(type === 1) { // bookmark list
-      for(let i = 0; i < this.listInteracts.length; i++) {
+    if (type === 1) { // bookmark list
+      for (let i = 0; i < this.listInteracts.length; i++) {
 
         if (this.listInteracts[i].bookmark === 1) {
           // get profile
@@ -569,11 +580,11 @@ export class PostDetailComponent implements OnInit {
 
               let obj = {
                 userId: this.listInteracts[i].id.userId,
-                userName: "",
-                firstName: "",
-                lastName: "",
-                userProfileId: "",
-                avatar: ""
+                userName: '',
+                firstName: '',
+                lastName: '',
+                userProfileId: '',
+                avatar: ''
               };
 
               obj.userName = author.userName;
@@ -591,9 +602,8 @@ export class PostDetailComponent implements OnInit {
           );
         }
       }
-    }
-    else if (type === 2) { // rating list
-      for(let i = 0; i < this.listInteracts.length; i++) {
+    } else if (type === 2) { // rating list
+      for (let i = 0; i < this.listInteracts.length; i++) {
 
         if (this.listInteracts[i].rating !== 0) {
           // get profile
@@ -602,11 +612,11 @@ export class PostDetailComponent implements OnInit {
 
               let obj = {
                 userId: this.listInteracts[i].id.userId,
-                userName: "",
-                firstName: "",
-                lastName: "",
-                userProfileId: "",
-                avatar: ""
+                userName: '',
+                firstName: '',
+                lastName: '',
+                userProfileId: '',
+                avatar: ''
               };
 
               obj.userName = author.userName;
@@ -624,21 +634,20 @@ export class PostDetailComponent implements OnInit {
           );
         }
       }
-    }
-    else if (type === 3) { // heart in comment list
+    } else if (type === 3) { // heart in comment list
 
       let commentObj;
 
-      for(let i = 0; i < this.listComments.length; i++) {
-        if(this.listComments[i].commentId === commentId) {
+      for (let i = 0; i < this.listComments.length; i++) {
+        if (this.listComments[i].commentId === commentId) {
           commentObj = this.listComments[i];
         }
       }
 
-      if(commentObj === undefined) {
-        for(let i = 0; i < this.listComments.length; i++) {
-          for(let j = 0; j < this.listComments[i].childComments.length; j++) {
-            if(this.listComments[i].childComments[j].commentId === commentId) {
+      if (commentObj === undefined) {
+        for (let i = 0; i < this.listComments.length; i++) {
+          for (let j = 0; j < this.listComments[i].childComments.length; j++) {
+            if (this.listComments[i].childComments[j].commentId === commentId) {
               commentObj = this.listComments[i].childComments[j];
             }
           }
@@ -647,18 +656,18 @@ export class PostDetailComponent implements OnInit {
 
       console.log(commentObj);
 
-      for(let j = 0; j < commentObj.listInteract.length; j++) {
+      for (let j = 0; j < commentObj.listInteract.length; j++) {
         // get profile
         this.userService.getUser(commentObj.listInteract[j].id.userId).subscribe(
           author => {
 
             let obj = {
               userId: commentObj.listInteract[j].id.userId,
-              userName: "",
-              firstName: "",
-              lastName: "",
-              userProfileId: "",
-              avatar: ""
+              userName: '',
+              firstName: '',
+              lastName: '',
+              userProfileId: '',
+              avatar: ''
             };
 
             obj.userName = author.userName;

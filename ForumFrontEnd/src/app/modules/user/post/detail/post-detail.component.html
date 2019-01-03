@@ -230,7 +230,8 @@
           <!--<hr>-->
         <!--</div>-->
 
-        <h1 textContent="label.same_author" style="font-size: 36px;color: #283035;font-weight: 400;"></h1>
+        <h1 *ngIf="listTheSameAuthorArticle.length > 0"
+            textContent="label.same_author" style="font-size: 36px;color: #283035;font-weight: 400;"></h1>
         <table id="table-same-author" class="table">
           <tbody>
             <tr>
@@ -270,7 +271,7 @@
       <div class="comment-area">
 
         <!-- Comments Form -->
-        <div class="widget-area-comment no-padding blank">
+        <div class="widget-area-comment no-padding blank" *appShowAuthed="true">
           <div class="status-upload">
             <form #f="ngForm">
             <textarea name="txtNewComment" [(ngModel)]="newComment.content" [required]="true"
@@ -313,8 +314,8 @@
                     <i class="fa fa-exclamation-circle"
                        role="button" data-toggle="modal" data-target="#modal-report-comment"
                        (click)="passData(comment.commentId, comment.userId);"></i>
-                    <i class="fa fa-reply" (click)="addCommentBox(parentIndex, comment.commentId)"></i>
-                    <i class="fa fa-heart" [ngClass]="{'text-red' : comment.myInteract === true}"
+                    <i *appShowAuthed="true" class="fa fa-reply" (click)="addCommentBox(parentIndex, comment.commentId)"></i>
+                    <i *appShowAuthed="true" class="fa fa-heart" [ngClass]="{'text-red' : comment.myInteract === true}"
                        (click)="interactToComment(comment.commentId, comment.myInteract)">
                     </i>
                     <span style="float: right;margin-right: -10px;margin-top: -5px;margin-left: 5px;"

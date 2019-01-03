@@ -21,11 +21,14 @@ public interface ArticleRepository extends CrudRepository<Article, String>, JpaS
 
     Article findByArticleIdAndStatus(String articleId, int status);
 
-    Article findByArticleIdAndTypeAndStatus(String articleId, int type, int status);
+    Article findByArticleIdAndTypeAndStatusAndIsApproved(
+            String articleId, int type, int status, int isApproved);
 
-    List<Article> findByUserIdAndTypeAndStatus(String userId, int type, int status);
+    List<Article> findByUserIdAndTypeAndStatusAndIsApproved(
+            String userId, int type, int status, int isApproved);
 
-    List<Article> findByUserIdAndStatus(String userId, int status);
+    List<Article> findByUserIdAndStatusAndIsApproved(
+            String userId, int status, int isApproved);
 
     Article findByRightAnswerId(String rightAnswerId);
 
@@ -33,6 +36,7 @@ public interface ArticleRepository extends CrudRepository<Article, String>, JpaS
             "FROM article a, article_interact art " +
             "WHERE a.article_id = art.article_id " +
             "AND type = ?1 " +
+            "AND is_approved = 1 " +
             "AND a.create_date >= CONCAT(CURDATE(), ' 00:00:00') && a.create_date < CONCAT(CURDATE(), ' 23:59:59') " +
             "GROUP by a.article_id " +
             "HAVING SUM(art.rating) > 1 " +
@@ -42,6 +46,7 @@ public interface ArticleRepository extends CrudRepository<Article, String>, JpaS
                     "FROM article a, article_interact art " +
                     "WHERE a.article_id = art.article_id " +
                     "AND type = ?1 " +
+                    "AND is_approved = 1 " +
                     "AND a.create_date >= CONCAT(CURDATE(), ' 00:00:00') && a.create_date < CONCAT(CURDATE(), ' 23:59:59') " +
                     "GROUP by a.article_id " +
                     "HAVING SUM(art.rating) > 1 " +
@@ -53,6 +58,7 @@ public interface ArticleRepository extends CrudRepository<Article, String>, JpaS
             "FROM article a, article_interact art " +
             "WHERE a.article_id = art.article_id " +
             "AND type = ?1 " +
+            "AND is_approved = 1 " +
             "AND YEARWEEK(a.create_date, 1) = YEARWEEK(CURDATE(), 1) " +
             "GROUP by a.article_id " +
             "HAVING SUM(art.rating) > 1 " +
@@ -62,6 +68,7 @@ public interface ArticleRepository extends CrudRepository<Article, String>, JpaS
                     "FROM article a, article_interact art " +
                     "WHERE a.article_id = art.article_id " +
                     "AND type = ?1 " +
+                    "AND is_approved = 1 " +
                     "AND YEARWEEK(a.create_date, 1) = YEARWEEK(CURDATE(), 1) " +
                     "GROUP by a.article_id " +
                     "HAVING SUM(art.rating) > 1 " +
@@ -73,18 +80,20 @@ public interface ArticleRepository extends CrudRepository<Article, String>, JpaS
             "where ta.article_id = a.article_id " +
             "and ta.tag_id = ?1 " +
             "and a.type = ?2 " +
+            "AND a.is_approved = 1 " +
             "ORDER BY ?#{#pageable}",
             countQuery = "SELECT count(*) FROM tag_article ta, article a " +
                     "where ta.article_id = a.article_id " +
                     "and ta.tag_id = ?1 " +
-                    "and a.type = ?2",
+                    "and a.type = ?2 " +
+                    "AND a.is_approved = 1",
             nativeQuery = true)
     Page<Article> getArticleByTagIdAndType(String tagId, int type, Pageable pageable);
 
     @Query(value = "SELECT * FROM article " +
-            "WHERE type = ?2 AND MATCH (title,content) AGAINST (?1 IN NATURAL LANGUAGE MODE)",
+            "WHERE type = ?2 AND is_approved = 1 AND MATCH (title,content) AGAINST (?1 IN NATURAL LANGUAGE MODE)",
             countQuery = "SELECT COUNT(*) FROM article " +
-                    "WHERE type = ?2 AND MATCH (title,content) AGAINST (?1 IN NATURAL LANGUAGE MODE)",
+                    "WHERE type = ?2 AND is_approved = 1 AND MATCH (title,content) AGAINST (?1 IN NATURAL LANGUAGE MODE)",
             nativeQuery = true)
     Page<Article> searchFullText(String searchKey, int type, Pageable pageable);
 
@@ -98,6 +107,7 @@ public interface ArticleRepository extends CrudRepository<Article, String>, JpaS
             "WHEN ?3 = 'all' THEN MATCH (title,content) AGAINST (?1 IN NATURAL LANGUAGE MODE) " +
             "END " +
             "AND type = ?2 " +
+            "AND is_approved = 1 " +
             "AND a.article_id = ai.article_id " +
             "GROUP BY a.article_id " +
             "ORDER BY ?#{#pageable}",
@@ -110,6 +120,7 @@ public interface ArticleRepository extends CrudRepository<Article, String>, JpaS
                     "WHEN ?3 = 'all' THEN MATCH (title,content) AGAINST (?1 IN NATURAL LANGUAGE MODE) " +
                     "END " +
                     "AND type = ?2 " +
+                    "AND is_approved = 1 " +
                     "AND a.article_id = ai.article_id " +
                     "GROUP BY a.article_id " +
                     "ORDER BY ?#{#pageable}",

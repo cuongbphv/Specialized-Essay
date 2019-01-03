@@ -56,14 +56,14 @@ export class SearchComponent implements OnInit {
     );
 
     // search
-    this.searchByType(1);
-
-
+    this.searchByType(1, 2 ,false); // search by view count
   }
 
-  searchByType(type: number) {
+  searchByType(type: number, sortCase: number, ascSort: boolean) {
     this.pagingRequest.searchKey = this.keyword;
     this.pagingRequest.type = type;
+    this.pagingRequest.sortCase = sortCase;
+    this.pagingRequest.ascSort = ascSort;
     this.searchService.searchByType(this.pagingRequest).subscribe(
       data => {
         this.articles = data.data;
@@ -79,6 +79,15 @@ export class SearchComponent implements OnInit {
               this.articles[i].avatar = author.avatar;
             }
           );
+
+          // pre-process for content
+          let index = this.articles[i].content.indexOf(this.pagingRequest.searchKey);
+          if(index != -1) {
+            this.articles[i].start = index;
+          }
+          else {
+            this.articles[i].start = 0;
+          }
 
         }
       }

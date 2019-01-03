@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 
-import {AuthBaseService, UserService, SearchService} from '../../core/services';
+import {AuthBaseService, UserService, SearchService, ProfilesService, TagService} from '../../core/services';
 import { ToastrService } from 'ngx-toastr';
 import {User} from '../../core/models';
 import {NavigationExtras, Router} from '@angular/router';
@@ -22,7 +22,7 @@ export class HeaderComponent implements OnInit {
     sortCase: 1,
     ascSort: true,
     pageNumber: 1,
-    pageSize: 10
+    pageSize: 5
   };
 
   articleResults = [];
@@ -34,6 +34,8 @@ export class HeaderComponent implements OnInit {
     private toastr: ToastrService,
     public userService: UserService,
     private seacrhService: SearchService,
+    private profileService: ProfilesService,
+    private tagService: TagService,
     public router: Router
   ) {}
 
@@ -77,6 +79,68 @@ export class HeaderComponent implements OnInit {
 
         if(this.pagingRequest.searchKey === '') {
           this.tagResults = [];
+        }
+
+        // pre-process for content
+        for(let i = 0; i < this.articleResults.length; i++) {
+          this.profileService.get(this.articleResults[i].userId).subscribe(
+            author => {
+              this.articleResults[i].firstName = author.firstName;
+              this.articleResults[i].lastName = author.lastName;
+              this.articleResults[i].userProfileId = author.userProfileId;
+              this.articleResults[i].avatar = author.avatar;
+            }
+          );
+          let index = this.articleResults[i].content.indexOf(this.pagingRequest.searchKey);
+          if(index != -1) {
+            this.articleResults[i].start = index;
+          }
+          else {
+            this.articleResults[i].start = 0;
+          }
+        }
+
+        for(let i = 0; i < this.questionResults.length; i++) {
+          this.profileService.get(this.questionResults[i].userId).subscribe(
+            author => {
+              this.questionResults[i].firstName = author.firstName;
+              this.questionResults[i].lastName = author.lastName;
+              this.questionResults[i].userProfileId = author.userProfileId;
+              this.questionResults[i].avatar = author.avatar;
+            }
+          );
+          let index = this.questionResults[i].content.indexOf(this.pagingRequest.searchKey);
+          if(index != -1) {
+            this.questionResults[i].start = index;
+          }
+          else {
+            this.questionResults[i].start = 0;
+          }
+        }
+
+        for(let i = 0; i < this.tagResults.length; i++) {
+          this.tagService.getTagInfomation(this.tagResults[i].tagId).subscribe(
+            info => {
+
+              this.tagResults[i].articleNum = info[4];
+              this.tagResults[i].questionNum = info[5];
+
+              let request = {
+                type: 1,
+                searchKey: this.tagResults[i].tagId,
+                sortCase: 1,
+                ascSort: true,
+                pageNumber: 1,
+                pageSize: 10
+              };
+
+              this.tagService.getListFollowers(request).subscribe(
+                data => {
+                    this.tagResults[i].followerNum = data.totalElements;
+                }
+              );
+            }
+          );
         }
 
         if(this.articleResults.length > 0 || this.questionResults.length > 0 || this.tagResults.length > 0) {

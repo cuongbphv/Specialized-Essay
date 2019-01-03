@@ -111,12 +111,18 @@
 
               <div class="post-left">
                 <div class="post-author">
-                  <span class="post-author-name" [ngClass]="{'float-left' : follower.userId === currentUser.userId}">
+                  <span *appShowAuthed="true" class="post-author-name" [ngClass]="{'float-left' : follower.userId === currentUser.userId}">
                     <b><a href="javascript:void(0)" [routerLink]="['/profile/' + follower.userId]">
                       {{follower.firstName}} {{follower.lastName}}
                     </a></b>
                   </span>
-                  <h4 [ngClass]="{ 'by-author' : follower.userId === currentUser.userId }"></h4>
+                  <span *appShowAuthed="false" class="post-author-name">
+                    <b><a href="javascript:void(0)" [routerLink]="['/profile/' + follower.userId]">
+                      {{follower.firstName}} {{follower.lastName}}
+                    </a></b>
+                  </span>
+                  <h4 *appShowAuthed="true"
+                      [ngClass]="{ 'by-author' : follower.userId === currentUser.userId }"></h4>
                 </div>
 
 

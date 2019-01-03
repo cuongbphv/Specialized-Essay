@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
-import {ArticleService, TranslateService, UserService} from '../../../../core/services/index';
+import {ArticleService, CustomToastrService, TranslateService, UserService} from '../../../../core/services/index';
 import * as $ from 'jquery';
 import {Router} from '@angular/router';
 import {User} from '../../../../core/models/index';
@@ -29,7 +29,8 @@ export class CreatePostComponent implements OnInit {
     public articleService: ArticleService,
     private userService: UserService,
     public router: Router,
-    private titleService: Title
+    private titleService: Title,
+    private toastService: CustomToastrService
   ) {
     this.titleService.setTitle(this.translateService.translateLanguage('main.create_post'));
   }
@@ -68,6 +69,7 @@ export class CreatePostComponent implements OnInit {
 
     this.articleService.createPost(this.post).subscribe(
       data => {
+        this.toastService.showSuccessToastr("message.post.wait_approved")
         this.router.navigate(["/post/" + data.articleId]);
       });
   }

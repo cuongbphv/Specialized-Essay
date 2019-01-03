@@ -14,13 +14,11 @@
       <div class="sb__suggestions" style="">
         <div>
           <div class="sb__suggestions-group">
-            <header class="sb__suggestions-group__name">Posts</header>
+            <header class="sb__suggestions-group__name" textContent="main.article"></header>
             <ul class="sb__suggestions-list">
 
               <li class="sb__suggestions-item" *ngIf="articleResults.length === 0">
-                <h6 class="font-weight-bold mb-0 suggestion-identifier text-center">
-                  There is nothing here.
-                </h6>
+                <h6 class="font-weight-bold mb-0 suggestion-identifier text-center" textContent="label.nothing"></h6>
               </li>
 
               <li class="sb__suggestions-item" *ngFor="let article of articleResults; let i = index">
@@ -30,17 +28,13 @@
                       <div>{{article.title}}</div>
                     </h6>
                     <div>
-                      <span class="text-primary">Nguyen Van Giang </span>
+                      <span class="text-primary">{{article.firstName + ' ' + article.lastName}} </span>
                       <span class="text-muted">posted {{article.createDate | date: 'MM/dd/yyyy HH:mm'}}</span>
                     </div>
                     <div class="text-dark">
-                      <div>...**I. Chuẩn bị**
-                        - Tạo project laravel **lara-<b>vue</b>-auth** bằng câu lệnh sau:
-                        `
-                        composer create-project laravel/laravel lara-<b>vue</b>-auth --prefer-dist
-                        `
-                        - Sau khi tạo được project **lara-<b>vue</b>-auth** ta di chuyển...
-                      </div>
+                      <div innerHTML="{{ (article.start !== 0) ?
+                            '...'+(article.content | highlight : pagingRequest.searchKey | slice: article.start - 50 : article.start + 150)+'...' :
+                            (article.content | slice: article.start : article.start + 200) }}"></div>
                     </div>
                   </div>
                 </a>
@@ -48,13 +42,11 @@
             </ul>
           </div>
           <div class="sb__suggestions-group">
-            <header class="sb__suggestions-group__name">Questions</header>
+            <header class="sb__suggestions-group__name" textContent="main.question"></header>
             <ul class="sb__suggestions-list">
 
               <li class="sb__suggestions-item" *ngIf="questionResults.length === 0">
-                <h6 class="font-weight-bold mb-0 suggestion-identifier text-center">
-                  There is nothing here.
-                </h6>
+                <h6 class="font-weight-bold mb-0 suggestion-identifier text-center" textContent="label.nothing"></h6>
               </li>
 
               <li class="sb__suggestions-item" *ngFor="let question of questionResults; let i = index">
@@ -63,11 +55,12 @@
                     <h6 class="font-weight-bold mb-0 suggestion-identifier">
                       <div>{{question.title}}</div>
                     </h6>
-                    <div><span class="text-primary">Nguyễn Ngọc Vịnh </span><span
+                    <div><span class="text-primary">{{question.firstName + ' ' + question.lastName}} </span><span
                       class="text-muted">asked {{question.createDate | date: 'MM/dd/yyyy HH:mm'}}</span></div>
                     <div class="text-dark">
-                      <div>Trong phiên bản Vue.js 2.1.0 trở lên mình thấy có một chút thay đổi về Slot với việc giới thiệu
-                        Scoped Slot ngoài Single...
+                      <div innerHTML="{{ (question.start !== 0) ?
+                            '...'+(question.content | highlight : pagingRequest.searchKey | slice: question.start - 50: question.start + 150)+'...' :
+                            (question.content | slice: question.start : question.start + 200) }}">
                       </div>
                     </div>
                   </div>
@@ -75,23 +68,31 @@
             </ul>
           </div>
           <div class="sb__suggestions-group">
-            <header class="sb__suggestions-group__name">Tags</header>
+            <header class="sb__suggestions-group__name" textContent="main.tag"></header>
             <ul class="sb__suggestions-list">
 
               <li class="sb__suggestions-item" *ngIf="tagResults.length === 0">
-                <h6 class="font-weight-bold mb-0 suggestion-identifier text-center">
-                  There is nothing here.
-                </h6>
+                <h6 class="font-weight-bold mb-0 suggestion-identifier text-center" textContent="label.nothing"></h6>
               </li>
 
               <li class="sb__suggestions-item" *ngFor="let tag of tagResults; let i = index">
                 <a href="javascript:void(0)" [routerLink]="['/tag/' + tag.tagId]" class="link d-block">
                 <div class="suggestion-has-image">
-                  <div class="suggestion-image"><img alt="VueJS" src="http://placehold.it/45x45"></div>
                   <div><h6 class="font-weight-bold mb-0 suggestion-identifier">{{tag.tagName}}</h6>
                     <div class="suggestion-stats text-muted">
-                      <p class="mr-1 mb-0">Followers <strong>68</strong></p>
-                      <p class="mb-0">Posts <strong>178</strong></p></div>
+                      <p class="mb-0">
+                        <span textContent="tag.label.followers"></span>
+                        <strong>{{' ' + tag.followerNum}}</strong>
+                      </p>
+                      <p class="mb-0">
+                        <span textContent="tag.label.articles"></span>
+                        <strong>{{' ' + tag.articleNum}}</strong>
+                      </p>
+                      <p class="mb-0">
+                        <span textContent="tag.label.questions"></span>
+                        <strong>{{' ' + tag.questionNum}}</strong>
+                      </p>
+                    </div>
                   </div>
                 </div>
               </a></li>

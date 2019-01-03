@@ -26,7 +26,8 @@
     "article": "Article",
     "top_author": "Top Author",
     "search": "Search",
-    "keywords": "Enter keyword..."
+    "keywords": "Enter keyword...",
+    "tag": "Tag"
   },
   "user": {
     "login": "Login",
@@ -49,7 +50,10 @@
       "follow": "Follow",
       "following": "Following",
       "info": "Tag Infomation",
-      "tag_detail": "Tag Detail"
+      "tag_detail": "Tag Detail",
+      "followers": "Followers",
+      "articles": "Articles",
+      "questions": "Questions"
     },
     "message": {
       "follow_success": "Follow tag successfully",
@@ -70,6 +74,7 @@
     "all_right": "Copyright © 2018. All right reserved."
   },
   "label": {
+    "nothing": "There is nothing here.",
     "registration": "Registration",
     "content": "Register now to take part in Shared Community",
     "username": "Username",
@@ -128,6 +133,12 @@
     "next": "Next",
     "previous": "Previous",
     "article_info_user": "Article User Information",
+    "search_syntax": "Search Syntax",
+    "search": {
+      "keyword": "Search keyword both title and content of post",
+      "content": "Search keyword in content of post",
+      "title:": "Search keyword in title of post"
+    },
     "sort": {
       "filter": "Filter",
       "sort_type": "Sort Type",
@@ -143,7 +154,10 @@
       "bookmark_date": "Bookmark Date",
       "sort_date": "Sort Date",
       "latest": "Latest",
-      "oldest": "Oldest"
+      "oldest": "Oldest",
+      "view_count": "View Count",
+      "bookmark": "Bookmark",
+      "rating": "Rating"
     }
   },
   "validation": {
@@ -196,6 +210,9 @@
     "search": "Search"
   },
   "message": {
+    "post": {
+      "wait_approved": "You created post successfully, please wait Admin approved"
+    },
     "interact": {
       "upvote": "You upvoted this post",
       "downvote": "You just downvoted this post",

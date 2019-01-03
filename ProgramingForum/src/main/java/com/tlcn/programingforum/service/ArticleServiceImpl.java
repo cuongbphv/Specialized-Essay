@@ -5,6 +5,7 @@ import com.tlcn.programingforum.model.entity.Article;
 import com.tlcn.programingforum.repository.ArticleRepository;
 import com.tlcn.programingforum.repository.specification.ArticleSpecification;
 import com.tlcn.programingforum.repository.specification.MyArticleSpecification;
+import com.tlcn.programingforum.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -35,15 +36,15 @@ public class ArticleServiceImpl extends AbstractBaseService implements ArticleSe
 
     @Override
     public Article findByArticleIdAndTypeAndStatus(String articleId, int type, int status) {
-        return articleRepository.findByArticleIdAndTypeAndStatus(
-                articleId, type, status);
+        return articleRepository.findByArticleIdAndTypeAndStatusAndIsApproved(
+                articleId, type, status, Constant.ApproveStatus.APPROVED_STATUS.getValue());
     }
 
     @Override
     public Page<Article> getListArticlePaging(PagingRequestModel pagingRequestModel) {
         ArticleSpecification userSpec = new ArticleSpecification(pagingRequestModel.getSearchKey(),
                 pagingRequestModel.getSortCase(), pagingRequestModel.isAscSort(),
-                pagingRequestModel.getType());
+                pagingRequestModel.getType(), Constant.ApproveStatus.APPROVED_STATUS.getValue());
         PageRequest pageReq = new PageRequest((pagingRequestModel.getPageNumber() - 1), pagingRequestModel.getPageSize());
         return articleRepository.findAll(userSpec, pageReq);
     }
@@ -61,12 +62,14 @@ public class ArticleServiceImpl extends AbstractBaseService implements ArticleSe
 
     @Override
     public List<Article> findByUserIdAndTypeAndStatus(String userId, int type, int status) {
-        return articleRepository.findByUserIdAndTypeAndStatus(userId, type, status);
+        return articleRepository.findByUserIdAndTypeAndStatusAndIsApproved(
+                userId, type, status, Constant.ApproveStatus.APPROVED_STATUS.getValue());
     }
 
     @Override
     public List<Article> findByUserIdAndStatus(String userId, int status) {
-        return articleRepository.findByUserIdAndStatus(userId, status);
+        return articleRepository.findByUserIdAndStatusAndIsApproved(
+                userId, status, Constant.ApproveStatus.APPROVED_STATUS.getValue());
     }
 
     @Override

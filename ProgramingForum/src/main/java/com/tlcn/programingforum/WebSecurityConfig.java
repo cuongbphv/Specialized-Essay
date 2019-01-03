@@ -76,14 +76,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/v1/tag/most",
                         "/api/v1/comment/list",
                         "/api/v1/profile/{id}",
-                        "/api/v1/author/top").permitAll()
+                        "/api/v1/author/top",
+                        "/api/v1/comment/interact",
+                        "/api/v1/user/{id}",
+                        "/api/v1/tag/{id}").permitAll()
                 .antMatchers(HttpMethod.POST,
                         "/api/v1/article/list",
                         "/api/v1/article/my-article",
                         "/api/v1/article/related",
                         "/api/v1/article/same-author",
                         "/api/v1/article/trending",
-                        "/api/v1/tag/all").permitAll()
+                        "/api/v1/tag/all",
+                        "/api/v1/comment/list",
+                        "/api/v1/search/top",
+                        "/api/v1/search/type",
+                        "/api/v1/tag/followers",
+                        "/api/v1/tag/list").permitAll()
 //                .antMatchers(HttpMethod.PUT
 //                ).permitAll()
 //                .antMatchers(HttpMethod.DELETE

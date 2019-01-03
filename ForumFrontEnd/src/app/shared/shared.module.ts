@@ -9,7 +9,7 @@ import {
   TranslatePlaceholderDirective,
   ModalComponent
 } from './directives';
-import {SafeHtmlPipe, TranslatePipe} from './pipes';
+import {HighlightSearch, SafeHtmlPipe, TranslatePipe} from './pipes';
 import {ShowAuthedDirective} from './directives';
 
 @NgModule({
@@ -25,7 +25,8 @@ import {ShowAuthedDirective} from './directives';
     TranslatePlaceholderDirective,
     ShowAuthedDirective,
     SafeHtmlPipe,
-    ModalComponent
+    ModalComponent,
+    HighlightSearch
   ],
   exports: [
     FormsModule,
@@ -35,7 +36,8 @@ import {ShowAuthedDirective} from './directives';
     TranslateTextDirective,
     TranslatePlaceholderDirective,
     SafeHtmlPipe,
-    ModalComponent
+    ModalComponent,
+    HighlightSearch
   ]
 })
 

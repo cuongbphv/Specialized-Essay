@@ -26,7 +26,8 @@
     "article": "Bài viết",
     "top_author": "Tác giả hàng đầu",
     "search": "Tìm kiếm",
-    "keywords": "Nhập từ khóa..."
+    "keywords": "Nhập từ khóa...",
+    "tag": "Thẻ"
   },
   "user": {
     "login": "Đăng nhập",
@@ -49,7 +50,10 @@
       "follow": "Theo dõi",
       "following": "Đang theo dõi",
       "info": "Thông tin thẻ",
-      "tag_detail": "Chi tiết thẻ"
+      "tag_detail": "Chi tiết thẻ",
+      "followers": "Người theo dõi",
+      "articles": "Bài viết",
+      "questions": "Câu hỏi"
     },
     "message": {
       "follow_success": "Theo dõi thẻ thành công",
@@ -70,6 +74,7 @@
     "all_right": "Mọi bản quyền thuộc về nhóm phát triển © 2018."
   },
   "label": {
+    "nothing": "Không có gì ở đây.",
     "registration": "Đăng ký",
     "content": "Đăng ký để trở thành thành viên Cộng đồng Shared ngay hôm nay!",
     "username": "Tài khoản",
@@ -128,6 +133,12 @@
     "next": "Trang sau",
     "previous": "Trang trước",
     "article_info_user": "Thông tin người dùng trong bài viết",
+    "search_syntax": "Cú pháp tìm kiếm",
+    "search": {
+      "keyword": "Tìm kiếm với từ khóa cả trong tiêu đề và nội dung bài viết",
+      "content": "Tìm kiếm với từ khóa trong nội dung bài viết",
+      "title:": "Tìm kiếm với từ khóa trong tiêu đề bài viết"
+    },
     "sort": {
       "filter": "Bộ lọc",
       "sort_type": "Sắp xếp theo",
@@ -143,7 +154,10 @@
       "bookmark_date": "Ngày đánh dấu",
       "sort_date": "Sắp xếp theo",
       "latest": "Mới nhất",
-      "oldest": "Cũ nhất"
+      "oldest": "Cũ nhất",
+      "view_count": "Lượt xem",
+      "bookmark": "Lưu trữ",
+      "rating": "Đánh giá"
     }
   },
   "validation": {
@@ -196,6 +210,9 @@
     "search": "Tìm kiếm"
   },
   "message": {
+    "post": {
+      "wait_approved": "Bạn đã tạo bài viết thành công, vui lòng chờ quản trị viên duyệt bài"
+    },
     "interact": {
       "upvote": "Bạn đã đánh giá +1 cho bài viết",
       "downvote": "Bạn đã đánh giá -1 cho bài viết",
