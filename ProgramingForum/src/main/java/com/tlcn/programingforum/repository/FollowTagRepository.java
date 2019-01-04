@@ -8,6 +8,8 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * @author buiph on 21/12/2018
  */
@@ -23,4 +25,6 @@ public interface FollowTagRepository extends CrudRepository<FollowTag, String> {
     Page<FollowTag> findByIdTagId(String tagId, PageRequest pageRequest);
 
     void deleteById_TagId(String tagId);
+
+    List<FollowTag> findById_UserId(String userId);
 }

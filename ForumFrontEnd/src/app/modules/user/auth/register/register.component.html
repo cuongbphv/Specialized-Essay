@@ -307,7 +307,7 @@
             <div class="col-md-3 col-sm-4 col-6" *ngFor="let author of topAuthor; index as i;">
               <div class="avatar-container text-center">
                 <img class="img-avatar" src="{{author.avatar}}" alt="avatar">
-                <p style="margin: 5px">{{i + ' ' + author.firstName + ' ' + author.lastName}}</p>
+                <p style="margin: 5px">{{author.firstName + ' ' + author.lastName}}</p>
                 <button *ngIf="author.isFollow === false" class="btn btnContact" (click)="followUser(i)">Follow</button>
                 <button *ngIf="author.isFollow === true" class="btn btnContact" (click)="followUser(i)">Unfollow</button>
               </div>

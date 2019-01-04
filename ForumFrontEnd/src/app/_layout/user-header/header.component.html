@@ -132,12 +132,12 @@
 
         </li>
 
-        <li class="nav-item active" *appShowAuthed="true">
-          <a class="nav-link text-white" href="javascript:;;">
-            <i class="fa fa-bell mr-2"></i>
-            <span class='badgeAlert'>2</span>
-          </a>
-        </li>
+        <!--<li class="nav-item active" *appShowAuthed="true">-->
+          <!--<a class="nav-link text-white" href="javascript:;;">-->
+            <!--<i class="fa fa-bell mr-2"></i>-->
+            <!--<span class='badgeAlert'>2</span>-->
+          <!--</a>-->
+        <!--</li>-->
 
         <li class="nav-item button-login" *appShowAuthed="false">
           <a class="nav-link" href="javascript:;;" [routerLink]="['/login']">
@@ -154,8 +154,8 @@
           <div class="dropdown-menu dropdown dropdown-primary" aria-labelledby="drdAccount" role="menu">
             <a class="dropdown-item waves-light" [routerLink]="[ '/profile/' + currentUser.userId]">
               <i class="fa fa-user mr-1"></i> <span textContent="user.profile"></span></a>
-            <a class="dropdown-item waves-light" [routerLink]="[ '/setting' ]">
-              <i class="fa fa-cogs mr-1"></i> <span textContent="user.setting"></span></a>
+            <!--<a class="dropdown-item waves-light" [routerLink]="[ '/setting' ]">-->
+              <!--<i class="fa fa-cogs mr-1"></i> <span textContent="user.setting"></span></a>-->
             <a class="dropdown-item waves-light" (click)="authBaseService.logout()">
               <i class="fa fa-sign-in mr-1"></i> <span textContent="user.logout"></span></a>
           </div>

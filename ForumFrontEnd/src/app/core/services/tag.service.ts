@@ -59,6 +59,17 @@ export class TagService {
       }));
   }
 
+  getTagByUserId(userId: string): Observable<any> {
+    return this.apiService.get(API.TAG_BY_USER_ID + userId)
+      .pipe(map(res => {
+        if(res.status === 200){
+          return res.data;
+        }
+        this.toastrService.showErrorToastr("api.status." + res.status);
+        return null;
+      }));
+  }
+
 
   getFollowStatus(userId: string, tagId: any): Observable<any> {
     return this.apiService.get(API.FOLLOW_STATUS + "?tag_id=" + tagId + "&user_id=" + userId)

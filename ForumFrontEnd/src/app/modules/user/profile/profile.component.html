@@ -36,7 +36,7 @@
         </div>
       </div>
 
-      <div class="col-lg-4 col-xs-12" style="margin-top: 1rem">
+      <div class="col-lg-8 col-xs-12" style="margin-top: 1rem">
         <div class="follow">
           <div *ngIf="(currentUser.userId !== currentProfile.userId) && followStatus === 0" class="btn-follow">
             <button class="btn btn-follow btn-primary" (click)="follow()">Follow <i class="fa fa-rss"></i></button>
@@ -58,22 +58,20 @@
             <div class="follower-image">
               <img *ngFor="let user of listFollow"
                    src="{{user.avatar}}" alt="no-img" data-toggle="tooltip" data-placement="top"
-                   title="{{user.firstName + ' ' + user.lastName}}">
+                   title="{{user.firstName + ' ' + user.lastName}}"
+                   [routerLink]="['/profile/' + user.userId]">
             </div>
           </div>
           <div class="follower">
             <p>Tags:</p>
             <div class="follow-tag">
-              <a>Javascript</a>
-              <a>NodeJS</a>
-              <a>Spring</a>
-              <a>AI</a>
+              <a *ngFor="let tag of listTag" [routerLink]="['/tag/' + tag.tagId]">{{tag.tagName}}</a>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="col-lg-4 col-xs-12">
+      <div *ngIf="false" class="col-lg-4 col-xs-12">
         <div class="chart col-xs-12" style="text-align: center">
           <pie-chart class="col-xs-8" [data]="data" [config]="config" [elementId]="elementId"></pie-chart>
         </div>

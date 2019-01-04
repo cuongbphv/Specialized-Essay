@@ -161,6 +161,7 @@ export class TagDetailComponent implements OnInit{
                   this.articles[i].firstName = author.firstName;
                   this.articles[i].lastName = author.lastName;
                   this.articles[i].userProfileId = author.userProfileId;
+                  this.articles[i].avatar = author.avatar;
                 }
               );
 

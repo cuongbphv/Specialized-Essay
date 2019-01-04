@@ -79,6 +79,7 @@ export const API = {
   LIST_TAG_DETAIL: BaseURL.TAG_API + "/list-detail",
   LIST_BANNED_TAG: BaseURL.TAG_API + "/list/banned",
   TAG_INFORMATION: BaseURL.TAG_API + "/",
+  TAG_BY_USER_ID: BaseURL.TAG_API + "/list-tag/",
   TAG_URL: BaseURL.TAG_API,
   ALL_TAGS: BaseURL.TAG_API + "/all",
 
