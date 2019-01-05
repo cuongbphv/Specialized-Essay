@@ -135,6 +135,7 @@ export class ProfileComponent implements OnInit{
           this.userService.currentUser.subscribe(
             (userData) => {
               this.currentUser = userData;
+              this.getFollowStatus();
             }
           );
 
@@ -151,7 +152,6 @@ export class ProfileComponent implements OnInit{
 
           this.pieChartService.BuildPieChart(this.elementId, this.data, this.config);
 
-          this.getFollowStatus();
           this.getListFollowUser();
           this.getListFollowByOther();
           this.getUserTag();

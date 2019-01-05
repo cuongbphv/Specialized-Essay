@@ -545,8 +545,8 @@ public class UserController extends AbstractBasedAPI {
             @PathVariable("id") String userId
     ) {
 
-        AuthUser authUser = getAuthUserFromSession(request);
-        validatePermission(authUser, Constant.SystemRole.USER.getId());
+//        AuthUser authUser = getAuthUserFromSession(request);
+//        validatePermission(authUser, Constant.SystemRole.USER.getId());
 
         List<FollowUser> followUserList = followUserService.getAllByUserId(userId);
 
@@ -574,8 +574,8 @@ public class UserController extends AbstractBasedAPI {
             @PathVariable("id") String userId
     ) {
 
-        AuthUser authUser = getAuthUserFromSession(request);
-        validatePermission(authUser, Constant.SystemRole.USER.getId());
+//        AuthUser authUser = getAuthUserFromSession(request);
+//        validatePermission(authUser, Constant.SystemRole.USER.getId());
 
         List<FollowUser> followUserList = followUserService.getAllByFollowUserId(userId);
 
