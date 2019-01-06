@@ -9,7 +9,7 @@
 ## Start front-end
 - Import project to IDE or Code editor
 - Run command: `yarn install`
-- Run command: `yarn run`
+- Run command: `ng serve`
 - Open in url: localhost:4200 and enjoy it!
 
 ## Start back-end
