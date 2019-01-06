@@ -1,0 +1,76 @@
+
+<div class="row">
+  <div class="col-lg-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Total post list</h4>
+        <div class="form-group row">
+          <div class="input-group col-12 col-md-3 col-sm-6">
+                <span class="input-group-addon bg-primary border-primary" id="colored-addon2">
+                  <i class="mdi mdi-magnify text-white"></i>
+                </span>
+            <input type="text" class="form-control" placeholder="Search"
+                   [(ngModel)]="pagingRequest.searchKey" (keyup.enter)="getListPost()"
+                   aria-label="Search" aria-describedby="colored-addon2">
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <thead>
+            <tr>
+              <th>
+                 Title
+              </th>
+              <th>
+                Tags
+              </th>
+              <th>
+                Author
+              </th>
+              <th>
+                Created Date
+              </th>
+              <th>
+                Status
+              </th>
+            </tr>
+            </thead>
+            <tbody *ngFor="let post of articles">
+            <tr [routerLink]="currentUser.role === 1?(['/admin/post/' + post.articleId]):(['/moderator/post/' + post.articleId])">
+              <td>
+                <a>{{post.title}}</a>
+              </td>
+              <td class="tag-container">
+                <a *ngFor="let tag of post.tags; let j = index;"
+                   [routerLink]="['/admin/tag/' + tag.tagId]" class="badge badge-pill badge-primary">
+                  {{tag.tagName}}
+                </a>
+              </td>
+              <td>
+                <a [routerLink]="['/admin/user/' + post.userId]">{{post.firstName}} {{post.lastName}}</a>
+              </td>
+              <td>
+                {{post.createDate | date: 'MM/dd/yyyy HH:mm'}}
+              </td>
+              <td>
+                <label *ngIf="post.isApproved === 1" class="badge badge-success badge-pill">Approved</label>
+                <label *ngIf="post.isApproved === 0" class="badge badge-primary badge-pill">Pending</label>
+                <label *ngIf="post.isApproved === 2" class="badge badge-danger badge-pill">Cancelled</label>
+                <label *ngIf="post.isApproved === 3" class="badge badge-warning badge-pill">Reported</label>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+          <div class="col-lg-12 text-right" style="margin-top: 2rem">
+            <ngb-pagination [collectionSize]="collectionSize" [pageSize]="pagingRequest.pageSize"
+                            [(page)]="pagingRequest.pageNumber"
+                            (pageChange)="getListPost()"
+                            aria-label="Default pagination"
+                            class="pagination-flat pagination-primary pull-right">
+            </ngb-pagination>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

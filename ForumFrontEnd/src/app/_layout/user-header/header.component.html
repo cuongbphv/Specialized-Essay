@@ -1,0 +1,183 @@
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <!-- Navbar brand -->
+    <a class="navbar-brand" href="javascript:void(0)" [routerLink]="['/']">Shared</a>
+
+    <div id="search-lg" class="searchform clearfix">
+      <span class="sfield">
+          <input type="text" class="s" textPlaceHolder="main.keywords"
+                 (keyup)="searchByKeyword()" [(ngModel)]="pagingRequest.searchKey">
+        </span>
+      <button type="submit" class="sbutton" (click)="searchWithKeyword();">
+        <i class="fa fa-search sicon"></i>
+      </button>
+      <div class="sb__suggestions" style="">
+        <div>
+          <div class="sb__suggestions-group">
+            <header class="sb__suggestions-group__name" textContent="main.article"></header>
+            <ul class="sb__suggestions-list">
+
+              <li class="sb__suggestions-item" *ngIf="articleResults.length === 0">
+                <h6 class="font-weight-bold mb-0 suggestion-identifier text-center" textContent="label.nothing"></h6>
+              </li>
+
+              <li class="sb__suggestions-item" *ngFor="let article of articleResults; let i = index">
+                <a href="javascript:void(0)" [routerLink]="['/post/' + article.articleId]" class="link d-block">
+                  <div>
+                    <h6 class="font-weight-bold mb-0 suggestion-identifier">
+                      <div>{{article.title}}</div>
+                    </h6>
+                    <div>
+                      <span class="text-primary">{{article.firstName + ' ' + article.lastName}} </span>
+                      <span class="text-muted">posted {{article.createDate | date: 'MM/dd/yyyy HH:mm'}}</span>
+                    </div>
+                    <div class="text-dark">
+                      <div innerHTML="{{ (article.start !== 0) ?
+                            '...'+(article.content | highlight : pagingRequest.searchKey | slice: article.start - 50 : article.start + 150)+'...' :
+                            (article.content | slice: article.start : article.start + 200) }}"></div>
+                    </div>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="sb__suggestions-group">
+            <header class="sb__suggestions-group__name" textContent="main.question"></header>
+            <ul class="sb__suggestions-list">
+
+              <li class="sb__suggestions-item" *ngIf="questionResults.length === 0">
+                <h6 class="font-weight-bold mb-0 suggestion-identifier text-center" textContent="label.nothing"></h6>
+              </li>
+
+              <li class="sb__suggestions-item" *ngFor="let question of questionResults; let i = index">
+                <a href="javascript:void(0)" [routerLink]="['/post/' + question.articleId]" class="link d-block">
+                  <div>
+                    <h6 class="font-weight-bold mb-0 suggestion-identifier">
+                      <div>{{question.title}}</div>
+                    </h6>
+                    <div><span class="text-primary">{{question.firstName + ' ' + question.lastName}} </span><span
+                      class="text-muted">asked {{question.createDate | date: 'MM/dd/yyyy HH:mm'}}</span></div>
+                    <div class="text-dark">
+                      <div innerHTML="{{ (question.start !== 0) ?
+                            '...'+(question.content | highlight : pagingRequest.searchKey | slice: question.start - 50: question.start + 150)+'...' :
+                            (question.content | slice: question.start : question.start + 200) }}">
+                      </div>
+                    </div>
+                  </div>
+                </a></li>
+            </ul>
+          </div>
+          <div class="sb__suggestions-group">
+            <header class="sb__suggestions-group__name" textContent="main.tag"></header>
+            <ul class="sb__suggestions-list">
+
+              <li class="sb__suggestions-item" *ngIf="tagResults.length === 0">
+                <h6 class="font-weight-bold mb-0 suggestion-identifier text-center" textContent="label.nothing"></h6>
+              </li>
+
+              <li class="sb__suggestions-item" *ngFor="let tag of tagResults; let i = index">
+                <a href="javascript:void(0)" [routerLink]="['/tag/' + tag.tagId]" class="link d-block">
+                <div class="suggestion-has-image">
+                  <div><h6 class="font-weight-bold mb-0 suggestion-identifier">{{tag.tagName}}</h6>
+                    <div class="suggestion-stats text-muted">
+                      <p class="mb-0">
+                        <span textContent="tag.label.followers"></span>
+                        <strong>{{' ' + tag.followerNum}}</strong>
+                      </p>
+                      <p class="mb-0">
+                        <span textContent="tag.label.articles"></span>
+                        <strong>{{' ' + tag.articleNum}}</strong>
+                      </p>
+                      <p class="mb-0">
+                        <span textContent="tag.label.questions"></span>
+                        <strong>{{' ' + tag.questionNum}}</strong>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Collapse button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNav"
+            aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="mainNav">
+      <!-- Links -->
+      <ul class="navbar-nav mr-auto">
+        <div id="search-xs" class="searchform clearfix">
+      <span class="sfield">
+          <input type="text" id="searchKey" class="s" textPlaceHolder="main.keywords"
+                 [(ngModel)]="pagingRequest.searchKey">
+        </span>
+          <button type="submit" class="sbutton" (click)="searchWithKeyword();">
+            <i class="fa fa-search sicon"></i>
+          </button>
+        </div>
+      </ul>
+      <!-- Links -->
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item" *appShowAuthed="true">
+          <div class="item-icon">
+            <a class="nav-link text-white" href="javascript:;;" [routerLink]="['/post/create']">
+              <i class="fa fa-plus-square"></i>
+            </a>
+          </div>
+
+        </li>
+
+        <!--<li class="nav-item active" *appShowAuthed="true">-->
+          <!--<a class="nav-link text-white" href="javascript:;;">-->
+            <!--<i class="fa fa-bell mr-2"></i>-->
+            <!--<span class='badgeAlert'>2</span>-->
+          <!--</a>-->
+        <!--</li>-->
+
+        <li class="nav-item button-login" *appShowAuthed="false">
+          <a class="nav-link" href="javascript:;;" [routerLink]="['/login']">
+            <i class="fa fa-sign-in mr-1"></i> <span textContent="user.login"></span></a>
+        </li>
+
+        <li class="nav-item dropdown" *appShowAuthed="true">
+          <a class="nav-link dropdown-toggle waves-light" href="#" id="drdAccount" role="button"
+             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-user-circle"></i>
+            <span *ngIf="currentUser !== null">{{" " + currentUser.firstName + " " + currentUser.lastName}}</span>
+            <span class="caret"></span>
+          </a>
+          <div class="dropdown-menu dropdown dropdown-primary" aria-labelledby="drdAccount" role="menu">
+            <a class="dropdown-item waves-light" [routerLink]="[ '/profile/' + currentUser.userId]">
+              <i class="fa fa-user mr-1"></i> <span textContent="user.profile"></span></a>
+            <!--<a class="dropdown-item waves-light" [routerLink]="[ '/setting' ]">-->
+              <!--<i class="fa fa-cogs mr-1"></i> <span textContent="user.setting"></span></a>-->
+            <a class="dropdown-item waves-light" (click)="authBaseService.logout()">
+              <i class="fa fa-sign-in mr-1"></i> <span textContent="user.logout"></span></a>
+          </div>
+        </li>
+
+        <li class="nav-item dropdown" style="border-right: none;">
+          <a class="nav-link dropdown-toggle waves-light" id="drdLanguage" role="button"
+             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-globe"></i><span class="caret"></span>
+          </a>
+          <div class="dropdown-menu dropdown dropdown-primary" aria-labelledby="drdLanguage" role="menu">
+            <a id="en" class="dropdown-item waves-light" (click)="setLang('en')"
+               textContent="language.en"><i class="fa fa-flag-o mr-2"></i></a>
+            <a id="vi" class="dropdown-item waves-light" (click)="setLang('vi')"
+               textContent="language.vi">
+              <i class="fa fa-flag-o mr-2"></i></a>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <!-- Collapsible content -->
+  </div>
+
+</nav>
+<!--/.Navbar-->

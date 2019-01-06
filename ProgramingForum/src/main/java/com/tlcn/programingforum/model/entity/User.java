@@ -38,9 +38,6 @@ public class User {
     private String userId;
     private String userName;
 
-    private String firstName;
-    private String lastName;
-
     @JsonIgnore
     private String passwordHash;
     @JsonIgnore
@@ -55,12 +52,11 @@ public class User {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date createDate;
 
-    @LastModifiedDate
     @Column(name = "last_activity", nullable = true)
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date lastActivity;
 
     private int status;
     private String setting;
-    private String role;
+    private int role;
 }

@@ -4,4 +4,19 @@ export const AppConfig = {
 
   SESSION_COOKIES: 'AccessToken',
 
+  USER_COOKIES: 'User',
+
+  ROLE_ADMIN: 1,
+
+  ROLE_MODERATOR: 2,
+
+  ROLE_USER: 3,
+
+  ROLE_GUEST: 4,
+
+  TOKEN_EXPIRE_DATE: 150,
+
+  ACTIVE_STATUS: 1,
+
+  DELETE_STATUS: 2
 };

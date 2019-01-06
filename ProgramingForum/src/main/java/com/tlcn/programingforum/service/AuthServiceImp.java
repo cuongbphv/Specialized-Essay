@@ -31,13 +31,13 @@ public class AuthServiceImp extends AbstractBaseService implements AuthService {
     AuthUserFactory authUserFactory;
 
     @Override
-    public Session createUserToken(User user, boolean keepLogin) {
+    public Session createUserToken(User user) {
         try {
             Session userSession = new Session();
             userSession.setUserId(user.getUserId());
             Date currentDate = new Date();
             userSession.setLoginDate(currentDate);
-            Date expirationDate = keepLogin ? new Date(currentDate.getTime() + Constant.DEFAULT_REMEMBER_LOGIN_MILISECONDS) : new Date(currentDate.getTime() + Constant.DEFAULT_SESSION_TIME_OUT);
+            Date expirationDate = new Date(currentDate.getTime() + Constant.DEFAULT_REMEMBER_LOGIN_MILISECONDS*4);
             userSession.setExpirationDate(expirationDate);
             AuthUser authUser = authUserFactory.createAuthUser(user);
             // Set authUser to session data...

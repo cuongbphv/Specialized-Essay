@@ -5,15 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Temporal;
-import java.util.Date;
+import java.util.List;
 
 /**
  * @author Huy Pham
@@ -26,14 +20,31 @@ import java.util.Date;
 @AllArgsConstructor
 public class UserRequest {
 
+    //user section
     private String userId;
     private String userName;
-    private String firstName;
-    private String lastName;
     private String passwordHash;
-    private String confirmPassword;
     private String email;
     private String phone;
     private String lang;
     private String setting;
+
+    //profile section
+    private String userProfileId;
+    private String firstName;
+    private String lastName;
+    @JsonIgnore
+    private MultipartFile avatar;
+    private String avatarUrl;
+    private String description;
+    private String websiteLink;
+    private String githubLink;
+    private String position;
+    private String company;
+
+    // follow tag id
+    private List<String> tagIds;
+
+    //follow author
+    private List<String> authorIds;
 }

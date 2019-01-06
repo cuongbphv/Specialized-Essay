@@ -5,9 +5,6 @@ import { CommonModule } from '@angular/common';
 import { AppComponent } from './app.component';
 import { ToastrModule } from 'ngx-toastr';
 
-import { SharedModule, FooterComponent, HeaderComponent } from './shared';
-import { HomeModule } from './modules/home/home.module';
-import { AuthModule } from './modules/auth/auth.module';
 import { AppRoutingModule } from './app.routing';
 import { CoreModule } from './core';
 
@@ -18,6 +15,18 @@ import {
   GoogleLoginProvider,
   FacebookLoginProvider,
 } from 'angular-6-social-login';
+import { AdminLayoutComponent } from './_layout/admin-layout/admin-layout.component';
+import { UserLayoutComponent } from './_layout/user-layout/user-layout.component';
+import {AdminNavbarComponent} from './_layout/admin-navbar/navbar.component';
+import {AdminFooterComponent} from './_layout/admin-footer/footer.component';
+import {AdminSidebarComponent} from './_layout/admin-sidebar/sidebar.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {AdminModule} from './modules/admin/admin.module';
+import {ErrorModule} from './modules/error/error.module';
+import {SharedModule} from './shared';
+import {FooterComponent} from './_layout/user-footer';
+import {HeaderComponent} from './_layout/user-header';
+import {UserModule} from './modules/user/user.module';
 
 
 // Configs
@@ -53,11 +62,13 @@ export function setupTranslateFactory(service: TranslateService): Function {
     CommonModule,
     BrowserAnimationsModule,
     SharedModule,
-    AuthModule,
-    HomeModule,
+    ErrorModule,
     CoreModule,
     SocialLoginModule,
+    UserModule,
+    AdminModule,
     AppRoutingModule,
+    NgbModule,
     ToastrModule.forRoot({
       timeOut: 4000,
       autoDismiss: true,
@@ -68,7 +79,12 @@ export function setupTranslateFactory(service: TranslateService): Function {
   declarations: [
     AppComponent,
     FooterComponent,
-    HeaderComponent
+    HeaderComponent,
+    AdminNavbarComponent,
+    AdminFooterComponent,
+    AdminSidebarComponent,
+    AdminLayoutComponent,
+    UserLayoutComponent
   ],
   providers: [
     TranslateService,

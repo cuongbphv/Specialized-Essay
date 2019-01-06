@@ -1,0 +1,59 @@
+<main>
+
+  <form (ngSubmit)="f.form.valid" #f="ngForm">
+
+    <div class="form-row cross-validation"
+         [class.cross-validation-error]="postTitle.touched || postTitle.dirty">
+
+      <input id="post-title" class="form-control" type="text" textPlaceHolder="post.placeholder_title"
+             [(ngModel)]="post.title" name="postTitle" #postTitle="ngModel" [required]="true"
+             maxlength="200" [maxlength]="200"/>
+
+      <div *ngIf="postTitle.touched">
+        <span class="help-block" *ngIf="postTitle.value === ''">
+          Title is required
+        </span>
+      </div>
+    </div>
+
+
+    <div class="form-row" style="margin-top: 5px;">
+      <div class="col-xs-12 col-md-3">
+        <select class="form-control" [(ngModel)]="post.type" [value]="post.type"
+                name="postType" #postType="ngModel">
+          <option value="1" textContent="post.article"></option>
+          <option value="2" textContent="post.question"></option>
+        </select>
+      </div>
+
+      <div class="col-xs-12 col-md-9">
+        <div class="tags-input">
+          <span class="tag" *ngFor="let tag of this.post.tags; let i = index;">
+            {{tag}}<span data-role="remove-tag" (click)="removeTag(i)"></span></span>
+          <input type="text" data-role="add-tag" textPlaceHolder="post.placeholder_tag"/>
+        </div>
+      </div>
+    </div>
+
+
+    <div id="editor-area">
+      <md-editor id="post-content" name="postContent" [(ngModel)]="post.content" #postContent="ngModel"
+                 [height]="'500px'" [mode]="mode" [options]="options">
+      </md-editor>
+
+      <div *ngIf="postContent.touched">
+        <span class="help-block" *ngIf="postContent.value === ''">
+          Content is required
+        </span>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <button class="btn btn-shared text-white" textContent="button.post"
+              (click)="createArticle()" [disabled]="post.tags.length === 0 || f.invalid"></button>
+    </div>
+
+  </form>
+
+</main>
+

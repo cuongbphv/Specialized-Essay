@@ -1,0 +1,58 @@
+
+<div class="row">
+  <div class="col-lg-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Total Tag list</h4>
+        <div class="form-group row">
+          <div class="input-group col-12 col-md-3 col-sm-6">
+                <span class="input-group-addon bg-primary border-primary" id="colored-addon2">
+                  <i class="mdi mdi-magnify text-white"></i>
+                </span>
+            <input type="text" class="form-control" placeholder="Search"
+                   [(ngModel)]="pagingRequest.searchKey" (keyup.enter)="getListTag()"
+                   aria-label="Search" aria-describedby="colored-addon2">
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th>
+                 Tag name
+              </th>
+              <th>
+                Description
+              </th>
+              <th>
+                Created Date
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let tag of tags"
+                [routerLink]="currentUser.role === 1?(['/admin/tag/' + tag.tagId]):(['/moderator/tag/' + tag.tagId])">
+              <td>
+                <a>{{tag.tagName}}</a>
+              </td>
+              <td>
+                {{tag.description}}
+              </td>
+              <td>
+                {{tag.createDate | date: 'MM/dd/yyyy HH:mm'}}
+              </td>
+            </tr>
+            </tbody>
+          </table>
+          <div class="col-lg-12 text-right" style="margin-top: 2rem">
+            <ngb-pagination [collectionSize]="collectionSize" [pageSize]="pagingRequest.pageSize"
+                            [(page)]="pagingRequest.pageNumber" (pageChange)="getListTag()"
+                            aria-label="Default pagination"
+                            class="pagination-flat pagination-primary pull-right">
+            </ngb-pagination>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

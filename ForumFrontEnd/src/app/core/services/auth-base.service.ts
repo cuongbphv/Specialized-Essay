@@ -9,91 +9,104 @@ import {ApiService} from './api.service';
 import {FacebookLoginProvider, GoogleLoginProvider, AuthService} from 'angular-6-social-login';
 import {HttpParams} from '@angular/common/http';
 import {SessionService} from './session.service';
+import {UserService} from './user.service';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class AuthBaseService {
   user: Observable<User>;
-  userDetails: User = null;
-
-  private formatErrors(error: any) {
-    return throwError(error.error);
-  }
 
   constructor(
     private security: SecurityService,
     private apiService: ApiService,
     private socialAuthService: AuthService,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private userService: UserService,
+    private router: Router
   ) {
   }
 
-  register(user: any): Observable<any> {
-    return this.apiService.post(API.REGISTER_USER, {
-      firstName: user.firstName,
-      lastName: user.lastName,
-      userName: user.username,
-      email: user.email,
-      passwordHash: this.security.MD5Hash(user.password)
-    }).pipe(map(res => res));
-  }
+  register(user: any, followTagId: any, authorId: any): Observable<any> {
 
-  isLoggedIn(){
-    // if (this.user !== null) {
-    //   return true;
-    // }
-    return false;
+      let userRequest = {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        userName: user.userName,
+        email: user.emailAddress,
+        passwordHash: this.security.MD5Hash(user.password),
+        userId: user.userId || null,
+        phone: user.phone || null,
+        avatarUrl: user.image || null,
+        lang: user.lang || null,
+        description: user.description || null,
+        setting: user.setting || null,
+        tagIds: followTagId || null,
+        authorIds: authorId || null
+      };
+
+      const formdata: FormData = new FormData();
+
+      formdata.append('avatarImg', user.imgFile);
+      formdata.append('userRequest', new Blob([JSON.stringify(userRequest)],
+        {type: 'application/json'}));
+
+      return this.apiService.formData(API.REGISTER_USER, formdata)
+        .pipe(map(res => res));
+   // }
+   //  else{
+   //
+   //    return this.apiService.post(API.REGISTER_USER, {
+   //      firstName: user.firstName,
+   //      lastName: user.lastName,
+   //      userName: user.userName,
+   //      email: user.emailAddress,
+   //      passwordHash: this.security.MD5Hash(user.password),
+   //      userId: user.userId || null,
+   //      phone: user.phone || null,
+   //      avatarUrl: user.image || null,
+   //      lang: user.lang || null,
+   //      description: user.description || null,
+   //      setting: user.setting || null
+   //    }).pipe(map(res => res));
+
+  //  }
   }
 
   logout() {
+    this.userService.purgeUser();
+    this.sessionService.destroyAccessToken();
+    this.router.navigateByUrl('/login');
   }
 
-  login(username: string, password: string) {
-    return this.apiService.post(API.USER_LOGIN, {
+  socialLogin(username: string, token: string, provider: string, url:string){
+    return this.apiService.post(API.USER_SOCIAL_LOGIN, {
+      account: username,
+      token: token,
+      provider: provider
+    }).pipe(map(res => res))
+      .subscribe(data => {
+        if (data.status === 200) {
+          // set token for login session
+          this.sessionService.setAccessToken(data.data);
+          this.userService.populate();
+          this.router.navigate([url]);
+        }
+      });
+  }
+
+  login(username: string, password: string, url:string) {
+    this.apiService.post(API.USER_LOGIN, {
       account: username,
       passwordHash: this.security.MD5Hash(password)
-    }).pipe(map(res => {
-      if (res.status === 200) {
-        // set token for login session
-        this.sessionService.setAccessToken(res.data);
-        console.log(res.data);
-        // get user detail by token
-        this.getLoggedInUser();
-      }
-    }));
-  }
-
-  getLoggedInUser(): Observable<User> {
-
-    this.apiService.get(API.USER_DETAIL).pipe(map(res => {
-      this.user = res.data;
-      this.userDetails = res.data;
-      console.log(this.userDetails);
-    })).subscribe();
-
-    return this.user;
-  }
-
-  isAdmin(): boolean {
-    let user = this.getLoggedInUser();
-    user.subscribe(loginUser => {
-      if (loginUser != null && loginUser.role === 'admin') {
-        return true;
-      }
-    });
-    return false;
-  }
-
-  isModerator(): boolean {
-    let user = this.getLoggedInUser();
-    user.subscribe(loginUser => {
-      if (loginUser != null && loginUser.role === 'moderator') {
-        return true;
-      }
-    });
-    return false;
-  }
-
-  rememberMe(email, password) {
+    }).pipe(map(res => res))
+      .subscribe(data => {
+        if (data.status === 200) {
+          // set token for login session
+          this.sessionService.setAccessToken(data.data);
+          this.userService.populate();
+          this.router.navigate([url]);
+        }
+      });
   }
 
   socialSignIn(socialPlatform: string): Promise<any> {
@@ -115,4 +128,14 @@ export class AuthBaseService {
       .pipe(map(res => res));
   }
 
+  test(avatar: File){
+
+    const formdata: FormData = new FormData();
+    formdata.append('avatar', avatar);
+    formdata.append('content', "Content value");
+
+    this.apiService.formData("/admin/test", formdata)
+      .pipe(map(res=>res.data))
+      .subscribe(data => console.log("hihi", data));
+  }
 }

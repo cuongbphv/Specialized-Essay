@@ -18,11 +18,13 @@ import java.io.Serializable;
 public class ProfileRequest implements Serializable {
 
     private String userProfileId;
+    private String firstName;
+    private String lastName;
     private String description;
     private String websiteLink;
     private String githubLink;
     private String position;
-    private String degree;
+    private String company;
     private String avatar;
     private String userId;
 }

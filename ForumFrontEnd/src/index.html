@@ -4,12 +4,22 @@
   <meta charset="utf-8">
   <title>ForumFrontEnd</title>
   <base href="/">
-
+  <script>
+    var global = window;
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <body cz-shortcut-listen="true">
+
+<ngx-spinner
+  bdColor = "rgba(51, 51, 51, 0.8)"
+  size = "large"
+  color = "#fff"
+  type = "ball-climbing-dot"
+></ngx-spinner>
+
   <app-root></app-root>
 
   <noscript>Please enable JavaScript to continue using this application.</noscript>

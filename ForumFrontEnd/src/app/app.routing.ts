@@ -2,14 +2,18 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 
 const routes: Routes = [
+
   {
-    path: 'profile',
-    loadChildren: './modules/profile/profile.module#ProfileModule'
+    path: '',
+    redirectTo: '',
+    pathMatch: 'full'
   },
+
   {
-    path: 'post',
-    loadChildren: './modules/post/post.module#PostModule'
+    path: '**',
+    redirectTo: 'error'
   }
+
 ];
 
 @NgModule({

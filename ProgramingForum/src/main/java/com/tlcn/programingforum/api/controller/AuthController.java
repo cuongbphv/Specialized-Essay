@@ -2,6 +2,7 @@ package com.tlcn.programingforum.api.controller;
 
 import com.tlcn.programingforum.api.AbstractBasedAPI;
 import com.tlcn.programingforum.api.model.request.AuthRequestModel;
+import com.tlcn.programingforum.api.model.request.AuthSocialRequestModel;
 import com.tlcn.programingforum.api.model.request.UserRequest;
 import com.tlcn.programingforum.api.response.APIStatus;
 import com.tlcn.programingforum.auth.AuthUser;
@@ -10,6 +11,8 @@ import com.tlcn.programingforum.model.RestAPIResponse;
 import com.tlcn.programingforum.model.entity.Session;
 import com.tlcn.programingforum.model.entity.User;
 import com.tlcn.programingforum.service.AuthService;
+import com.tlcn.programingforum.service.SocialLoginService;
+import com.tlcn.programingforum.service.SocialLoginServiceImpl;
 import com.tlcn.programingforum.service.UserService;
 import com.tlcn.programingforum.util.CommonUtil;
 import com.tlcn.programingforum.util.Constant;
@@ -39,6 +42,8 @@ public class AuthController extends AbstractBasedAPI {
     @Autowired
     UserService userService;
 
+    @Autowired
+    SocialLoginService socialLoginService;
 
     /**
      * API user login
@@ -52,7 +57,16 @@ public class AuthController extends AbstractBasedAPI {
     ) {
 
         // Get Active User
-        User user = authService.getUserByUserNameAndStatus(requestModel.getAccount(), Constant.Status.ACTIVE.getValue());
+        User user;
+        if(!requestModel.getAccount().contains("@")) {
+            user = authService.getUserByUserNameAndStatus(requestModel.getAccount(),
+                    Constant.Status.ACTIVE.getValue());
+        }
+        else{
+            user = authService.getUserByEmailAndStatus(requestModel.getAccount(),
+                    Constant.Status.ACTIVE.getValue());
+        }
+
         if (user == null) {
             throw new ApplicationException(APIStatus.ERR_USER_NOT_FOUND);
         }
@@ -71,7 +85,45 @@ public class AuthController extends AbstractBasedAPI {
 
         // Everything ok. Create session
         // TODO login
-        Session userSession = authService.createUserToken(user, requestModel.keepLogin);
+        Session userSession = authService.createUserToken(user);
+        // Create Auth User -> Set to filter config
+        // Perform the security
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                user.getUserName(),
+                user.getPasswordHash()
+        );
+        //final Authentication authentication = authenticationManager.authenticate();
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        return responseUtil.successResponse(userSession.getTokenId());
+    }
+
+
+    @RequestMapping(path = Constant.SOCIAL_LOGIN_API, method = RequestMethod.POST)
+    public ResponseEntity<RestAPIResponse> socialLogin(
+            @RequestBody AuthSocialRequestModel requestModel
+    ) {
+
+        // Get Active User
+        User user = authService.getUserByEmailAndStatus(
+                requestModel.getAccount(), Constant.Status.ACTIVE.getValue());
+
+        if (user == null) {
+            throw new ApplicationException(APIStatus.ERR_USER_NOT_FOUND);
+        }
+
+
+        boolean isValidToken = requestModel.getProvider().equals("facebook")?
+                socialLoginService.checkFacebookToken(requestModel.getToken(),user.getUserId()):
+                socialLoginService.checkGoogleToken(requestModel.getToken(),user.getUserId());
+
+        if (!isValidToken) {
+            throw new ApplicationException(APIStatus.ERR_TOKEN_NOT_MATCH);
+        }
+
+        // Everything ok. Create session
+        // TODO login
+        Session userSession = authService.createUserToken(user);
         // Create Auth User -> Set to filter config
         // Perform the security
         Authentication authentication = new UsernamePasswordAuthenticationToken(

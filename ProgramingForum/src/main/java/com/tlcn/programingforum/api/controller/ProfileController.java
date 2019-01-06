@@ -9,12 +9,16 @@ import com.tlcn.programingforum.exception.ApplicationException;
 import com.tlcn.programingforum.model.RestAPIResponse;
 import com.tlcn.programingforum.model.entity.Profile;
 import com.tlcn.programingforum.model.entity.User;
+import com.tlcn.programingforum.service.FileUploadService;
 import com.tlcn.programingforum.service.ProfileService;
 import com.tlcn.programingforum.service.UserService;
+import com.tlcn.programingforum.util.CommonUtil;
 import com.tlcn.programingforum.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.NoSuchAlgorithmException;
@@ -33,6 +37,9 @@ public class ProfileController extends AbstractBasedAPI {
     @Autowired
     UserService userService;
 
+    @Autowired
+    FileUploadService fileUploadService;
+
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<RestAPIResponse> createUserProfile(
             HttpServletRequest request,
@@ -40,7 +47,7 @@ public class ProfileController extends AbstractBasedAPI {
     ) {
 
         AuthUser authUser = getAuthUserFromSession(request);
-        validatePermission(authUser, Constant.SystemRole.USER.getName());
+        validatePermission(authUser, Constant.SystemRole.USER.getId());
 
         if (userService.getActiveUserByUserId(profileRequest.getUserId()) != null) {
             throw new ApplicationException(APIStatus.ERR_USER_NOT_FOUND);
@@ -48,12 +55,14 @@ public class ProfileController extends AbstractBasedAPI {
 
             Profile profile = new Profile();
 
+            profile.setFirstName(profileRequest.getFirstName());
+            profile.setLastName(profileRequest.getLastName());
             profile.setUserId(profileRequest.getUserId());
             profile.setDescription(profileRequest.getDescription());
             profile.setWebsiteLink(profileRequest.getWebsiteLink());
             profile.setGithubLink(profileRequest.getGithubLink());
             profile.setPosition(profileRequest.getPosition());
-            profile.setDegree(profileRequest.getDegree());
+            profile.setCompany(profileRequest.getCompany());
             profile.setAvatar(profile.getAvatar());
 
             profileService.saveProfile(profile);
@@ -66,25 +75,47 @@ public class ProfileController extends AbstractBasedAPI {
     @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity<RestAPIResponse> updateUserProfile(
             HttpServletRequest request,
-            @RequestBody ProfileRequest profileRequest
+            @RequestPart(value = "avatarImg",required = false) MultipartFile avatarImg,
+            @RequestPart(value="profileRequest") ProfileRequest profileRequest
     ) {
 
         AuthUser authUser = getAuthUserFromSession(request);
-        validatePermission(authUser, Constant.SystemRole.USER.getName());
+        validatePermission(authUser, Constant.SystemRole.USER.getId());
 
         Profile profile = profileService.getProfileByUserId(profileRequest.getUserId());
 
         //check user profile
-        if (profile != null) {
+        if (profile == null) {
             throw new ApplicationException(APIStatus.ERR_USER_PROFILE_NOT_FOUND);
-        } else {
+        }
+        else {
 
+            profile.setFirstName(profileRequest.getFirstName());
+            profile.setLastName(profileRequest.getLastName());
             profile.setDescription(profileRequest.getDescription());
             profile.setWebsiteLink(profileRequest.getWebsiteLink());
             profile.setGithubLink(profileRequest.getGithubLink());
             profile.setPosition(profileRequest.getPosition());
-            profile.setDegree(profileRequest.getDegree());
+            profile.setCompany(profileRequest.getCompany());
             profile.setAvatar(profile.getAvatar());
+
+            if(avatarImg != null){
+
+                String fileName = "user_avatar_" + profileRequest.getUserId() +
+                        CommonUtil.getFileExtension(avatarImg);
+
+                String url = fileUploadService.uploadFile(avatarImg, fileName);
+
+                String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                        .path("/files/")
+                        .path(fileName)
+                        .toUriString();
+
+                profile.setAvatar(fileDownloadUri);
+            }
+            else if(profileRequest.getAvatar() != null){
+                profile.setAvatar(profileRequest.getAvatar());
+            }
 
             profileService.saveProfile(profile);
 
@@ -98,8 +129,8 @@ public class ProfileController extends AbstractBasedAPI {
             HttpServletRequest request,
             @PathVariable("id") String id
     )  {
-        AuthUser authUser = getAuthUserFromSession(request);
-        validatePermission(authUser, Constant.SystemRole.USER.getName());
+//        AuthUser authUser = getAuthUserFromSession(request);
+//        validatePermission(authUser, Constant.SystemRole.USER.getId());
 
         if (id != null && !id.isEmpty()) {
             Profile profile = profileService.getProfileByUserId(id);

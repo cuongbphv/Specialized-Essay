@@ -1,25 +1,39 @@
 package com.tlcn.programingforum.api.controller;
 
 import com.tlcn.programingforum.api.AbstractBasedAPI;
+import com.tlcn.programingforum.api.model.request.PagingRequestModel;
 import com.tlcn.programingforum.api.model.request.UserRequest;
 import com.tlcn.programingforum.api.model.response.UserDetailResponse;
+import com.tlcn.programingforum.api.model.response.UserResponse;
 import com.tlcn.programingforum.api.response.APIStatus;
 import com.tlcn.programingforum.auth.AuthUser;
 import com.tlcn.programingforum.exception.ApplicationException;
 import com.tlcn.programingforum.model.RestAPIResponse;
-import com.tlcn.programingforum.model.entity.User;
-import com.tlcn.programingforum.service.UserService;
+import com.tlcn.programingforum.model.entity.*;
+import com.tlcn.programingforum.model.entity.key.FollowUserPK;
+import com.tlcn.programingforum.model.entity.key.TagUserPK;
+import com.tlcn.programingforum.service.*;
 import com.tlcn.programingforum.util.CommonUtil;
 import com.tlcn.programingforum.util.Constant;
 import com.tlcn.programingforum.util.MD5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.comparator.ComparableComparator;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.jws.soap.SOAPBinding;
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Huy Pham
@@ -31,6 +45,27 @@ public class UserController extends AbstractBasedAPI {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    ProfileService profileService;
+
+    @Autowired
+    AuthService authService;
+
+    @Autowired
+    FileUploadService fileUploadService;
+
+    @Autowired
+    FollowTagService followTagService;
+
+
+    @Autowired
+    FollowUserService followUserService;
+
+    @Autowired
+    private SimpMessagingTemplate webSocket;
+
+
 
     @RequestMapping(value = Constant.WITHIN_ID, method = RequestMethod.GET)
     public ResponseEntity<RestAPIResponse> getDetailUserByAdmin(
@@ -55,25 +90,86 @@ public class UserController extends AbstractBasedAPI {
             HttpServletRequest request
     ) {
         AuthUser authUser = getAuthUserFromSession(request);
-        validatePermission(authUser,Constant.SystemRole.USER.getName());
+        validatePermission(authUser,Constant.SystemRole.USER.getId());
 
         User user = userService.getActiveUserByUserId(authUser.getId());
         if (user == null) {
             throw new ApplicationException(APIStatus.ERR_USER_NOT_FOUND);
         }
-        UserDetailResponse response = new UserDetailResponse();
 
+        Profile profile = profileService.getProfileByUserId(user.getUserId());
+
+        if(profile == null){
+            throw new ApplicationException(APIStatus.ERR_PROFILE_NOT_FOUND);
+        }
+
+        UserResponse response = new UserResponse();
+
+        response.setUserId(user.getUserId());
         response.setUserName(user.getUserName());
-        response.setFirstName(user.getFirstName());
-        response.setLastName(user.getLastName());
         response.setEmail(user.getEmail());
         response.setPhone(user.getPhone());
-        if(user.getCreateDate() != null && user.getLastActivity() != null) {
-            response.setCreateDate(user.getCreateDate());
-            response.setLastActivity(user.getLastActivity());
-        }
+        response.setCreateDate(user.getCreateDate());
+        response.setLastActivity(user.getLastActivity());
+        response.setLang(response.getLang());
         response.setSetting(user.getSetting());
         response.setRole(user.getRole());
+        response.setStatus(user.getStatus());
+
+        response.setFirstName(profile.getFirstName());
+        response.setLastName(profile.getLastName());
+        response.setAvatar(profile.getAvatar());
+        response.setDescription(profile.getDescription());
+        response.setWebsiteLink(profile.getWebsiteLink());
+        response.setGithubLink(profile.getGithubLink());
+        response.setPosition(profile.getPosition());
+        response.setCompany(profile.getCompany());
+
+        return responseUtil.successResponse(response);
+
+    }
+
+
+    @RequestMapping(value = Constant.USER_DETAIL + Constant.WITHIN_ID, method = RequestMethod.GET)
+    public ResponseEntity<RestAPIResponse> getDetailUserById(
+            HttpServletRequest request,
+            @PathVariable("id") String userId
+    ) {
+        AuthUser authUser = getAuthUserFromSession(request);
+        validatePermission(authUser,Constant.SystemRole.SYS_ADMIN.getId());
+
+        User user = userService.getUserByUserId(userId);
+        if (user == null) {
+            throw new ApplicationException(APIStatus.ERR_USER_NOT_FOUND);
+        }
+
+        Profile profile = profileService.getProfileByUserId(user.getUserId());
+
+        if(profile == null){
+            throw new ApplicationException(APIStatus.ERR_PROFILE_NOT_FOUND);
+        }
+
+        UserResponse response = new UserResponse();
+
+        response.setUserId(user.getUserId());
+        response.setUserName(user.getUserName());
+        response.setEmail(user.getEmail());
+        response.setPhone(user.getPhone());
+        response.setCreateDate(user.getCreateDate());
+        response.setLastActivity(user.getLastActivity());
+        response.setLang(user.getLang());
+        response.setSetting(user.getSetting());
+        response.setRole(user.getRole());
+        response.setStatus(user.getStatus());
+
+        response.setFirstName(profile.getFirstName());
+        response.setLastName(profile.getLastName());
+        response.setAvatar(profile.getAvatar());
+        response.setDescription(profile.getDescription());
+        response.setWebsiteLink(profile.getWebsiteLink());
+        response.setGithubLink(profile.getGithubLink());
+        response.setPosition(profile.getPosition());
+        response.setCompany(profile.getCompany());
 
         return responseUtil.successResponse(response);
 
@@ -98,7 +194,7 @@ public class UserController extends AbstractBasedAPI {
             @RequestParam(value = "user_ids") String ids
     ) throws NoSuchAlgorithmException {
         AuthUser authUser = getAuthUserFromSession(request);
-        validatePermission(authUser, Constant.SystemRole.SYS_ADMIN.getName());
+        validatePermission(authUser, Constant.SystemRole.SYS_ADMIN.getId());
         if (ids.equals("")) {
             throw new ApplicationException(APIStatus.ERR_BAD_PARAMS);
         } else {
@@ -119,7 +215,7 @@ public class UserController extends AbstractBasedAPI {
             @RequestBody UserRequest userRequest
     ) {
         AuthUser authUser = getAuthUserFromSession(request);
-        validatePermission(authUser, Constant.SystemRole.USER.getName());
+        validatePermission(authUser, Constant.SystemRole.USER.getId());
         //validate param
         validateParam(userRequest);
 
@@ -135,8 +231,8 @@ public class UserController extends AbstractBasedAPI {
                 previousUpdateUser.setPhone(userRequest.getPhone());
                 previousUpdateUser.setLang(userRequest.getLang());
                 previousUpdateUser.setSetting(userRequest.getSetting());
-                previousUpdateUser.setFirstName(userRequest.getFirstName());
-                previousUpdateUser.setLastName(userRequest.getLastName());
+//                previousUpdateUser.setFirstName(userRequest.getFirstName());
+//                previousUpdateUser.setLastName(userRequest.getLastName());
 
                 userService.saveUser(previousUpdateUser);
 
@@ -148,50 +244,356 @@ public class UserController extends AbstractBasedAPI {
         }
     }
 
-    @RequestMapping(path = Constant.USER_REGISTER, method = RequestMethod.POST)
+    @RequestMapping(path = Constant.USER_REGISTER,
+            method = RequestMethod.POST)
     public ResponseEntity<RestAPIResponse> createUser(
-            HttpServletRequest request,
-            @RequestBody UserRequest userRequest
-    ) throws NoSuchAlgorithmException {
+            @RequestPart(value = "avatarImg", required = false) MultipartFile avatar,
+            @RequestPart("userRequest") UserRequest userRequest
+            ) throws NoSuchAlgorithmException {
+
+
+        validateParam(userRequest);
+
+        if(avatar != null){
+            userRequest.setAvatar(avatar);
+        }
+
         //check exist user
         if (userService.findByEmailAndStatus(userRequest.getEmail(), Constant.Status.ACTIVE.getValue()) != null) {
             throw new ApplicationException(APIStatus.ERR_EMAIL_ALREADY_EXISTS);
-        } else {
-            if (userService.findByUserNameAndStatus(userRequest.getUserName(), Constant.Status.ACTIVE.getValue()) != null) {
-                throw new ApplicationException(APIStatus.ERR_EXIST_USER_NAME);
-            } else {
-                User createdUser = doCreateUser(userRequest);
-                if (createdUser != null) {
-                    return responseUtil.successResponse(createdUser);
-                } else {
-                    throw new ApplicationException(APIStatus.ERR_CREATE_USER);
+        }
+
+        if (userService.findByUserNameAndStatus(userRequest.getUserName(), Constant.Status.ACTIVE.getValue()) != null) {
+            throw new ApplicationException(APIStatus.ERR_EXIST_USER_NAME);
+        }
+
+        User createdUser = doCreateUser(userRequest);
+
+        if (createdUser != null) {
+
+            // created user successfully
+            for(String tagId : userRequest.getTagIds()) {
+                FollowTag followTag = followTagService.findFollowTag(tagId, createdUser.getUserId());
+                if(followTag == null) {
+                    FollowTag newFollow = new FollowTag();
+                    newFollow.setCreateDate(new Date());
+                    newFollow.setId(new TagUserPK(tagId, createdUser.getUserId()));
+                    followTagService.followTag(newFollow);
                 }
             }
+
+            for(String authorId : userRequest.getAuthorIds()){
+
+                FollowUser followUser = new FollowUser();
+
+                followUser.setId(new FollowUserPK(createdUser.getUserId(), authorId));
+                followUser.setCreateDate(new Date());
+                followUserService.save(followUser);
+            }
+
+            Session userSession = authService.createUserToken(createdUser);
+            // Create Auth User -> Set to filter config
+            // Perform the security
+            Authentication authentication = new UsernamePasswordAuthenticationToken(
+                    createdUser.getUserName(),
+                    createdUser.getPasswordHash()
+            );
+            //final Authentication authentication = authenticationManager.authenticate();
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            return responseUtil.successResponse(userSession.getTokenId());
+
+        } else {
+            throw new ApplicationException(APIStatus.ERR_CREATE_USER);
         }
+
     }
 
     private User doCreateUser(UserRequest userRequest) throws NoSuchAlgorithmException {
 
         User user = new User();
 
-        user.setFirstName(userRequest.getFirstName());
-        user.setLastName(userRequest.getLastName());
+        if(userRequest.getUserId() != null && !userRequest.getUserId().equals("")){
+            user.setUserId(userRequest.getUserId());
+        }
+
         user.setUserName(userRequest.getUserName());
         user.setEmail(userRequest.getEmail().toLowerCase());
-        user.setPhone(userRequest.getPhone());
         user.setLang(userRequest.getLang());
-        user.setSetting(userRequest.getSetting());
+        user.setCreateDate(new Date());
         user.setStatus(Constant.Status.ACTIVE.getValue());
         String salt = CommonUtil.generateSalt();
         user.setSalt(salt);
-        user.setRole(Constant.SystemRole.USER.getName());
+        user.setRole(Constant.SystemRole.USER.getId());
         user.setPasswordHash(MD5Hash.MD5Encrypt(userRequest.getPasswordHash() + salt));
 
-        if (userService.saveUser(user) != null) {
-            return user;
-        } else {
-            return null;
+        if(userRequest.getPhone() != null) {
+            user.setPhone(userRequest.getPhone());
         }
+
+        if(userRequest.getSetting() != null){
+            user.setSetting(userRequest.getSetting());
+        }
+
+        User createdUser = userService.saveUser(user);
+
+        if (createdUser != null) {
+
+            Profile profile = new Profile();
+            profile.setUserId(user.getUserId());
+            profile.setFirstName(userRequest.getFirstName());
+            profile.setLastName(userRequest.getLastName());
+
+            if(userRequest.getAvatar() != null){
+
+                String fileName = "user_avatar_" + user.getUserId() +
+                        CommonUtil.getFileExtension(userRequest.getAvatar());
+
+                String url = fileUploadService.uploadFile(userRequest.getAvatar(), fileName);
+
+                String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                        .path("/files/")
+                        .path(fileName)
+                        .toUriString();
+
+                profile.setAvatar(fileDownloadUri);
+            }
+            else if(userRequest.getAvatarUrl() != null){
+                profile.setAvatar(userRequest.getAvatarUrl());
+            }
+
+            if(userRequest.getDescription() != null) {
+                profile.setDescription(userRequest.getDescription());
+            }
+
+            if(userRequest.getWebsiteLink() != null) {
+                profile.setWebsiteLink(userRequest.getWebsiteLink());
+            }
+
+            if(userRequest.getGithubLink() != null) {
+                profile.setGithubLink(userRequest.getGithubLink());
+            }
+
+            if(userRequest.getPosition() != null) {
+                profile.setPosition(userRequest.getPosition());
+            }
+
+            if(userRequest.getCompany() != null) {
+                profile.setCompany(userRequest.getCompany());
+            }
+
+            profileService.saveProfile(profile);
+
+            return user;
+        }
+
+        return null;
+    }
+
+
+    /**
+     * Disable user
+     * @param request
+     * @param userId
+     * @return
+     */
+    @RequestMapping(path = Constant.WITHIN_ID, method = RequestMethod.DELETE)
+    public ResponseEntity<RestAPIResponse> deletePost(
+            HttpServletRequest request,
+            @PathVariable("id") String userId) {
+
+        AuthUser authUser = getAuthUserFromSession(request);
+        validatePermission(authUser, Constant.SystemRole.SYS_ADMIN.getId());
+
+        User user = userService.getActiveUserByUserId(userId);
+
+        if(user == null){
+            throw new ApplicationException(APIStatus.ERR_USER_NOT_FOUND);
+        }
+
+        user.setStatus(Constant.Status.DELETE.getValue());
+        userService.saveUser(user);
+
+        return responseUtil.successResponse("Deleted");
+    }
+
+
+    /**
+     * Disable user
+     * @param request
+     * @param userId
+     * @return
+     */
+    @RequestMapping(path = Constant.USER_GRANT_ACCESS + Constant.WITHIN_ID, method = RequestMethod.GET)
+    public ResponseEntity<RestAPIResponse> grantAccess(
+            HttpServletRequest request,
+            @PathVariable("id") String userId) {
+
+        AuthUser authUser = getAuthUserFromSession(request);
+        validatePermission(authUser, Constant.SystemRole.SYS_ADMIN.getId());
+
+        User user = userService.getActiveUserByUserId(userId);
+
+        if(user == null){
+            throw new ApplicationException(APIStatus.ERR_USER_NOT_FOUND);
+        }
+
+        user.setRole(Constant.SystemRole.MODERATOR.getId());
+        userService.saveUser(user);
+
+        return responseUtil.successResponse(Constant.SystemRole.MODERATOR.getId());
+    }
+
+    /**
+     * Admin get list User
+     * @param pagingRequestModel
+     */
+    @RequestMapping(value= Constant.USER_LIST, method = RequestMethod.POST)
+    public ResponseEntity<RestAPIResponse> getListUser(
+            HttpServletRequest request,
+            @RequestBody PagingRequestModel pagingRequestModel
+    ) {
+
+
+        Page<UserResponse> listUsers = userService.getListUserPaging(pagingRequestModel, "en",
+                Constant.Status.ACTIVE.getValue());
+
+        return responseUtil.successResponse(listUsers);
+
+    }
+
+
+    @RequestMapping(value= Constant.USER_BANNED_LIST, method = RequestMethod.POST)
+    public ResponseEntity<RestAPIResponse> getListBannedUser(
+            HttpServletRequest request,
+            @RequestBody PagingRequestModel pagingRequestModel
+    ) {
+
+
+        Page<UserResponse> listUsers = userService.getListUserPaging(pagingRequestModel, "en",
+                Constant.Status.DELETE.getValue());
+
+        return responseUtil.successResponse(listUsers);
+
+    }
+
+    @RequestMapping(value= Constant.FOLLOW_USER + Constant.WITHIN_ID, method = RequestMethod.GET)
+    public ResponseEntity<RestAPIResponse> getFollowStatus(
+            HttpServletRequest request,
+            @PathVariable("id") String followUserId
+    ) {
+
+        AuthUser authUser = getAuthUserFromSession(request);
+        validatePermission(authUser, Constant.SystemRole.USER.getId());
+
+        int follow = 0;
+
+        FollowUser  followUser = followUserService.getByUserIdAndFollowUserId(authUser.getId(), followUserId);
+        if(followUser != null){
+            follow = 1;
+        }
+
+        return responseUtil.successResponse(follow);
+    }
+
+
+    @RequestMapping(value= Constant.FOLLOW_USER + Constant.WITHIN_ID, method = RequestMethod.POST)
+    public ResponseEntity<RestAPIResponse> followUser(
+            HttpServletRequest request,
+            @PathVariable("id") String followUserId
+    ) {
+
+        AuthUser authUser = getAuthUserFromSession(request);
+        validatePermission(authUser, Constant.SystemRole.USER.getId());
+
+        User followedUser = userService.getUserByUserId(followUserId);
+        if(followedUser == null){
+            throw new ApplicationException(APIStatus.ERR_USER_NOT_FOUND);
+        }
+
+        FollowUser followUser = new FollowUser();
+        FollowUserPK followUserPK = new FollowUserPK(authUser.getId(), followUserId);
+
+        followUser.setId(followUserPK);
+        followUser.setCreateDate(new Date());
+
+        return responseUtil.successResponse(followUserService.save(followUser));
+    }
+
+    @RequestMapping(value= Constant.FOLLOW_USER + Constant.WITHIN_ID, method = RequestMethod.DELETE)
+    public ResponseEntity<RestAPIResponse> unfollowUser(
+            HttpServletRequest request,
+            @PathVariable("id") String followUserId
+    ) {
+
+        AuthUser authUser = getAuthUserFromSession(request);
+        validatePermission(authUser, Constant.SystemRole.USER.getId());
+
+        User followedUser = userService.getUserByUserId(followUserId);
+        if(followedUser == null){
+            throw new ApplicationException(APIStatus.ERR_USER_NOT_FOUND);
+        }
+
+        followUserService.delete(followUserId);
+
+        return responseUtil.successResponse("Deleted");
+    }
+
+    @RequestMapping(value= Constant.LIST_FOLLOW_USER + Constant.WITHIN_ID , method = RequestMethod.POST)
+    public ResponseEntity<RestAPIResponse> getListFollowUser(
+            HttpServletRequest request,
+            @PathVariable("id") String userId
+    ) {
+
+//        AuthUser authUser = getAuthUserFromSession(request);
+//        validatePermission(authUser, Constant.SystemRole.USER.getId());
+
+        List<FollowUser> followUserList = followUserService.getAllByUserId(userId);
+
+        List<Profile> usersProfile = new ArrayList<>();
+
+        for (FollowUser user: followUserList) {
+
+            Profile profile = profileService.getProfileByUserId(user.getId().getFollowUserId());
+
+            if(profile != null){
+                usersProfile.add(profile);
+            }
+        }
+
+        // Sorting
+        usersProfile.sort(Comparator.comparing(Profile::getFirstName));
+
+        return responseUtil.successResponse(usersProfile);
+    }
+
+
+    @RequestMapping(value= Constant.LIST_FOLLOW_BY_OTHER + Constant.WITHIN_ID , method = RequestMethod.POST)
+    public ResponseEntity<RestAPIResponse> getListFollowByOther(
+            HttpServletRequest request,
+            @PathVariable("id") String userId
+    ) {
+
+//        AuthUser authUser = getAuthUserFromSession(request);
+//        validatePermission(authUser, Constant.SystemRole.USER.getId());
+
+        List<FollowUser> followUserList = followUserService.getAllByFollowUserId(userId);
+
+        List<Profile> usersProfile = new ArrayList<>();
+
+        for (FollowUser user: followUserList) {
+
+            Profile profile = profileService.getProfileByUserId(user.getId().getUserId());
+
+            if(profile != null){
+                usersProfile.add(profile);
+            }
+        }
+
+        // Sorting
+        usersProfile.sort(Comparator.comparing(Profile::getFirstName));
+
+        return responseUtil.successResponse(usersProfile);
     }
 
     private void validateParam(UserRequest userRequest) {
@@ -202,12 +604,6 @@ public class UserController extends AbstractBasedAPI {
             }
         } catch (Exception e) {
             throw new ApplicationException(APIStatus.ERR_EMAIL_INVALID);
-        }
-
-        if (userRequest.getPasswordHash() != null) { // conditional for update user
-            if (!userRequest.getPasswordHash().equals(userRequest.getConfirmPassword())) {
-                throw new ApplicationException(APIStatus.ERR_PASSWORD_NOT_MATCH);
-            }
         }
     }
 

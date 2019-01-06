@@ -2,7 +2,9 @@ package com.tlcn.programingforum.util;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.Random;
@@ -39,6 +41,15 @@ public class CommonUtil {
             valid = matcher.matches();
         }
         return valid;
+    }
+
+    public static String getFileExtension(MultipartFile file) {
+        String name = file.getOriginalFilename();
+        int lastIndexOf = name.lastIndexOf(".");
+        if (lastIndexOf == -1) {
+            return ""; // empty extension
+        }
+        return name.substring(lastIndexOf);
     }
 
 }

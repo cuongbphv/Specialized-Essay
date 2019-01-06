@@ -1,7 +1,10 @@
 package com.tlcn.programingforum.service;
 
 
+import com.tlcn.programingforum.api.model.request.PagingRequestModel;
+import com.tlcn.programingforum.api.model.response.UserResponse;
 import com.tlcn.programingforum.model.entity.User;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -15,6 +18,8 @@ public interface UserService {
 
     User getActiveUserByUserId(String userId);
 
+    User getUserByUserId(String userId);
+
     void deleteUsers(List<User> users);
 
     void deleteUser(User user);
@@ -24,5 +29,9 @@ public interface UserService {
     User findByEmailAndStatus(String email, int status);
 
     User findByUserNameAndStatus(String userName, int status);
+
+    Page<UserResponse> getListUserPaging(PagingRequestModel pagingRequestModel, String lang, int status);
+
+    List<Object[]> getTopAuthors();
 
 }

@@ -6,7 +6,7 @@ import {CookieService} from 'ngx-cookie-service';
 
 import {
   ApiService,
-  AuthBaseService,
+  AuthBaseService, CustomToastrService,
   DataService,
   FileService,
   GoogleChartsBaseService,
@@ -14,8 +14,10 @@ import {
   SecurityService,
   SessionService,
   TranslateService,
-  UserService
+  UserService,
+  SearchService
 } from './services';
+import {AdminGuard, ModeratorGuard, UserGuard} from './guards';
 
 
 @NgModule({
@@ -38,7 +40,12 @@ import {
     SessionService,
     TranslateService,
     CookieService,
-    UserService
+    UserService,
+    AdminGuard,
+    ModeratorGuard,
+    UserGuard,
+    CustomToastrService,
+    SearchService
   ],
   declarations: []
 })

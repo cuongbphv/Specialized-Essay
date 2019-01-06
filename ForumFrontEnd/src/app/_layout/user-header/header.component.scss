@@ -1,0 +1,168 @@
+.fa {
+  font-size: 15px;
+}
+
+.navbar {
+  top: 0;
+}
+
+.dropdown-menu {
+  margin-left: -2rem;
+  padding: 0;
+  box-shadow: 2px 2px rgba(0,0,0,0.23),0 2px 2px rgba(0,0,0,0.16) !important;
+}
+
+.dropdown-item{
+  border-bottom: 1px solid #888888;
+  padding-top: 5px;
+  padding-bottom: 5px;
+
+  i {
+    float: none;
+    padding-right: 8px;
+  }
+}
+
+.item-icon i {
+  padding-right: 5px;
+}
+
+.navbar-nav li {
+  padding-right: 2px;
+}
+
+.bg-dark {
+  background: linear-gradient(120deg, #00a6eb, #2C4762) !important;
+}
+
+.button-login:hover {
+  cursor: pointer;
+}
+
+@media (max-width:767px){
+  .dropdown-menu {
+    margin-left: 0;
+  }
+}
+
+@media (max-width:991px){
+
+  #search-lg.searchform {
+    display: none;
+  }
+
+  #search-xs.searchform {
+    margin: 15px auto;
+    width: 600px;
+  }
+}
+
+@media (max-width:771px){
+
+  #search-lg.searchform {
+    display: none;
+  }
+
+  #search-xs.searchform {
+    margin: 15px auto;
+    width: 300px;
+  }
+}
+@media (min-width:992px) {
+  #search-xs.searchform {
+    display: none;
+  }
+}
+
+.searchform {
+  text-align: left;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 2px;
+  padding: 1px;
+  width: 450px;
+  margin-left: 20px;
+  position: relative;
+}
+
+.searchform .s {
+  background: #fff;
+  color: #666;
+  border: none;
+  width: 100%;
+  padding: 3px 0 0 6px;
+  outline: none;
+  margin: 0
+}
+
+.searchform .sfield {
+  background: #fff;
+  width: 90%;
+  float: left;
+  margin: 0;
+  outline: none
+}
+
+.searchform .sbutton {
+  float: right;
+  width: 10%;
+  height: 30px;
+  border: 0;
+  margin-left: -2px;
+  cursor: pointer;
+  background: #1e5f8d;
+  color: #fff;
+  border-radius: 2px;
+  transition: all 0.3s ease
+}
+
+.searchform .sbutton:hover {
+  background: #00a6eb
+}
+
+// search result
+
+.sb__suggestions {
+  right: 0;
+  width: 100.3%;
+  z-index: 99;
+  margin-top: 32px;
+  position: absolute;
+  padding: 10px;
+  border: 1px solid #dbe3e8;
+  border-top: none;
+  background: #fff;
+  overflow-y: auto;
+  max-height: calc(100vh - 80px);
+  display: none;
+}
+
+.sb__suggestions a {
+  text-decoration: none;
+}
+
+.sb__suggestions-group__name {
+  color: #fff;
+  padding: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  background-color: #1e5f8d;
+}
+
+.sb__suggestions-item .suggestion-identifier {
+  font-size: .9rem;
+  color: #0b1a33;
+}
+.font-weight-bold {
+  font-weight: 700!important;
+}
+
+.sb__suggestions-group:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
+.sb__suggestions-list {
+  padding: 0;
+  list-style: none;
+}
+

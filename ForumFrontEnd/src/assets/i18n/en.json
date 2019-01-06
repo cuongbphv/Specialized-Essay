@@ -11,7 +11,23 @@
     "main_title_2": "NodeJS, Angular, React, VueJS, Spring Boot, DevOps, ... Give away is to get back!",
     "join": "Join with us now",
     "or": "or",
-    "register": "register member"
+    "register": "register member",
+    "option": "Forum",
+    "forum": "New Article",
+    "group": "Group",
+    "trending": "Trending",
+    "question": "Question",
+    "bookmark": "Bookmark",
+    "create_post": "Create Post",
+    "update_post": "Update Your Post",
+    "top_tag": "Top Tags",
+    "tagged": "times tagged",
+    "follower": "Follower",
+    "article": "Article",
+    "top_author": "Top Author",
+    "search": "Search",
+    "keywords": "Enter keyword...",
+    "tag": "Tag"
   },
   "user": {
     "login": "Login",
@@ -23,7 +39,26 @@
   },
   "post": {
     "store": "Store",
-    "new_post": "New Post"
+    "new_post": "New Post",
+    "placeholder_title": "Please input post's title",
+    "article": "Article",
+    "question": "Question",
+    "placeholder_tag": "Input 5 tags for post"
+  },
+  "tag": {
+    "label": {
+      "follow": "Follow",
+      "following": "Following",
+      "info": "Tag Infomation",
+      "tag_detail": "Tag Detail",
+      "followers": "Followers",
+      "articles": "Articles",
+      "questions": "Questions"
+    },
+    "message": {
+      "follow_success": "Follow tag successfully",
+      "unfollow_success": "Unfollow tag successfully"
+    }
   },
   "footer": {
     "introduction": "INTRODUCTION",
@@ -39,6 +74,7 @@
     "all_right": "Copyright © 2018. All right reserved."
   },
   "label": {
+    "nothing": "There is nothing here.",
     "registration": "Registration",
     "content": "Register now to take part in Shared Community",
     "username": "Username",
@@ -61,7 +97,68 @@
     "sign_in_with": "Sign in with",
     "or": "or",
     "no_account": "Don't have an account?",
-    "forgot_password": "Forgot Password?"
+    "forgot_password": "Forgot Password?",
+    "phone_no": "Phone Number",
+    "description": "Description",
+    "company": "Company",
+    "position": "Position",
+    "github": "Github",
+    "website": "Website",
+    "link": "LINK",
+    "about": "About",
+    "get_started": {
+      "step": "Step",
+      "your_account_info": "Your account information",
+      "your_profile": "Your profile",
+      "your_favourite_topic": "Your favourite topic",
+      "top_author": "Top Authors",
+      "skip_step": "Skip this step",
+      "done": "Done"
+    },
+    "report": "REPORT",
+    "reason": "Report's reason",
+    "author": "Author",
+    "join_date": "Joined to forum on",
+    "table_of_content": "Table of content",
+    "tags": "Tags",
+    "comment_at": "comment at",
+    "comment": "Comment",
+    "share_now": "Share now",
+    "post_on": " Posted on",
+    "no_toc": "No table of content",
+    "no_tag": "No tags",
+    "my_tags": "My tags",
+    "update_comment": "UPDATE COMMENT",
+    "same_author": "Article same author",
+    "next": "Next",
+    "previous": "Previous",
+    "article_info_user": "Article User Information",
+    "search_syntax": "Search Syntax",
+    "search": {
+      "keyword": "Search keyword both title and content of post",
+      "content": "Search keyword in content of post",
+      "title:": "Search keyword in title of post"
+    },
+    "sort": {
+      "filter": "Filter",
+      "sort_type": "Sort Type",
+      "no_article": "No.Article",
+      "no_question": "No.Question",
+      "no_follower": "No.Follower",
+      "tag_name": "Tag Name",
+      "create_date": "Create Date",
+      "article_type": "Article Type",
+      "article": "Article",
+      "question": "Question",
+      "date_type": "Date Type",
+      "bookmark_date": "Bookmark Date",
+      "sort_date": "Sort Date",
+      "latest": "Latest",
+      "oldest": "Oldest",
+      "view_count": "View Count",
+      "bookmark": "Bookmark",
+      "rating": "Rating"
+    }
   },
   "validation": {
     "first_name": {
@@ -87,11 +184,69 @@
     },
     "confirm_password": {
       "invalid": "Invalid Password"
+    },
+    "phone_no": {
+      "pattern": "Phone number is wrong format"
+    },
+    "content": {
+      "required": "Content is required"
+    },
+    "title": {
+      "required": "Title is required"
     }
   },
   "button": {
     "submit": "SUBMIT",
     "login": "SIGN IN",
-    "register": "REGISTER"
+    "register": "REGISTER",
+    "change": "Change",
+    "follow": "Follow",
+    "done": "Done",
+    "post": "POST",
+    "update": "UPDATE",
+    "close": "CLOSE",
+    "report": "REPORT",
+    "comment": "COMMENT",
+    "search": "Search"
+  },
+  "message": {
+    "post": {
+      "wait_approved": "You created post successfully, please wait Admin approved"
+    },
+    "interact": {
+      "upvote": "You upvoted this post",
+      "downvote": "You just downvoted this post",
+      "before": "You have the same rating before",
+      "bookmark": "You bookmarked this post",
+      "unbookmark": "You unmarked this post",
+      "share": "You shared this post",
+      "error": "You can not interact to your post"
+    },
+    "report": {
+      "success": "You reported this post successfully",
+      "error": "You can not report your post"
+    },
+    "report_comment": {
+      "success": "You reported this comment successfully",
+      "error": "You can not report your comment"
+    },
+    "resolved": {
+      "existed": "You marked as resolved for right answer",
+      "success": "You marked as resolved successfully",
+      "not_author": "Only author of question can mark as resolved"
+    },
+    "comment": {
+      "delete_success": "Delete comment successfully",
+      "update_success": "Update comment successfully"
+    }
+  },
+  "api": {
+    "status": {
+      "400": "Bad request",
+      "406": "Bad parameters",
+      "900": "Article not found",
+      "901": "You reported before",
+      "1000": "Comment not found"
+    }
   }
 }

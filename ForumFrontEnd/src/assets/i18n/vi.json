@@ -11,7 +11,23 @@
     "main_title_2": "NodeJS, Angular, React, VueJS, Spring Boot, DevOps, ... Cho đi mọi thứ bạn sẽ nhận lại mọi thứ!",
     "join": "Tham gia ngay với",
     "or": "hoặc",
-    "register": "đăng ký thành viên"
+    "register": "đăng ký thành viên",
+    "option": "Diễn đàn",
+    "forum": "Bài mới",
+    "group": "Hội nhóm",
+    "trending": "Xu hướng",
+    "question": "Hỏi đáp",
+    "bookmark": "Lưu trữ",
+    "create_post": "Viết bài",
+    "update_post": "Cập nhật bài viết của bạn",
+    "top_tag": "Thẻ hàng đầu",
+    "tagged": "lần được sử dụng",
+    "follower": "Người theo dõi",
+    "article": "Bài viết",
+    "top_author": "Tác giả hàng đầu",
+    "search": "Tìm kiếm",
+    "keywords": "Nhập từ khóa...",
+    "tag": "Thẻ"
   },
   "user": {
     "login": "Đăng nhập",
@@ -23,7 +39,26 @@
   },
   "post": {
     "store": "Lưu trữ",
-    "new_post": "Viết bài"
+    "new_post": "Viết bài",
+    "placeholder_title": "Nhập tiêu đề bài viết",
+    "article": "Bài viết",
+    "question": "Câu hỏi",
+    "placeholder_tag": "Nhập 5 thẻ cho bài viết"
+  },
+  "tag": {
+    "label": {
+      "follow": "Theo dõi",
+      "following": "Đang theo dõi",
+      "info": "Thông tin thẻ",
+      "tag_detail": "Chi tiết thẻ",
+      "followers": "Người theo dõi",
+      "articles": "Bài viết",
+      "questions": "Câu hỏi"
+    },
+    "message": {
+      "follow_success": "Theo dõi thẻ thành công",
+      "unfollow_success": "Bỏ theo dõi thẻ thành công"
+    }
   },
   "footer": {
     "introduction": "GIỚI THIỆU",
@@ -39,6 +74,7 @@
     "all_right": "Mọi bản quyền thuộc về nhóm phát triển © 2018."
   },
   "label": {
+    "nothing": "Không có gì ở đây.",
     "registration": "Đăng ký",
     "content": "Đăng ký để trở thành thành viên Cộng đồng Shared ngay hôm nay!",
     "username": "Tài khoản",
@@ -61,7 +97,68 @@
     "sign_in_with": "Đăng nhập với",
     "or": "hoặc",
     "no_account": "Bạn chưa có tài khoản?",
-    "forgot_password": "Quên mật khẩu?"
+    "forgot_password": "Quên mật khẩu?",
+    "phone_no": "Số điện thoại",
+    "description": "Mô tả",
+    "company": "Công ty",
+    "position": "Vị trí",
+    "github": "Github",
+    "website": "Website",
+    "link": "LIÊN KẾT",
+    "about": "Thông tin",
+    "get_started": {
+      "step": "Bước",
+      "your_account_info": "Thông tin tài khoản",
+      "your_profile": "Thông tin của bạn",
+      "your_favourite_topic": "Chọn chủ đề yêu thích",
+      "top_author": "Top tác giả",
+      "skip_step": "Bỏ qua bước này",
+      "done": "Hoàn tất"
+    },
+    "report": "BÁO CÁO",
+    "reason": "Lý do báo cáo",
+    "author": "Tác giả",
+    "join_date": "Đã tham gia diễn đàn vào",
+    "table_of_content": "Nội dung chính",
+    "tags": "Thẻ",
+    "comment_at": "bình luận lúc",
+    "comment": "Bình luận",
+    "share_now": "Chia sẻ ngay",
+    "post_on": " Đã đăng vào",
+    "no_toc": "Không có bảng nội dung",
+    "no_tag": "Không có thẻ",
+    "my_tags": "Thẻ của tôi",
+    "update_comment": "CẬP NHẬT BÌNH LUẬN",
+    "same_author": "Bài viết cùng tác giả",
+    "next": "Trang sau",
+    "previous": "Trang trước",
+    "article_info_user": "Thông tin người dùng trong bài viết",
+    "search_syntax": "Cú pháp tìm kiếm",
+    "search": {
+      "keyword": "Tìm kiếm với từ khóa cả trong tiêu đề và nội dung bài viết",
+      "content": "Tìm kiếm với từ khóa trong nội dung bài viết",
+      "title:": "Tìm kiếm với từ khóa trong tiêu đề bài viết"
+    },
+    "sort": {
+      "filter": "Bộ lọc",
+      "sort_type": "Sắp xếp theo",
+      "no_article": "Số bài viết",
+      "no_question": "Số câu hỏi",
+      "no_follower": "Người theo dõi",
+      "tag_name": "Tên thẻ",
+      "create_date": "Ngày tạo",
+      "article_type": "Loại bài viết",
+      "article": "Bài đăng",
+      "question": "Câu hỏi",
+      "date_type": "Loại ngày",
+      "bookmark_date": "Ngày đánh dấu",
+      "sort_date": "Sắp xếp theo",
+      "latest": "Mới nhất",
+      "oldest": "Cũ nhất",
+      "view_count": "Lượt xem",
+      "bookmark": "Lưu trữ",
+      "rating": "Đánh giá"
+    }
   },
   "validation": {
     "first_name": {
@@ -87,11 +184,69 @@
     },
     "confirm_password": {
       "invalid": "Xác nhận mật khẩu không đúng"
+    },
+    "phone_no": {
+      "pattern": "Số điện thoại không hợp lệ"
+    },
+    "content": {
+      "required": "Nội dung bắt buộc nhập"
+    },
+    "title": {
+      "required": "Tiêu đề bắt buộc nhập"
     }
   },
   "button": {
     "submit": "XÁC NHẬN",
     "login": "ĐĂNG NHẬP",
-    "register": "ĐĂNG KÝ"
+    "register": "ĐĂNG KÝ",
+    "change": "Thay đổi",
+    "follow": "Theo dõi",
+    "done": "Hoàn thành",
+    "post": "ĐĂNG BÀI",
+    "update": "CẬP NHẬT",
+    "close": "Đóng",
+    "report": "Báo cáo",
+    "comment": "BÌNH LUẬN",
+    "search": "Tìm kiếm"
+  },
+  "message": {
+    "post": {
+      "wait_approved": "Bạn đã tạo bài viết thành công, vui lòng chờ quản trị viên duyệt bài"
+    },
+    "interact": {
+      "upvote": "Bạn đã đánh giá +1 cho bài viết",
+      "downvote": "Bạn đã đánh giá -1 cho bài viết",
+      "before": "Bạn đã đánh giá giống lần trước",
+      "bookmark": "Bạn đã lưu trữ bài viết",
+      "unbookmark": "Bạn đã gỡ lưu trữ bài viết",
+      "share": "Bạn đã chia sẻ bài viết",
+      "error": "Bạn không thể tương tác bài viết của bạn"
+    },
+    "report": {
+      "success": "Bạn đã báo cáo bài viết thành công",
+      "error": "Bạn không thể báo cáo bài viết của bạn"
+    },
+    "report_comment": {
+      "success": "Bạn đã báo cáo bình luận thành công",
+      "error": "Bạn không thể báo cáo bình luận của bạn"
+    },
+    "resolved": {
+      "existed": "Bạn đã đánh dấu câu trả lời đúng trước đó",
+      "success": "Bạn đã đánh dấu câu trả lời đúng thành công",
+      "not_author": "Chỉ có tác giả câu hỏi mới chọn câu trả lời đúng"
+    },
+    "comment": {
+      "delete_success": "Xóa bình luận thành công",
+      "update_success": "Cập nhật bình luận thành công"
+    }
+  },
+  "api": {
+    "status": {
+      "400": "Request không đúng",
+      "406": "Tham số không đúng",
+      "900": "Không tìm thấy bài viết",
+      "901": "Bạn đã báo cáo trước đó",
+      "1000": "Không tìm thầy bình luận"
+    }
   }
 }

@@ -17,9 +17,14 @@ export class SessionService {
 
   // Set token
   setAccessToken(token) {
-    if (!!token) {
-      this.cookieService.set(AppConfig.SESSION_COOKIES, token);
+    if (token !== null) {
+      this.cookieService.set(AppConfig.SESSION_COOKIES, token, AppConfig.TOKEN_EXPIRE_DATE);
     }
+  }
+
+  // Destroy Access Token
+  destroyAccessToken(){
+    this.cookieService.delete(AppConfig.SESSION_COOKIES);
   }
 
   // get User
@@ -31,8 +36,7 @@ export class SessionService {
   setUser(user) {
     // Set user
     if (user != null && typeof user === 'object') {
-      this.sessionUser = user;
-      this.sharedService.setData({currentUser: user});
+        this.sessionUser = user;
     }
   }
 

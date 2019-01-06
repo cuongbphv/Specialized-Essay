@@ -39,6 +39,7 @@ public enum APIStatus {
     ERR_INCORRECT_MODEL_DATA(700, "Incorrect model data"),
     ERR_USER_NOT_FOUND(701, "User not found."),
     ERR_PASSWORD_NOT_MATCH(702, "Password doesn't match"),
+    ERR_TOKEN_NOT_MATCH(702, "Token doesn't match"),
     ERR_EMAIL_ALREADY_EXISTS(703, "Email already exists"),
     ERR_CREATE_USER(704, "Create User fail"),
     ERR_EMAIL_INVALID(705, "Email is invalid"),
@@ -46,10 +47,24 @@ public enum APIStatus {
     ERR_EXIST_USER_NAME(707, "User Name already exists"),
     ERR_UPDATE_USER(708, "Update User fail"),
     ERR_FOLDER_NOT_FOUND(709, "Folder not found"),
+    ERR_PROFILE_NOT_FOUND(710, "Profile not found"),
     ERR_OLD_PASS(717, "Old password incorect"),
+    ERR_TAG_NOT_FOUND(718, "Tag not found"),
 
     //Profile
-    ERR_USER_PROFILE_NOT_FOUND(800, "User Profile not found");
+    ERR_USER_PROFILE_NOT_FOUND(800, "User Profile not found"),
+
+    //POST
+    ERR_ARTICLE_NOT_FOUND(900, "Article not found"),
+    ERR_REPORTED(901, "Reported"),
+
+    //FILE
+    ERR_FILE_NOT_FOUND(888, "File not found"),
+    ERR_CANT_STORE(889, "Could not store file"),
+    ERR_FILE_TYPE(890, "Could not determine file type"),
+
+    // Comment
+    ERR_COMMENT_NOT_FOUND(1000, "Comment not found");
 
     private final int code;
     private final String description;

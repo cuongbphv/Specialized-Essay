@@ -1,0 +1,190 @@
+<section id="content">
+
+  <div class="container">
+
+    <!-- content -->
+    <div class="row" style="margin-bottom: 20px;">
+
+      <!-- col list article -->
+      <div class="col-xs-12 col-sm-8 col-md-9" style="margin-top: 16px;">
+
+        <div id="search-lg" class="searchform clearfix">
+          <span class="sfield">
+              <input type="text" class="s" textPlaceHolder="main.keywords"
+                     (keyup)="searchByType(pagingRequest.type)" [(ngModel)]="keyword">
+            </span>
+          <button type="submit" class="sbutton" (click)="searchByType(pagingRequest.type);"
+              textContent="button.search">
+          </button>
+        </div>
+
+        <div class="panel-group">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" href="#filterBookmark" textContent="label.sort.filter"></a>
+                <a id="test" class="pull-right" data-toggle="collapse" href="#filterBookmark">
+                  <span class="fa fa-filter"></span>
+                </a>
+              </h4>
+            </div>
+
+            <div id="filterBookmark" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <div class="filter-setting">
+
+                  <div class="form-row">
+                    <label class="col-xs-4" textContent="label.sort.article_type"></label>
+                    <div class="col-xs-8">
+                      <div class="input-group">
+                        <div class="btn-group">
+                          <button class="btn btn-primary btn-sm"
+                                  (click)="searchByType(pagingRequest.type,2,false)"
+                                  [ngClass]="pagingRequest.sortCase === 2 ? 'active' :'notActive'"
+                                  textContent="label.sort.view_count"></button>
+                          <button class="btn btn-primary btn-sm"
+                                  (click)="searchByType(pagingRequest.type,3,true)"
+                                  [ngClass]="pagingRequest.sortCase === 3 ? 'active' :'notActive'"
+                                  textContent="label.sort.bookmark"></button>
+                          <button class="btn btn-primary btn-sm"
+                                  (click)="searchByType(pagingRequest.type,4,false)"
+                                  [ngClass]="pagingRequest.sortCase === 4 ? 'active' :'notActive'"
+                                  textContent="label.sort.rating"></button>
+                          <button class="btn btn-primary btn-sm"
+                                  (click)="searchByType(pagingRequest.type,1,false)"
+                                  [ngClass]="pagingRequest.sortCase === 1 ? 'active' :'notActive'"
+                                  textContent="label.sort.create_date"></button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <hr class="line"/>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- nav of content -->
+        <div class="nav">
+          <div class="nav__menu">
+            <ul>
+              <li [ngClass]="{'active' : pagingRequest.type === 1}" class="active">
+                <a href="javascript:void(0)" textContent="main.article" (click)="searchByType(1,2,false)"></a>
+              </li>
+              <li [ngClass]="{'active' : pagingRequest.type === 2}">
+                <a href="javascript:void(0)" textContent="main.question" (click)="searchByType(2,2,false)"></a>
+              </li>
+            </ul>
+
+          </div>
+        </div>
+
+        <div>
+
+          <h3 class="text-center mt-2" *ngIf="articles.length === 0" textContent="label.nothing"></h3>
+
+          <div class="posts" *ngFor="let article of articles; let i = index;">
+
+            <div class="post-item">
+
+              <div class="avatar">
+                <img src="{{article.avatar}}"
+                     alt="No avatar" class="img-responsive">
+              </div>
+
+              <div class="post-left">
+                <div class="post-author">
+                  <a href="javascrip:void(0)" [routerLink]="['/profile/' + article.userId]"
+                    class="post-author-name"><b>{{article.firstName}} {{article.lastName}}</b></a>
+                  <span class="post-time">&nbsp; {{article.createDate | date: 'MM/dd/yyyy HH:mm'}}</span>
+                </div>
+
+                <div class="post-detail">
+                  <div class="post-title">
+                    <a href="javascript:void(0)" [routerLink]="['/post/' + article.articleId]"
+                       class="wrap"><div innerHTML="{{article.title | highlight : pagingRequest.searchKey}}"></div></a>
+                    <i *ngIf="(article.type === 2 && article.rightAnswer)"
+                       class="fa fa-check-circle"></i>
+
+                    <div innerHTML="{{ (article.start !== 0) ?
+                            '...'+(article.content | highlight : pagingRequest.searchKey
+                            | slice: article.start - 50: article.start + 150)+'...' :
+                            (article.content | slice: article.start : article.start + 200) }}">
+                    </div>
+
+                  </div>
+
+                  <div class="tags">
+                    <a *ngFor="let tag of article.tags; let j = index;" href="javascript:void(0)"
+                       [routerLink]="['/tag/' + tag.tagId]" class="bg-4f80b0">{{tag.tagName}}</a>
+                  </div>
+                </div>
+
+                <div class="post-info clearfix">
+                  <div class="stats">
+                    <span class="stats-item text-muted">
+                      <i aria-hidden="true" class="fa fa-eye"></i>&nbsp;{{article.viewCount}}
+                    </span>
+                    <span class="stats-item text-muted">
+                      <i aria-hidden="true" class="fa fa-bookmark"></i>&nbsp;{{article.bookmark}}
+                    </span>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="post-right">
+                <div class="upvote text-muted">
+                  <i class="fa fa-chevron-up"></i>
+                  <p><span *ngIf="article.rating > 0">+</span>{{article.rating}}</p>
+                  <i class="fa fa-chevron-down"></i>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        <div class="row" *ngIf="collectionSize > 10">
+          <ngb-pagination [collectionSize]="collectionSize" [pageSize]="pagingRequest.pageSize"
+                          [(page)]="pagingRequest.pageNumber"
+                          (pageChange)="searchByType(pagingRequest.type)"
+                          class="pagination-flat pagination-primary col-center-block">
+          </ngb-pagination>
+        </div>
+
+      </div>
+
+      <!-- col info -->
+      <div class="col-xs-12 col-sm-4 col-md-3">
+        <div class="sidebar">
+
+          <div class="widget-area"><h3 class="widget-title" textContent="label.search_syntax"></h3>
+            <div class="popular-authors clearfix">
+              <h5 class="badge badge-success text-white"
+                  style="font-size: 0.75rem;line-height: 1.5;">keyword</h5>
+              <h5 textContent="label.search.keyword"></h5>
+            </div>
+            <div class="popular-authors clearfix">
+              <h5 class="badge badge-success text-white"
+                  style="font-size: 0.75rem;line-height: 1.5;">title:keyword</h5>
+              <h5 textContent="label.search.title"></h5>
+            </div>
+            <div class="popular-authors clearfix">
+              <h5 class="badge badge-success text-white"
+                  style="font-size: 0.75rem;line-height: 1.5;">content:keyword</h5>
+              <h5 textContent="label.search.content"></h5>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
