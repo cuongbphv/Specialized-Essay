@@ -5,6 +5,7 @@
 - Front-end: Angular 6 + Bootstrap 4
 - Database: MySQL
 - Structure: Client <=> Server with standard RESTful API
+- Editor for Forum: ACE with marked.js, more detail to see: https://github.com/cuongbphv/Specialized-Essay/blob/master/ForumFrontEnd/src/app/modules/user/post/detail/post-detail.component.ts
 
 ## Start front-end
 - Import project to IDE or Code editor
