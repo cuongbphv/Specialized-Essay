@@ -76,6 +76,7 @@ public interface Constant {
     // Tag management
     String TAG_CONTROLLER = API_PREFIX + "/tag";
     String MOST_TAG_IN_FORUM = "/most";
+    String LIST_TAG_BY_USER = "/list-tag";
     String MY_TAGS = "/my_tags";
     String LIST_TAG = "/list-detail";
     String LIST_BANNED_TAG = "/list/banned";

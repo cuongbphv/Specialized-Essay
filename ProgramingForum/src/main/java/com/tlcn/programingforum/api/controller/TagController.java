@@ -278,4 +278,26 @@ public class TagController extends AbstractBasedAPI {
 
         return responseUtil.successResponse(data);
     }
+
+    @RequestMapping(path = Constant.LIST_TAG_BY_USER + Constant.WITHIN_ID, method = RequestMethod.GET)
+    public ResponseEntity<RestAPIResponse> getListTagByUserId(
+            HttpServletRequest request,
+            @PathVariable("id") String userId
+    ) {
+
+        List<Tag> tagList = new ArrayList<>();
+
+        List<FollowTag> followTagList = followTagService.findByUserId(userId);
+
+        if(followTagList != null){
+            for(FollowTag followTag : followTagList){
+                Tag tag = tagService.findTagById(followTag.getId().getTagId());
+                if(tag != null){
+                    tagList.add(tag);
+                }
+            }
+        }
+
+        return responseUtil.successResponse(tagList);
+    }
 }

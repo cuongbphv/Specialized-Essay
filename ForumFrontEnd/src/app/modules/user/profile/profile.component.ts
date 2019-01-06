@@ -5,7 +5,7 @@ import {
   UserService,
   ProfilesService,
   ArticleService,
-  CommentService
+  CommentService, TagService
 } from '../../../core/services';
 
 import {PieChartConfig, Profile, User} from '../../../core/models';
@@ -29,6 +29,8 @@ export class ProfileComponent implements OnInit{
   config: PieChartConfig;
   elementId: string;
   followStatus: number;
+
+  listTag = [];
 
   listFollow: Profile[];
   listFollowByOther: Profile[];
@@ -97,7 +99,8 @@ export class ProfileComponent implements OnInit{
     private articleService: ArticleService,
     private commentService: CommentService,
     private route: ActivatedRoute,
-    private spinner: NgxSpinnerService) {}
+    private spinner: NgxSpinnerService,
+    private tagService: TagService) {}
 
   public ngOnInit() {
 
@@ -129,34 +132,45 @@ export class ProfileComponent implements OnInit{
           this.currentProfile = userProfile;
           this.imgUrl = userProfile.avatar;
 
-          this.getFollowStatus();
+          this.userService.currentUser.subscribe(
+            (userData) => {
+              this.currentUser = userData;
+              this.getFollowStatus();
+            }
+          );
+
+          this.getUserArticle(1);
+
+          this.data = [['Post', 'Posts per Tag'],
+            ['Javascript', 2],
+            ['NodeJS',  4],
+            ['Spring', 10],
+            ['AI', 7]];
+
+          this.config = new PieChartConfig(null, 0.7, 'none', 'none');
+          this.elementId = 'myPieChart';
+
+          this.pieChartService.BuildPieChart(this.elementId, this.data, this.config);
+
           this.getListFollowUser();
           this.getListFollowByOther();
+          this.getUserTag();
 
           this.spinner.hide();
+
         });
 
-      this.userService.currentUser.subscribe(
-        (userData) => {
-          this.currentUser = userData;
-        }
-      );
-
-      this.getUserArticle(1);
-
-      this.data = [['Post', 'Posts per Tag'],
-        ['Javascript', 2],
-        ['NodeJS',  4],
-        ['Spring', 10],
-        ['AI', 7]];
-
-      this.config = new PieChartConfig(null, 0.7, 'none', 'none');
-      this.elementId = 'myPieChart';
-
-      this.pieChartService.BuildPieChart(this.elementId, this.data, this.config);
     });
 
   }
+
+  getUserTag(){
+    this.tagService.getTagByUserId(this.currentProfile.userId)
+      .subscribe(data => {
+        this.listTag = data;
+      });
+  }
+
 
   getListBookmarkArticle(type: number, sortCase: number, ascSort: boolean) {
 

@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author buiph on 21/12/2018
  */
@@ -42,5 +44,10 @@ public class FollowTagServiceImpl implements FollowTagService {
     @Override
     public void deleteByTagId(String tagId) {
         this.followTagRepository.deleteById_TagId(tagId);
+    }
+
+    @Override
+    public List<FollowTag> findByUserId(String userId) {
+        return followTagRepository.findById_UserId(userId);
     }
 }
